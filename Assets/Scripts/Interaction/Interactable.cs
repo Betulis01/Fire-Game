@@ -18,6 +18,7 @@ public abstract class Interactable : MonoBehaviour
     public virtual bool CanInteract(PlayerController player) => true;
 
     // what happens when interacted with; hand is which hand the player used
-    // (Q = left, E = right). Non-pickup interactables can ignore it.
-    public abstract void Interact(PlayerController player, HandSide hand);
+    // (Q = left, E = right). Returns true if the press was consumed (e.g. an item
+    // was picked up or stacked), so the caller knows not to fall back to dropping.
+    public abstract bool Interact(PlayerController player, HandSide hand);
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2120110322736386838}
   - component: {fileID: 5922674979784792716}
   - component: {fileID: 5315309231908676879}
+  - component: {fileID: 7671393458321787399}
   m_Layer: 0
   m_Name: Stick
   m_TagString: Wood
@@ -167,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Burnable
   fuelPerItem: 10
+  burnRate: 1
 --- !u!114 &5315309231908676879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,3 +182,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickupable
   promptYOffset: 0.5
+--- !u!114 &7671393458321787399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197461963866386601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e0dcedb4d9ba44c921c78ef33d207c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stackable
+  maxStack: 4

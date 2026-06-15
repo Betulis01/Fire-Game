@@ -15,9 +15,10 @@ public class Pickupable : Interactable
     // can't pick up something that's already held
     public override bool CanInteract(PlayerController player) => !worldItem.IsHeld;
 
-    // pick up into the hand the player used (Q = left, E = right)
-    public override void Interact(PlayerController player, HandSide hand)
+    // pick up into the hand the player used (Q = left, E = right); true if the
+    // item was taken or merged into a stack
+    public override bool Interact(PlayerController player, HandSide hand)
     {
-        player.GetComponent<Hands>().TryHold(worldItem.gameObject, hand);
+        return player.GetComponent<Hands>().TryHold(worldItem.gameObject, hand);
     }
 }

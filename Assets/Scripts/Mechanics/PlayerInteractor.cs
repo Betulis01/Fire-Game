@@ -43,10 +43,11 @@ public class PlayerInteractor : MonoBehaviour
 
     void UseHand(HandSide side)
     {
-        if (hands.IsHolding(side))
-            hands.Drop(side);
-        else if (current != null)
-            current.Interact(player, side);
+        // try to pick up / stack from the nearest item first; if nothing was taken
+        // (no item in range, or it doesn't stack into this hand) and the hand is
+        // full, drop one instead.
+        if (current != null && current.Interact(player, side)) return;
+        if (hands.IsHolding(side)) hands.Drop(side);
     }
 
     // closest interactable that currently allows interaction; null if none

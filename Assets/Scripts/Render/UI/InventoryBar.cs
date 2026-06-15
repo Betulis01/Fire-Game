@@ -35,7 +35,7 @@ public class InventoryBar : MonoBehaviour
         if (item != null)
         {
             // the world object is its own icon
-            slot.Set(item.GetComponent<SpriteRenderer>().sprite);
+            slot.Set(item.GetComponent<SpriteRenderer>().sprite, hands.Count(side));
         }
         else
         {

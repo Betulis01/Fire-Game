@@ -37,27 +37,21 @@ public class Crafter : MonoBehaviour
             if (recipe.requiredStation != StationType.None && !stations.Contains(recipe.requiredStation))
                 continue;
 
-            if (TryAssignInputs(recipe, out HandSide outputHand, out List<HandSide> consumed))
-            {
-                Craft(recipe, outputHand, consumed);
+            if (TryMatchInputs(recipe, out List<HandSide> inputHands) && Craft(recipe, inputHands))
                 return;   // one craft per press
-            }
         }
     }
 
-    // Match each recipe input to a distinct hand holding that item. On success,
-    // outputHand is where the result goes (first matched input's hand) and
-    // consumed lists the other hands to empty.
-    bool TryAssignInputs(Recipe recipe, out HandSide outputHand, out List<HandSide> consumed)
+    // Match each recipe input to a distinct hand holding that item; inputHands
+    // lists the matched hand per input (in recipe order).
+    bool TryMatchInputs(Recipe recipe, out List<HandSide> inputHands)
     {
-        outputHand = HandSide.Left;
-        consumed = new List<HandSide>();
+        inputHands = new List<HandSide>();
 
         if (recipe.inputs == null || recipe.inputs.Length == 0)
             return false;
 
         List<HandSide> available = new() { HandSide.Left, HandSide.Right };
-        List<HandSide> used = new();
 
         foreach (ItemDefinition input in recipe.inputs)
         {
@@ -74,21 +68,40 @@ public class Crafter : MonoBehaviour
             if (match == null) return false;   // an input isn't held
 
             available.Remove(match.Value);
-            used.Add(match.Value);
+            inputHands.Add(match.Value);
         }
 
-        outputHand = used[0];
-        for (int i = 1; i < used.Count; i++)
-            consumed.Add(used[i]);
         return true;
     }
 
-    void Craft(Recipe recipe, HandSide outputHand, List<HandSide> consumed)
+    // Consume one of each input and place the output in a free hand. Each input
+    // hand loses one from its stack; a stacked input keeps its remainder. If no
+    // hand is free for the result (a stack remains and the other hand is full),
+    // the craft is refused. Returns true if it crafted.
+    bool Craft(Recipe recipe, List<HandSide> inputHands)
     {
-        foreach (HandSide side in consumed)
-            hands.Clear(side);
+        HandSide? outputHand = ChooseOutputHand(inputHands);
+        if (outputHand == null) return false;
 
-        hands.Replace(outputHand, Instantiate(recipe.output.prefab));
+        foreach (HandSide side in inputHands)
+            hands.Consume(side, 1);
+
+        hands.TryHold(Instantiate(recipe.output.prefab), outputHand.Value);
+        return true;
+    }
+
+    // A hand that will be empty for the output: prefer an input hand whose stack
+    // empties after consuming one, else a hand not used as input that's already
+    // empty. Null means there's nowhere to put the result.
+    HandSide? ChooseOutputHand(List<HandSide> inputHands)
+    {
+        foreach (HandSide side in inputHands)
+            if (hands.Count(side) <= 1) return side;   // empties after consuming one
+
+        foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
+            if (!inputHands.Contains(side) && !hands.IsHolding(side)) return side;
+
+        return null;
     }
 
     ItemDefinition ItemIn(HandSide side)
