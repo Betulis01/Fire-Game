@@ -6,25 +6,25 @@ public class Inventory : MonoBehaviour
     // item type (e.g. "Wood") -> the actual carried objects
     Dictionary<string, List<GameObject>> items = new Dictionary<string, List<GameObject>>();
 
-    public void Add(string type, GameObject obj)
+    public void Add(string item, GameObject obj)
     {
-        if (!items.ContainsKey(type))
-            items[type] = new List<GameObject>();
-        items[type].Add(obj);
+        if (!items.ContainsKey(item))
+            items[item] = new List<GameObject>();
+        items[item].Add(obj);
     }
 
-    public int Count(string type)
+    public int Count(string item)
     {
-        return items.ContainsKey(type) ? items[type].Count : 0;
+        return items.ContainsKey(item) ? items[item].Count : 0;
     }
 
     // remove ONE of a type and destroy that object (no-op if you have none)
-    public void Remove(string type)
+    public void Remove(string item)
     {
-        if (!items.ContainsKey(type) || items[type].Count == 0)
+        if (!items.ContainsKey(item) || items[item].Count == 0)
             return;
 
-        List<GameObject> list = items[type];
+        List<GameObject> list = items[item];
         GameObject obj = list[^1];   // take the most recently added
         list.RemoveAt(list.Count - 1);
         Destroy(obj);
