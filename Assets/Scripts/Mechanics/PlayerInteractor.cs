@@ -5,20 +5,22 @@ using UnityEngine;
 // tracks interactables in range, focuses the nearest usable one, floats the "E"
 // prompt over it, and routes the E press into it. The player never needs to know
 // what the interactable actually is.
-[RequireComponent(typeof(PlayerController), typeof(Inventory))]
+[RequireComponent(typeof(PlayerController), typeof(Hands))]
 public class PlayerInteractor : MonoBehaviour
 {
-    [Tooltip("World-space 'E' prompt prefab; one instance is spawned and reused.")]
+    [Tooltip("World-space pickup prompt prefab; one instance is spawned and reused.")]
     public InteractPrompt promptPrefab;
 
     readonly HashSet<Interactable> inRange = new HashSet<Interactable>();
     PlayerController player;
+    Hands hands;
     InteractPrompt prompt;
     Interactable current;
 
     void Start()
     {
         player = GetComponent<PlayerController>();
+        hands = GetComponent<Hands>();
         if (promptPrefab != null)
             prompt = Instantiate(promptPrefab);
     }
@@ -33,8 +35,18 @@ public class PlayerInteractor : MonoBehaviour
             else prompt.Hide();
         }
 
-        if (current != null && Input.GetKeyDown(KeyCode.E))
-            current.Interact(player);
+        // Q drives the left hand, E the right: drop if that hand is full,
+        // otherwise pick up the nearest item into it.
+        if (Input.GetKeyDown(KeyCode.Q)) UseHand(HandSide.Left);
+        if (Input.GetKeyDown(KeyCode.E)) UseHand(HandSide.Right);
+    }
+
+    void UseHand(HandSide side)
+    {
+        if (hands.IsHolding(side))
+            hands.Drop(side);
+        else if (current != null)
+            current.Interact(player, side);
     }
 
     // closest interactable that currently allows interaction; null if none

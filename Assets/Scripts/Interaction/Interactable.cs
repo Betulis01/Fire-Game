@@ -14,9 +14,10 @@ public abstract class Interactable : MonoBehaviour
     // world position the prompt should be drawn at
     public Vector3 PromptPosition => PromptAnchor.position + Vector3.up * promptYOffset;
 
-    // false hides the prompt and blocks the E press (e.g. nothing left to give)
+    // false hides the prompt and blocks interaction (e.g. an item already held)
     public virtual bool CanInteract(PlayerController player) => true;
 
-    // what actually happens on E
-    public abstract void Interact(PlayerController player);
+    // what happens when interacted with; hand is which hand the player used
+    // (Q = left, E = right). Non-pickup interactables can ignore it.
+    public abstract void Interact(PlayerController player, HandSide hand);
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Wood
   - Campfire
+  - Torch
   layers:
   - Default
   - TransparentFX

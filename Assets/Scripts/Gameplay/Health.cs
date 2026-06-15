@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(BodyTemperature))]
 public class Health : MonoBehaviour
 {
     public float current = 100f, max = 100f;
@@ -7,13 +8,13 @@ public class Health : MonoBehaviour
     public float coldRate = 0.2f;    // health/sec per degree below comfort
     public float warmRate = 0.2f;    // health/sec per degree above comfort
 
-    HeatSource[] sources;
+    BodyTemperature body;
 
     public float Normalized => current / max;
 
-    void Start()
+    void Awake()
     {
-        sources = FindObjectsByType<HeatSource>(FindObjectsSortMode.None);
+        body = GetComponent<BodyTemperature>();
     }
 
     void Update()
@@ -24,11 +25,7 @@ public class Health : MonoBehaviour
     void ApplyTemperature()
     {
         // strongest warmth reaching us: 0 at a zone's edge, growing toward its center, 0 outside.
-        float warmth = 0f;
-        foreach (HeatSource s in sources)
-        {
-            warmth = Mathf.Max(warmth, s.WarmthAt(transform.position));
-        }
+        float warmth = body.Warmth;
 
         if (warmth > 0f)
         {

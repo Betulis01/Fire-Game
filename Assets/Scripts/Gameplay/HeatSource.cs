@@ -1,30 +1,35 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HeatSource : MonoBehaviour
 {
+    // every live heat source, so systems (e.g. Health) can read warmth from
+    // sources that appear at runtime, like a crafted torch.
+    public static readonly List<HeatSource> All = new();
+
     Fuel fuel;
     public float maxWarmth = 20f;     // warmth delivered at point-blank, full fuel
     public float range = 4f;          // how far the heat reaches at full fuel
     public float minRange = 0.5f;       // radius floor at near-empty fuel, so the zone shrinks but never snaps to 0
 
     // current reach given how much fuel is left (minRange when empty, range when full).
-    
+
     // exposed so visuals/other systems can read the live radius.
     public float EffectiveRange => Mathf.Lerp(minRange, range, fuel.fuelLevel);
 
-    void Start()
+    void Awake()
     {
         fuel = GetComponent<Fuel>();
     }
 
-    void Update()
-    {
-
-    }
+    void OnEnable() => All.Add(this);
+    void OnDisable() => All.Remove(this);
 
     // how much warmth this source gives to a point in the world
     public float WarmthAt(Vector3 position)
     {
+        if (fuel == null) return 0f;
+
         float fuelLevel = fuel.fuelLevel;
         if (fuelLevel <= 0f) return 0f;
 
