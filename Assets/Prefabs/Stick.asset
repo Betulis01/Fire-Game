@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b66b54fc50f07b849bcd3d2cd740b566, type: 3}
-  m_Name: Wood
+  m_Name: Stick
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  id: Wood
-  displayName: Wood
-  prefab: {fileID: 4257288121414011606, guid: 3e2582d007c46334296148da95a33d94, type: 3}
+  id: Stick
+  displayName: Stick
+  prefab: {fileID: 6197461963866386601, guid: 55f9ede98f61ea84db625c14077ecf38, type: 3}

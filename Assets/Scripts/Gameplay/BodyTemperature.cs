@@ -18,6 +18,6 @@ public class BodyTemperature : MonoBehaviour
         }
     }
 
-    // the felt temperature = world ambient lifted by nearby warmth
-    public float Felt => Environment.Instance.AmbientTemperature + Warmth;
+    // the temperature = world ambient lifted by nearby warmth
+    public float Temp => Environment.Instance.AmbientTemperature + Warmth;
 }

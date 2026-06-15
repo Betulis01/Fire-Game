@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 2221216645559647939}
   - component: {fileID: -4092216606003954472}
   - component: {fileID: 2892737069316276223}
+  - component: {fileID: 1585957440290948344}
+  - component: {fileID: 8550946972357729814}
   m_Layer: 0
   m_Name: Torch
   m_TagString: Untagged
@@ -145,9 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e85d699593f7971428cb859ea231f59c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fuel
-  fuel: 30
   maxFuel: 30
-  drainRate: 1
+  startFuel: 30
+  startBurnRate: 1
 --- !u!114 &2221216645559647939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff44a86a1bdbe404bacb3451b8f8f399, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeatSource
-  maxWarmth: 10
+  maxWarmth: 30
   range: 1
   minRange: 0
 --- !u!114 &-4092216606003954472
@@ -175,7 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e068723dc3a7c4181b64b9e5569bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
-  promptYOffset: 0.5
   item: {fileID: 11400000, guid: 0ce1cf9ae6ac66d4ea2adf81d7ddbed4, type: 2}
 --- !u!114 &2892737069316276223
 MonoBehaviour:
@@ -221,6 +222,33 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1585957440290948344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Burnable
+  fuelPerItem: 5
+  burnRate: 1
+--- !u!114 &8550946972357729814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d85baa8e5d916447925e42a3fff4457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Pickupable
+  promptYOffset: 0.5
 --- !u!1 &6271916498960289702
 GameObject:
   m_ObjectHideFlags: 0

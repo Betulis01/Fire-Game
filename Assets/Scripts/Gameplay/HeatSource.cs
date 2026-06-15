@@ -8,7 +8,7 @@ public class HeatSource : MonoBehaviour
     public static readonly List<HeatSource> All = new();
 
     Fuel fuel;
-    public float maxWarmth = 20f;     // warmth delivered at point-blank, full fuel
+    public float maxWarmth = 40f;     // warmth delivered at point-blank, full fuel
     public float range = 4f;          // how far the heat reaches at full fuel
     public float minRange = 0.5f;       // radius floor at near-empty fuel, so the zone shrinks but never snaps to 0
 

@@ -1,11 +1,12 @@
 using UnityEngine;
 
-// Data-only identity for an inventory item. Create assets via
-// Create -> Fire Game -> Item Definition, one per item type (Wood, Stone, ...).
-[CreateAssetMenu(menuName = "Fire Game/Item Definition")]
+// Identity for an inventory item: a stable key, a display name, and the prefab
+// that represents it. Item *behaviors* (fuel, weapon, ...) live as components on
+// that prefab, not here. Create assets via Create -> Items -> Item Definition.
+[CreateAssetMenu(menuName = "Items/Item Definition")]
 public class ItemDefinition : ScriptableObject
 {
     public string id;            // stable key, e.g. "Wood"
     public string displayName;
-    public GameObject prefab;         
+    public GameObject prefab;
 }

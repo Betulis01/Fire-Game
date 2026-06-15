@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
 
     [Header("Temperature affects speed")]
-    public float coldTemp = -1f;            // felt <= this -> slowest
+    public float coldTemp = -10f;            // felt <= this -> slowest
     public float warmTemp = 0f;              // felt >= this -> full speed
     [Range(0f, 1f)] public float speedFloor = 0.4f;   // slowest fraction of base speed
     public float smoothTime = 0.5f;          // how quickly speed eases to the target
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // cold drags speed toward the floor; warmth eases it back to full
-        float t = Mathf.InverseLerp(coldTemp, warmTemp, body.Felt);   // 0 cold .. 1 warm
+        float t = Mathf.InverseLerp(coldTemp, warmTemp, body.Temp);   // 0 cold .. 1 warm
         float target = Mathf.Lerp(speedFloor, 1f, t);
         speedMultiplier = Mathf.SmoothDamp(speedMultiplier, target, ref smoothVel, smoothTime);
 
