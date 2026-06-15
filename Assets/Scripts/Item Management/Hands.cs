@@ -66,6 +66,18 @@ public class Hands : MonoBehaviour
         Changed?.Invoke();
     }
 
+    // destroy and remove the item in a hand without dropping it (e.g. an input
+    // consumed by crafting).
+    public void Clear(HandSide side)
+    {
+        GameObject item = Held(side);
+        if (item == null) return;
+
+        Destroy(item);
+        Set(side, null);
+        Changed?.Invoke();
+    }
+
     void Set(HandSide side, GameObject item)
     {
         if (side == HandSide.Left) leftItem = item;

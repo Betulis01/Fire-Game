@@ -1,0 +1,13 @@
+using UnityEngine;
+
+// What kind of crafting context a station provides. None means a recipe needs
+// no station at all (craftable bare-handed).
+public enum StationType { None, Fire, Workbench }
+
+// Marks a world object as a crafting station of a given type (e.g. the campfire
+// is a Fire station). The Crafter checks nearby stations against each recipe's
+// requiredStation. Recipes themselves live in a central RecipeBook, not here.
+public class Station : MonoBehaviour
+{
+    public StationType type = StationType.Fire;
+}
