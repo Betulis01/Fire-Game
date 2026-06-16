@@ -28,7 +28,17 @@ public class DebugReadout : MonoBehaviour
         StringBuilder sb = new StringBuilder();
 
         if (Environment.Instance != null)
-            sb.AppendLine($"Ambient: {Environment.Instance.AmbientTemperature:0.0}");
+        {
+            sb.Append($"Ambient: {Environment.Instance.AmbientTemperature:0.0}");
+            if (DayNightCycle.Instance != null)
+            {
+                float hour = DayNightCycle.Instance.Hour;
+                int h = (int)hour;
+                int m = (int)((hour - h) * 60f);
+                sb.Append($"   Time: {h:00}:{m:00} ({DayNightCycle.Instance.CurrentPhase})");
+            }
+            sb.AppendLine();
+        }
 
         if (body != null)
             sb.AppendLine($"Body temp: {body.Temp:0.0}   Warmth: {body.Warmth:0.0}");

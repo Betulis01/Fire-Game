@@ -7,14 +7,17 @@ using UnityEngine;
 [RequireComponent(typeof(Hands))]
 public class Crafter : MonoBehaviour
 {
-    public RecipeBook book;       // all known recipes
-    public float reach = 1.5f;    // how close a required station must be
+    public RecipeBook book;        // all known recipes
+    public float reach = 1.5f;     // how close a required station must be
+    public float dropDistance = 1f; // how far in front a placed output spawns
 
     Hands hands;
+    Camera cam;
 
     void Awake()
     {
         hands = GetComponent<Hands>();
+        cam = GetComponentInChildren<Camera>();
     }
 
     void Update()
@@ -37,69 +40,110 @@ public class Crafter : MonoBehaviour
             if (recipe.requiredStation != StationType.None && !stations.Contains(recipe.requiredStation))
                 continue;
 
-            if (TryMatchInputs(recipe, out List<HandSide> inputHands) && Craft(recipe, inputHands))
+            if (TryMatchInputs(recipe, out List<(HandSide side, int amount)> draws) && Craft(recipe, draws))
                 return;   // one craft per press
         }
     }
 
-    // Match each recipe input to a distinct hand holding that item; inputHands
-    // lists the matched hand per input (in recipe order).
-    bool TryMatchInputs(Recipe recipe, out List<HandSide> inputHands)
+    // Group the recipe's inputs by item (repeats mean quantity, e.g. two "stick"
+    // entries require 2 sticks) and assign each distinct item to a distinct hand
+    // holding at least that many. `draws` lists the matched hand and the amount to
+    // consume per item. Since there are only two hands, a recipe can use at most
+    // two distinct item types.
+    bool TryMatchInputs(Recipe recipe, out List<(HandSide side, int amount)> draws)
     {
-        inputHands = new List<HandSide>();
+        draws = new List<(HandSide, int)>();
 
         if (recipe.inputs == null || recipe.inputs.Length == 0)
             return false;
 
+        Dictionary<ItemDefinition, int> needed = new();
+        foreach (ItemDefinition input in recipe.inputs)
+        {
+            if (input == null) return false;
+            needed[input] = needed.TryGetValue(input, out int n) ? n + 1 : 1;
+        }
+
         List<HandSide> available = new() { HandSide.Left, HandSide.Right };
 
-        foreach (ItemDefinition input in recipe.inputs)
+        foreach (KeyValuePair<ItemDefinition, int> req in needed)
         {
             HandSide? match = null;
             foreach (HandSide side in available)
             {
-                if (ItemIn(side) == input)
+                if (ItemIn(side) == req.Key && hands.Count(side) >= req.Value)
                 {
                     match = side;
                     break;
                 }
             }
 
-            if (match == null) return false;   // an input isn't held
+            if (match == null) return false;   // not enough of an input is held
 
             available.Remove(match.Value);
-            inputHands.Add(match.Value);
+            draws.Add((match.Value, req.Value));
         }
 
         return true;
     }
 
-    // Consume one of each input and place the output in a free hand. Each input
-    // hand loses one from its stack; a stacked input keeps its remainder. If no
-    // hand is free for the result (a stack remains and the other hand is full),
-    // the craft is refused. Returns true if it crafted.
-    bool Craft(Recipe recipe, List<HandSide> inputHands)
+    // Consume each input's amount and produce the output. An output that can be
+    // picked up (has a Pickupable) goes into a free hand; one that can't (a placed
+    // structure like a campfire) is dropped in the world in front of the player and
+    // needs no free hand. A hand output is refused if no hand is free (every input
+    // hand keeps a remainder and the other hand is full). Returns true if crafted.
+    bool Craft(Recipe recipe, List<(HandSide side, int amount)> draws)
     {
-        HandSide? outputHand = ChooseOutputHand(inputHands);
-        if (outputHand == null) return false;
+        bool placeInWorld = recipe.output.prefab.GetComponent<Pickupable>() == null;
 
-        foreach (HandSide side in inputHands)
-            hands.Consume(side, 1);
+        HandSide? outputHand = null;
+        if (!placeInWorld)
+        {
+            outputHand = ChooseOutputHand(draws);
+            if (outputHand == null) return false;
+        }
 
-        hands.TryHold(Instantiate(recipe.output.prefab), outputHand.Value);
+        foreach ((HandSide side, int amount) in draws)
+            hands.Consume(side, amount);
+
+        if (placeInWorld)
+            PlaceInWorld(recipe.output.prefab);
+        else
+            hands.TryHold(Instantiate(recipe.output.prefab), outputHand.Value);
+
         return true;
     }
 
-    // A hand that will be empty for the output: prefer an input hand whose stack
-    // empties after consuming one, else a hand not used as input that's already
-    // empty. Null means there's nowhere to put the result.
-    HandSide? ChooseOutputHand(List<HandSide> inputHands)
+    // Spawn a structure output on the ground in the direction of the mouse cursor,
+    // with its pickup collider active so it behaves as a placed world object.
+    void PlaceInWorld(GameObject prefab)
     {
-        foreach (HandSide side in inputHands)
-            if (hands.Count(side) <= 1) return side;   // empties after consuming one
+        Vector2 facing = Vector2.down;
+        if (cam != null)
+        {
+            Vector3 mouseWorld = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 toMouse = (Vector2)(mouseWorld - transform.position);
+            if (toMouse.sqrMagnitude > 0.0001f) facing = toMouse.normalized;
+        }
 
+        Vector3 where = transform.position + (Vector3)(facing * dropDistance);
+
+        GameObject placed = Instantiate(prefab, where, Quaternion.identity);
+        WorldItem worldItem = placed.GetComponent<WorldItem>();
+        if (worldItem != null) worldItem.SetHeld(false);
+    }
+
+    // A hand that will be empty for the output: prefer an input hand whose stack
+    // empties after consuming its amount, else a hand not used as input that's
+    // already empty. Null means there's nowhere to put the result.
+    HandSide? ChooseOutputHand(List<(HandSide side, int amount)> draws)
+    {
+        foreach ((HandSide side, int amount) in draws)
+            if (hands.Count(side) <= amount) return side;   // empties after consuming
+
+        List<HandSide> drawHands = draws.ConvertAll(d => d.side);
         foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
-            if (!inputHands.Contains(side) && !hands.IsHolding(side)) return side;
+            if (!drawHands.Contains(side) && !hands.IsHolding(side)) return side;
 
         return null;
     }

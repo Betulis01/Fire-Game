@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2450109309167803394}
   - component: {fileID: 3195341167905256253}
   - component: {fileID: 8593171030624907872}
+  - component: {fileID: 8693834751611191176}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -156,3 +157,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickupable
   promptYOffset: 0.5
+--- !u!114 &8693834751611191176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449804582166282785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97e0dcedb4d9ba44c921c78ef33d207c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Stackable
+  maxStack: 8
