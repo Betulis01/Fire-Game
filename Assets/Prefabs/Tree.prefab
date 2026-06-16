@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4042357346453072926}
   - component: {fileID: 1522422904613888390}
   - component: {fileID: -450146210862123819}
+  - component: {fileID: -9001062974677319736}
   m_Layer: 6
   m_Name: Tree
   m_TagString: Untagged
@@ -184,3 +185,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   health: {fileID: 4042357346453072926}
   owner: {fileID: 4749449456151482961}
+--- !u!114 &-9001062974677319736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c5c6f4fbbf4a249aa1b9288103ed2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
+  offset: {x: 0, y: 0, z: 0}

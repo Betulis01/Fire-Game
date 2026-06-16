@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
     public float current;
 
     public event Action Died;
+    public event Action<float> Damaged;   // amount actually dealt
     public bool IsDead => current <= 0f;
     public float Normalized => maxHealth > 0f ? current / maxHealth : 0f;
 
@@ -18,7 +19,9 @@ public class Health : MonoBehaviour
     {
         if (amount <= 0f || IsDead) return;
 
+        float before = current;
         current = Mathf.Max(0f, current - amount);
+        Damaged?.Invoke(before - current);
         if (current <= 0f) Died?.Invoke();
     }
 }
