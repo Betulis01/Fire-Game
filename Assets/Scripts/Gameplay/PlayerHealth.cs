@@ -48,6 +48,6 @@ public class PlayerHealth : MonoBehaviour
     public void Die()
     {
         UnityEngine.Debug.Log("You froze.");
-        GameStateManager.Instance.SetState(GameState.GameOver);
+        GameStateManager.Instance.GameOver();
     } 
 }

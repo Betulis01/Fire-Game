@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameState { MainMenu, Playing, Paused, GameOver }
+public enum GameState { MainMenu, Playing, Paused, GameOver, GameWon }
 
 public class GameStateManager : MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviour
     public GameObject mainMenuPanel;
     public GameObject pausePanel;
     public GameObject gameOverPanel;
+    public GameObject gameWonPanel;
 
     void Awake()
     {
@@ -42,6 +43,7 @@ public class GameStateManager : MonoBehaviour
         mainMenuPanel.SetActive(newState == GameState.MainMenu);
         pausePanel.SetActive(newState == GameState.Paused);
         gameOverPanel.SetActive(newState == GameState.GameOver);
+        gameWonPanel.SetActive(newState == GameState.GameWon);
 
         // freeze the world when not actively playing
         Time.timeScale = (newState == GameState.Playing) ? 1f : 0f;
@@ -50,6 +52,8 @@ public class GameStateManager : MonoBehaviour
     // called by buttons
     public void PlayGame()    => SetState(GameState.Playing);
     public void ResumeGame()  => SetState(GameState.Playing);
+    public void GameOver()    => SetState(GameState.GameOver);
+    public void GameWon()     => SetState(GameState.GameWon);
     
     // Game Over → back to main menu (fresh)
     public void QuitToMenu()

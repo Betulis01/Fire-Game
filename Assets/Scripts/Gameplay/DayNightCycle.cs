@@ -56,6 +56,14 @@ public class DayNightCycle : MonoBehaviour
     // raised when the cycle crosses into night (true) or back into day (false)
     public event Action<bool> NightChanged;
 
+    // raised when the clock crosses from one phase into the next (rising edge).
+    // Game-rule systems (e.g. a survive-to-noon win) can hook this instead of polling.
+    public event Action<DayPhase> PhaseChanged;
+
+    // the phase reported on the previous Update, used to detect crossings
+    DayPhase lastPhase;
+    bool phaseInitialized;
+
     // reusable buffer of the phase hours, in the same order Environment supplies
     // its values: dawn, morning, noon, afternoon, dusk, night. Avoids per-frame allocs.
     readonly float[] phaseHours = new float[6];
@@ -73,6 +81,25 @@ public class DayNightCycle : MonoBehaviour
         Hour = NormalizedTime * 24f;
 
         UpdatePhase();
+        UpdatePhaseChange();
+    }
+
+    void UpdatePhaseChange()
+    {
+        DayPhase phase = CurrentPhase;
+
+        // seed lastPhase on the first tick so we don't fire for the starting phase
+        if (!phaseInitialized)
+        {
+            lastPhase = phase;
+            phaseInitialized = true;
+            return;
+        }
+
+        if (phase == lastPhase) return;
+
+        lastPhase = phase;
+        PhaseChanged?.Invoke(phase);
     }
 
     void UpdatePhase()
