@@ -10,6 +10,7 @@ public class WorldItem : MonoBehaviour
     public ItemDefinition item;
 
     Collider2D pickupCollider;
+    YSort ysort;
     bool held;
 
     public bool IsHeld => held;
@@ -17,11 +18,15 @@ public class WorldItem : MonoBehaviour
     void Awake()
     {
         pickupCollider = GetComponent<Collider2D>();
+        ysort = GetComponent<YSort>();
     }
 
     public void SetHeld(bool value)
     {
         held = value;
         pickupCollider.enabled = !value;   // off while held, on while in the world
+        // While held, the player's HeldItemSorter owns the item's sortingOrder;
+        // re-enable its own world Y-sort once it's dropped.
+        if (ysort != null) ysort.enabled = !value;
     }
 }

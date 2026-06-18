@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2153550024464775476}
   - component: {fileID: 2359512405827567220}
+  - component: {fileID: -8642488831044804333}
   - component: {fileID: 2450109309167803394}
   - component: {fileID: 3195341167905256253}
   - component: {fileID: 8593171030624907872}
@@ -97,6 +98,23 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &-8642488831044804333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449804582166282785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSort
+  anchor: {fileID: 0}
+  elevationTier: 0
+  dynamic: 0
+  precision: 100
+  tierBand: 5000
 --- !u!58 &2450109309167803394
 CircleCollider2D:
   m_ObjectHideFlags: 0

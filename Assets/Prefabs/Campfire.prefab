@@ -48,11 +48,11 @@ MonoBehaviour:
   m_LightType: 2
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.73756063, b: 0.48584908, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: 6d9d9de000000000af1c5170
   m_LightCookieSprite: {fileID: 21300000, guid: 90ff2f9b659a8694aa243f5f30154fa7, type: 3}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5154489233770291215}
   - component: {fileID: 1449256406567240159}
   - component: {fileID: 8146992593207287023}
+  - component: {fileID: 364380805568154705}
   - component: {fileID: 2552821025033303097}
   - component: {fileID: 7689726001257177107}
   - component: {fileID: 3254107332937704192}
@@ -125,6 +126,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2198899832883866862}
+  - {fileID: 4781586680994677907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1449256406567240159
@@ -201,10 +203,10 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -317825125816557920, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
-  m_Color: {r: 0.9528302, g: 0.6537189, b: 0.31910825, a: 0.89411765}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.89411765}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -213,6 +215,23 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &364380805568154705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSort
+  anchor: {fileID: 4781586680994677907}
+  elevationTier: 0
+  dynamic: 0
+  precision: 100
+  tierBand: 5000
 --- !u!58 &2552821025033303097
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -402,3 +421,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
   item: {fileID: 11400000, guid: 68746fb0c3128a94e959b0f9ef4ac3f4, type: 2}
+--- !u!1 &7623852135095279339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4781586680994677907}
+  m_Layer: 0
+  m_Name: YSort
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4781586680994677907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7623852135095279339}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5154489233770291215}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
