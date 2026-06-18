@@ -16,11 +16,13 @@ public class PlayerInteractor : MonoBehaviour
     Hands hands;
     InteractPrompt prompt;
     Interactable current;
+    int interactableLayer;
 
     void Start()
     {
         player = GetComponent<PlayerController>();
         hands = GetComponent<Hands>();
+        interactableLayer = LayerMask.NameToLayer("Interactable");
         if (promptPrefab != null)
             prompt = Instantiate(promptPrefab);
     }
@@ -73,14 +75,20 @@ public class PlayerInteractor : MonoBehaviour
         return nearest;
     }
 
+    // Interaction range is defined by each item's dedicated "InteractZone" child
+    // (a generous trigger on the Interactable layer), not by its physics/hurtbox
+    // collider. Ignoring every other collider keeps range to a single zone per item
+    // so there are no dead-zone bands between two differently sized colliders.
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.layer != interactableLayer) return;
         Interactable it = other.GetComponentInParent<Interactable>();
         if (it != null) inRange.Add(it);
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
+        if (other.gameObject.layer != interactableLayer) return;
         Interactable it = other.GetComponentInParent<Interactable>();
         if (it != null) inRange.Remove(it);
     }

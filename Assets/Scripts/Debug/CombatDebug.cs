@@ -53,7 +53,7 @@ public class CombatDebug : MonoBehaviour
             Tool tool = hit.GetComponent<Tool>();
             if (user == null || tool == null) continue;
 
-            Vector2 origin = user.transform.position;                       // same origin the real swing uses
+            Vector2 origin = user.Origin;                                   // same origin the real swing uses
             Vector2 center = origin + AimDir(origin, camera) * tool.range;   // follows the mouse live
 
             DrawCircle(origin, tool.range, RangeColor);                // reach

@@ -11,9 +11,18 @@ public class ToolUser : MonoBehaviour
              "Defaults to Camera.main if left empty.")]
     public Camera cam;
 
+    [Tooltip("Point swings originate from (aim direction and strike center). " +
+             "Place at the character's center; with a bottom pivot the transform " +
+             "itself sits at the feet. Falls back to this transform if unset.")]
+    public Transform aimOrigin;
+
     Hands hands;
     float leftReadyAt;
     float rightReadyAt;
+
+    // World point swings originate from (aim direction + strike center). Uses the
+    // assigned aimOrigin, falling back to this transform if none is set.
+    public Vector2 Origin => aimOrigin != null ? (Vector2)aimOrigin.position : (Vector2)transform.position;
 
     void Awake()
     {
@@ -38,7 +47,7 @@ public class ToolUser : MonoBehaviour
         Tool tool = held.GetComponent<Tool>();
         if (hitbox == null || tool == null) return;   // only weapons can be swung
 
-        Vector2 origin = transform.position;
+        Vector2 origin = Origin;
         Vector2 aim = AimDirection(origin);
         Vector2 center = origin + aim * tool.range;
 

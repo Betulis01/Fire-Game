@@ -18,12 +18,24 @@ public class FireLight : MonoBehaviour
     public float boostRange = 2f;           // extra outer radius at the peak
     public AnimationCurve boostCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
+    [Header("Scale flicker")]
+    public Transform scaleTarget;            // null -> the Light2D's transform
+    [Range(0.1f, 5f)]
+    public float baseScale = 1f;             // resting (uniform) size the flicker rides around
+    public float scaleFlickerAmount = 0.05f; // how much the shared noise flickers the scale
+    public float scaleBoost = 0.2f;          // extra scale at the fuel-add boost peak
+
     float boostTimer;
 
     void Awake()
     {
         light2D = GetComponentInChildren<Light2D>();
         fuel = GetComponent<Fuel>();
+
+        // the scale flicker rides on the light's own transform by default, so it
+        // stays where the light is placed
+        if (scaleTarget == null && light2D != null)
+            scaleTarget = light2D.transform;
     }
 
     void OnEnable()  { if (fuel != null) fuel.FuelAdded += OnFuelAdded; }
@@ -50,5 +62,13 @@ public class FireLight : MonoBehaviour
         light2D.pointLightOuterRadius = fuel.fuelLevel * maxOuterRadius * flicker
                           + boost * boostRange;
         light2D.pointLightInnerRadius = fuel.fuelLevel * maxInnerRadius * flicker;
+
+        // scale flickers off the same noise as the intensity (no breathing wave),
+        // with the same fuel-added pop layered on top
+        if (scaleTarget != null)
+        {
+            float scaleFlicker = 1f + (noise - 0.5f) * 2f * scaleFlickerAmount * fuel.fuelLevel;
+            scaleTarget.localScale = Vector3.one * (baseScale * (fuel.fuelLevel * scaleFlicker + boost * scaleBoost));
+        }
     }
 }

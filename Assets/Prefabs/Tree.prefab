@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1522422904613888390}
   - component: {fileID: -450146210862123819}
   - component: {fileID: -9001062974677319736}
+  - component: {fileID: -839812588098009237}
   m_Layer: 6
   m_Name: Tree
   m_TagString: Untagged
@@ -31,8 +32,8 @@ Transform:
   m_GameObject: {fileID: 4749449456151482961}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.36, y: 4.4249, z: 0}
-  m_LocalScale: {x: 0.32228678, y: 1.9941199, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -86,8 +87,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.5660378, g: 0.2691326, b: 0, a: 1}
+  m_Sprite: {fileID: -1771777824678166875, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -130,17 +131,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.033612497, y: 0.7438594}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    pivot: {x: 0.5833334, y: -0.06896552}
+    oldSize: {x: 0.75, y: 1.8125}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.2079141, y: 1.2542856}
   m_EdgeRadius: 0
 --- !u!114 &4042357346453072926
 MonoBehaviour:
@@ -170,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Choppable
   dropPrefab: {fileID: 4257288121414011606, guid: 2b25a5f193ee9cb4db5ed8914ed19272, type: 3}
   dropCount: 3
-  scatterRadius: 0.5
+  scatterRadius: 1
 --- !u!114 &-450146210862123819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +199,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &-839812588098009237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 530c22f03a080044a8840673daa40d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomSprite
+  sprites:
+  - {fileID: -317825125816557920, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
+  - {fileID: -7842934620412757995, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
+  - {fileID: -1771777824678166875, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}

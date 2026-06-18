@@ -19,6 +19,9 @@ public class Health : MonoBehaviour
     {
         if (amount <= 0f || IsDead) return;
 
+        // debug: the player can't lose health while invincibility is on
+        if (DebugInvincibility.Enabled && GetComponent<PlayerHealth>() != null) return;
+
         float before = current;
         current = Mathf.Max(0f, current - amount);
         Damaged?.Invoke(before - current);

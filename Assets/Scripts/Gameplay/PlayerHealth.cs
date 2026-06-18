@@ -24,6 +24,8 @@ public class PlayerHealth : MonoBehaviour
 
     void ApplyTemperature()
     {
+        if (DebugInvincibility.Enabled) return;   // debug: player can't lose (or gain) health
+
         // strongest temp reaching us: 0 at a zone's edge, growing toward its center, 0 outside.
         float temp = body.Temp;
 
