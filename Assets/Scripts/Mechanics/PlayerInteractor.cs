@@ -39,8 +39,8 @@ public class PlayerInteractor : MonoBehaviour
 
         // Q drives the left hand, E the right: drop if that hand is full,
         // otherwise pick up the nearest item into it.
-        if (Input.GetKeyDown(KeyCode.Q)) UseHand(HandSide.Left);
-        if (Input.GetKeyDown(KeyCode.E)) UseHand(HandSide.Right);
+        if (UserInput.Instance.InteractLeft) UseHand(HandSide.Left);
+        if (UserInput.Instance.InteractRight) UseHand(HandSide.Right);
     }
 
     void UseHand(HandSide side)

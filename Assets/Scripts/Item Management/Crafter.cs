@@ -22,7 +22,7 @@ public class Crafter : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (UserInput.Instance.Craft)
             TryCraft();
     }
 
@@ -118,13 +118,8 @@ public class Crafter : MonoBehaviour
     // with its pickup collider active so it behaves as a placed world object.
     void PlaceInWorld(GameObject prefab)
     {
-        Vector2 facing = Vector2.down;
-        if (cam != null)
-        {
-            Vector3 mouseWorld = cam.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 toMouse = (Vector2)(mouseWorld - transform.position);
-            if (toMouse.sqrMagnitude > 0.0001f) facing = toMouse.normalized;
-        }
+        // aim toward the mouse cursor (or gamepad aim stick)
+        Vector2 facing = UserInput.Instance.AimDirection(transform.position, cam);
 
         Vector3 where = transform.position + (Vector3)(facing * dropDistance);
 

@@ -30,10 +30,9 @@ public class PlayerController : MonoBehaviour
         float target = Mathf.Lerp(speedFloor, 1f, t);
         speedMultiplier = Mathf.SmoothDamp(speedMultiplier, target, ref smoothVel, smoothTime);
 
-        float x = Input.GetAxisRaw("Horizontal"); // A/D or arrows
-        float y = Input.GetAxisRaw("Vertical");   // W/S or arrows
+        Vector2 input = UserInput.Instance.Move;   // WASD/arrows or gamepad stick
 
-        Vector3 move = new Vector3(x, y, 0f).normalized;
+        Vector3 move = new Vector3(input.x, input.y, 0f).normalized;
         transform.Translate(move * speed * speedMultiplier * Time.deltaTime);
     }
 }

@@ -32,8 +32,8 @@ public class ToolUser : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) UseHand(HandSide.Left);
-        if (Input.GetMouseButtonDown(1)) UseHand(HandSide.Right);
+        if (UserInput.Instance.AttackLeft) UseHand(HandSide.Left);
+        if (UserInput.Instance.AttackRight) UseHand(HandSide.Right);
     }
 
     void UseHand(HandSide side)
@@ -55,15 +55,11 @@ public class ToolUser : MonoBehaviour
         SetReadyAt(side, Time.time + 1f / Mathf.Max(0.01f, tool.swingSpeed));
     }
 
-    // direction from the player toward the mouse cursor in world space
+    // direction the swing aims: toward the mouse cursor, or the gamepad aim stick
     Vector2 AimDirection(Vector2 origin)
     {
         if (cam == null) cam = Camera.main;
-        if (cam == null) return Vector2.right;
-
-        Vector2 mouse = cam.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 dir = mouse - origin;
-        return dir.sqrMagnitude > 0.0001f ? dir.normalized : Vector2.right;
+        return UserInput.Instance.AimDirection(origin, cam);
     }
 
     float ReadyAt(HandSide side) => side == HandSide.Left ? leftReadyAt : rightReadyAt;

@@ -7,11 +7,9 @@ public class DebugInvincibility : MonoBehaviour
 {
     public static bool Enabled { get; private set; }
 
-    public KeyCode toggleKey = KeyCode.X;
-
     void Update()
     {
-        if (Input.GetKeyDown(toggleKey))
+        if (UserInput.Instance.ToggleInvincibility)
         {
             Enabled = !Enabled;
             UnityEngine.Debug.Log($"[Debug] Invincibility {(Enabled ? "ON" : "OFF")}");

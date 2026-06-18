@@ -11,8 +11,6 @@ using UnityEngine.Rendering;
 // the two toggle together unless you change a toggleKey.
 public class CombatDebug : MonoBehaviour
 {
-    public KeyCode toggleKey = KeyCode.C;
-
     static readonly Color HurtColor = Color.green;
     static readonly Color HitColor = Color.red;
     static readonly Color RangeColor = new Color(1f, 0.85f, 0.2f);
@@ -25,7 +23,7 @@ public class CombatDebug : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(toggleKey)) show = !show;
+        if (UserInput.Instance.ToggleReadout) show = !show;
     }
 
     void OnEndCamera(ScriptableRenderContext ctx, Camera camera)
@@ -67,10 +65,7 @@ public class CombatDebug : MonoBehaviour
     Vector2 AimDir(Vector2 from, Camera camera)
     {
         if (camera == null) return Vector2.right;
-
-        Vector2 mouse = camera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 d = mouse - from;
-        return d.sqrMagnitude > 0.0001f ? d.normalized : Vector2.right;
+        return UserInput.Instance.AimDirection(from, camera);
     }
 
     void DrawCollider(Collider2D col, Color color)

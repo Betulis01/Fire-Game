@@ -6,8 +6,6 @@ using UnityEngine;
 // removes the feature entirely. Drop it on any GameObject (e.g. the player).
 public class DebugReadout : MonoBehaviour
 {
-    public KeyCode toggleKey = KeyCode.C;
-
     BodyTemperature body;
     bool show = true;
 
@@ -18,7 +16,7 @@ public class DebugReadout : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(toggleKey)) show = !show;
+        if (UserInput.Instance.ToggleReadout) show = !show;
     }
 
     void OnGUI()

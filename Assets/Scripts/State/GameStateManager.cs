@@ -27,8 +27,8 @@ public class GameStateManager : MonoBehaviour
 
     void Update()
     {
-        // Esc toggles pause, but only while playing/paused
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Esc/Start toggles pause, but only while playing/paused
+        if (UserInput.Instance.Pause)
         {
             if (State == GameState.Playing) SetState(GameState.Paused);
             else if (State == GameState.Paused) SetState(GameState.Playing);
