@@ -13,7 +13,7 @@ public class Health : MonoBehaviour
     public bool IsDead => current <= 0f;
     public float Normalized => maxHealth > 0f ? current / maxHealth : 0f;
 
-    void Awake() => current = maxHealth;
+    protected virtual void Awake() => current = maxHealth;
 
     public void TakeDamage(float amount)
     {
@@ -26,5 +26,11 @@ public class Health : MonoBehaviour
         current = Mathf.Max(0f, current - amount);
         Damaged?.Invoke(before - current);
         if (current <= 0f) Died?.Invoke();
+    }
+
+    public void Heal(float amount)
+    {
+        if (amount <= 0f || IsDead) return;
+        current = Mathf.Min(maxHealth, current + amount);
     }
 }

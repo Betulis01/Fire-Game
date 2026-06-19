@@ -40,7 +40,7 @@ public class CombatDebug : MonoBehaviour
         GL.Begin(GL.LINES);
 
         foreach (Hurtbox hb in FindObjectsByType<Hurtbox>(FindObjectsSortMode.None))
-            DrawCollider(hb.GetComponent<Collider2D>(), HurtColor);
+            DrawCollider(hb.HurtCollider != null ? hb.HurtCollider : hb.GetComponentInChildren<Collider2D>(), HurtColor);
 
         // Only weapons currently held by a player (ToolUser) are "able to hit": show
         // their reach + a live strike preview that follows the mouse. Weapons lying

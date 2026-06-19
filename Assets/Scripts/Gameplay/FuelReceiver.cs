@@ -18,16 +18,22 @@ public class FuelReceiver : MonoBehaviour
     // drop while already overlapping the fire.
     void OnTriggerStay2D(Collider2D other)
     {
-        WorldItem worldItem = other.GetComponent<WorldItem>();
-        if (worldItem == null) return;
+        // colliders live on a child of the item, so resolve the item from the parent.
+        // !enabled marks an item we've already consumed this frame (items can have
+        // several child colliders, so this callback can fire more than once for one item).
+        WorldItem worldItem = other.GetComponentInParent<WorldItem>();
+        if (worldItem == null || !worldItem.enabled) return;
+
+        // a held item isn't dropped fuel, even if one of its colliders is still live
+        if (worldItem.IsHeld) return;
 
         // an item is fuel if its prefab has a Burnable component
-        Burnable burnable = other.GetComponent<Burnable>();
+        Burnable burnable = worldItem.GetComponent<Burnable>();
         if (burnable == null) return;
 
-        // held items have their collider disabled, so anything we see here is dropped
-        Destroy(worldItem.gameObject);
+        worldItem.enabled = false;   // ignore the rest of this item's colliders this frame
         fuel.Add(burnable.fuelPerItem, burnable.burnRate);
+        Destroy(worldItem.gameObject);
 
         Debug.Log($"Fire consumed 1 {worldItem.item.displayName} (+{burnable.fuelPerItem} fuel @ {burnable.burnRate}/s)");
     }

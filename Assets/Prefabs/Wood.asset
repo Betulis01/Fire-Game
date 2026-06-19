@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   id: Wood
   displayName: Wood
-  prefab: {fileID: 4257288121414011606, guid: 3e2582d007c46334296148da95a33d94, type: 3}
+  prefab: {fileID: 4257288121414011606, guid: 2b25a5f193ee9cb4db5ed8914ed19272, type: 3}

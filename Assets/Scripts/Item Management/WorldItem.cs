@@ -4,7 +4,8 @@ using UnityEngine;
 // whether lying on the ground or attached to the player's body — only its parent
 // and whether its pickup collider is active change. Behaviours (pickup, fuel, ...)
 // are separate capability components (Pickupable, Burnable).
-[RequireComponent(typeof(Collider2D))]
+// Pickup collider lives on a child (see Awake's GetComponentInChildren), so no
+// root collider is required.
 public class WorldItem : MonoBehaviour
 {
     public ItemDefinition item;
@@ -17,7 +18,7 @@ public class WorldItem : MonoBehaviour
 
     void Awake()
     {
-        pickupCollider = GetComponent<Collider2D>();
+        pickupCollider = GetComponentInChildren<Collider2D>();
         ysort = GetComponent<YSort>();
     }
 

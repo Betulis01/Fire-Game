@@ -1,20 +1,22 @@
 using UnityEngine;
 
+// The player's Health. Being a Health subclass means a Hurtbox/Hitbox can damage
+// the player exactly like any other entity; on top of that, this drains/recovers
+// health from body temperature and ends the game on death.
 [RequireComponent(typeof(BodyTemperature))]
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : Health
 {
-    public float current = 100f, max = 100f;
     public float comfortTemperature = 5f;
     public float coldRate = 0.2f;    // health/sec per degree below comfort
     public float warmRate = 0.2f;    // health/sec per degree above comfort
 
     BodyTemperature body;
 
-    public float Normalized => current / max;
-
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();   // current = maxHealth
         body = GetComponent<BodyTemperature>();
+        Died += Die;
     }
 
     void Update()
@@ -33,23 +35,19 @@ public class PlayerHealth : MonoBehaviour
         {
             // inside a heat zone: recover, scaling with how close we are to the center.
             // at the very edge temp -> 0, so this is break-even (no recovery, no loss).
-            current += temp * warmRate * Time.deltaTime;
+            Heal(temp * warmRate * Time.deltaTime);
         }
         else
         {
             // out in the cold: lose health based on how far bodytemp sits below comfort.
             float deficit = comfortTemperature - temp;
-            current -= Mathf.Max(0f, deficit) * coldRate * Time.deltaTime;
+            TakeDamage(Mathf.Max(0f, deficit) * coldRate * Time.deltaTime);
         }
-
-        current = Mathf.Clamp(current, 0f, max);
-
-        if (current <= 0f) Die();
     }
 
-    public void Die()
+    void Die()
     {
         UnityEngine.Debug.Log("You froze.");
         GameStateManager.Instance.GameOver();
-    } 
+    }
 }

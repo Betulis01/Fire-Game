@@ -84,6 +84,74 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &3097843848938809584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 809750140057051022}
+  - component: {fileID: 8372652085539453843}
+  m_Layer: 7
+  m_Name: InteractArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &809750140057051022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3097843848938809584}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5154489233770291215}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &8372652085539453843
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3097843848938809584}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &6145169056594248650
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,15 +164,14 @@ GameObject:
   - component: {fileID: 1449256406567240159}
   - component: {fileID: 8146992593207287023}
   - component: {fileID: 364380805568154705}
-  - component: {fileID: 2552821025033303097}
   - component: {fileID: 7689726001257177107}
-  - component: {fileID: 3254107332937704192}
   - component: {fileID: 680168943007440713}
   - component: {fileID: 2431816968634289522}
   - component: {fileID: 350223773031179567}
-  - component: {fileID: 2480582723304544442}
   - component: {fileID: 9170907945597475893}
   - component: {fileID: -5236449771078226196}
+  - component: {fileID: -895137684039092719}
+  - component: {fileID: -1073649967088087493}
   m_Layer: 0
   m_Name: Campfire
   m_TagString: Campfire
@@ -125,8 +192,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 809750140057051022}
   - {fileID: 2198899832883866862}
-  - {fileID: 4781586680994677907}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1449256406567240159
@@ -227,47 +294,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 4781586680994677907}
+  anchor: {fileID: 0}
   elevationTier: 0
   dynamic: 0
   precision: 100
   tierBand: 5000
---- !u!58 &2552821025033303097
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6145169056594248650}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 2
 --- !u!95 &7689726001257177107
 Animator:
   serializedVersion: 7
@@ -290,21 +321,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3254107332937704192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6145169056594248650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85d699593f7971428cb859ea231f59c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Fuel
-  maxFuel: 150
-  startFuel: 15
-  startBurnRate: 1
 --- !u!114 &680168943007440713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,18 +399,6 @@ MonoBehaviour:
   baseScale: 4
   scaleFlickerAmount: 0.05
   scaleBoost: 0.2
---- !u!114 &2480582723304544442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6145169056594248650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c1e640b01d5b4a4c8d7363ad95f27b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FuelReceiver
 --- !u!114 &9170907945597475893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -421,34 +425,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
   item: {fileID: 11400000, guid: 68746fb0c3128a94e959b0f9ef4ac3f4, type: 2}
---- !u!1 &7623852135095279339
-GameObject:
+--- !u!114 &-895137684039092719
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4781586680994677907}
-  m_Layer: 0
-  m_Name: YSort
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4781586680994677907
-Transform:
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e85d699593f7971428cb859ea231f59c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Fuel
+  maxFuel: 150
+  startFuel: 15
+  startBurnRate: 1
+--- !u!114 &-1073649967088087493
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7623852135095279339}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5154489233770291215}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1e640b01d5b4a4c8d7363ad95f27b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FuelReceiver

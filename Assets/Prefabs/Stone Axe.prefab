@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 85366355590050432}
   - component: {fileID: 7592830633054699218}
   - component: {fileID: 7150361184480202895}
-  - component: {fileID: 682345924209012573}
   - component: {fileID: 3071281034983706939}
   - component: {fileID: 9212449378994694727}
   - component: {fileID: 6593106120193128840}
@@ -116,42 +115,6 @@ MonoBehaviour:
   dynamic: 0
   precision: 100
   tierBand: 5000
---- !u!58 &682345924209012573
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3462038774614361535}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0.00669384, y: 0.44312626}
-  m_Radius: 0.3186614
 --- !u!114 &3071281034983706939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,7 +197,7 @@ GameObject:
   - component: {fileID: 7700000000000000002}
   - component: {fileID: 7700000000000000003}
   m_Layer: 7
-  m_Name: InteractZone
+  m_Name: InteractArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
