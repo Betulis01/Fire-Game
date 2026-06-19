@@ -384,6 +384,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleDayNight",
+                    "type": "Button",
+                    "id": "0a1f2b30-0005-4000-8000-000000000003",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -417,6 +426,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToggleReadout",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a1f2b30-0006-4000-8000-000000000003",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ToggleDayNight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -74,6 +74,8 @@ public class DayNightCycle : MonoBehaviour
 
     void Update()
     {
+        if (DebugDayNightFreeze.Enabled) return;   // debug: clock held in place
+
         elapsed += Time.deltaTime;
 
         // fraction of the cycle, offset so the clock starts at startHour

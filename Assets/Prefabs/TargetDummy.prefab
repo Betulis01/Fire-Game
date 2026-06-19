@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
+  anchor: {fileID: 280915234679732236}
   elevationTier: 0
   dynamic: 0
   precision: 100

@@ -268,6 +268,8 @@ GameObject:
   - component: {fileID: 5364269836855801289}
   - component: {fileID: 5500000000000000030}
   - component: {fileID: 5500000000000000031}
+  - component: {fileID: 5500000000000000032}
+  - component: {fileID: 5500000000000000033}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -528,8 +530,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48ea7350ef7f7784a97b7da9356b20a1, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::DebugInvincibility
+--- !u!114 &5500000000000000033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6a6b5d2e7c8930c2d3e4f5a6b7c8d95, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::DebugDayNightFreeze
 --- !u!95 &222080283975191594
 Animator:
   serializedVersion: 7
@@ -625,6 +639,19 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::AttackRecoil
   multiplier: 1
+--- !u!114 &5500000000000000032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f5a4c1d6b7829b1c2d3e4f5a6b7c84, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShakeOnHit
+  amount: 0.35
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0

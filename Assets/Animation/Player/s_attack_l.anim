@@ -28,8 +28,8 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 0.11
-        value: {x: 0.184, y: 0.185, z: 0}
+        time: 0.1
+        value: {x: 0.184, y: 0.24232689, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -53,8 +53,8 @@ AnimationClip:
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
-        time: 0.11
-        value: {x: -0.315, y: 0.436, z: 0}
+        time: 0.1
+        value: {x: -0.30276784, y: 0.39145303, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -72,9 +72,9 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -3156292412034968730, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
-    - time: 0.100000024
-      value: {fileID: -4807338507289246933, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
-    - time: 0.19000001
+    - time: 0.1
+      value: {fileID: -3156292412034968730, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
+    - time: 0.15
       value: {fileID: -4807338507289246933, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
     attribute: m_Sprite
     path: 
@@ -117,14 +117,14 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -3156292412034968730, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
-    - {fileID: -4807338507289246933, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
+    - {fileID: -3156292412034968730, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
     - {fileID: -4807338507289246933, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.20000002
+    m_StopTime: 0.16000001
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -154,7 +154,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.11
+        time: 0.1
         value: 0.184
         inSlope: 0
         outSlope: 0
@@ -184,8 +184,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.11
-        value: 0.185
+        time: 0.1
+        value: 0.24232689
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -214,7 +214,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.11
+        time: 0.1
         value: 0
         inSlope: 0
         outSlope: 0
@@ -244,8 +244,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.11
-        value: -0.315
+        time: 0.1
+        value: -0.30276784
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -274,8 +274,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.11
-        value: 0.436
+        time: 0.1
+        value: 0.39145303
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -304,7 +304,7 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.11
+        time: 0.1
         value: 0
         inSlope: 0
         outSlope: 0
@@ -324,7 +324,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.11
+  - time: 0.1
     functionName: OnAttackHit
     data: 
     objectReferenceParameter: {fileID: 0}

@@ -37,6 +37,7 @@ public class UserInput : MonoBehaviour
     // Debug map
     InputAction toggleInvincibilityAction;
     InputAction toggleReadoutAction;
+    InputAction toggleDayNightAction;
 
     void Awake()
     {
@@ -70,6 +71,7 @@ public class UserInput : MonoBehaviour
         debugMap = actions.FindActionMap("Debug", throwIfNotFound: true);
         toggleInvincibilityAction = debugMap.FindAction("ToggleInvincibility", true);
         toggleReadoutAction = debugMap.FindAction("ToggleReadout", true);
+        toggleDayNightAction = debugMap.FindAction("ToggleDayNight", true);
     }
 
     void OnEnable()
@@ -107,6 +109,7 @@ public class UserInput : MonoBehaviour
     public bool Pause => pauseAction != null && pauseAction.WasPressedThisFrame();
     public bool ToggleInvincibility => toggleInvincibilityAction != null && toggleInvincibilityAction.WasPressedThisFrame();
     public bool ToggleReadout => toggleReadoutAction != null && toggleReadoutAction.WasPressedThisFrame();
+    public bool ToggleDayNight => toggleDayNightAction != null && toggleDayNightAction.WasPressedThisFrame();
 
     // --- Pointer / aim ---
 

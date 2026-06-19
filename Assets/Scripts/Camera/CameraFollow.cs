@@ -8,14 +8,22 @@ public class CameraFollow : MonoBehaviour
     public float smoothTime = 0.15f;
 
     Vector3 velocity;   // SmoothDamp state
+    CameraShake shake;
+
+    void Awake() => shake = GetComponent<CameraShake>();
 
     void LateUpdate()
     {
         if (target == null) return;
 
         Vector3 destination = target.position + offset;
-        transform.position = smoothTime > 0f
+        Vector3 position = smoothTime > 0f
             ? Vector3.SmoothDamp(transform.position, destination, ref velocity, smoothTime)
             : destination;
+
+        // shake rides on top of the followed position (it isn't smoothed away)
+        if (shake != null) position += shake.Offset;
+
+        transform.position = position;
     }
 }

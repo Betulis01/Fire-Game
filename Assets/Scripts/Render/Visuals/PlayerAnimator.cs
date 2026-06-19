@@ -36,9 +36,11 @@ public class PlayerAnimator : MonoBehaviour
     public Vector2 Facing => facing;
     public bool FlipX { get; private set; }
 
-    // While set, an attack clip is playing and locomotion states are suppressed
-    // until Time.time passes this. Used by PlayAttack() (future attack clips).
-    float attackUntil = -1f;
+    // While attacking, locomotion is suppressed until the attack clip actually
+    // finishes (so a short clip doesn't freeze on its last frame). attackFailsafe is
+    // a generous ceiling so we can never get stuck if the state never completes.
+    bool attacking;
+    float attackFailsafe;
     string attackState;
 
     void Awake()
@@ -81,11 +83,19 @@ public class PlayerAnimator : MonoBehaviour
             handRig.localScale = s;
         }
 
-        // An in-progress attack owns the Animator until its clip finishes.
-        if (Time.time < attackUntil)
+        // An in-progress attack owns the Animator until its clip finishes. We detect
+        // completion via normalizedTime (non-looping clips count past 1.0) rather than
+        // a fixed time, so the swing never sits frozen on its last frame.
+        if (attacking)
         {
-            Play(attackState);
-            return;
+            AnimatorStateInfo st = animator.GetCurrentAnimatorStateInfo(0);
+            bool clipDone = st.IsName(attackState) && st.normalizedTime >= 1f;
+            if (Time.time < attackFailsafe && !clipDone)
+            {
+                Play(attackState);
+                return;
+            }
+            attacking = false;
         }
 
         Play($"{dir}_{(moving ? "walk" : "idle")}");
@@ -99,10 +109,10 @@ public class PlayerAnimator : MonoBehaviour
         animator.Play(state);
     }
 
-    // Combat hook: play the attack clip for the current facing and hand, and hold it
-    // for `duration` seconds so movement input can't interrupt the swing. The clip's
-    // Animation Event drives the actual hit (ToolUser.OnAttackHit). West reuses the
-    // east clip via the flipX applied every frame above.
+    // Combat hook: play the attack clip for the current facing and hand. Locomotion is
+    // suppressed until the clip finishes; `duration` is only a safety ceiling (the real
+    // end is the clip completing). The clip's Animation Event drives the actual hit
+    // (ToolUser.OnAttackHit). West reuses the east clip via the flipX applied above.
     public void PlayAttack(HandSide side, float duration)
     {
         string dir;
@@ -111,7 +121,8 @@ public class PlayerAnimator : MonoBehaviour
 
         string hand = side == HandSide.Left ? "l" : "r";
         attackState = $"{dir}_attack_{hand}";
-        attackUntil = Time.time + duration;
+        attacking = true;
+        attackFailsafe = Time.time + Mathf.Max(duration, 3f);   // safety ceiling only
         currentState = null;   // force the next Play to switch
     }
 }
