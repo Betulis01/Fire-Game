@@ -5,8 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Hurtbox : MonoBehaviour
 {
-    public Health health;        // defaults to the Health on this object/parents
-    public GameObject owner;     // defaults to the health's GameObject
+    public Health health;          // defaults to the Health on this object/parents
+    public GameObject owner;       // defaults to the health's GameObject
+    public Collider2D hurtCollider; // the trigger region; defaults to first collider on this object
 
     public Health Health => health;
     public GameObject Owner => owner;
@@ -15,6 +16,7 @@ public class Hurtbox : MonoBehaviour
     {
         if (health == null) health = GetComponentInParent<Health>();
         if (owner == null) owner = health != null ? health.gameObject : gameObject;
-        GetComponent<Collider2D>().isTrigger = true;   // never blocks movement
+        if (hurtCollider == null) hurtCollider = GetComponent<Collider2D>();
+        hurtCollider.isTrigger = true;   // only the hurtbox collider; never touch blockers
     }
 }

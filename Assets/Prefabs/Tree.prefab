@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8477599328861590345}
   - component: {fileID: 7708343762270406811}
-  - component: {fileID: -3272499932514482147}
+  - component: {fileID: 3232885839737989449}
   - component: {fileID: 7675468278462415737}
+  - component: {fileID: -3272499932514482147}
   - component: {fileID: 4042357346453072926}
   - component: {fileID: 1522422904613888390}
   - component: {fileID: -450146210862123819}
@@ -98,23 +99,42 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &-3272499932514482147
-MonoBehaviour:
+--- !u!58 &3232885839737989449
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4749449456151482961}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
-  elevationTier: 0
-  dynamic: 0
-  precision: 100
-  tierBand: 5000
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.2}
+  m_Radius: 0.1
 --- !u!61 &7675468278462415737
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -161,6 +181,23 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.2079141, y: 1.2542856}
   m_EdgeRadius: 0
+--- !u!114 &-3272499932514482147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::YSort
+  anchor: {fileID: 0}
+  elevationTier: 0
+  dynamic: 0
+  precision: 100
+  tierBand: 5000
 --- !u!114 &4042357346453072926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   health: {fileID: 4042357346453072926}
   owner: {fileID: 4749449456151482961}
+  hurtCollider: {fileID: 7675468278462415737}
 --- !u!114 &-9001062974677319736
 MonoBehaviour:
   m_ObjectHideFlags: 0

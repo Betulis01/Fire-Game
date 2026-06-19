@@ -1,12 +1,14 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer), typeof(Hands), typeof(BodyTemperature))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     BodyTemperature body;
+    Rigidbody2D rb;
 
-    public float speed = 5f;
+    public float speed = 4f;
 
     [Header("Temperature affects speed")]
     public float coldTemp = -10f;            // felt <= this -> slowest
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         body = GetComponent<BodyTemperature>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -29,10 +32,14 @@ public class PlayerController : MonoBehaviour
         float t = Mathf.InverseLerp(coldTemp, warmTemp, body.Temp);   // 0 cold .. 1 warm
         float target = Mathf.Lerp(speedFloor, 1f, t);
         speedMultiplier = Mathf.SmoothDamp(speedMultiplier, target, ref smoothVel, smoothTime);
+    }
 
+    void FixedUpdate()
+    {
         Vector2 input = UserInput.Instance.Move;   // WASD/arrows or gamepad stick
+        Vector2 move = input.normalized;
 
-        Vector3 move = new Vector3(input.x, input.y, 0f).normalized;
-        transform.Translate(move * speed * speedMultiplier * Time.deltaTime);
+        // move through the physics engine so colliders stop us against trees, etc.
+        rb.MovePosition(rb.position + move * speed * speedMultiplier * Time.fixedDeltaTime);
     }
 }
