@@ -30,7 +30,7 @@ public class ToolUser : MonoBehaviour
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
     // swing supersedes an earlier one that hasn't landed yet.
-    struct Swing { public Hitbox hitbox; public float damage; public ToolKind kind; public float range; public bool armed; }
+    struct Swing { public Hitbox hitbox; public AttackData attack; public float range; public bool armed; }
     Swing pending;
 
     // World point swings originate from (aim direction + strike center). Uses the
@@ -62,7 +62,7 @@ public class ToolUser : MonoBehaviour
         if (!weapon.TryGetComponent(out Tool tool) || !weapon.TryGetComponent(out Hitbox hitbox)) return;
 
         // Arm the strike; the hit lands when the clip's Animation Event fires.
-        pending = new Swing { hitbox = hitbox, damage = tool.damage, kind = tool.kind, range = tool.range, armed = true };
+        pending = new Swing { hitbox = hitbox, attack = tool.Attack, range = tool.range, armed = true };
 
         float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
         if (animator != null) animator.PlayAttack(side, lockDuration);
@@ -77,7 +77,7 @@ public class ToolUser : MonoBehaviour
 
         Vector2 origin = Origin;
         Vector2 center = origin + AimDirection(origin) * pending.range;
-        pending.hitbox.Strike(pending.damage, pending.kind, gameObject, center);
+        pending.hitbox.Strike(pending.attack, gameObject, center);
         pending.armed = false;
     }
 

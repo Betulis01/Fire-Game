@@ -3,7 +3,8 @@ using UnityEngine;
 
 // General hit-point health for entities (trees, mobs, ...). Player freezing lives
 // in PlayerHealth instead. Consumers react to Died (e.g. DropOnDeath spawns drops).
-public class Health : MonoBehaviour
+// As an IHitReactor it turns a landed hit into damage.
+public class Health : MonoBehaviour, IHitReactor
 {
     public float maxHealth = 100f;
     public float current;
@@ -33,4 +34,7 @@ public class Health : MonoBehaviour
         if (amount <= 0f || IsDead) return;
         current = Mathf.Min(maxHealth, current + amount);
     }
+
+    // React to a landed hit by taking its damage (kind-gating already happened in Hitbox).
+    public void OnHit(in HitInfo hit) => TakeDamage(hit.damage);
 }

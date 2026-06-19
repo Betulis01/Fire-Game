@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer spriteRenderer;
     BodyTemperature body;
     Rigidbody2D rb;
+    Knockback knockback;
 
     public float speed = 4f;
 
@@ -24,6 +25,11 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         body = GetComponent<BodyTemperature>();
         rb = GetComponent<Rigidbody2D>();
+
+        // We own the player's single MovePosition, so fold knockback in here rather
+        // than letting it move the body separately (two MovePosition calls conflict).
+        knockback = GetComponent<Knockback>();
+        if (knockback != null) knockback.SelfMove = false;
     }
 
     void Update()
@@ -37,9 +43,12 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 input = UserInput.Instance.Move;   // WASD/arrows or gamepad stick
-        Vector2 move = input.normalized;
+        Vector2 velocity = input.normalized * speed * speedMultiplier;
+
+        // add any active knockback (it decays itself); composes with input in one move
+        if (knockback != null) velocity += knockback.Velocity;
 
         // move through the physics engine so colliders stop us against trees, etc.
-        rb.MovePosition(rb.position + move * speed * speedMultiplier * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
     }
 }

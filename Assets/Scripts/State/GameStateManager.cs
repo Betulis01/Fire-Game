@@ -47,6 +47,11 @@ public class GameStateManager : MonoBehaviour
 
         // freeze the world when not actively playing
         Time.timeScale = (newState == GameState.Playing) ? 1f : 0f;
+
+        // gameplay input exists only while playing, so menu/pause clicks (the Play
+        // button is the same left-click as an attack) never bleed into the world
+        if (UserInput.Instance != null)
+            UserInput.Instance.SetGameplayInputEnabled(newState == GameState.Playing);
     }
 
     // called by buttons

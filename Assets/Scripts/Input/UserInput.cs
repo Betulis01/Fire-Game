@@ -18,6 +18,12 @@ public class UserInput : MonoBehaviour
              "aiming falls back to the mouse pointer.")]
     [SerializeField] float aimStickDeadzone = 0.35f;
 
+    // Action maps. The Player map is gated by game state (SetGameplayInputEnabled);
+    // Global (pause) and Debug stay live in every state.
+    InputActionMap playerMap;
+    InputActionMap globalMap;
+    InputActionMap debugMap;
+
     // Player map
     InputAction moveAction;
     InputAction pointAction;
@@ -48,30 +54,45 @@ public class UserInput : MonoBehaviour
             return;
         }
 
-        InputActionMap player = actions.FindActionMap("Player", throwIfNotFound: true);
-        moveAction = player.FindAction("Move", true);
-        pointAction = player.FindAction("Point", true);
-        aimAction = player.FindAction("Aim", true);
-        attackLeftAction = player.FindAction("AttackLeft", true);
-        attackRightAction = player.FindAction("AttackRight", true);
-        interactLeftAction = player.FindAction("InteractLeft", true);
-        interactRightAction = player.FindAction("InteractRight", true);
-        craftAction = player.FindAction("Craft", true);
-        pauseAction = player.FindAction("Pause", true);
+        playerMap = actions.FindActionMap("Player", throwIfNotFound: true);
+        moveAction = playerMap.FindAction("Move", true);
+        pointAction = playerMap.FindAction("Point", true);
+        aimAction = playerMap.FindAction("Aim", true);
+        attackLeftAction = playerMap.FindAction("AttackLeft", true);
+        attackRightAction = playerMap.FindAction("AttackRight", true);
+        interactLeftAction = playerMap.FindAction("InteractLeft", true);
+        interactRightAction = playerMap.FindAction("InteractRight", true);
+        craftAction = playerMap.FindAction("Craft", true);
 
-        InputActionMap debug = actions.FindActionMap("Debug", throwIfNotFound: true);
-        toggleInvincibilityAction = debug.FindAction("ToggleInvincibility", true);
-        toggleReadoutAction = debug.FindAction("ToggleReadout", true);
+        globalMap = actions.FindActionMap("Global", throwIfNotFound: true);
+        pauseAction = globalMap.FindAction("Pause", true);
+
+        debugMap = actions.FindActionMap("Debug", throwIfNotFound: true);
+        toggleInvincibilityAction = debugMap.FindAction("ToggleInvincibility", true);
+        toggleReadoutAction = debugMap.FindAction("ToggleReadout", true);
     }
 
     void OnEnable()
     {
-        if (actions != null) actions.Enable();
+        // Global (pause) and Debug are always live. The Player map stays disabled
+        // until GameStateManager enables it for the Playing state, so menu/pause
+        // clicks can never reach gameplay (attacks, interacts, movement).
+        if (globalMap != null) globalMap.Enable();
+        if (debugMap != null) debugMap.Enable();
     }
 
     void OnDisable()
     {
         if (actions != null) actions.Disable();
+    }
+
+    // Gameplay input (the Player map) exists only while actually playing. Called by
+    // GameStateManager on every state change.
+    public void SetGameplayInputEnabled(bool on)
+    {
+        if (playerMap == null) return;
+        if (on) playerMap.Enable();
+        else playerMap.Disable();
     }
 
     // --- Movement ---

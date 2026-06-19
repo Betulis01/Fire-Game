@@ -55,7 +55,7 @@
                     "name": "InteractLeft",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000006",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -73,15 +73,6 @@
                     "name": "Craft",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000008",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "0a1f2b30-0002-4000-8000-000000000009",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -235,7 +226,7 @@
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-00000000000e",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -257,7 +248,7 @@
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-000000000010",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -330,7 +321,24 @@
                     "action": "Craft",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "Global",
+            "id": "0a1f2b30-0007-4000-8000-000000000001",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "0a1f2b30-0002-4000-8000-000000000009",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-000000000017",
@@ -372,7 +380,7 @@
                     "name": "ToggleReadout",
                     "type": "Button",
                     "id": "0a1f2b30-0005-4000-8000-000000000002",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -397,6 +405,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "ToggleReadout",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13d1e5ae-c67c-492c-aaf7-33afb181f2a9",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "ToggleReadout",
                     "isComposite": false,
                     "isPartOfComposite": false
