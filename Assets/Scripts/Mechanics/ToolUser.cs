@@ -1,9 +1,12 @@
 using UnityEngine;
 
 // "Use the item in a hand" via the mouse: left button uses the left hand, right
-// button the right. Using a hand swings a held weapon (Hitbox + Tool) toward the
-// mouse cursor; the strike lands Tool.range in front and damages whatever Hurtbox
-// it overlaps. Swing rate is limited by the tool's swingSpeed.
+// button the right. A hand swings whatever is "in" it — a held weapon, or its
+// default fists when empty (Hands.ActiveItem hides that distinction). Both are just
+// GameObjects with a Tool (stats) and Hitbox (strike region); a hand holding a
+// non-weapon (e.g. wood) can't swing. The swing plays an attack animation; the hit
+// lands when that clip's Animation Event calls OnAttackHit. Swing rate is limited
+// per hand by the weapon's swingSpeed.
 [RequireComponent(typeof(Hands))]
 public class ToolUser : MonoBehaviour
 {
@@ -16,9 +19,19 @@ public class ToolUser : MonoBehaviour
              "itself sits at the feet. Falls back to this transform if unset.")]
     public Transform aimOrigin;
 
+    [Tooltip("Drives the attack animation. Each *_attack clip needs an Animation " +
+             "Event at its contact frame calling OnAttackHit. Defaults to one here.")]
+    public PlayerAnimator animator;
+
     Hands hands;
     float leftReadyAt;
     float rightReadyAt;
+
+    // The swing whose contact frame we're waiting on. Only one at a time: the
+    // player's single Animator layer can play just one attack clip, so a later
+    // swing supersedes an earlier one that hasn't landed yet.
+    struct Swing { public Hitbox hitbox; public float damage; public ToolKind kind; public float range; public bool armed; }
+    Swing pending;
 
     // World point swings originate from (aim direction + strike center). Uses the
     // assigned aimOrigin, falling back to this transform if none is set.
@@ -28,6 +41,7 @@ public class ToolUser : MonoBehaviour
     {
         hands = GetComponent<Hands>();
         if (cam == null) cam = Camera.main;
+        if (animator == null) animator = GetComponent<PlayerAnimator>();
     }
 
     void Update()
@@ -40,19 +54,31 @@ public class ToolUser : MonoBehaviour
     {
         if (Time.time < ReadyAt(side)) return;
 
-        GameObject held = hands.Held(side);
-        if (held == null) return;
+        // Swing whatever the hand offers (held weapon or default fists). It must be a
+        // weapon: a Tool for stats and a Hitbox for the strike. Holding a non-weapon
+        // (e.g. wood) yields no swing.
+        GameObject weapon = hands.ActiveItem(side);
+        if (weapon == null) return;
+        if (!weapon.TryGetComponent(out Tool tool) || !weapon.TryGetComponent(out Hitbox hitbox)) return;
 
-        Hitbox hitbox = held.GetComponent<Hitbox>();
-        Tool tool = held.GetComponent<Tool>();
-        if (hitbox == null || tool == null) return;   // only weapons can be swung
+        // Arm the strike; the hit lands when the clip's Animation Event fires.
+        pending = new Swing { hitbox = hitbox, damage = tool.damage, kind = tool.kind, range = tool.range, armed = true };
+
+        float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
+        if (animator != null) animator.PlayAttack(side, lockDuration);
+        SetReadyAt(side, Time.time + lockDuration);
+    }
+
+    // Called by an Animation Event on each *_attack clip, at the contact frame.
+    // Lands the armed swing where the player is currently aiming.
+    public void OnAttackHit()
+    {
+        if (!pending.armed || pending.hitbox == null) return;
 
         Vector2 origin = Origin;
-        Vector2 aim = AimDirection(origin);
-        Vector2 center = origin + aim * tool.range;
-
-        hitbox.Strike(tool.damage, gameObject, center);
-        SetReadyAt(side, Time.time + 1f / Mathf.Max(0.01f, tool.swingSpeed));
+        Vector2 center = origin + AimDirection(origin) * pending.range;
+        pending.hitbox.Strike(pending.damage, pending.kind, gameObject, center);
+        pending.armed = false;
     }
 
     // direction the swing aims: toward the mouse cursor, or the gamepad aim stick

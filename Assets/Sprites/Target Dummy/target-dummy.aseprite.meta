@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 25bf893df1650be47b7095890145afef
+guid: e83528050c00f384bab706debe06b2f7
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 0, y: 0}
+    pivot: {x: 0.5555556, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,8 +137,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 4
-      height: 8
+      width: 9
+      height: 13
     spriteID: 49a177e2eae0a17429c4e5b13537a4f4
     spriteBone: []
     spriteOutline: []
@@ -163,14 +163,14 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Axe
+    - name: target-dummy
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 8
+        x: 3
         y: 0
-        width: 4
-        height: 8
+        width: 9
+        height: 13
       spriteId: 49a177e2eae0a17429c4e5b13537a4f4
     linkedCells: []
     tileCells: []
@@ -206,4 +206,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 16, y: 16}
-  previousTextureSize: {x: 16, y: 16}
+  previousTextureSize: {x: 32, y: 32}

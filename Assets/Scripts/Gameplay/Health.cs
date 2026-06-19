@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 // General hit-point health for entities (trees, mobs, ...). Player freezing lives
-// in PlayerHealth instead. Consumers react to Died (e.g. Choppable spawns drops).
+// in PlayerHealth instead. Consumers react to Died (e.g. DropOnDeath spawns drops).
 public class Health : MonoBehaviour
 {
     public float maxHealth = 100f;

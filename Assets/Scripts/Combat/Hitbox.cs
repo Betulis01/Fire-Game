@@ -12,7 +12,7 @@ public class Hitbox : MonoBehaviour
     readonly List<Collider2D> results = new();
     readonly HashSet<Health> hitThisStrike = new();
 
-    public void Strike(float damage, GameObject owner, Vector2 center)
+    public void Strike(float damage, ToolKind kind, GameObject owner, Vector2 center)
     {
         ContactFilter2D filter = new ContactFilter2D { useTriggers = true };
         filter.SetLayerMask(hurtboxLayers);
@@ -25,6 +25,10 @@ public class Hitbox : MonoBehaviour
         {
             Hurtbox hb = col.GetComponentInParent<Hurtbox>();
             if (hb == null || hb.Health == null || hb.Owner == owner) continue;
+            // entities can restrict which tool kinds hurt them (axe-only trees, ...);
+            // no filter means any tool damages them.
+            ToolDamageFilter gate = hb.Health.GetComponent<ToolDamageFilter>();
+            if (gate != null && !gate.Accepts(kind)) continue;
             if (!hitThisStrike.Add(hb.Health)) continue;   // once per entity
             hb.Health.TakeDamage(damage);
         }

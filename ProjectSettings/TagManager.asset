@@ -47,8 +47,11 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Overlay
+  - name: Foreground
     uniqueID: 1884363951
+    locked: 0
+  - name: Overlay
+    uniqueID: 1771524783
     locked: 0
   m_RenderingLayers:
   - Default

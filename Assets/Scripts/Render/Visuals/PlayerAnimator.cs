@@ -8,9 +8,11 @@ using UnityEngine;
 //
 // State names must match the AnimatorController / Aseprite tag names:
 //   s_idle n_idle e_idle  s_walk n_walk e_walk
+//   s_attack_l n_attack_l e_attack_l  s_attack_r n_attack_r e_attack_r
+// (west reuses the east clips via flipX, same as locomotion).
 //
-// Ready to extend: add *_attack states/clips and route an attack through
-// PlayAttack() (it latches until the clip finishes so movement can't cut it off).
+// Attacks route through PlayAttack(side, duration): it latches the matching
+// per-hand attack state so movement can't cut the swing off.
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerAnimator : MonoBehaviour
 {
@@ -97,16 +99,18 @@ public class PlayerAnimator : MonoBehaviour
         animator.Play(state);
     }
 
-    // Hook for combat: play an attack clip for the current facing and hold it for
-    // `duration` seconds so movement input can't interrupt the swing. Wire this up
-    // once *_attack states exist in the controller (e.g. call from ToolUser).
-    public void PlayAttack(float duration)
+    // Combat hook: play the attack clip for the current facing and hand, and hold it
+    // for `duration` seconds so movement input can't interrupt the swing. The clip's
+    // Animation Event drives the actual hit (ToolUser.OnAttackHit). West reuses the
+    // east clip via the flipX applied every frame above.
+    public void PlayAttack(HandSide side, float duration)
     {
         string dir;
         if (Mathf.Abs(facing.x) >= Mathf.Abs(facing.y)) dir = "e";
         else dir = facing.y >= 0f ? "n" : "s";
 
-        attackState = $"{dir}_attack";
+        string hand = side == HandSide.Left ? "l" : "r";
+        attackState = $"{dir}_attack_{hand}";
         attackUntil = Time.time + duration;
         currentState = null;   // force the next Play to switch
     }
