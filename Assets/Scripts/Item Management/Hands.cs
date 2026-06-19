@@ -62,7 +62,7 @@ public class Hands : MonoBehaviour
                 && Count(side) < stack.maxStack)
             {
                 SetCount(side, Count(side) + 1);
-                Destroy(worldItem);            // the world single is absorbed into the stack
+                Destroy(worldItem);            // the world single is absorbed into the stacwk
                 Changed?.Invoke();
                 return true;
             }

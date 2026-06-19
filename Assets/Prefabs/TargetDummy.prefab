@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::YSort
   anchor: {fileID: 280915234679732236}
   elevationTier: 0
-  dynamic: 0
+  dynamic: 1
   precision: 100
   tierBand: 5000
 --- !u!114 &5939225405195628197
