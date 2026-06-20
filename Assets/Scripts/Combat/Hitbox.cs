@@ -25,6 +25,7 @@ public class Hitbox : MonoBehaviour
 
         Vector2 attackerPos = owner != null ? (Vector2)owner.transform.position : center;
         bool anyHit = false;
+        Vector2 contactPoint = center;     // where the circle actually touched a hurtbox
 
         foreach (Collider2D col in results)
         {
@@ -38,14 +39,17 @@ public class Hitbox : MonoBehaviour
 
             Vector2 toTarget = (Vector2)hb.Owner.transform.position - attackerPos;
             Vector2 dir = toTarget.sqrMagnitude > 1e-6f ? toTarget.normalized : Vector2.zero;
+            if (!anyHit) contactPoint = hb.HurtCollider.ClosestPoint(center);
             hb.TakeHit(new HitInfo(owner, hb.Owner, attack, center, dir));
             anyHit = true;
         }
 
-        // notify the attacker's reactors (e.g. AttackRecoil) once per connecting swing
+        // notify the attacker's reactors (e.g. AttackRecoil) once per connecting swing,
+        // at the point the strike circle actually met the (first) hurtbox rather than
+        // the circle's own center, so attacker-side VFX lands where contact happened.
         if (anyHit && owner != null)
         {
-            HitInfo info = new HitInfo(owner, null, attack, center, Vector2.zero);
+            HitInfo info = new HitInfo(owner, null, attack, contactPoint, Vector2.zero);
             foreach (IAttackReactor reactor in owner.GetComponents<IAttackReactor>())
                 reactor.OnDealtHit(info);
         }
