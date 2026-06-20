@@ -15,11 +15,11 @@ Survive from dusk to dawn:
 - **Light** — a torch is your portable, burning leash into the dark.
 - **Craft** — gather wood and stone, build tools and weapons (e.g. an axe).
 - **Fight** — enemies come from the dark edges at night; swing, knock them back, survive.
-- **Dawn** — make it to morning and you win the night.
+- **Dawn** — make it to morning and prepare for the next night
 
 ## Built With
 
-- UnityD
+- Unity
 - Capability-component architecture shared across players, enemies, and world objects.
 
 ## Status
