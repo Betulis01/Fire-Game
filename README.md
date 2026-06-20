@@ -19,7 +19,7 @@ Survive from dusk to dawn:
 
 ## Built With
 
-- Unity
+- Unity and Claude Code
 - Capability-component architecture shared across players, enemies, and world objects.
 
 ## Status
@@ -29,4 +29,4 @@ In development.
 ## Roadmap
 
 Harvesting & crafting → combat → enemies → escalating waves → multi-night
-progression → menus/options/save/credits → art & juice → ship.
+progression → menus/options/save/credits → art & improvement
