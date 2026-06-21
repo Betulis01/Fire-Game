@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
         if (knockback != null) velocity += knockback.Velocity;
 
         // move through the physics engine so colliders stop us against trees, etc.
-        rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
+        Vector2 newPos = rb.position + velocity * Time.fixedDeltaTime;
+        if (WorldBounds.Instance != null)
+            newPos = WorldBounds.Instance.ClampPoint(newPos, spriteRenderer.bounds.extents);
+        rb.MovePosition(newPos);
     }
 }
