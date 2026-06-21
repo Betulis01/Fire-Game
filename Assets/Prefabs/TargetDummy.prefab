@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c5c6f4fbbf4a249aa1b9288103ed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
-  offset: {x: 0, y: 1.5, z: 0}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &2941189755341746672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +360,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.3, y: 0.6}
+  m_Size: {x: 0.25, y: 0.4}
   m_EdgeRadius: 0
 --- !u!1001 &784705371609272286
 PrefabInstance:
@@ -372,7 +372,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2244209967888865494, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0309
+      value: 0.0005
       objectReference: {fileID: 0}
     - target: {fileID: 2244209967888865494, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_LocalPosition.y

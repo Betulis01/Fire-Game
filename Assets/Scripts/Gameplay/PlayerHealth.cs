@@ -41,7 +41,7 @@ public class PlayerHealth : Health
         {
             // out in the cold: lose health based on how far bodytemp sits below comfort.
             float deficit = comfortTemperature - temp;
-            TakeDamage(Mathf.Max(0f, deficit) * coldRate * Time.deltaTime);
+            TakeDamage(Mathf.Max(0f, deficit) * coldRate * Time.deltaTime, DamageType.Environment);
         }
     }
 

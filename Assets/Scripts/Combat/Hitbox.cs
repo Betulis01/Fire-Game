@@ -39,8 +39,9 @@ public class Hitbox : MonoBehaviour
 
             Vector2 toTarget = (Vector2)hb.Owner.transform.position - attackerPos;
             Vector2 dir = toTarget.sqrMagnitude > 1e-6f ? toTarget.normalized : Vector2.zero;
-            if (!anyHit) contactPoint = hb.HurtCollider.ClosestPoint(center);
-            hb.TakeHit(new HitInfo(owner, hb.Owner, attack, center, dir));
+            Vector2 point = hb.HurtCollider.ClosestPoint(center);
+            if (!anyHit) contactPoint = point;
+            hb.TakeHit(new HitInfo(owner, hb.Owner, attack, point, dir));
             anyHit = true;
         }
 

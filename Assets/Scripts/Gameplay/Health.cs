@@ -10,13 +10,13 @@ public class Health : MonoBehaviour, IHitReactor
     public float current;
 
     public event Action Died;
-    public event Action<float> Damaged;   // amount actually dealt
+    public event Action<DamageInfo> Damaged;
     public bool IsDead => current <= 0f;
     public float Normalized => maxHealth > 0f ? current / maxHealth : 0f;
 
     protected virtual void Awake() => current = maxHealth;
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, DamageType type = DamageType.Combat, Vector2? point = null)
     {
         if (amount <= 0f || IsDead) return;
 
@@ -25,7 +25,7 @@ public class Health : MonoBehaviour, IHitReactor
 
         float before = current;
         current = Mathf.Max(0f, current - amount);
-        Damaged?.Invoke(before - current);
+        Damaged?.Invoke(new DamageInfo(before - current, type, point));
         if (current <= 0f) Died?.Invoke();
     }
 
@@ -36,5 +36,5 @@ public class Health : MonoBehaviour, IHitReactor
     }
 
     // React to a landed hit by taking its damage (kind-gating already happened in Hitbox).
-    public void OnHit(in HitInfo hit) => TakeDamage(hit.damage);
+    public void OnHit(in HitInfo hit) => TakeDamage(hit.damage, DamageType.Combat, hit.point);
 }
