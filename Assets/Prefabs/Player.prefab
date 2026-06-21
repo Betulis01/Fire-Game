@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2617665783858779241}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HandRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1866581557855767232}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4562509606991182907}
   - component: {fileID: 1136452899598101169}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: InteractArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4399285440080382326}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AimOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7686458350900404007}
   - component: {fileID: 5767819567284956916}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HurtboxArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,9 +272,10 @@ GameObject:
   - component: {fileID: 5500000000000000032}
   - component: {fileID: 5500000000000000034}
   - component: {fileID: 5500000000000000035}
-  m_Layer: 0
+  - component: {fileID: 4239748836073507299}
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -476,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e98bf38942a314ca869e0f60376c80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  speed: 5
+  speed: 3
   coldTemp: -10
   warmTemp: 0
   speedFloor: 0.4
@@ -580,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5780e0c83465e24089264b9f08cf621, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimator
-  animator: {fileID: 0}
+  animator: {fileID: 222080283975191594}
   handRig: {fileID: 2617665783858779241}
   moveDeadzone: 0.05
 --- !u!114 &4957745241349174120
@@ -692,7 +693,19 @@ MonoBehaviour:
     effectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
     spriteAngleOffset: 0
   aimOrigin: {fileID: 4399285440080382326}
-  cam: {fileID: 0}
+--- !u!114 &4239748836073507299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65c5c6f4fbbf4a249aa1b9288103ed2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
+  offset: {x: 0, y: 1.5, z: 0}
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +717,7 @@ GameObject:
   - component: {fileID: 5500000000000000021}
   - component: {fileID: 5500000000000000022}
   - component: {fileID: 5500000000000000023}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AimIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,7 +785,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1292425199
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -317825125816557920, guid: 988825858d62e2541a6410559fc2ba7c, type: 3}
@@ -811,7 +824,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7425280944624778310}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -843,7 +856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1153742173090667848}
   - component: {fileID: 1717837311942627799}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ColliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +925,7 @@ GameObject:
   - component: {fileID: 27826727792321665}
   - component: {fileID: 3777237992869429654}
   - component: {fileID: 829171106544031207}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: ShadowCaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1074,6 +1087,22 @@ PrefabInstance:
     - target: {fileID: 2269069157607273336, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_Name
       value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2269069157607273336, guid: ada01f032331356418be307118cae108, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608682326299484940, guid: ada01f032331356418be307118cae108, type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 2244934674691583818}
+    - target: {fileID: 3004283938925338395, guid: ada01f032331356418be307118cae108, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3450838127705009405, guid: ada01f032331356418be307118cae108, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7165257912284901865, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayer

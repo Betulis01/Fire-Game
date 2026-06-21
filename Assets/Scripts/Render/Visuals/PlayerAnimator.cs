@@ -11,7 +11,7 @@ using UnityEngine;
 //   s_attack_l n_attack_l e_attack_l  s_attack_r n_attack_r e_attack_r
 // (west reuses the east clips via flipX, same as locomotion).
 //
-// Attacks route through PlayAttack(side, duration): it latches the matching
+// Attacks route through PlayAttack(side, duration, aimDir): it latches the matching
 // per-hand attack state so movement can't cut the swing off.
 [RequireComponent(typeof(SpriteRenderer))]
 public class PlayerAnimator : MonoBehaviour
@@ -58,17 +58,7 @@ public class PlayerAnimator : MonoBehaviour
 
         // Resolve facing to a cardinal direction. Horizontal wins ties so a mostly
         // sideways diagonal reads as east/west.
-        string dir;
-        bool flip = false;
-        if (Mathf.Abs(facing.x) >= Mathf.Abs(facing.y))
-        {
-            dir = "e";
-            flip = facing.x < 0f;   // west = east mirrored
-        }
-        else
-        {
-            dir = facing.y >= 0f ? "n" : "s";
-        }
+        (string dir, bool flip) = ResolveDir(facing);
 
         sr.flipX = flip;
         FlipX = flip;
@@ -109,20 +99,28 @@ public class PlayerAnimator : MonoBehaviour
         animator.Play(state);
     }
 
-    // Combat hook: play the attack clip for the current facing and hand. Locomotion is
+    // Combat hook: play the attack clip for the aim direction and hand. Locomotion is
     // suppressed until the clip finishes; `duration` is only a safety ceiling (the real
     // end is the clip completing). The clip's Animation Event drives the actual hit
     // (ToolUser.OnAttackHit). West reuses the east clip via the flipX applied above.
-    public void PlayAttack(HandSide side, float duration)
+    // facing is set to aimDir so the swing, sprite flip, and post-attack idle/walk
+    // pose all agree with where the hit actually lands (ToolUser aims the same way).
+    public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
     {
-        string dir;
-        if (Mathf.Abs(facing.x) >= Mathf.Abs(facing.y)) dir = "e";
-        else dir = facing.y >= 0f ? "n" : "s";
+        facing = aimDir;
+        (string dir, _) = ResolveDir(facing);
 
         string hand = side == HandSide.Left ? "l" : "r";
         attackState = $"{dir}_attack_{hand}";
         attacking = true;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);   // safety ceiling only
         currentState = null;   // force the next Play to switch
+    }
+
+    // Horizontal wins ties so a mostly sideways diagonal reads as east/west.
+    static (string dir, bool flip) ResolveDir(Vector2 v)
+    {
+        if (Mathf.Abs(v.x) >= Mathf.Abs(v.y)) return ("e", v.x < 0f);
+        return (v.y >= 0f ? "n" : "s", false);
     }
 }

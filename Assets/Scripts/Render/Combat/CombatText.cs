@@ -3,7 +3,7 @@ using UnityEngine;
 
 // Pooled spawner for floating damage numbers. Drop one in the scene (it registers
 // itself as the singleton) and assign the DamagePopup prefab. Anything wanting a
-// number on screen calls CombatText.Spawn(worldPos, amount).
+// number on screen calls CombatText.Spawn(worldPos, amount, style).
 public class CombatText : MonoBehaviour
 {
     public static CombatText Instance { get; private set; }
@@ -26,18 +26,18 @@ public class CombatText : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public static void Spawn(Vector3 worldPos, float amount)
+    public static void Spawn(Vector3 worldPos, float amount, PopupStyle style)
     {
         if (Instance == null || Instance.popupPrefab == null) return;
-        Instance.SpawnInternal(worldPos, amount);
+        Instance.SpawnInternal(worldPos, amount, style);
     }
 
-    void SpawnInternal(Vector3 worldPos, float amount)
+    void SpawnInternal(Vector3 worldPos, float amount, PopupStyle style)
     {
         DamagePopup popup = pool.Count > 0 ? pool.Dequeue() : Create();
         popup.transform.position = worldPos;
         popup.gameObject.SetActive(true);
-        popup.Play(amount, this);
+        popup.Play(amount, style, this);
     }
 
     DamagePopup Create()

@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 
+public enum PopupStyle { Enemy, Player }
+
 // A single floating number. Scrolls upward and fades out over `lifetime`, then
 // returns itself to the pool. Authored on a world-space TMP prefab.
 [RequireComponent(typeof(TMP_Text))]
@@ -9,6 +11,9 @@ public class DamagePopup : MonoBehaviour
     public float lifetime = 0.7f;       // seconds until it returns to the pool
     public float riseSpeed = 1.2f;      // world units climbed per second
     public AnimationCurve alpha = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+
+    public Color enemyHitColor = new Color(1f, 0.5952402f, 0f);   // damage dealt to an enemy
+    public Color playerHitColor = new Color(0.9f, 0.1f, 0.1f);    // damage dealt to the player
 
     TMP_Text label;
     CombatText owner;
@@ -22,11 +27,12 @@ public class DamagePopup : MonoBehaviour
     }
 
     // Configure and start the animation. `home` is the pool to return to.
-    public void Play(float amount, CombatText home)
+    public void Play(float amount, PopupStyle style, CombatText home)
     {
         owner = home;
         elapsed = 0f;
         label.text = Mathf.RoundToInt(amount).ToString();
+        baseColor = style == PopupStyle.Player ? playerHitColor : enemyHitColor;
         SetAlpha(1f);
     }
 

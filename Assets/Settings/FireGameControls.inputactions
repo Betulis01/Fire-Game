@@ -34,18 +34,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "AttackLeft",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000004",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "AttackRight",
-                    "type": "Button",
-                    "id": "0a1f2b30-0002-4000-8000-000000000005",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -219,7 +210,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "AttackLeft",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -230,29 +221,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "AttackLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0a1f2b30-0003-4000-8000-00000000000f",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "AttackRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0a1f2b30-0003-4000-8000-000000000010",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "AttackRight",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

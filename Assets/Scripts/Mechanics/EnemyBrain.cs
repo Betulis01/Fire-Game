@@ -13,6 +13,7 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
 
     public State CurrentState { get; private set; } = State.Wander;
     public Vector2 MoveDirection { get; private set; }
+    public Transform AggroTarget => aggroTarget;
 
     Transform aggroTarget;
 

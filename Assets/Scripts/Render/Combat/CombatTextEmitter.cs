@@ -16,6 +16,7 @@ public class CombatTextEmitter : MonoBehaviour
 
     void OnDamaged(float amount)
     {
-        CombatText.Spawn(transform.position + offset, amount);
+        PopupStyle style = gameObject.CompareTag("Player") ? PopupStyle.Player : PopupStyle.Enemy;
+        CombatText.Spawn(transform.position + offset, amount, style);
     }
 }
