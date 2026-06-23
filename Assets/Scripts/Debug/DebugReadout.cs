@@ -7,7 +7,7 @@ using UnityEngine;
 public class DebugReadout : MonoBehaviour
 {
     BodyTemperature body;
-    bool show = true;
+    bool show = false;
 
     void Awake()
     {

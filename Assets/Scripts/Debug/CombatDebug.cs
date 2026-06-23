@@ -15,7 +15,7 @@ public class CombatDebug : MonoBehaviour
     static readonly Color HitColor = Color.red;
     static readonly Color RangeColor = new Color(1f, 0.85f, 0.2f);
 
-    bool show = true;
+    bool show = false;
     Material lineMat;
 
     void OnEnable() => RenderPipelineManager.endCameraRendering += OnEndCamera;

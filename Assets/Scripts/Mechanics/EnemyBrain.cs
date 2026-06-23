@@ -11,16 +11,46 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     public WanderBehavior wander;
     public ChaseBehavior chase;
 
+    [Tooltip("Distance to the player within which a wandering enemy aggros without needing to be hit first.")]
+    public float detectionRadius = 6f;
+
     public State CurrentState { get; private set; } = State.Wander;
     public Vector2 MoveDirection { get; private set; }
     public Transform AggroTarget => aggroTarget;
 
     Transform aggroTarget;
+    Transform player;
+    bool lookedForPlayer;
 
     void Update()
     {
+        if (CurrentState == State.Wander && aggroTarget == null) CheckDetection();
+
         IEnemyMoveBehavior active = CurrentState == State.Wander ? wander : (IEnemyMoveBehavior)chase;
         MoveDirection = active.GetMoveDirection(transform, aggroTarget);
+    }
+
+    void CheckDetection()
+    {
+        if (!lookedForPlayer)
+        {
+            GameObject found = GameObject.FindGameObjectWithTag("Player");
+            player = found != null ? found.transform : null;
+            lookedForPlayer = true;
+        }
+        if (player == null) return;
+
+        if (Vector2.Distance(transform.position, player.position) <= detectionRadius)
+        {
+            aggroTarget = player;
+            CurrentState = State.Combat;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, detectionRadius);
     }
 
     public void OnHit(in HitInfo hit)

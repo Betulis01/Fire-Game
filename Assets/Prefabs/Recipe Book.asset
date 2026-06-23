@@ -28,3 +28,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
     output: {fileID: 11400000, guid: 68746fb0c3128a94e959b0f9ef4ac3f4, type: 2}
     requiredStation: 0
+  - inputs:
+    - {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
+    output: {fileID: 11400000, guid: 20e9fe63ec6f92045ad642dc497bd35d, type: 2}
+    requiredStation: 0
+  - inputs:
+    - {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
+    - {fileID: 11400000, guid: 1b275f88133126d46ae1b36dbf54b173, type: 2}
+    output: {fileID: 11400000, guid: 92dbfc158cdc24044b9a8a01883edce0, type: 2}
+    requiredStation: 2

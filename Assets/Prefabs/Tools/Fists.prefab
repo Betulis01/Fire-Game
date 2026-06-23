@@ -66,4 +66,4 @@ MonoBehaviour:
   radius: 0.4
   hurtboxLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 512

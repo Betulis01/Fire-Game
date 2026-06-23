@@ -47,7 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealthBar
   health: {fileID: 0}
   fill: {fileID: 632884690117791372}
-  hideWhenFull: 0
+  background: {fileID: 229880622292698012}
+  hideWhenFull: 1
 --- !u!1 &3004283938925338395
 GameObject:
   m_ObjectHideFlags: 0

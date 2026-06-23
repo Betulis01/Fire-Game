@@ -14,11 +14,11 @@ TagManager:
   - 
   - Water
   - UI
-  - Hurtbox
+  - PlayerHurtbox
   - Interactable
   - Shadow
-  - 
-  - 
+  - EnemyHurtbox
+  - ResourceHurtbox
   - 
   - 
   - 

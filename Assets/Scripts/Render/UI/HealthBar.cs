@@ -8,7 +8,8 @@ public class HealthBar : MonoBehaviour
 {
     public Health health;             // source of truth; auto-found in parents if left empty
     public Transform fill;            // the foreground bar whose X scale we drive
-    public bool hideWhenFull = false; // optionally hide the fill at full health
+    public Transform background;      // the bar's backing sprite, hidden alongside fill
+    public bool hideWhenFull = false; // optionally hide the whole bar at full health
 
     float baseScaleY;                 // fill's authored Y/Z scale, preserved while we drive X
     float baseScaleZ;
@@ -35,6 +36,11 @@ public class HealthBar : MonoBehaviour
 
         fill.localScale = new Vector3(n, baseScaleY, baseScaleZ);
 
-        if (hideWhenFull) fill.gameObject.SetActive(n < 1f);
+        if (hideWhenFull)
+        {
+            bool visible = n < 1f;
+            fill.gameObject.SetActive(visible);
+            if (background != null) background.gameObject.SetActive(visible);
+        }
     }
 }

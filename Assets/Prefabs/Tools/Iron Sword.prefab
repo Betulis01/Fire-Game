@@ -173,7 +173,7 @@ MonoBehaviour:
   radius: 0.6
   hurtboxLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 512
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

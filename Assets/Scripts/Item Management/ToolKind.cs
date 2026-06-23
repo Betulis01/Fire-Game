@@ -9,7 +9,7 @@ public enum ToolKind
 {
     None = 0,
     Axe = 1,
-    Pickaxe = 2,
+    Bow = 2,
     Sword = 4,
     Fist = 8,     // empty-handed punch; hurts enemies but not trees/ore
 }

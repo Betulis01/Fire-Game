@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 962210354843593801}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 748306570817156157}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4260815190726728752}
   - component: {fileID: 5923329640937413028}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: ColliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - component: {fileID: 6662036523718104654}
   - component: {fileID: 5571836884560318273}
   - component: {fileID: 6079331628876788747}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: ShadowCaster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5973297134273841705}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: AimOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -293,7 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4659721993066754087}
   - component: {fileID: 8227323554363658034}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: HurtboxArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,9 +387,8 @@ GameObject:
   - component: {fileID: 23679449641487097}
   - component: {fileID: 4337393658908769224}
   - component: {fileID: 5621611412564725423}
-  - component: {fileID: 5312116121376586209}
   - component: {fileID: 7881639635714789569}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -467,7 +466,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 1656670802770721065, guid: 2e6d8baf6df64944d85e7833a2fa57ad, type: 3}
+  m_Sprite: {fileID: -317825125816557920, guid: 5051e0bb3b4bc5c4ea9d2dae53597197, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -544,7 +543,7 @@ Animator:
   m_GameObject: {fileID: 3988275448378025111}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 557132959cbce9143af3bdc32406a7dd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 53752359a29b4dc41a850f9c34e1a384, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -633,7 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47ff50d3e072e042b64005b7c78ee26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 100
+  maxHealth: 10
   current: 0
 --- !u!114 &7522230735282061757
 MonoBehaviour:
@@ -649,6 +648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBrain
   wander: {fileID: -2873041553864755815}
   chase: {fileID: 9186625054510859394}
+  detectionRadius: 1.5
 --- !u!114 &-2873041553864755815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a0851430a9a8743bf035cebe910997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMover
-  speed: 3
+  speed: 2
 --- !u!114 &23679449641487097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -734,24 +734,6 @@ MonoBehaviour:
   destroyDelay: 0
   deathTrigger: 
   disableOnDeath: []
---- !u!114 &5312116121376586209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3988275448378025111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4db1d2f7d298c4409618a48503ec3ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tool
-  kind: 8
-  damage: 1
-  swingSpeed: 2
-  range: 1
-  targetKnockback: 0.5
-  selfKnockback: 0
 --- !u!114 &7881639635714789569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -765,7 +747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
   animator: {fileID: 23679449641487097}
-  weapon: {fileID: 7700000000000000100, guid: a1f15700b8c34d6e9f0a1b2c3d4e5f60, type: 3}
+  weapon: {fileID: 7700000000000000100, guid: 4e123dd5702eba3418af22c15bdc5e59, type: 3}
   attackRange: 0.8
   aimOrigin: {fileID: 5973297134273841705}
 --- !u!1 &8010365848380240837
@@ -778,7 +760,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3190360113070723915}
   - component: {fileID: 2809200852842289035}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: InteractArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,7 +827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6969040033817919437}
-  m_Layer: 6
+  m_Layer: 9
   m_Name: HandRig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,19 +905,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2269069157607273336, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2608682326299484940, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: health
       value: 
       objectReference: {fileID: 6381038294589085620}
+    - target: {fileID: 2608682326299484940, guid: ada01f032331356418be307118cae108, type: 3}
+      propertyPath: hideWhenFull
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3004283938925338395, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3450838127705009405, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7165257912284901865, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayer
