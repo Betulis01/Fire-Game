@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Burnable
   fuelPerItem: 30
-  burnRate: 0.5
+  burnRate: 0.75
 --- !u!114 &4524915819407830447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b47ff50d3e072e042b64005b7c78ee26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 2
+  maxHealth: 5
   current: 0
 --- !u!114 &6824238450357763137
 MonoBehaviour:

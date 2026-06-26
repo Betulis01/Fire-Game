@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2de0a7322a9b0f94ab54f7bfea051a9b
+guid: 1eadf65fc73b5f64faa6e1e1fece2d19
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 0, y: 0.5}
+    pivot: {x: 0.49790794, y: -0.025862068}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,8 +137,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 7
-      height: 3
+      width: 239
+      height: 116
     spriteID: 49a177e2eae0a17429c4e5b13537a4f4
     spriteBone: []
     spriteOutline: []
@@ -163,14 +163,14 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Arrow
+    - name: Menu
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 5
-        y: 0
-        width: 7
-        height: 3
+        x: 4
+        y: 3
+        width: 239
+        height: 116
       spriteId: 49a177e2eae0a17429c4e5b13537a4f4
     linkedCells: []
     tileCells: []
@@ -205,5 +205,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 16, y: 16}
-  previousTextureSize: {x: 16, y: 16}
+  canvasSize: {x: 246, y: 120}
+  previousTextureSize: {x: 256, y: 128}

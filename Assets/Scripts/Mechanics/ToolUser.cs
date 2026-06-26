@@ -3,11 +3,11 @@ using UnityEngine;
 // "Use the item in a hand" via a single attack button. Which physical hand swings
 // is resolved automatically (ResolveAttackHand), not chosen by the player. A hand
 // swings whatever is "in" it — a held weapon, or its default fists when empty
-// (Hands.ActiveItem hides that distinction). Both are just GameObjects with a Tool
-// (stats) and Hitbox (strike region); a hand holding a non-weapon (e.g. wood) can't
-// swing. The swing plays an attack animation; the hit lands when that clip's
-// Animation Event calls OnAttackHit. Swing rate is limited per hand by the
-// weapon's swingSpeed.
+// (Hands.ActiveItem hides that distinction). Each is a GameObject with a Tool
+// (stats) plus either a Hitbox (melee strike region) or a RangedWeapon (fires a
+// projectile); a hand holding neither (e.g. wood) can't swing. The swing plays an
+// attack animation; the hit/shot lands when that clip's Animation Event calls
+// OnAttackHit. Swing rate is limited per hand by the weapon's swingSpeed.
 [RequireComponent(typeof(Hands))]
 public class ToolUser : MonoBehaviour
 {
@@ -35,8 +35,9 @@ public class ToolUser : MonoBehaviour
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
-    // swing supersedes an earlier one that hasn't landed yet.
-    struct Swing { public Hitbox hitbox; public AttackData attack; public float range; public bool armed; }
+    // swing supersedes an earlier one that hasn't landed yet. Exactly one of
+    // hitbox/ranged is set, depending on which the held item offered.
+    struct Swing { public Hitbox hitbox; public RangedWeapon ranged; public AttackData attack; public float range; public bool armed; }
     Swing pending;
 
     // World point swings originate from (aim direction + strike center). Uses the
@@ -55,12 +56,14 @@ public class ToolUser : MonoBehaviour
         if (UserInput.Instance.Attack) UseHand(ResolveAttackHand());
     }
 
-    // A hand "holds a weapon" if it offers something with a Tool (stats) and
-    // Hitbox (strike region) — fists count, since the fists prefab has both.
+    // A hand "holds a weapon" if it offers something with a Tool (stats) and either
+    // a Hitbox (melee strike region) or a RangedWeapon (fires a projectile) — fists
+    // count, since the fists prefab has Tool + Hitbox.
     bool HasWeapon(HandSide side)
     {
         GameObject item = hands.ActiveItem(side);
-        return item != null && item.TryGetComponent<Tool>(out _) && item.TryGetComponent<Hitbox>(out _);
+        if (item == null || !item.TryGetComponent<Tool>(out _)) return false;
+        return item.TryGetComponent<Hitbox>(out _) || item.TryGetComponent<RangedWeapon>(out _);
     }
 
     // Single attack button resolves to a hand: if only one hand can swing, use it;
@@ -84,17 +87,19 @@ public class ToolUser : MonoBehaviour
         if (Time.time < ReadyAt(side)) return;
 
         // Swing whatever the hand offers (held weapon or default fists). It must be a
-        // weapon: a Tool for stats and a Hitbox for the strike. Holding a non-weapon
-        // (e.g. wood) yields no swing.
+        // weapon: a Tool for stats plus either a Hitbox (melee) or a RangedWeapon
+        // (fires a projectile). Holding a non-weapon (e.g. wood) yields no swing.
         GameObject weapon = hands.ActiveItem(side);
-        if (weapon == null) return;
-        if (!weapon.TryGetComponent(out Tool tool) || !weapon.TryGetComponent(out Hitbox hitbox)) return;
+        if (weapon == null || !weapon.TryGetComponent(out Tool tool)) return;
+        weapon.TryGetComponent(out Hitbox hitbox);
+        weapon.TryGetComponent(out RangedWeapon ranged);
+        if (hitbox == null && ranged == null) return;
 
         lastHandUsed = side;
         lastAttackTime = Time.time;
 
-        // Arm the strike; the hit lands when the clip's Animation Event fires.
-        pending = new Swing { hitbox = hitbox, attack = tool.Attack, range = tool.range, armed = true };
+        // Arm the strike/shot; it lands when the clip's Animation Event fires.
+        pending = new Swing { hitbox = hitbox, ranged = ranged, attack = tool.Attack, range = tool.range, armed = true };
 
         float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
@@ -104,14 +109,26 @@ public class ToolUser : MonoBehaviour
     }
 
     // Called by an Animation Event on each *_attack clip, at the contact frame.
-    // Lands the armed swing where the player is currently aiming.
+    // Lands the armed swing/shot where the player is currently aiming.
     public void OnAttackHit()
     {
-        if (!pending.armed || pending.hitbox == null) return;
+        if (!pending.armed) return;
 
         Vector2 origin = Origin;
-        Vector2 center = origin + AimDirection(origin) * pending.range;
-        pending.hitbox.Strike(pending.attack, gameObject, center);
+        Vector2 dir = AimDirection(origin);
+
+        if (pending.hitbox != null)
+        {
+            pending.hitbox.Strike(pending.attack, gameObject, origin + dir * pending.range);
+        }
+        else if (pending.ranged != null)
+        {
+            RangedWeapon ranged = pending.ranged;
+            Projectile arrow = Instantiate(ranged.projectilePrefab, origin + dir * ranged.spawnOffset, Quaternion.identity);
+            arrow.Launch(pending.attack, gameObject, dir, ranged.projectileSpeed);
+        }
+        else return;
+
         pending.armed = false;
     }
 

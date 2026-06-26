@@ -23,36 +23,22 @@ public class Hitbox : MonoBehaviour
         hitThisStrike.Clear();
         Physics2D.OverlapCircle(center, radius, filter, results);
 
-        Vector2 attackerPos = owner != null ? (Vector2)owner.transform.position : center;
         bool anyHit = false;
         Vector2 contactPoint = center;     // where the circle actually touched a hurtbox
 
         foreach (Collider2D col in results)
         {
             Hurtbox hb = col.GetComponentInParent<Hurtbox>();
-            if (hb == null || hb.Health == null || hb.Owner == owner) continue;
-            // entities can restrict which tool kinds hurt them (axe-only trees, ...);
-            // no filter means any tool damages them.
-            ToolDamageFilter gate = hb.Health.GetComponent<ToolDamageFilter>();
-            if (gate != null && !gate.Accepts(attack.kind)) continue;
-            if (!hitThisStrike.Add(hb.Health)) continue;   // once per entity
+            if (hb == null || !hitThisStrike.Add(hb.Health)) continue;   // once per entity
+            if (!HitResolution.TryHit(col, owner, attack, center, out HitInfo hit)) continue;
 
-            Vector2 toTarget = (Vector2)hb.Owner.transform.position - attackerPos;
-            Vector2 dir = toTarget.sqrMagnitude > 1e-6f ? toTarget.normalized : Vector2.zero;
-            Vector2 point = hb.HurtCollider.ClosestPoint(center);
-            if (!anyHit) contactPoint = point;
-            hb.TakeHit(new HitInfo(owner, hb.Owner, attack, point, dir));
+            if (!anyHit) contactPoint = hit.point;
             anyHit = true;
         }
 
         // notify the attacker's reactors (e.g. AttackRecoil) once per connecting swing,
         // at the point the strike circle actually met the (first) hurtbox rather than
         // the circle's own center, so attacker-side VFX lands where contact happened.
-        if (anyHit && owner != null)
-        {
-            HitInfo info = new HitInfo(owner, null, attack, contactPoint, Vector2.zero);
-            foreach (IAttackReactor reactor in owner.GetComponents<IAttackReactor>())
-                reactor.OnDealtHit(info);
-        }
+        if (anyHit) HitResolution.NotifyAttacker(owner, attack, contactPoint);
     }
 }

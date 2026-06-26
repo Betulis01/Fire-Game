@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1867587867647362762}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.35, z: 0}
+  m_LocalPosition: {x: 0.006, y: 0.085, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -308,9 +308,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6145169056594248650}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f20f7f1ac2a84f54ba26389600154cf4, type: 2}
+  m_Controller: {fileID: 9100000, guid: fc9458f3c3dd84042acd51b4d2f29373, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -413,6 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Station
   type: 1
+  reach: 1.5
 --- !u!114 &-5236449771078226196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fuel
   maxFuel: 150
-  startFuel: 15
+  startFuel: 30
   startBurnRate: 1
 --- !u!114 &-1073649967088087493
 MonoBehaviour:

@@ -30,6 +30,7 @@ MonoBehaviour:
     requiredStation: 0
   - inputs:
     - {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
+    - {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
     output: {fileID: 11400000, guid: 20e9fe63ec6f92045ad642dc497bd35d, type: 2}
     requiredStation: 0
   - inputs:

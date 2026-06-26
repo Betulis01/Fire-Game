@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3071281034983706939}
   - component: {fileID: 9212449378994694727}
   - component: {fileID: 6593106120193128840}
-  - component: {fileID: -7999747815950804602}
   - component: {fileID: -2268743843223548929}
   m_Layer: 0
   m_Name: Stone Axe
@@ -159,20 +158,6 @@ MonoBehaviour:
   range: 0.3
   targetKnockback: 3
   selfKnockback: 1.5
---- !u!114 &-7999747815950804602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3462038774614361535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Burnable
-  fuelPerItem: 5
-  burnRate: 2
 --- !u!114 &-2268743843223548929
 MonoBehaviour:
   m_ObjectHideFlags: 0

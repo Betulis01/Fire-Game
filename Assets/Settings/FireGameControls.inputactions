@@ -64,7 +64,7 @@
                     "name": "Craft",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000008",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -217,7 +217,7 @@
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-00000000000e",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",

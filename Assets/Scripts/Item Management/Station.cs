@@ -10,4 +10,5 @@ public enum StationType { None, Fire, Workbench }
 public class Station : MonoBehaviour
 {
     public StationType type = StationType.Fire;
+    public float reach = 1.5f;     // how close a crafter must be to use this station
 }

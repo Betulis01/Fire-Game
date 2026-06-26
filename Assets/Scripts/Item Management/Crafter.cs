@@ -8,16 +8,14 @@ using UnityEngine;
 public class Crafter : MonoBehaviour
 {
     public RecipeBook book;        // all known recipes
-    public float reach = 1.5f;     // how close a required station must be
     public float dropDistance = 1f; // how far in front a placed output spawns
+    public Camera cam;
 
     Hands hands;
-    Camera cam;
 
     void Awake()
     {
         hands = GetComponent<Hands>();
-        cam = GetComponentInChildren<Camera>();
     }
 
     void Update()
@@ -68,20 +66,25 @@ public class Crafter : MonoBehaviour
 
         foreach (KeyValuePair<ItemDefinition, int> req in needed)
         {
-            HandSide? match = null;
+            int remaining = req.Value;
+            List<HandSide> matched = new();
+
             foreach (HandSide side in available)
             {
-                if (ItemIn(side) == req.Key && hands.Count(side) >= req.Value)
-                {
-                    match = side;
-                    break;
-                }
+                if (ItemIn(side) != req.Key) continue;
+
+                int take = Mathf.Min(remaining, hands.Count(side));
+                if (take <= 0) continue;
+
+                matched.Add(side);
+                draws.Add((side, take));
+                remaining -= take;
+                if (remaining == 0) break;
             }
 
-            if (match == null) return false;   // not enough of an input is held
+            if (remaining > 0) return false;   // not enough of an input across hands
 
-            available.Remove(match.Value);
-            draws.Add((match.Value, req.Value));
+            foreach (HandSide side in matched) available.Remove(side);
         }
 
         return true;
@@ -155,11 +158,10 @@ public class Crafter : MonoBehaviour
     HashSet<StationType> NearbyStationTypes()
     {
         HashSet<StationType> types = new();
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, reach);
-        foreach (Collider2D hit in hits)
+        foreach (Station station in FindObjectsByType<Station>(FindObjectsInactive.Exclude))
         {
-            Station station = hit.GetComponentInParent<Station>();
-            if (station != null) types.Add(station.type);
+            float distance = Vector2.Distance(transform.position, station.transform.position);
+            if (distance <= station.reach) types.Add(station.type);
         }
         return types;
     }

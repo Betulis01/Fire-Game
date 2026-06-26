@@ -527,6 +527,7 @@ MonoBehaviour:
   leftHand: {fileID: 1866581557855767232}
   rightHand: {fileID: 7425280944624778310}
   fistsPrefab: {fileID: 7700000000000000100, guid: a1f15700b8c34d6e9f0a1b2c3d4e5f60, type: 3}
+  cam: {fileID: 0}
 --- !u!114 &8152583108512338998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,7 +541,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crafter
   book: {fileID: 11400000, guid: 55620652be095b6489699074f10190be, type: 2}
-  reach: 1.5
   dropDistance: 1
 --- !u!114 &8953569495229420567
 MonoBehaviour:
@@ -856,7 +856,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1153742173090667848}
   - component: {fileID: 1717837311942627799}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: ColliderArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}

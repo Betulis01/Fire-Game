@@ -24,6 +24,8 @@ public class Hands : MonoBehaviour
     GameObject leftFists;
     GameObject rightFists;
 
+    public Camera cam;
+
     // raised after any pick-up/drop so the UI can redraw
     public event Action Changed;
 
@@ -105,18 +107,21 @@ public class Hands : MonoBehaviour
         GameObject item = Held(side);
         if (item == null) return;
 
+        Vector2 aim = UserInput.Instance.AimDirection(transform.position, cam);
+        Vector3 dropPos = transform.position + (Vector3)(aim * 0.5f);
+
         if (Count(side) > 1)
         {
             SetCount(side, Count(side) - 1);
             GameObject prefab = item.GetComponent<WorldItem>().item.prefab;
-            GameObject one = Instantiate(prefab, transform.position, Quaternion.identity);
+            GameObject one = Instantiate(prefab, dropPos, Quaternion.identity);
             one.GetComponent<WorldItem>().SetHeld(false);
             Changed?.Invoke();
             return;
         }
 
         item.transform.SetParent(null);
-        item.transform.position = transform.position;
+        item.transform.position = dropPos;
         item.GetComponent<WorldItem>().SetHeld(false);
 
         Set(side, null);
