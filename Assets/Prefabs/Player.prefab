@@ -537,11 +537,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4381895908916503135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 371eac32d9add244abd9baa94fd9c7ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d4b336ee3e24986acf092b9d75f73dd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Crafter
+  m_EditorClassIdentifier: Assembly-CSharp::CraftingController
   book: {fileID: 11400000, guid: 55620652be095b6489699074f10190be, type: 2}
-  dropDistance: 1
+  placeDistance: 1
+  cam: {fileID: 0}
+  buildPromptPrefab: {fileID: 3129362597859867209, guid: 46003f2325796f74eaf1932cdffc45a9, type: 3}
 --- !u!114 &8953569495229420567
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public enum StationType { None, Fire, Workbench }
 
 // Marks a world object as a crafting station of a given type (e.g. the campfire
-// is a Fire station). The Crafter checks nearby stations against each recipe's
+// is a Fire station). CraftingController checks nearby stations against each recipe's
 // requiredStation. Recipes themselves live in a central RecipeBook, not here.
 public class Station : MonoBehaviour
 {
