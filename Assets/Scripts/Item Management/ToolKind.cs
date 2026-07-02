@@ -10,6 +10,7 @@ public enum ToolKind
     None = 0,
     Axe = 1,
     Bow = 2,
-    Sword = 4,
-    Fist = 8,     // empty-handed punch; hurts enemies but not trees/ore
+    Pickaxe = 4,
+    Sword = 8,
+    Fist = 16,    // empty-handed punch; hurts enemies but not trees/ore
 }

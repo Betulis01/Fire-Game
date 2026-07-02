@@ -18,7 +18,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
       amount: 1
     - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
-      amount: 1
+      amount: 2
     output: {fileID: 11400000, guid: e9dab3c8a32303b47be7250002c5cee3, type: 2}
     requiredStation: 2
     kind: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 1b275f88133126d46ae1b36dbf54b173, type: 2}
       amount: 1
     output: {fileID: 11400000, guid: 0ce1cf9ae6ac66d4ea2adf81d7ddbed4, type: 2}
-    requiredStation: 1
+    requiredStation: 5
     kind: 0
   - displayName: Campfire
     ingredients:
@@ -54,3 +54,19 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 92dbfc158cdc24044b9a8a01883edce0, type: 2}
     requiredStation: 2
     kind: 0
+  - displayName: Stone Pickaxe
+    ingredients:
+    - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
+      amount: 2
+    output: {fileID: 11400000, guid: 9482ec1a836f3d645925e84bd5277848, type: 2}
+    requiredStation: 2
+    kind: 0
+  - displayName: Furnace
+    ingredients:
+    - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
+      amount: 10
+    output: {fileID: 11400000, guid: 9bd5652196f308c4daf7a2c765b5ca26, type: 2}
+    requiredStation: 0
+    kind: 1

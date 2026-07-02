@@ -46,7 +46,7 @@ public class JournalUI : MonoBehaviour
     {
         if (crafting == null || crafting.book == null) return;
 
-        HashSet<StationType> stations = crafting.NearbyStationTypes();
+        StationType stations = crafting.NearbyStationTypes();
 
         foreach ((RecipeGrid row, Recipe recipe) in rows)
         {

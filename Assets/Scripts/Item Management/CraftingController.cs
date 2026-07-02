@@ -22,19 +22,19 @@ public class CraftingController : MonoBehaviour
         hands = GetComponent<Hands>();
     }
 
-    public HashSet<StationType> NearbyStationTypes()
+    public StationType NearbyStationTypes()
     {
-        HashSet<StationType> types = new();
+        StationType types = StationType.None;
         foreach (Station station in FindObjectsByType<Station>(FindObjectsInactive.Exclude))
         {
             float distance = Vector2.Distance(transform.position, station.transform.position);
-            if (distance <= station.reach) types.Add(station.type);
+            if (distance <= station.reach) types |= station.type;
         }
         return types;
     }
 
-    public bool StationSatisfied(Recipe recipe, HashSet<StationType> stations) =>
-        recipe.requiredStation == StationType.None || stations.Contains(recipe.requiredStation);
+    public bool StationSatisfied(Recipe recipe, StationType stations) =>
+        recipe.requiredStation == StationType.None || (stations & recipe.requiredStation) != StationType.None;
 
     // Whether the player currently holds enough of every ingredient (Instant
     // recipes draw straight from hands; Placeable ones are fed after placement so
