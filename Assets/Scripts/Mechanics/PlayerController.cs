@@ -1,11 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer), typeof(Hands), typeof(BodyTemperature))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Hands), typeof(PlayerTemperature))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
-    BodyTemperature body;
+    PlayerTemperature body;
     Rigidbody2D rb;
     Knockback knockback;
 
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        body = GetComponent<BodyTemperature>();
+        body = GetComponent<PlayerTemperature>();
         rb = GetComponent<Rigidbody2D>();
 
         // We own the player's single MovePosition, so fold knockback in here rather

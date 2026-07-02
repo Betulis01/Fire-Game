@@ -6,12 +6,12 @@ using UnityEngine;
 // removes the feature entirely. Drop it on any GameObject (e.g. the player).
 public class DebugReadout : MonoBehaviour
 {
-    BodyTemperature body;
+    PlayerTemperature body;
     bool show = false;
 
     void Awake()
     {
-        body = FindFirstObjectByType<BodyTemperature>();
+        body = FindFirstObjectByType<PlayerTemperature>();
     }
 
     void Update()
