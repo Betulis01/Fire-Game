@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b66b54fc50f07b849bcd3d2cd740b566, type: 3}
   m_Name: Iron Stone
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  id: Stone
-  displayName: Stone
-  prefab: {fileID: 449804582166282785, guid: 8727597e14924e74591132fff310bd59, type: 3}
+  id: Iron Stone
+  displayName: Iron Stone
+  prefab: {fileID: 449804582166282785, guid: f60a5577e7bc1de41a1ea764a7955405, type: 3}
