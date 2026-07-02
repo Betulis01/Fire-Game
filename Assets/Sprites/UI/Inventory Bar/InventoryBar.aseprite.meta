@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1eadf65fc73b5f64faa6e1e1fece2d19
+guid: 701d4fe066e741d46a9a8b60d4cdacc5
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 0.49173558, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,8 +137,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 242
-      height: 120
+      width: 32
+      height: 32
     spriteID: 49a177e2eae0a17429c4e5b13537a4f4
     spriteBone: []
     spriteOutline: []
@@ -163,14 +163,14 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Menu
+    - name: InventoryBar
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 4
+        x: 0
         y: 0
-        width: 242
-        height: 120
+        width: 32
+        height: 32
       spriteId: 49a177e2eae0a17429c4e5b13537a4f4
     linkedCells: []
     tileCells: []
@@ -205,5 +205,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 246, y: 120}
-  previousTextureSize: {x: 256, y: 128}
+  canvasSize: {x: 32, y: 32}
+  previousTextureSize: {x: 64, y: 64}

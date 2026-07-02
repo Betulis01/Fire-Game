@@ -20,7 +20,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
       amount: 1
     output: {fileID: 11400000, guid: e9dab3c8a32303b47be7250002c5cee3, type: 2}
-    requiredStation: 0
+    requiredStation: 2
     kind: 0
   - displayName: Torch
     ingredients:
