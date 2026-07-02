@@ -1,9 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-// Tab toggles the Survival Journal: a panel listing every recipe in the player's
-// CraftingController.book, greyed out when its station/ingredients aren't met. The
-// list is small and static, so it's simplest to just rebuild it from scratch each
-// time the panel opens rather than tracking incremental redraws (cf. InventoryBar).
 public class JournalUI : MonoBehaviour
 {
     public GameObject panel;
@@ -12,31 +9,47 @@ public class JournalUI : MonoBehaviour
     public CraftingController crafting;
 
     bool open;
+    readonly List<(RecipeGrid row, Recipe recipe)> rows = new();
 
     void Update()
     {
         // ignore Tab while a placement ghost is active; it cancels the ghost instead
-        if (!UserInput.Instance.Journal || PlacementGhost.AnyActive) return;
+        if (UserInput.Instance.Journal && !PlacementGhost.AnyActive)
+        {
+            open = !open;
+            panel.SetActive(open);
+            if (open) Rebuild();
+        }
 
-        open = !open;
-        panel.SetActive(open);
-        if (open) Rebuild();
+        if (open) Refresh();
     }
 
     void Rebuild()
     {
         foreach (Transform child in rowParent)
             Destroy(child.gameObject);
+        rows.Clear();
 
         if (crafting == null || crafting.book == null) return;
-
-        System.Collections.Generic.HashSet<StationType> stations = crafting.NearbyStationTypes();
 
         foreach (Recipe recipe in crafting.book.recipes)
         {
             if (recipe == null) continue;
-
             RecipeGrid row = Instantiate(rowPrefab, rowParent);
+            rows.Add((row, recipe));
+        }
+
+        Refresh();
+    }
+
+    void Refresh()
+    {
+        if (crafting == null || crafting.book == null) return;
+
+        HashSet<StationType> stations = crafting.NearbyStationTypes();
+
+        foreach ((RecipeGrid row, Recipe recipe) in rows)
+        {
             bool craftable = crafting.StationSatisfied(recipe, stations) && crafting.HasIngredients(recipe);
             row.Set(recipe, craftable, () => OnClickRecipe(recipe));
         }
