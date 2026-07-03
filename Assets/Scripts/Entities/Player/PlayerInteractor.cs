@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,11 +12,15 @@ public class PlayerInteractor : MonoBehaviour
     [Tooltip("World-space pickup prompt prefab; one instance is spawned and reused.")]
     public InteractPrompt promptPrefab;
 
+    public HandSide ActiveHand { get; private set; } = HandSide.Right;
+    public event Action<HandSide> ActiveHandChanged;
+
     readonly HashSet<Interactable> inRange = new HashSet<Interactable>();
     PlayerController player;
     Hands hands;
     InteractPrompt prompt;
     Interactable current;
+    Interactable prevCurrent;
     int interactableLayer;
 
     void Start()
@@ -31,25 +36,47 @@ public class PlayerInteractor : MonoBehaviour
     {
         current = FindNearestUsable();
 
+        // Close a station menu if the player moved focus away from it.
+        if (current != prevCurrent && prevCurrent is StationInteractable prev)
+            prev.Close();
+        prevCurrent = current;
+
+        // Pause also closes any open station menu.
+        if (UserInput.Instance.Pause && current is StationInteractable focused && focused.IsOpen)
+            focused.Close();
+
+        // 1/2 selects active hand.
+        if (UserInput.Instance.SelectLeft) SetActiveHand(HandSide.Left);
+        if (UserInput.Instance.SelectRight) SetActiveHand(HandSide.Right);
+
         if (prompt != null)
         {
-            if (current != null) prompt.Show(current.PromptPosition);
+            bool menuOpen = current is StationInteractable s && s.IsOpen;
+            if (current != null && !menuOpen) prompt.Show(current.PromptPosition, current.promptText);
             else prompt.Hide();
         }
 
-        // Q drives the left hand, E the right: drop if that hand is full,
-        // otherwise pick up the nearest item into it.
-        if (UserInput.Instance.InteractLeft) UseHand(HandSide.Left);
-        if (UserInput.Instance.InteractRight) UseHand(HandSide.Right);
+        // Q drops from active hand; E interacts or picks up into active hand.
+        if (UserInput.Instance.InteractLeft) hands.Drop(ActiveHand);
+        if (UserInput.Instance.InteractRight) UseHand(ActiveHand);
     }
 
     void UseHand(HandSide side)
     {
-        // try to pick up / stack from the nearest item first; if nothing was taken
-        // (no item in range, or it doesn't stack into this hand) and the hand is
-        // full, drop one instead.
-        if (current != null && current.Interact(player, side)) return;
-        if (hands.IsHolding(side)) hands.Drop(side);
+        if (current == null) return;
+        if (current.Interact(player, side)) return;
+        if (hands.IsHolding(side))
+        {
+            HandSide other = side == HandSide.Left ? HandSide.Right : HandSide.Left;
+            current.Interact(player, other);
+        }
+    }
+
+    void SetActiveHand(HandSide side)
+    {
+        if (ActiveHand == side) return;
+        ActiveHand = side;
+        ActiveHandChanged?.Invoke(side);
     }
 
     // closest interactable that currently allows interaction; null if none

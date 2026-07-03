@@ -31,6 +31,8 @@ public class UserInput : MonoBehaviour
     InputAction attackAction;
     InputAction interactLeftAction;
     InputAction interactRightAction;
+    InputAction selectLeftAction;
+    InputAction selectRightAction;
     InputAction journalAction;
     InputAction pauseAction;
     // Debug map
@@ -61,6 +63,8 @@ public class UserInput : MonoBehaviour
         attackAction = playerMap.FindAction("Attack", true);
         interactLeftAction = playerMap.FindAction("InteractLeft", true);
         interactRightAction = playerMap.FindAction("InteractRight", true);
+        selectLeftAction = playerMap.FindAction("SelectLeft", true);
+        selectRightAction = playerMap.FindAction("SelectRight", true);
         journalAction = playerMap.FindAction("Journal", true);
 
         globalMap = actions.FindActionMap("Global", throwIfNotFound: true);
@@ -102,6 +106,8 @@ public class UserInput : MonoBehaviour
     public bool Attack => attackAction != null && attackAction.WasPressedThisFrame();
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
     public bool InteractRight => interactRightAction != null && interactRightAction.WasPressedThisFrame();
+    public bool SelectLeft => selectLeftAction != null && selectLeftAction.WasPressedThisFrame();
+    public bool SelectRight => selectRightAction != null && selectRightAction.WasPressedThisFrame();
     public bool Journal => journalAction != null && journalAction.WasPressedThisFrame();
     public bool Pause => pauseAction != null && pauseAction.WasPressedThisFrame();
     public bool ToggleInvincibility => toggleInvincibilityAction != null && toggleInvincibilityAction.WasPressedThisFrame();

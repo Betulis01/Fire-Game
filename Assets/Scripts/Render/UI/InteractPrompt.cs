@@ -1,35 +1,42 @@
 using TMPro;
 using UnityEngine;
 
-// A single reusable world-space "E" label that PlayerInteractor moves over
-// whichever interactable is currently in focus. Put this on a prefab whose root
-// has a 3D TextMeshPro (TextMeshPro, not the UGUI TextMeshProUGUI).
-[RequireComponent(typeof(TMP_Text))]
+// A single reusable world-space prompt that PlayerInteractor moves over
+// whichever interactable is currently in focus. Attach to a prefab that has
+// both a SpriteRenderer (the "E" icon) and a TMP_Text child for optional text.
 public class InteractPrompt : MonoBehaviour
 {
-    TMP_Text label;
+    [Tooltip("Optional TMP_Text child for dynamic labels (e.g. 'Drop Stone (0/1)').")]
+    public TMP_Text label;
+
+    SpriteRenderer sr;
 
     void Awake()
     {
-        label = GetComponent<TMP_Text>();
+        sr = GetComponentInChildren<SpriteRenderer>();
         Hide();
     }
 
     public void Show(Vector3 worldPos)
     {
         transform.position = worldPos;
-        if (!label.enabled) label.enabled = true;
+        if (!sr.enabled) sr.enabled = true;
+        if (label != null && label.enabled) label.enabled = true;
     }
 
-    // overload for prompts with custom, changing text (e.g. "Drop Stone (0/1)")
     public void Show(Vector3 worldPos, string text)
     {
-        label.text = text;
+        if (label != null)
+        {
+            label.text = text;
+            label.enabled = true;
+        }
         Show(worldPos);
     }
 
     public void Hide()
     {
-        if (label.enabled) label.enabled = false;
+        if (sr.enabled) sr.enabled = false;
+        if (label != null && label.enabled) label.enabled = false;
     }
 }

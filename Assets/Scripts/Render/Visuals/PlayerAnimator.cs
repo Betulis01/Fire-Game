@@ -40,8 +40,11 @@ public class PlayerAnimator : MonoBehaviour
     // finishes (so a short clip doesn't freeze on its last frame). attackFailsafe is
     // a generous ceiling so we can never get stuck if the state never completes.
     bool attacking;
+    public bool IsAttacking => attacking;
     float attackFailsafe;
     string attackState;
+
+    
 
     void Awake()
     {

@@ -8,6 +8,9 @@ public abstract class Interactable : MonoBehaviour
     // how high above the anchor the "E" prompt floats, in world units
     public float promptYOffset = 0.5f;
 
+    [Tooltip("Text shown next to the interact icon. Leave blank for no label.")]
+    public string promptText = "";
+
     // where the prompt sits; override if the "E" should hover over a child sprite
     public virtual Transform PromptAnchor => transform;
 

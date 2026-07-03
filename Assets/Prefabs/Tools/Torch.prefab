@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Burnable
+  fuelType: 0
   fuelPerItem: 5
   burnRate: 1
 --- !u!114 &8550946972357729814
@@ -235,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickupable
   promptYOffset: 0.5
+  promptText: Pick up
 --- !u!1 &6271916498960289702
 GameObject:
   m_ObjectHideFlags: 0

@@ -66,14 +66,24 @@ public class ToolUser : MonoBehaviour
         return item.TryGetComponent<Hitbox>(out _) || item.TryGetComponent<RangedWeapon>(out _);
     }
 
-    // Single attack button resolves to a hand: if only one hand can swing, use it;
-    // if both can, alternate starting from the right, resetting to right after a
-    // 0.33s gap so a fresh flurry always opens with the same hand.
+    // Single attack button resolves to a hand: real weapons (non-fists) take priority
+    // over fists. If both hands have real weapons, alternate starting from the right,
+    // resetting to right after a 0.33s gap so a fresh flurry always opens with the same
+    // hand. If only one hand holds a real weapon it always goes first; fists are used
+    // only when both hands are empty.
     HandSide ResolveAttackHand()
     {
         bool left = HasWeapon(HandSide.Left);
         bool right = HasWeapon(HandSide.Right);
 
+        bool leftReal = left && hands.Held(HandSide.Left) != null;
+        bool rightReal = right && hands.Held(HandSide.Right) != null;
+
+        // prefer the hand with a real weapon over the fist hand
+        if (leftReal && !rightReal) return HandSide.Left;
+        if (rightReal && !leftReal) return HandSide.Right;
+
+        // both real or both fists: alternate as before
         if (left && right)
         {
             if (Time.time - lastAttackTime > 0.33f) return HandSide.Right;
@@ -85,6 +95,7 @@ public class ToolUser : MonoBehaviour
     void UseHand(HandSide side)
     {
         if (Time.time < ReadyAt(side)) return;
+        if (animator != null && animator.IsAttacking) return;
 
         // Swing whatever the hand offers (held weapon or default fists). It must be a
         // weapon: a Tool for stats plus either a Hitbox (melee) or a RangedWeapon
