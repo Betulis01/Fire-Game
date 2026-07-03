@@ -1,25 +1,31 @@
+using System;
 using UnityEngine;
 
-// When its Health is depleted, scatters drops at the entity's position (e.g. a tree
-// dropping wood, an enemy dropping loot). Loot only — removing the entity is owned
-// by EntityDeath, which reacts to the same Health.Died event. Works for any entity.
 [RequireComponent(typeof(Health))]
 public class DropOnDeath : MonoBehaviour
 {
-    public GameObject dropPrefab;     // e.g. the Wood prefab
-    public int dropCount = 3;
+    [Serializable]
+    public struct Drop
+    {
+        public GameObject prefab;
+        public int count;
+    }
+
+    public Drop[] drops;
     public float scatterRadius = 0.5f;
 
     void Awake() => GetComponent<Health>().Died += SpawnDrops;
 
     void SpawnDrops()
     {
-        if (dropPrefab == null) return;
-
-        for (int i = 0; i < dropCount; i++)
+        foreach (var drop in drops)
         {
-            Vector2 off = Random.insideUnitCircle * scatterRadius;
-            Instantiate(dropPrefab, transform.position + (Vector3)off, Quaternion.identity);
+            if (drop.prefab == null) continue;
+            for (int i = 0; i < drop.count; i++)
+            {
+                Vector2 off = UnityEngine.Random.insideUnitCircle * scatterRadius;
+                Instantiate(drop.prefab, transform.position + (Vector3)off, Quaternion.identity);
+            }
         }
     }
 }

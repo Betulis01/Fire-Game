@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3071281034983706939}
   - component: {fileID: 9212449378994694727}
   - component: {fileID: 6593106120193128840}
-  - component: {fileID: -7999747815950804602}
   - component: {fileID: -2268743843223548929}
   m_Layer: 0
   m_Name: Bow
@@ -159,20 +158,6 @@ MonoBehaviour:
   range: 3
   targetKnockback: 1
   selfKnockback: 0
---- !u!114 &-7999747815950804602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3462038774614361535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Burnable
-  fuelPerItem: 5
-  burnRate: 2
 --- !u!114 &-2268743843223548929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +168,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb855f438f574a69a76c5d12bbda53d2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedWeapon
   projectilePrefab: {fileID: 100000000000000005, guid: 4fbeac2623bf60c47ad3c4ad209c8b90, type: 3}
   projectileSpeed: 12

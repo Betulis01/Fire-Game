@@ -223,8 +223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef58b31b6f957e64b9128bbb0a9f1ea9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropOnDeath
-  dropPrefab: {fileID: 449804582166282785, guid: 8727597e14924e74591132fff310bd59, type: 3}
-  dropCount: 6
+  drops:
+  - prefab: {fileID: 449804582166282785, guid: 8727597e14924e74591132fff310bd59, type: 3}
+    count: 6
   scatterRadius: 1
 --- !u!114 &6225905419014388343
 MonoBehaviour:

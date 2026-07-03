@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireLight
   maxLightIntensity: 1
-  maxOuterRadius: 5
+  maxOuterRadius: 8
   maxInnerRadius: 1
   flickerAmount: 0.09
   flickerSpeed: 5
@@ -454,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1e640b01d5b4a4c8d7363ad95f27b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FuelReceiver
+  acceptedFuelTypes: 0000000001000000
 --- !u!114 &1501521264417057910
 MonoBehaviour:
   m_ObjectHideFlags: 0

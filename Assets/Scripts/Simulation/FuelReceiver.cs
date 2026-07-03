@@ -7,6 +7,8 @@ using UnityEngine;
 [RequireComponent(typeof(Fuel))]
 public class FuelReceiver : MonoBehaviour
 {
+    public FuelType[] acceptedFuelTypes;   // empty = accept all
+
     Fuel fuel;
 
     void Awake()
@@ -30,6 +32,9 @@ public class FuelReceiver : MonoBehaviour
         // an item is fuel if its prefab has a Burnable component
         Burnable burnable = worldItem.GetComponent<Burnable>();
         if (burnable == null) return;
+
+        if (acceptedFuelTypes.Length > 0 &&
+            System.Array.IndexOf(acceptedFuelTypes, burnable.fuelType) < 0) return;
 
         worldItem.enabled = false;   // ignore the rest of this item's colliders this frame
         fuel.Add(burnable.fuelPerItem, burnable.burnRate);

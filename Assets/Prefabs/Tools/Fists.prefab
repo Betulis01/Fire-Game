@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4db1d2f7d298c4409618a48503ec3ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tool
-  kind: 8
+  kind: 16
   damage: 1
   swingSpeed: 2
   range: 0.15

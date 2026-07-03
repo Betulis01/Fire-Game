@@ -47,6 +47,8 @@ public class YSort : MonoBehaviour
         if (group == null) sr = GetComponentInChildren<SpriteRenderer>();
     }
 
+    void OnEnable() => Apply();
+
     void Start() => Apply();
 
     void LateUpdate()
