@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -317825125816557920, guid: 408ffd7cf5d04de41afd46dd6300e802, type: 3}
+  m_Sprite: {fileID: -317825125816557920, guid: 3258eeaf89f88a040a4ceab9868e44a0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 2812266902244183386}
   - component: {fileID: 3129362597859867209}
   m_Layer: 0
-  m_Name: InteractPrompt
+  m_Name: InteractBurnablePrompt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

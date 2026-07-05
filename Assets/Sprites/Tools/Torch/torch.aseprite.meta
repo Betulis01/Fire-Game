@@ -129,7 +129,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: torch
     originalName: 
-    pivot: {x: 0.5, y: 0}
+    pivot: {x: 0, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -137,7 +137,7 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 2
+      width: 1
       height: 5
     spriteID: e519de1f570261947b9629b5ae6e0fd9
     spriteBone: []
@@ -167,9 +167,9 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 7
+        x: 8
         y: 0
-        width: 2
+        width: 1
         height: 5
       spriteId: e519de1f570261947b9629b5ae6e0fd9
     linkedCells: []

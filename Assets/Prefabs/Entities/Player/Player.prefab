@@ -509,6 +509,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
   promptPrefab: {fileID: 3129362597859867209, guid: 46003f2325796f74eaf1932cdffc45a9, type: 3}
+  feedPromptPrefab: {fileID: 3129362597859867209, guid: a39d035bab27a7544ba518799e83694f, type: 3}
+  feedPromptOffset: {x: 0, y: -0.4, z: 0}
 --- !u!114 &4097018392639219819
 MonoBehaviour:
   m_ObjectHideFlags: 0

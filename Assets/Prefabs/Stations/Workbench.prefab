@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 7817360068354785680}
   - component: {fileID: 2480962547925950347}
   - component: {fileID: 6946262607447148628}
-  - component: {fileID: -5601485748978864007}
   - component: {fileID: -5592514753981646333}
   m_Layer: 0
   m_Name: Workbench
@@ -373,20 +372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
   item: {fileID: 11400000, guid: 20e9fe63ec6f92045ad642dc497bd35d, type: 2}
---- !u!114 &-5601485748978864007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6182432078457248245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d85baa8e5d916447925e42a3fff4457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Pickupable
-  promptYOffset: 0.5
-  promptText: 
 --- !u!114 &-5592514753981646333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,7 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorkbenchInteractable
   promptYOffset: 0.5
-  promptText: Open Workbench
+  promptText: '- Workbench'
   menuRoot: {fileID: 8095772311653012794}
   contentRoot: {fileID: 2218017916017296684}
 --- !u!1 &8433051679556975336

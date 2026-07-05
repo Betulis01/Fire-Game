@@ -12,6 +12,14 @@ public class PlayerInteractor : MonoBehaviour
     [Tooltip("World-space pickup prompt prefab; one instance is spawned and reused.")]
     public InteractPrompt promptPrefab;
 
+    [Tooltip("World-space 'feed' prompt prefab (Q icon); shown when the focused " +
+             "interactable is a fire and the active hand holds accepted fuel.")]
+    public InteractPrompt feedPromptPrefab;
+
+    [Tooltip("Offset from the interactable's prompt position for the feed prompt, " +
+             "so it doesn't overlap the interact prompt.")]
+    public Vector3 feedPromptOffset = new Vector3(0f, -0.4f, 0f);
+
     public HandSide ActiveHand { get; private set; } = HandSide.Right;
     public event Action<HandSide> ActiveHandChanged;
 
@@ -19,6 +27,7 @@ public class PlayerInteractor : MonoBehaviour
     PlayerController player;
     Hands hands;
     InteractPrompt prompt;
+    InteractPrompt feedPrompt;
     Interactable current;
     Interactable prevCurrent;
     int interactableLayer;
@@ -30,6 +39,8 @@ public class PlayerInteractor : MonoBehaviour
         interactableLayer = LayerMask.NameToLayer("Interactable");
         if (promptPrefab != null)
             prompt = Instantiate(promptPrefab);
+        if (feedPromptPrefab != null)
+            feedPrompt = Instantiate(feedPromptPrefab);
     }
 
     void Update()
@@ -49,16 +60,56 @@ public class PlayerInteractor : MonoBehaviour
         if (UserInput.Instance.SelectLeft) SetActiveHand(HandSide.Left);
         if (UserInput.Instance.SelectRight) SetActiveHand(HandSide.Right);
 
+        bool menuOpen = current is StationInteractable s && s.IsOpen;
+        FuelReceiver receiver = null;
+        Burnable fuel = null;
+        bool canFeed = !menuOpen && TryGetFeed(out receiver, out fuel);
+
         if (prompt != null)
         {
-            bool menuOpen = current is StationInteractable s && s.IsOpen;
             if (current != null && !menuOpen) prompt.Show(current.PromptPosition, current.promptText);
             else prompt.Hide();
         }
 
-        // Q drops from active hand; E interacts or picks up into active hand.
-        if (UserInput.Instance.InteractLeft) hands.Drop(ActiveHand);
+        if (feedPrompt != null)
+        {
+            if (canFeed)
+                feedPrompt.Show(current.PromptPosition + feedPromptOffset,
+                                $"Feed {hands.Held(ActiveHand).GetComponent<WorldItem>().item.displayName}");
+            else feedPrompt.Hide();
+        }
+
+        // Q feeds the focused fire when able, otherwise drops from the active hand.
+        // E interacts or picks up into the active hand.
+        if (UserInput.Instance.InteractLeft)
+        {
+            if (canFeed)
+            {
+                receiver.Feed(fuel);
+                hands.Consume(ActiveHand, 1);
+            }
+            else hands.Drop(ActiveHand);
+        }
         if (UserInput.Instance.InteractRight) UseHand(ActiveHand);
+    }
+
+    // True when the focused interactable is a fire (has a FuelReceiver) and the
+    // active hand holds an item it accepts. Outputs the receiver and the held
+    // item's Burnable so the caller can feed without re-resolving them.
+    bool TryGetFeed(out FuelReceiver receiver, out Burnable fuel)
+    {
+        receiver = null;
+        fuel = null;
+        if (current == null) return false;
+
+        receiver = current.GetComponent<FuelReceiver>();
+        if (receiver == null) return false;
+
+        GameObject held = hands.Held(ActiveHand);
+        if (held == null) return false;
+
+        fuel = held.GetComponent<Burnable>();
+        return receiver.Accepts(fuel);
     }
 
     void UseHand(HandSide side)

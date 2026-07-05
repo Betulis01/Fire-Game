@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 9ac8e32a1fd3bfc43be9aeb4008cc028
+guid: 3258eeaf89f88a040a4ceab9868e44a0
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -127,7 +127,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Interact Icon
+  - name: Frame_0
     originalName: 
     pivot: {x: 0.5555556, y: 0}
     alignment: 9
@@ -139,7 +139,7 @@ ScriptedImporter:
       y: 4
       width: 9
       height: 11
-    spriteID: fd341a5341c7be4409ff2c1f137ab525
+    spriteID: 49a177e2eae0a17429c4e5b13537a4f4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -163,7 +163,7 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: Interact Icon
+    - name: Q Interact Icon
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
@@ -171,7 +171,7 @@ ScriptedImporter:
         y: 0
         width: 9
         height: 11
-      spriteId: fd341a5341c7be4409ff2c1f137ab525
+      spriteId: 49a177e2eae0a17429c4e5b13537a4f4
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

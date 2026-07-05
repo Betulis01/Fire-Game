@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CampfireInteractable
   promptYOffset: 0.5
-  promptText: Open Campfire
+  promptText: '- Campfire'
   menuRoot: {fileID: 5079264748520475409}
   contentRoot: {fileID: 2946235885581409031}
 --- !u!1001 &5958755821912270564
