@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickupable
   promptYOffset: 0.5
-  promptText: Pick up
+  promptText: Sap
 --- !u!114 &7671393458321787399
 MonoBehaviour:
   m_ObjectHideFlags: 0

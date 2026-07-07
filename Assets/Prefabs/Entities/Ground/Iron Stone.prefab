@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickupable
   promptYOffset: 0.5
-  promptText: Pick up
+  promptText: Iron Stone
 --- !u!114 &8693834751611191176
 MonoBehaviour:
   m_ObjectHideFlags: 0
