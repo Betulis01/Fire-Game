@@ -24,4 +24,8 @@ public abstract class Interactable : MonoBehaviour
     // (Q = left, E = right). Returns true if the press was consumed (e.g. an item
     // was picked up or stacked), so the caller knows not to fall back to dropping.
     public abstract bool Interact(PlayerController player, HandSide hand);
+
+    // Fallback when the player interacts but both hands are full. Return true if the
+    // press was consumed (e.g. a world item swapped into the hand). Default: no-op.
+    public virtual bool Swap(PlayerController player, HandSide hand) => false;
 }

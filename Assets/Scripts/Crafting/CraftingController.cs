@@ -9,7 +9,7 @@ using UnityEngine;
 public class CraftingController : MonoBehaviour
 {
     public RecipeBook book;
-    public float placeDistance = 1f;   // how far in front a placement ghost starts
+    public float placeDistance = 1.5f;   // max range from the player a placement ghost can be placed
     public Camera cam;
 
     [Tooltip("World-space prompt used by a placed structure to ask for materials.")]

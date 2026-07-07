@@ -1,56 +1,70 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Added to a structure once its PlacementGhost has been placed. Tracks how much of
-// each recipe ingredient has been dropped on top of it (FuelReceiver is the model
-// this follows: a trigger zone that consumes matching dropped WorldItems) and shows
-// a "Drop X (n/total)" prompt while incomplete. Calls back into the ghost once
-// every ingredient is satisfied, then removes itself.
-[RequireComponent(typeof(Rigidbody2D))]
-public class BuildRequirement : MonoBehaviour
+// each recipe ingredient has been supplied and, as an ItemReceiver, lets the player
+// deposit needed items by standing in its zone and pressing the drop key (or
+// releasing the drop ghost over it) — the same intentional model as FuelReceiver.
+// Calls back into the ghost once every ingredient is satisfied, then removes itself.
+public class BuildRequirement : ItemReceiver
 {
     Recipe recipe;
     PlacementGhost ghost;
-    InteractPrompt prompt;
     int[] deposited;   // parallel to recipe.ingredients
 
     public void Init(Recipe recipe, PlacementGhost ghost, InteractPrompt promptPrefab)
     {
         this.recipe = recipe;
         this.ghost = ghost;
+        this.promptPrefab = promptPrefab;
         deposited = new int[recipe.ingredients.Length];
 
         CircleCollider2D trigger = gameObject.AddComponent<CircleCollider2D>();
         trigger.isTrigger = true;
         trigger.radius = 0.75f;
-
-        if (promptPrefab != null)
-        {
-            prompt = Instantiate(promptPrefab);
-            UpdatePrompt();
-        }
+        RefreshZones();   // pick up the deposit-zone collider we just added
     }
 
-    // Enter catches items dropped into the trigger normally; Stay catches the edge
-    // case where an item re-enables its collider while already overlapping (same
-    // pattern as FuelReceiver). The worldItem.enabled guard prevents double-counting
-    // when both fire in the same physics step.
-    void OnTriggerEnter2D(Collider2D other) => HandleOverlap(other);
-    void OnTriggerStay2D(Collider2D other) => HandleOverlap(other);
+    // A placed build site always shows its outstanding ingredients when the player
+    // is nearby, even empty-handed, so they know what to bring.
+    protected override bool AdvertisesWhenEmpty => true;
 
-    void HandleOverlap(Collider2D other)
+    public override bool Accepts(WorldItem item) =>
+        item != null && NextNeededIndex(item.item) >= 0;
+
+    public override bool Deposit(WorldItem item)
     {
-        WorldItem worldItem = other.GetComponentInParent<WorldItem>();
-        if (worldItem == null || !worldItem.enabled || worldItem.IsHeld) return;
+        if (item == null) return false;
+        int index = NextNeededIndex(item.item);
+        if (index < 0) return false;
 
-        int index = NextNeededIndex(worldItem.item);
-        if (index < 0) return;
-
-        worldItem.enabled = false;   // ignore the rest of this item's colliders this step
         deposited[index]++;
-        Destroy(worldItem.gameObject);
-
-        UpdatePrompt();
         if (IsComplete()) Finish();
+        return true;
+    }
+
+    // With an accepted item in hand, offer to drop it; otherwise list what's left.
+    protected override string PromptLabel(WorldItem held)
+    {
+        int index = held != null ? NextNeededIndex(held.item) : -1;
+        if (index >= 0)
+        {
+            Ingredient ingredient = recipe.ingredients[index];
+            return $"Drop {ingredient.item.displayName} ({deposited[index]}/{ingredient.amount})";
+        }
+        return RemainingSummary();
+    }
+
+    string RemainingSummary()
+    {
+        List<string> parts = new();
+        for (int i = 0; i < recipe.ingredients.Length; i++)
+        {
+            Ingredient ingredient = recipe.ingredients[i];
+            if (deposited[i] < ingredient.amount)
+                parts.Add($"{ingredient.item.displayName} {deposited[i]}/{ingredient.amount}");
+        }
+        return "Needs " + string.Join(", ", parts);
     }
 
     int NextNeededIndex(ItemDefinition item)
@@ -68,32 +82,9 @@ public class BuildRequirement : MonoBehaviour
         return true;
     }
 
-    void UpdatePrompt()
-    {
-        if (prompt == null) return;
-
-        for (int i = 0; i < recipe.ingredients.Length; i++)
-        {
-            if (deposited[i] < recipe.ingredients[i].amount)
-            {
-                Ingredient ingredient = recipe.ingredients[i];
-                prompt.Show(transform.position + Vector3.up * 0.5f,
-                    $"Drop {ingredient.item.displayName} ({deposited[i]}/{ingredient.amount})");
-                return;
-            }
-        }
-    }
-
     void Finish()
     {
-        if (prompt != null) Destroy(prompt.gameObject);
-        prompt = null;
         ghost.Complete();
-        Destroy(this);
-    }
-
-    void OnDestroy()
-    {
-        if (prompt != null) Destroy(prompt.gameObject);
+        Destroy(this);   // base OnDestroy tears down the prompt
     }
 }

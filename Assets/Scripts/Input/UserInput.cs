@@ -105,6 +105,8 @@ public class UserInput : MonoBehaviour
     // --- One-shot buttons (true only on the frame the control is pressed) ---
     public bool Attack => attackAction != null && attackAction.WasPressedThisFrame();
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
+    public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
+    public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();
     public bool InteractRight => interactRightAction != null && interactRightAction.WasPressedThisFrame();
     public bool SelectLeft => selectLeftAction != null && selectLeftAction.WasPressedThisFrame();
     public bool SelectRight => selectRightAction != null && selectRightAction.WasPressedThisFrame();
@@ -142,5 +144,17 @@ public class UserInput : MonoBehaviour
             if (dir.sqrMagnitude > 0.0001f) return dir.normalized;
         }
         return Vector2.right;
+    }
+
+    // A point along the aim direction from origin: at the pointer's distance for
+    // mouse (clamped to maxDistance) or at maxDistance for gamepad. Used to place
+    // ghosts (drop preview, build placement) under the cursor within a range.
+    public Vector3 AimPoint(Vector2 origin, Camera cam, float maxDistance)
+    {
+        Vector2 aim = AimDirection(origin, cam);
+        float dist = maxDistance;
+        if (cam != null)
+            dist = Mathf.Min((((Vector2)cam.ScreenToWorldPoint(PointerScreen)) - origin).magnitude, maxDistance);
+        return origin + aim * dist;
     }
 }

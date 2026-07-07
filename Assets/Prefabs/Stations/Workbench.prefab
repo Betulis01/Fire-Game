@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorkbenchInteractable
   promptYOffset: 0.5
-  promptText: '- Workbench'
+  promptText: Workbench
   menuRoot: {fileID: 8095772311653012794}
   contentRoot: {fileID: 2218017916017296684}
 --- !u!1 &8433051679556975336

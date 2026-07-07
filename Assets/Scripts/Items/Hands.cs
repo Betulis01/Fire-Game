@@ -104,11 +104,16 @@ public class Hands : MonoBehaviour
     // single world item and keeps the rest; the last one drops the held object.
     public void Drop(HandSide side)
     {
+        Vector2 aim = UserInput.Instance.AimDirection(transform.position, cam);
+        DropAt(side, transform.position + (Vector3)(aim * 0.5f));
+    }
+
+    // drop one item from the given hand at an explicit world position (e.g. a
+    // ghost-aimed drop). Same stack-split behaviour as Drop.
+    public void DropAt(HandSide side, Vector3 dropPos)
+    {
         GameObject item = Held(side);
         if (item == null) return;
-
-        Vector2 aim = UserInput.Instance.AimDirection(transform.position, cam);
-        Vector3 dropPos = transform.position + (Vector3)(aim * 0.5f);
 
         if (Count(side) > 1)
         {
@@ -123,6 +128,42 @@ public class Hands : MonoBehaviour
         item.transform.SetParent(null);
         item.transform.position = dropPos;
         item.GetComponent<WorldItem>().SetHeld(false);
+
+        Set(side, null);
+        SetCount(side, 0);
+        Changed?.Invoke();
+    }
+
+    // Drop the entire held stack of `side` at dropPos, then take `incoming` into
+    // that (now-empty) hand. Used to swap a picked-up world item for a full hand.
+    public bool SwapHold(GameObject incoming, HandSide side, Vector3 dropPos)
+    {
+        if (incoming == null) return false;
+        DropStack(side, dropPos);      // frees the hand
+        return TryHold(incoming, side);
+    }
+
+    // Release every item in a hand's stack into the world at pos, clearing the hand.
+    void DropStack(HandSide side, Vector3 pos)
+    {
+        GameObject item = Held(side);
+        if (item == null) return;
+        int count = Count(side);
+        WorldItem wi = item.GetComponent<WorldItem>();
+
+        // the held object itself becomes one world single
+        item.transform.SetParent(null);
+        item.transform.position = pos;
+        wi.SetHeld(false);
+
+        // spawn the remaining stacked copies with a small offset so they don't
+        // perfectly overlap the swapped-in item's old spot
+        for (int i = 1; i < count; i++)
+        {
+            Vector3 p = pos + (Vector3)(UnityEngine.Random.insideUnitCircle * 0.15f);
+            GameObject one = Instantiate(wi.item.prefab, p, Quaternion.identity);
+            one.GetComponent<WorldItem>().SetHeld(false);
+        }
 
         Set(side, null);
         SetCount(side, 0);

@@ -21,4 +21,12 @@ public class Pickupable : Interactable
     {
         return player.GetComponent<Hands>().TryHold(worldItem.gameObject, hand);
     }
+
+    // Both hands were full: drop the used hand's contents where this item lies and
+    // take this item into that hand -- a literal switch of places.
+    public override bool Swap(PlayerController player, HandSide hand)
+    {
+        return player.GetComponent<Hands>()
+            .SwapHold(worldItem.gameObject, hand, transform.position);
+    }
 }

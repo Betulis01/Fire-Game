@@ -278,6 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1e640b01d5b4a4c8d7363ad95f27b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FuelReceiver
+  promptPrefab: {fileID: 3129362597859867209, guid: a39d035bab27a7544ba518799e83694f, type: 3}
+  promptOffset: {x: 0, y: 0.18, z: 0}
   acceptedFuelTypes: 02000000
 --- !u!1 &6271916498960289702
 GameObject:

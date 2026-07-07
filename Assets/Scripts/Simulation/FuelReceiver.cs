@@ -1,36 +1,38 @@
 using UnityEngine;
 
-// Sits on the campfire and owns which items may be burned as fuel. Feeding is
-// intentional: the player aims at the fire and presses the feed key (routed by
-// PlayerInteractor), which calls Feed here. There is no drop-to-consume physics,
-// so a log lying near the fire is never silently eaten.
+// A fire the player can feed. Accepts held items with a Burnable of an allowed
+// fuel type and turns them into Fuel. Deposits are intentional (routed by
+// PlayerInteractor via ItemReceiver); there is no drop-to-consume physics.
 [RequireComponent(typeof(Fuel))]
-public class FuelReceiver : MonoBehaviour
+public class FuelReceiver : ItemReceiver
 {
     public FuelType[] acceptedFuelTypes;   // empty = accept all
 
     Fuel fuel;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         fuel = GetComponent<Fuel>();
     }
 
-    // True if this fire will burn the given item (has a Burnable of an accepted type).
-    public bool Accepts(Burnable burnable)
+    public override bool Accepts(WorldItem item)
     {
+        if (item == null) return false;
+        Burnable burnable = item.GetComponent<Burnable>();
         if (burnable == null) return false;
         return acceptedFuelTypes.Length == 0 ||
                System.Array.IndexOf(acceptedFuelTypes, burnable.fuelType) >= 0;
     }
 
-    // Burn one item's worth of fuel. Caller is responsible for removing the item
-    // from the hand/world. Raises Fuel.FuelAdded via Add (drives the light boost).
-    public void Feed(Burnable burnable)
+    public override bool Deposit(WorldItem item)
     {
-        if (!Accepts(burnable)) return;
+        Burnable burnable = item != null ? item.GetComponent<Burnable>() : null;
+        if (!Accepts(item)) return false;
 
         fuel.Add(burnable.fuelPerItem, burnable.burnRate);
-        Debug.Log($"Fire fed +{burnable.fuelPerItem} fuel @ {burnable.burnRate}/s");
+        return true;
     }
+
+    protected override string PromptLabel(WorldItem held) => $"Feed {held.item.displayName}";
 }

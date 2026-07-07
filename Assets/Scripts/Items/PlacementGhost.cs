@@ -12,7 +12,7 @@ public class PlacementGhost : MonoBehaviour
     Recipe recipe;
     Transform follow;
     Camera cam;
-    float distance;
+    float distance;   // max range from the player the ghost can be placed at
     InteractPrompt buildPromptPrefab;
     bool placed;
 
@@ -53,8 +53,7 @@ public class PlacementGhost : MonoBehaviour
     {
         if (placed) return;
 
-        Vector2 aim = UserInput.Instance.AimDirection(follow.position, cam);
-        transform.position = follow.position + (Vector3)(aim * distance);
+        transform.position = UserInput.Instance.AimPoint(follow.position, cam, distance);
 
         if (UserInput.Instance.Journal) { Cancel(); return; }
         if (UserInput.Instance.Attack) Place();

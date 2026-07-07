@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnaceInteractable
   promptYOffset: 0.5
-  promptText: '- Furnace'
+  promptText: Furnace
   menuRoot: {fileID: 2136356192826138500}
   contentRoot: {fileID: 8303460334630801298}
 --- !u!1001 &678126110226952817

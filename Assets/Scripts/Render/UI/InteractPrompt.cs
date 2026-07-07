@@ -22,8 +22,8 @@ public class InteractPrompt : MonoBehaviour
     {
         transform.position = worldPos;
         if (!sr.enabled) sr.enabled = true;
-        if (label != null && label.enabled) label.enabled = true;
-        if (pressString != null && pressString.enabled) pressString.enabled = true;
+        if (label != null) label.enabled = true;
+        if (pressString != null) pressString.enabled = true;
     }
 
     public void Show(Vector3 worldPos, string text)

@@ -12,25 +12,24 @@ public class PlayerInteractor : MonoBehaviour
     [Tooltip("World-space pickup prompt prefab; one instance is spawned and reused.")]
     public InteractPrompt promptPrefab;
 
-    [Tooltip("World-space 'feed' prompt prefab (Q icon); shown when the focused " +
-             "interactable is a fire and the active hand holds accepted fuel.")]
-    public InteractPrompt feedPromptPrefab;
+    [Tooltip("Max distance from the player the drop ghost can be placed.")]
+    public float maxDropDistance = 1.5f;
 
-    [Tooltip("Offset from the interactable's prompt position for the feed prompt, " +
-             "so it doesn't overlap the interact prompt.")]
-    public Vector3 feedPromptOffset = new Vector3(0f, -0.4f, 0f);
-
-    public HandSide ActiveHand { get; private set; } = HandSide.Right;
+    public HandSide ActiveHand { get; private set; } = HandSide.Left;
     public event Action<HandSide> ActiveHandChanged;
 
     readonly HashSet<Interactable> inRange = new HashSet<Interactable>();
     PlayerController player;
     Hands hands;
     InteractPrompt prompt;
-    InteractPrompt feedPrompt;
+    DropGhost dropGhost;
+    ItemReceiver currentReceiver;   // receiver whose deposit prompt is currently shown
     Interactable current;
     Interactable prevCurrent;
     int interactableLayer;
+
+    readonly HashSet<Highlightable> lit = new();       // currently-lit overlays
+    readonly HashSet<Highlightable> desired = new();   // reused scratch, per frame
 
     void Start()
     {
@@ -39,8 +38,6 @@ public class PlayerInteractor : MonoBehaviour
         interactableLayer = LayerMask.NameToLayer("Interactable");
         if (promptPrefab != null)
             prompt = Instantiate(promptPrefab);
-        if (feedPromptPrefab != null)
-            feedPrompt = Instantiate(feedPromptPrefab);
     }
 
     void Update()
@@ -56,61 +53,126 @@ public class PlayerInteractor : MonoBehaviour
         if (UserInput.Instance.Pause && current is StationInteractable focused && focused.IsOpen)
             focused.Close();
 
-        // 1/2 selects active hand.
-        if (UserInput.Instance.SelectLeft) SetActiveHand(HandSide.Left);
-        if (UserInput.Instance.SelectRight) SetActiveHand(HandSide.Right);
+        // 1/2 selects active hand. Switching hands cancels an in-progress drop so
+        // the ghost never previews the wrong hand's item.
+        if (UserInput.Instance.SelectLeft) { CancelDropGhost(); SetActiveHand(HandSide.Left); }
+        if (UserInput.Instance.SelectRight) { CancelDropGhost(); SetActiveHand(HandSide.Right); }
+        if (UserInput.Instance.Pause) CancelDropGhost();
 
         bool menuOpen = current is StationInteractable s && s.IsOpen;
-        FuelReceiver receiver = null;
-        Burnable fuel = null;
-        bool canFeed = !menuOpen && TryGetFeed(out receiver, out fuel);
 
+        Interactable promptInteractable = (current != null && !menuOpen) ? current : null;
         if (prompt != null)
         {
-            if (current != null && !menuOpen) prompt.Show(current.PromptPosition, current.promptText);
+            if (promptInteractable != null) prompt.Show(promptInteractable.PromptPosition, promptInteractable.promptText);
             else prompt.Hide();
         }
 
-        if (feedPrompt != null)
-        {
-            if (canFeed)
-                feedPrompt.Show(current.PromptPosition + feedPromptOffset,
-                                $"Feed {hands.Held(ActiveHand).GetComponent<WorldItem>().item.displayName}");
-            else feedPrompt.Hide();
-        }
+        // A deposit target the player is standing in while holding an accepted item
+        // (fire to feed, build site to supply). Drives the drop-ghost / Q-deposit.
+        WorldItem held = hands.Held(ActiveHand)?.GetComponent<WorldItem>();
+        ItemReceiver inZone = menuOpen ? null : ItemReceiver.FindInZone(transform.position, held);
 
-        // Q feeds the focused fire when able, otherwise drops from the active hand.
-        // E interacts or picks up into the active hand.
-        if (UserInput.Instance.InteractLeft)
-        {
-            if (canFeed)
-            {
-                receiver.Feed(fuel);
-                hands.Consume(ActiveHand, 1);
-            }
-            else hands.Drop(ActiveHand);
-        }
+        // The prompt can advertise more than we can deposit into right now: a placed
+        // build site shows what it still needs even when the player is empty-handed.
+        ItemReceiver promptZone = menuOpen ? null : ItemReceiver.FindPromptTarget(transform.position, held);
+        UpdateReceiverPrompt(promptZone, held);
+
+        // Light the interact overlay on whatever is currently showing a prompt.
+        UpdateHighlights(promptInteractable, promptZone);
+
+        // Hold Q to aim a drop ghost, release to commit. E interacts / picks up.
+        UpdateDropGhost(inZone, held);
         if (UserInput.Instance.InteractRight) UseHand(ActiveHand);
     }
 
-    // True when the focused interactable is a fire (has a FuelReceiver) and the
-    // active hand holds an item it accepts. Outputs the receiver and the held
-    // item's Burnable so the caller can feed without re-resolving them.
-    bool TryGetFeed(out FuelReceiver receiver, out Burnable fuel)
+    // Show the in-zone receiver's prompt (and hide the previous one when it changes).
+    void UpdateReceiverPrompt(ItemReceiver inZone, WorldItem held)
     {
-        receiver = null;
-        fuel = null;
-        if (current == null) return false;
-
-        receiver = current.GetComponent<FuelReceiver>();
-        if (receiver == null) return false;
-
-        GameObject held = hands.Held(ActiveHand);
-        if (held == null) return false;
-
-        fuel = held.GetComponent<Burnable>();
-        return receiver.Accepts(fuel);
+        if (inZone != currentReceiver && currentReceiver != null) currentReceiver.HidePrompt();
+        currentReceiver = inZone;
+        if (inZone != null) inZone.ShowPrompt(held);
     }
+
+    // Light the interact overlay on whatever is showing a prompt (the focused E
+    // interactable and/or the Q receiver zone) and clear it from anything that no longer
+    // is. Set-based so an object that is BOTH (a station: Interactable + FuelReceiver) is
+    // lit once and stays lit until neither channel wants it.
+    void UpdateHighlights(Interactable interactable, ItemReceiver receiver)
+    {
+        desired.Clear();
+        AddHighlightable(interactable);
+        AddHighlightable(receiver);
+
+        // null-guard: the focused object may have been destroyed (e.g. picked-up item)
+        foreach (Highlightable h in lit)
+            if (h != null && !desired.Contains(h)) h.Set(false);
+
+        foreach (Highlightable h in desired)
+            if (!lit.Contains(h)) h.Set(true);
+
+        lit.Clear();
+        lit.UnionWith(desired);
+    }
+
+    void AddHighlightable(Component source)
+    {
+        if (source == null) return;
+        Highlightable h = source.GetComponent<Highlightable>();
+        if (h != null) desired.Add(h);
+    }
+
+    // Q held -> spawn/track a translucent preview of the active-hand item at the
+    // aimed position; Q released -> deposit into a receiver if released over one,
+    // else drop. When standing in a receiver's zone holding an accepted item, a Q
+    // press deposits directly instead of starting a drop -- depositing takes
+    // priority in the zone.
+    void UpdateDropGhost(ItemReceiver inZone, WorldItem held)
+    {
+        if (UserInput.Instance.InteractLeft && inZone != null && dropGhost == null)
+        {
+            if (inZone.Deposit(held)) hands.Consume(ActiveHand, 1);
+            return;
+        }
+
+        if (UserInput.Instance.InteractLeft && dropGhost == null && held != null)
+            dropGhost = DropGhost.Begin(held.item.prefab);
+
+        if (dropGhost == null) return;
+
+        // safety: item left the hand mid-drag (crafted, consumed, ...)
+        if (!hands.IsHolding(ActiveHand)) { CancelDropGhost(); return; }
+
+        Vector3 pos = DropPreviewPosition();
+        dropGhost.MoveTo(pos);
+
+        if (UserInput.Instance.InteractLeftReleased || UserInput.Instance.Attack)
+        {
+            ResolveDrop(pos);
+            CancelDropGhost();
+        }
+    }
+
+    void ResolveDrop(Vector3 pos)
+    {
+        // Deposit when the ghost is released over a receiver that accepts the item,
+        // no matter how far the player is standing; otherwise drop at that position.
+        WorldItem held = hands.Held(ActiveHand)?.GetComponent<WorldItem>();
+        ItemReceiver receiver = ItemReceiver.FindInZone(pos, held);
+        if (receiver != null && receiver.Deposit(held)) hands.Consume(ActiveHand, 1);
+        else hands.DropAt(ActiveHand, pos);
+    }
+
+    void CancelDropGhost()
+    {
+        if (dropGhost == null) return;
+        dropGhost.Dismiss();
+        dropGhost = null;
+    }
+
+    // Where the drop ghost sits: under the cursor, clamped to maxDropDistance.
+    Vector3 DropPreviewPosition() =>
+        UserInput.Instance.AimPoint(transform.position, hands.cam, maxDropDistance);
 
     void UseHand(HandSide side)
     {
@@ -119,7 +181,9 @@ public class PlayerInteractor : MonoBehaviour
         if (hands.IsHolding(side))
         {
             HandSide other = side == HandSide.Left ? HandSide.Right : HandSide.Left;
-            current.Interact(player, other);
+            if (current.Interact(player, other)) return;
+            // both hands full and neither could take it -> swap into the active hand
+            current.Swap(player, side);
         }
     }
 
