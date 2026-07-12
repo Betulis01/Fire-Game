@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class FurnaceInteractable : StationInteractable
 {
-    // TODO: populate smelt queue and fuel slot
-    protected override void PopulateMenu(Transform content) { }
+    [Tooltip("StationProcessPanel prefab instantiated into the menu's content area.")]
+    public StationProcessPanel panelPrefab;
+
+    protected override void PopulateMenu(Transform content)
+    {
+        if (panelPrefab == null) return;
+        StationProcessPanel panel = Instantiate(panelPrefab, content, false);
+        panel.Bind(GetComponent<Fuel>(), GetComponent<ItemProcessor>());
+    }
 }

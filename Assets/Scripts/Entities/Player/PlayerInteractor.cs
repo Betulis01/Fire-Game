@@ -70,12 +70,14 @@ public class PlayerInteractor : MonoBehaviour
 
         // A deposit target the player is standing in while holding an accepted item
         // (fire to feed, build site to supply). Drives the drop-ghost / Q-deposit.
+        // Works regardless of any open station menu, so the player can feed a
+        // station while watching its gauges.
         WorldItem held = hands.Held(ActiveHand)?.GetComponent<WorldItem>();
-        ItemReceiver inZone = menuOpen ? null : ItemReceiver.FindInZone(transform.position, held);
+        ItemReceiver inZone = ItemReceiver.FindInZone(transform.position, held);
 
         // The prompt can advertise more than we can deposit into right now: a placed
         // build site shows what it still needs even when the player is empty-handed.
-        ItemReceiver promptZone = menuOpen ? null : ItemReceiver.FindPromptTarget(transform.position, held);
+        ItemReceiver promptZone = ItemReceiver.FindPromptTarget(transform.position, held);
         UpdateReceiverPrompt(promptZone, held);
 
         // Light the interact overlay on whatever is currently showing a prompt.

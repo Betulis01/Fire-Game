@@ -547,7 +547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538011612412044232, guid: 45d01a2bafd738e4f853c65012f5c5f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2697044287360059579, guid: 45d01a2bafd738e4f853c65012f5c5f8, type: 3}
       propertyPath: m_ReferencePixelsPerUnit
@@ -597,10 +597,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7146996827209844291, guid: 45d01a2bafd738e4f853c65012f5c5f8, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -317825125816557920, guid: cbfffaed549e3354db2dc804293f73e6, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
