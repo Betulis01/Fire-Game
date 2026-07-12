@@ -11,6 +11,8 @@ public class FireLight : MonoBehaviour
     public float maxInnerRadius = 1f;       // inner radius at full fuel
     public float flickerAmount = 0.09f;
     public float flickerSpeed = 8f;
+    [Range(0f, 1f)]
+    public float minLevel = 0.1f;           // visual floor while lit; only an out fire goes fully dark
 
     [Header("Boost on fuel added")]
     public float boostDuration = 1f;
@@ -57,18 +59,21 @@ public class FireLight : MonoBehaviour
             boost = boostCurve.Evaluate(t);
         }
 
-        light2D.intensity = fuel.fuelLevel * maxLightIntensity * flicker
+        // remap fuel so a lit fire never dips below the floor; 0 only when it's out
+        float level = fuel.fuelLevel > 0f ? Mathf.Lerp(minLevel, 1f, fuel.fuelLevel) : 0f;
+
+        light2D.intensity = level * maxLightIntensity * flicker
                           + boost * boostIntensity;
-        light2D.pointLightOuterRadius = fuel.fuelLevel * maxOuterRadius * flicker
+        light2D.pointLightOuterRadius = level * maxOuterRadius * flicker
                           + boost * boostRange;
-        light2D.pointLightInnerRadius = fuel.fuelLevel * maxInnerRadius * flicker;
+        light2D.pointLightInnerRadius = level * maxInnerRadius * flicker;
 
         // scale flickers off the same noise as the intensity (no breathing wave),
         // with the same fuel-added pop layered on top
         if (scaleTarget != null)
         {
-            float scaleFlicker = 1f + (noise - 0.5f) * 2f * scaleFlickerAmount * fuel.fuelLevel;
-            scaleTarget.localScale = Vector3.one * (baseScale * (fuel.fuelLevel * scaleFlicker + boost * scaleBoost));
+            float scaleFlicker = 1f + (noise - 0.5f) * 2f * scaleFlickerAmount * level;
+            scaleTarget.localScale = Vector3.one * (baseScale * (level * scaleFlicker + boost * scaleBoost));
         }
     }
 }
