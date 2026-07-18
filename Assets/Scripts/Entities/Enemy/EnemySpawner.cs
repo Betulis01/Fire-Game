@@ -57,8 +57,20 @@ public class EnemySpawner : MonoBehaviour
         GameObject enemy = Instantiate(prefab, pos, Quaternion.identity);
         activeCount++;
 
+        // release the cap slot exactly once, whether the enemy dies or despawns
+        bool released = false;
+        System.Action release = () =>
+        {
+            if (released) return;
+            released = true;
+            activeCount--;
+        };
+
         Health health = enemy.GetComponent<Health>();
-        if (health != null) health.Died += () => activeCount--;
+        if (health != null) health.Died += () => release();
+
+        EnemyDespawner despawner = enemy.GetComponent<EnemyDespawner>();
+        if (despawner != null) despawner.Despawned += () => release();
     }
 
     Vector2 RandomPointInRing()
