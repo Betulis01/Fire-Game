@@ -174,6 +174,8 @@ GameObject:
   - component: {fileID: -1073649967088087493}
   - component: {fileID: 1501521264417057910}
   - component: {fileID: 454879806358771460}
+  - component: {fileID: 8100000000000000001}
+  - component: {fileID: 8100000000000000002}
   m_Layer: 0
   m_Name: Campfire
   m_TagString: Campfire
@@ -494,6 +496,36 @@ MonoBehaviour:
   promptText: Campfire
   menuRoot: {fileID: 5079264748520475409}
   contentRoot: {fileID: 2946235885581409031}
+  panelPrefab: {fileID: 1002, guid: 2c7a94e5b18d4f30d9a6c4e1b52f8a07, type: 3}
+--- !u!114 &8100000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b8e2d61f3a94c07b5d9e18a6c72f4d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CookingProcessor
+  queueCapacity: 8
+  outputOffset: {x: 0, y: -0.5}
+--- !u!114 &8100000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5c38f0b92e4d67a4e8b06d9c23e7d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProcessorInputReceiver
+  promptPrefab: {fileID: 3129362597859867209, guid: a39d035bab27a7544ba518799e83694f, type: 3}
+  promptOffset: {x: 0, y: 0.18, z: 0}
+  verb: Cook
 --- !u!1001 &5958755821912270564
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -520,7 +552,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2538011612412044232, guid: 45d01a2bafd738e4f853c65012f5c5f8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2697044287360059579, guid: 45d01a2bafd738e4f853c65012f5c5f8, type: 3}
       propertyPath: m_ReferencePixelsPerUnit

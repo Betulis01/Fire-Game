@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66b54fc50f07b849bcd3d2cd740b566, type: 3}
+  m_Name: Polar Bear Meat Cooked
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
+  id: Polar Bear Meat Cooked
+  displayName: Polar Bear Meat Cooked
+  prefab: {fileID: 6197461963866386601, guid: 83f6284895c37214ab848654ebbc5a50, type: 3}

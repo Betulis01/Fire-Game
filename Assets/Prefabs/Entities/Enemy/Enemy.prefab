@@ -389,6 +389,7 @@ GameObject:
   - component: {fileID: 5621611412564725423}
   - component: {fileID: 7881639635714789569}
   - component: {fileID: 6520143798241125390}
+  - component: {fileID: -1683262799218675857}
   m_Layer: 9
   m_Name: Enemy
   m_TagString: Untagged
@@ -612,13 +613,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ToolHitEffectOnHit
   effects:
   - kind: 4
-    effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
+    effectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
     spriteAngleOffset: 0
   - kind: 1
     effectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
     spriteAngleOffset: 0
   - kind: 8
-    effectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
+    effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
     spriteAngleOffset: 0
   aimOrigin: {fileID: 5973297134273841705}
 --- !u!114 &6381038294589085620
@@ -761,9 +762,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e8afa0a19364c948e471c29717df2a1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDespawner
   despawnHour: 9
+--- !u!114 &-1683262799218675857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988275448378025111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
+  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
+  duration: 0.07
+  target: {fileID: 6161255894940628204}
 --- !u!1 &8010365848380240837
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7165257912284901865, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7165257912284901865, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayerID
@@ -947,7 +963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8296866486048973377, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8296866486048973377, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayerID

@@ -285,6 +285,8 @@ GameObject:
   - component: {fileID: 7010235157624392200}
   - component: {fileID: 593772493772430815}
   - component: {fileID: 4830981350915390930}
+  - component: {fileID: 600618866697574453}
+  - component: {fileID: 216703664612352672}
   m_Layer: 9
   m_Name: Polar Bear
   m_TagString: Untagged
@@ -646,6 +648,24 @@ MonoBehaviour:
   weapon: {fileID: 7700000000000000100, guid: 4e123dd5702eba3418af22c15bdc5e59, type: 3}
   attackRange: 0.8
   aimOrigin: {fileID: 1494677371287058224}
+--- !u!114 &600618866697574453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859240456781532221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef58b31b6f957e64b9128bbb0a9f1ea9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropOnDeath
+  drops:
+  - prefab: {fileID: 6197461963866386601, guid: 0b53a9db63c1a854c9890db5e2244147, type: 3}
+    count: 2
+  - prefab: {fileID: 449804582166282785, guid: 102ea13938d8b28459fdda49a0c26bf2, type: 3}
+    count: 1
+  scatterRadius: 0.5
 --- !u!1 &4416604381920127666
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,3 +873,18 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2244209967888865494, guid: ada01f032331356418be307118cae108, type: 3}
   m_PrefabInstance: {fileID: 2929472069849679944}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &216703664612352672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859240456781532221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
+  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
+  duration: 0.07
+  target: {fileID: 8277306498956503653}

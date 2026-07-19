@@ -85,6 +85,8 @@ GameObject:
   - component: {fileID: 6970820013872932606}
   - component: {fileID: 2941189755341746672}
   - component: {fileID: 5500000000000000041}
+  - component: {fileID: 6629715804601060471}
+  - component: {fileID: 5122889566406467453}
   m_Layer: 9
   m_Name: TargetDummy
   m_TagString: Untagged
@@ -284,6 +286,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Knockback
   deceleration: 20
   SelfMove: 1
+--- !u!114 &6629715804601060471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8386443013976399573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
+  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
+  duration: 0.07
+  target: {fileID: 476410498920305379}
+--- !u!114 &5122889566406467453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8386443013976399573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbbb11068e7e433498a2c2676fe3f0d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolHitEffectOnHit
+  effects:
+  - kind: 8
+    effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
+    spriteAngleOffset: 0
+  aimOrigin: {fileID: 2026853657283097697, guid: 3f6af4e64471e35448fce45ecdb192b4, type: 3}
 --- !u!1 &8482838105275771891
 GameObject:
   m_ObjectHideFlags: 0

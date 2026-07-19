@@ -8,7 +8,7 @@ public enum PopupStyle { Enemy, Player, Environment }
 [RequireComponent(typeof(TMP_Text))]
 public class DamagePopup : MonoBehaviour
 {
-    public float lifetime = 0.7f;       // seconds until it returns to the pool
+    public float lifetime = 0.4f;       // seconds until it returns to the pool
     public float riseSpeed = 1.2f;      // world units climbed per second
     public AnimationCurve alpha = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
 
