@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 5500000000000000031}
   - component: {fileID: 5500000000000000032}
   - component: {fileID: 5500000000000000034}
-  - component: {fileID: 5500000000000000035}
   - component: {fileID: 4239748836073507299}
   - component: {fileID: 3983932385213641728}
   m_Layer: 6
@@ -674,29 +673,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HitStopOnHit
   perKnockback: 0.02
   maxDuration: 0.15
---- !u!114 &5500000000000000035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4381895908916503135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbbb11068e7e433498a2c2676fe3f0d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToolHitEffectOnHit
-  effects:
-  - kind: 4
-    effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
-    spriteAngleOffset: 0
-  - kind: 1
-    effectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
-    spriteAngleOffset: 0
-  - kind: 8
-    effectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
-    spriteAngleOffset: 0
-  aimOrigin: {fileID: 4399285440080382326}
 --- !u!114 &4239748836073507299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,7 +685,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c5c6f4fbbf4a249aa1b9288103ed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0.5, z: 0}
+--- !u!114 &3983932385213641728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
+  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
+  duration: 0.07
+  target: {fileID: 6843272148859934745}
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,18 +1031,3 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: -0.03, y: 0.15}
   m_Radius: 0.05
---- !u!114 &3983932385213641728
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4381895908916503135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
-  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
-  duration: 0.07
-  target: {fileID: 6843272148859934745}

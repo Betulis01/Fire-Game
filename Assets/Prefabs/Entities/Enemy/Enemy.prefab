@@ -608,20 +608,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3988275448378025111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbbb11068e7e433498a2c2676fe3f0d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToolHitEffectOnHit
-  effects:
-  - kind: 4
-    effectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
-    spriteAngleOffset: 0
-  - kind: 1
-    effectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
-    spriteAngleOffset: 0
-  - kind: 8
-    effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
-    spriteAngleOffset: 0
-  aimOrigin: {fileID: 5973297134273841705}
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
+  material: {fileID: 11400000, guid: 2771451cb93346e0be88d7839a39bb2e, type: 2}
 --- !u!114 &6381038294589085620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -720,7 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c5c6f4fbbf4a249aa1b9288103ed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &5621611412564725423
 MonoBehaviour:
   m_ObjectHideFlags: 0

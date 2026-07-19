@@ -79,3 +79,12 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 92dbfc158cdc24044b9a8a01883edce0, type: 2}
     requiredStation: 2
     kind: 0
+  - displayName: Iron Sword
+    ingredients:
+    - item: {fileID: 11400000, guid: 4a2f95d8c1e64b73f0c8b3a6d92e5c19, type: 2}
+      amount: 4
+    - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
+      amount: 1
+    output: {fileID: 11400000, guid: e668e816d1bca744493436401afff2a4, type: 2}
+    requiredStation: 2
+    kind: 0

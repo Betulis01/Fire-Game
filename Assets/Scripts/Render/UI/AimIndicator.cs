@@ -1,10 +1,10 @@
 using UnityEngine;
 
-// A world-space arrow that orbits the player on the circle of the active weapon's
+// A world-space arrow that orbits the player on the circle of the next attack's
 // reach, pointing where the player is aiming. It reads the same aim source as a real
-// swing (UserInput.AimDirection from the swing origin), so it lands exactly on where
-// an attack would. Shown only while a hand holds a real weapon (fists excluded) and
-// the game is actually playing.
+// swing (UserInput.AimDirection from the swing origin) and asks ToolUser which hand
+// that swing would use, so it lands exactly on where an attack would. Hidden when
+// that hand can't attack (e.g. it holds wood) or the game isn't actually playing.
 public class AimIndicator : MonoBehaviour
 {
     [Tooltip("Hands to read held weapons (and their Tool.range) from.")]
@@ -23,10 +23,13 @@ public class AimIndicator : MonoBehaviour
              "Arrow art pointing right = 0, up = -90.")]
     public float spriteAngleOffset = 0f;
 
+    ToolUser toolUser;   // resolves which hand the next attack would use
+
     void Awake()
     {
         if (cam == null) cam = Camera.main;
         if (arrow == null) arrow = GetComponent<SpriteRenderer>();
+        if (hands != null) toolUser = hands.GetComponent<ToolUser>();
 
         // Detach from the player so we escape its SortingGroup; otherwise the group
         // forces us to sort with the player and our own Sorting Layer is ignored. We
@@ -60,16 +63,19 @@ public class AimIndicator : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, angle + spriteAngleOffset);
     }
 
-    // Largest reach among whatever the hands can swing, measured to the FURTHEST
-    // point of the strike: Tool.range (strike center distance) + Hitbox.radius (how
-    // far the strike circle extends past it). ActiveItem is the held item or the
-    // default fists when empty, so bare hands count (fists are a Tool); a hand holding
-    // a non-tool (e.g. wood) contributes nothing. Returns false only when neither hand
-    // can swing anything — i.e. both hold non-tool items.
+    // Reach of the hand the next attack would use (ToolUser.ResolveAttackHand),
+    // measured to the FURTHEST point of the strike: Tool.range (strike center
+    // distance) + Hitbox.radius (how far the strike circle extends past it).
+    // ActiveItem is the held item or the default fists when empty, so bare hands
+    // count (fists are a Tool). Returns false when that hand can't swing (it holds
+    // a non-tool, e.g. wood). Without a ToolUser, falls back to the larger reach
+    // of the two hands.
     bool TryActiveRange(out float range)
     {
         range = 0f;
         if (hands == null) return false;
+        if (toolUser != null) return Consider(toolUser.ResolveAttackHand(), ref range);
+
         bool any = Consider(HandSide.Left, ref range);
         any |= Consider(HandSide.Right, ref range);
         return any;

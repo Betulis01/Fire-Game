@@ -38,7 +38,7 @@ public class Hitbox : MonoBehaviour
 
         // notify the attacker's reactors (e.g. AttackRecoil) once per connecting swing,
         // at the point the strike circle actually met the (first) hurtbox rather than
-        // the circle's own center, so attacker-side VFX lands where contact happened.
+        // the circle's own center, so attacker-side effects land where contact happened.
         if (anyHit) HitResolution.NotifyAttacker(owner, attack, contactPoint);
     }
 }

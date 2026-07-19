@@ -504,20 +504,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3859240456781532221}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbbb11068e7e433498a2c2676fe3f0d0, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ToolHitEffectOnHit
-  effects:
-  - kind: 4
-    effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
-    spriteAngleOffset: 0
-  - kind: 1
-    effectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
-    spriteAngleOffset: 0
-  - kind: 8
-    effectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
-    spriteAngleOffset: 0
-  aimOrigin: {fileID: 1494677371287058224}
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
+  material: {fileID: 11400000, guid: 2771451cb93346e0be88d7839a39bb2e, type: 2}
 --- !u!114 &6524141862729217689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65c5c6f4fbbf4a249aa1b9288103ed2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0.5, z: 0}
 --- !u!114 &593772493772430815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,6 +656,21 @@ MonoBehaviour:
   - prefab: {fileID: 449804582166282785, guid: 102ea13938d8b28459fdda49a0c26bf2, type: 3}
     count: 1
   scatterRadius: 0.5
+--- !u!114 &216703664612352672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3859240456781532221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
+  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
+  duration: 0.07
+  target: {fileID: 8277306498956503653}
 --- !u!1 &4416604381920127666
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7165257912284901865, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7165257912284901865, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayerID
@@ -857,7 +862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8296866486048973377, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8296866486048973377, guid: ada01f032331356418be307118cae108, type: 3}
       propertyPath: m_SortingLayerID
@@ -873,18 +878,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2244209967888865494, guid: ada01f032331356418be307118cae108, type: 3}
   m_PrefabInstance: {fileID: 2929472069849679944}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &216703664612352672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3859240456781532221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
-  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
-  duration: 0.07
-  target: {fileID: 8277306498956503653}

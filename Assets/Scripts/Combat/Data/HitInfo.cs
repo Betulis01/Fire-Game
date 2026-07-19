@@ -14,6 +14,8 @@ public readonly struct HitInfo
     public readonly Vector2 direction;        // unit vector, attacker -> victim
     public readonly float targetKnockback;    // shove for the victim
     public readonly float selfKnockback;      // recoil for the attacker
+    public readonly GameObject hitEffectPrefab;   // the weapon's contact VFX (SurfaceHitEffect tints it)
+    public readonly float hitEffectAngleOffset;
 
     public HitInfo(GameObject attacker, GameObject victim, in AttackData attack,
                    Vector2 point, Vector2 direction)
@@ -26,6 +28,8 @@ public readonly struct HitInfo
         this.direction = direction;
         targetKnockback = attack.targetKnockback;
         selfKnockback = attack.selfKnockback;
+        hitEffectPrefab = attack.hitEffectPrefab;
+        hitEffectAngleOffset = attack.hitEffectAngleOffset;
     }
 }
 

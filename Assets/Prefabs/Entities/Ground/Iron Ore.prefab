@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 1070241218535459481}
   - component: {fileID: 1596328129607596738}
   - component: {fileID: 4227282769761115078}
+  - component: {fileID: 5500000000000000201}
   m_Layer: 6
   m_Name: Iron Ore
   m_TagString: Untagged
@@ -499,3 +500,16 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.4985118, y: 0.271541}
   m_EdgeRadius: 0
+--- !u!114 &5500000000000000201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
+  material: {fileID: 11400000, guid: 7b6401d7af0340779016319e071744d7, type: 2}

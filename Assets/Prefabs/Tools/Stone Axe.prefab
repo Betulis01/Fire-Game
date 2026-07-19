@@ -159,6 +159,10 @@ MonoBehaviour:
   range: 0.3
   targetKnockback: 3
   selfKnockback: 1.5
+  swingEffectPrefab: {fileID: 0}
+  swingEffectAngleOffset: 0
+  hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
+  hitEffectAngleOffset: 0
 --- !u!114 &-2268743843223548929
 MonoBehaviour:
   m_ObjectHideFlags: 0

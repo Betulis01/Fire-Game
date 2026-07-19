@@ -10,19 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2253911629886400664, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_Name
-      value: FistHitEffect
+      value: AxeSwingEffect
       objectReference: {fileID: 0}
     - target: {fileID: 1160356261127867848, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: d5210f68edd124948b802d14a1f94400, type: 2}
+      objectReference: {fileID: 9100000, guid: d98561597c055a345919e8821e73fa60, type: 2}
+    - target: {fileID: 3626916397498700004, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2086897390090993138, guid: 2d05cf065bd2b694490bff64889a608d, type: 3}
     - target: {fileID: 3626916397498700004, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_SortingLayerID
-      value: -1806610691
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3626916397498700004, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -80,7 +84,10 @@ PrefabInstance:
       addedObject: {fileID: 6154388246462486018}
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7818098218915844688}
+      addedObject: {fileID: 1455362870533182596}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5500000000000000301}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
 --- !u!1 &7824789142328981932 stripped
 GameObject:
@@ -108,14 +115,14 @@ Animation:
   m_GameObject: {fileID: 7824789142328981932}
   m_Enabled: 1
   serializedVersion: 4
-  m_Animation: {fileID: 2546333298532541633, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
+  m_Animation: {fileID: 7400000, guid: 4eb15e1d00137d24fb8199e16ffe0ddc, type: 2}
   m_Animations: []
   m_WrapMode: 0
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
---- !u!114 &7818098218915844688
+--- !u!114 &1455362870533182596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,3 +139,15 @@ MonoBehaviour:
   dynamic: 0
   precision: 100
   tierBand: 5000
+--- !u!114 &5500000000000000301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7824789142328981932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91421707b02b429eaa37979f215164e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SwingEffectOrienter

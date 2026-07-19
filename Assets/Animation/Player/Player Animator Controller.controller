@@ -34,7 +34,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: e_attack_r
-  m_Speed: 1
+  m_Speed: 0.33
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -60,7 +60,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: n_attack_l
-  m_Speed: 1
+  m_Speed: 0.33
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -86,7 +86,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: e_attack_l
-  m_Speed: 1
+  m_Speed: 0.33
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -112,7 +112,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: s_attack_r
-  m_Speed: 1
+  m_Speed: 0.33
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -268,7 +268,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: s_attack_l
-  m_Speed: 1
+  m_Speed: 0.33
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []
@@ -372,7 +372,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: n_attack_r
-  m_Speed: 1
+  m_Speed: 0.33
   m_CycleOffset: 0
   m_Transitions: []
   m_StateMachineBehaviours: []

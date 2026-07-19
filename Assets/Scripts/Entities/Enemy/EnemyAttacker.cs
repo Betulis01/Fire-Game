@@ -59,6 +59,15 @@ public class EnemyAttacker : MonoBehaviour
         readyAt = Time.time + lockDuration;
     }
 
+    // Called by an Animation Event on the attack clip, at the swing's start frame —
+    // OnAttackHit's visual counterpart. Spawns the weapon's swing VFX along the
+    // aim captured when the swing began; leaves the swing armed for the hit.
+    public void OnAttackSwing()
+    {
+        if (!armed) return;
+        tool.SpawnSwingEffect(Origin, aimDir, false, aimOrigin != null ? aimOrigin : transform);
+    }
+
     // Called by an Animation Event on the attack clip, at the contact frame.
     public void OnAttackHit()
     {

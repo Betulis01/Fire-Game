@@ -18,8 +18,11 @@ public class DestroyAfterAnimation : MonoBehaviour
 
     IEnumerator DestroyAfterClip()
     {
-        AnimationClip[] clips = animator.runtimeAnimatorController.animationClips;
-        float length = clips.Length > 0 ? clips[0].length : 0f;
+        // Let the Animator enter its state first, then read the state's length —
+        // unlike the raw clip asset's length, it accounts for the state's speed
+        // multiplier (a 0.5s clip at speed 4 reports 0.125s).
+        yield return null;
+        float length = animator.GetCurrentAnimatorStateInfo(0).length;
         yield return new WaitForSeconds(length);
         Destroy(gameObject);
     }

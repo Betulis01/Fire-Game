@@ -1,13 +1,15 @@
 using UnityEngine;
 
-// "Use the item in a hand" via a single attack button. Which physical hand swings
-// is resolved automatically (ResolveAttackHand), not chosen by the player. A hand
-// swings whatever is "in" it — a held weapon, or its default fists when empty
-// (Hands.ActiveItem hides that distinction). Each is a GameObject with a Tool
-// (stats) plus either a Hitbox (melee strike region) or a RangedWeapon (fires a
-// projectile); a hand holding neither (e.g. wood) can't swing. The swing plays an
-// attack animation; the hit/shot lands when that clip's Animation Event calls
-// OnAttackHit. Swing rate is limited per hand by the weapon's swingSpeed.
+// "Use the item in a hand" via a single attack button. The attack goes to the
+// player's selected hand (PlayerInteractor.ActiveHand, the 1/2 keys), except when
+// both hands hold melee weapons of the same class — then swings alternate
+// (ResolveAttackHand). A hand swings whatever is "in" it — a held weapon, or its
+// default fists when empty (Hands.ActiveItem hides that distinction). Each is a
+// GameObject with a Tool (stats) plus either a Hitbox (melee strike region) or a
+// RangedWeapon (fires a projectile); a hand holding neither (e.g. wood) can't
+// swing. The swing plays an attack animation; the hit/shot lands when that clip's
+// Animation Event calls OnAttackHit. Swing rate is limited per hand by the
+// weapon's swingSpeed.
 [RequireComponent(typeof(Hands))]
 public class ToolUser : MonoBehaviour
 {
@@ -25,6 +27,7 @@ public class ToolUser : MonoBehaviour
     public PlayerAnimator animator;
 
     Hands hands;
+    PlayerInteractor interactor;   // source of the selected hand (1/2 keys)
     float leftReadyAt;
     float rightReadyAt;
 
@@ -37,7 +40,7 @@ public class ToolUser : MonoBehaviour
     // player's single Animator layer can play just one attack clip, so a later
     // swing supersedes an earlier one that hasn't landed yet. Exactly one of
     // hitbox/ranged is set, depending on which the held item offered.
-    struct Swing { public Hitbox hitbox; public RangedWeapon ranged; public AttackData attack; public float range; public bool armed; }
+    struct Swing { public Tool tool; public HandSide side; public Hitbox hitbox; public RangedWeapon ranged; public AttackData attack; public float range; public bool armed; }
     Swing pending;
 
     // World point swings originate from (aim direction + strike center). Uses the
@@ -47,6 +50,7 @@ public class ToolUser : MonoBehaviour
     void Awake()
     {
         hands = GetComponent<Hands>();
+        interactor = GetComponent<PlayerInteractor>();
         if (cam == null) cam = Camera.main;
         if (animator == null) animator = GetComponent<PlayerAnimator>();
     }
@@ -56,40 +60,39 @@ public class ToolUser : MonoBehaviour
         if (UserInput.Instance.Attack) UseHand(ResolveAttackHand());
     }
 
-    // A hand "holds a weapon" if it offers something with a Tool (stats) and either
-    // a Hitbox (melee strike region) or a RangedWeapon (fires a projectile) — fists
-    // count, since the fists prefab has Tool + Hitbox.
-    bool HasWeapon(HandSide side)
+    // A hand "wields melee" if what it offers has a Tool (stats) and a Hitbox
+    // (melee strike region) but no RangedWeapon — fists count, since the fists
+    // prefab has Tool + Hitbox.
+    bool IsMelee(HandSide side)
     {
         GameObject item = hands.ActiveItem(side);
         if (item == null || !item.TryGetComponent<Tool>(out _)) return false;
-        return item.TryGetComponent<Hitbox>(out _) || item.TryGetComponent<RangedWeapon>(out _);
+        return item.TryGetComponent<Hitbox>(out _) && !item.TryGetComponent<RangedWeapon>(out _);
     }
 
-    // Single attack button resolves to a hand: real weapons (non-fists) take priority
-    // over fists. If both hands have real weapons, alternate starting from the right,
-    // resetting to right after a 0.33s gap so a fresh flurry always opens with the same
-    // hand. If only one hand holds a real weapon it always goes first; fists are used
-    // only when both hands are empty.
-    HandSide ResolveAttackHand()
+    // The attack button uses the selected hand (PlayerInteractor.ActiveHand) —
+    // whatever it holds, and nothing happens if that's not a weapon. The one
+    // exception is dual-wield: when both hands wield melee of the same class
+    // (two real held weapons, or two bare fists), swings alternate starting from
+    // the right, resetting to right after a 0.33s gap so a fresh flurry always
+    // opens with the same hand. A mixed pair (weapon + fist) does not alternate.
+    // Side-effect-free (only UseHand mutates the alternation state), so UI like
+    // AimIndicator can poll it every frame to preview the next attack's hand.
+    public HandSide ResolveAttackHand()
     {
-        bool left = HasWeapon(HandSide.Left);
-        bool right = HasWeapon(HandSide.Right);
+        bool leftReal = hands.Held(HandSide.Left) != null;
+        bool rightReal = hands.Held(HandSide.Right) != null;
 
-        bool leftReal = left && hands.Held(HandSide.Left) != null;
-        bool rightReal = right && hands.Held(HandSide.Right) != null;
+        bool dualWield = IsMelee(HandSide.Left) && IsMelee(HandSide.Right)
+            && leftReal == rightReal;
 
-        // prefer the hand with a real weapon over the fist hand
-        if (leftReal && !rightReal) return HandSide.Left;
-        if (rightReal && !leftReal) return HandSide.Right;
-
-        // both real or both fists: alternate as before
-        if (left && right)
+        if (dualWield)
         {
             if (Time.time - lastAttackTime > 0.33f) return HandSide.Right;
             return lastHandUsed == HandSide.Right ? HandSide.Left : HandSide.Right;
         }
-        return right ? HandSide.Right : HandSide.Left;
+
+        return interactor != null ? interactor.ActiveHand : HandSide.Left;
     }
 
     void UseHand(HandSide side)
@@ -110,13 +113,25 @@ public class ToolUser : MonoBehaviour
         lastAttackTime = Time.time;
 
         // Arm the strike/shot; it lands when the clip's Animation Event fires.
-        pending = new Swing { hitbox = hitbox, ranged = ranged, attack = tool.Attack, range = tool.range, armed = true };
+        pending = new Swing { tool = tool, side = side, hitbox = hitbox, ranged = ranged, attack = tool.Attack, range = tool.range, armed = true };
 
         float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
         // always faces the direction the hit will actually land in.
         if (animator != null) animator.PlayAttack(side, lockDuration, AimDirection(Origin));
         SetReadyAt(side, Time.time + lockDuration);
+    }
+
+    // Called by an Animation Event on each *_attack clip, at the swing's start
+    // frame — OnAttackHit's visual counterpart. Spawns the weapon's swing VFX
+    // aimed where the strike will land; leaves the swing armed for the hit.
+    public void OnAttackSwing()
+    {
+        if (!pending.armed || pending.tool == null) return;
+        // Left-hand swings sweep the opposite way (mirrorSweep) for directional art;
+        // the effect follows the swing origin so it moves with the player.
+        pending.tool.SpawnSwingEffect(Origin, AimDirection(Origin), pending.side == HandSide.Left,
+                                      aimOrigin != null ? aimOrigin : transform);
     }
 
     // Called by an Animation Event on each *_attack clip, at the contact frame.
