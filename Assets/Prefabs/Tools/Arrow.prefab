@@ -183,7 +183,6 @@ MonoBehaviour:
   hurtboxLayers:
     serializedVersion: 2
     m_Bits: 512
-  maxLifetime: 3
 --- !u!1 &8033046495986215713
 GameObject:
   m_ObjectHideFlags: 0

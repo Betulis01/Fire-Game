@@ -118,7 +118,13 @@ public class PlayerAnimator : MonoBehaviour
         attacking = true;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);   // safety ceiling only
         currentState = null;   // force the next Play to switch
+        animator.speed = 1f;   // in case a prior charge left this paused
     }
+
+    // Charged attacks freeze the clip mid-playback while held, then resume it on
+    // release. No-op outside an active attack so a stray call can't unpause locomotion.
+    public void PauseAttack() { if (attacking) animator.speed = 0f; }
+    public void ResumeAttack() { animator.speed = 1f; }
 
     // Horizontal wins ties so a mostly sideways diagonal reads as east/west.
     static (string dir, bool flip) ResolveDir(Vector2 v)

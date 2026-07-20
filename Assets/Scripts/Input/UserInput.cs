@@ -104,6 +104,8 @@ public class UserInput : MonoBehaviour
 
     // --- One-shot buttons (true only on the frame the control is pressed) ---
     public bool Attack => attackAction != null && attackAction.WasPressedThisFrame();
+    public bool AttackHeld => attackAction != null && attackAction.IsPressed();
+    public bool AttackReleased => attackAction != null && attackAction.WasReleasedThisFrame();
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
     public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
     public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();

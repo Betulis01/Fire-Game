@@ -65,7 +65,7 @@ public class EnemyAttacker : MonoBehaviour
     public void OnAttackSwing()
     {
         if (!armed) return;
-        tool.SpawnSwingEffect(Origin, aimDir, false, aimOrigin != null ? aimOrigin : transform);
+        tool.SpawnSwingEffect(Origin, aimDir, false, aimOrigin != null ? aimOrigin : transform, false);
     }
 
     // Called by an Animation Event on the attack clip, at the contact frame.
@@ -74,7 +74,7 @@ public class EnemyAttacker : MonoBehaviour
         if (!armed) return;
 
         Vector2 center = Origin + aimDir * tool.range;
-        hitbox.Strike(tool.Attack, gameObject, center);
+        hitbox.Strike(tool.GetAttack(false), gameObject, center);
         armed = false;
     }
 }

@@ -154,11 +154,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 2
-  damage: 1
+  damage: 2
   swingSpeed: 2500
   range: 3
-  targetKnockback: 1
-  selfKnockback: 0
+  targetKnockback: 1.5
+  selfKnockback: 0.25
+  swingEffectPrefab: {fileID: 7824789142328981932, guid: 46762b09ed3853d428e392bb6487c48a, type: 3}
+  swingEffectAngleOffset: 0
+  hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
+  lungeSpeed: 0
+  lungeDuration: 0.15
+  lungeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  heavy:
+    damage: 6
+    targetKnockback: 4
+    selfKnockback: 0.5
+    swingEffectPrefab: {fileID: 7824789142328981932, guid: 46762b09ed3853d428e392bb6487c48a, type: 3}
+    swingEffectAngleOffset: 0
+    hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
+    lungeSpeed: 0
+    lungeDuration: 0
+    lungeCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  chargeTime: 0.8
 --- !u!114 &-2268743843223548929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +235,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RangedWeapon
   projectilePrefab: {fileID: 100000000000000005, guid: 4fbeac2623bf60c47ad3c4ad209c8b90, type: 3}
-  projectileSpeed: 12
+  projectileSpeed: 6
+  chargedSpeed: 10
+  chargedRange: 8
   spawnOffset: 0.4
 --- !u!1 &7700000000000000001
 GameObject:

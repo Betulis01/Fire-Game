@@ -39,9 +39,37 @@ public class ToolUser : MonoBehaviour
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
     // swing supersedes an earlier one that hasn't landed yet. Exactly one of
-    // hitbox/ranged is set, depending on which the held item offered.
-    struct Swing { public Tool tool; public HandSide side; public Hitbox hitbox; public RangedWeapon ranged; public AttackData attack; public float range; public bool armed; }
+    // hitbox/ranged is set, depending on which the held item offered. `heavy` is
+    // resolved once the charge decides (see charging below), not at arm time.
+    struct Swing { public Tool tool; public HandSide side; public Hitbox hitbox; public RangedWeapon ranged; public float range; public bool armed; public bool heavy; public float chargeFraction; }
     Swing pending;
+
+    // Charging: the button was pressed and the swing is waiting on release to find out
+    // whether it resolves light or heavy — that's decided purely by elapsed hold time
+    // vs the tool's chargeTime (see Update), independent of the animation. chargePaused
+    // is separate, purely visual bookkeeping: whether the clip is actually frozen right
+    // now (true once OnAttackChargeReady has fired with the button still held). Holding
+    // is indefinite either way — no auto-release, only release ends a charge.
+    bool charging;
+    bool chargePaused;
+    float chargeStart;
+    public bool IsCharging => charging;
+
+    // 0 at press, 1 once held for the current weapon's chargeTime (and beyond, since
+    // holding is uncapped) — for UI like ChargeBar. 0 whenever not charging.
+    public float ChargeProgress => charging
+        ? Mathf.Clamp01((Time.time - chargeStart) / Mathf.Max(0.0001f, pending.tool.chargeTime))
+        : 0f;
+
+    // Seconds the current press has been held — for UI that only wants to appear once
+    // a hold has gone on a moment (see ChargeBar), so a quick tap never flashes it. 0
+    // whenever not charging.
+    public float ChargeElapsed => charging ? Time.time - chargeStart : 0f;
+
+    // Duration passed to PlayerAnimator.PlayAttack purely as its failsafe ceiling
+    // (see PlayAttack's doc comment) — large so an indefinitely held charge can never
+    // hit it; the real end of a charge is always the button release.
+    const float ChargeFailsafeCeiling = 3600f;
 
     // World point swings originate from (aim direction + strike center). Uses the
     // assigned aimOrigin, falling back to this transform if none is set.
@@ -59,6 +87,26 @@ public class ToolUser : MonoBehaviour
     void Update()
     {
         if (UserInput.Instance.Attack) UseHand(ResolveAttackHand());
+
+        if (!charging) return;
+
+        // Once the swing has actually landed (or its animation finished on its own —
+        // e.g. a weapon whose clip never calls OnAttackChargeReady) there's nothing
+        // left to resolve. Stop treating a still-held button as an ongoing charge, so
+        // holding attack past a quick shot/tap can't leave movement locked forever.
+        if (!pending.armed || (animator != null && !animator.IsAttacking))
+        {
+            charging = false;
+            chargePaused = false;
+            return;
+        }
+
+        if (UserInput.Instance.AttackReleased)
+        {
+            float elapsed = Time.time - chargeStart;
+            float fraction = Mathf.Clamp01(elapsed / Mathf.Max(0.0001f, pending.tool.chargeTime));
+            ResolveCharge(heavy: elapsed >= pending.tool.chargeTime, fraction);
+        }
     }
 
     // A hand "wields melee" if what it offers has a Tool (stats) and a Hitbox
@@ -109,14 +157,40 @@ public class ToolUser : MonoBehaviour
 
         lastHandUsed = side;
 
-        // Arm the strike/shot; it lands when the clip's Animation Event fires.
-        pending = new Swing { tool = tool, side = side, hitbox = hitbox, ranged = ranged, attack = tool.Attack, range = tool.range, armed = true };
+        // Arm the strike/shot; it lands when the clip's Animation Event fires. Whether
+        // this resolves light or heavy is decided later (OnAttackChargeReady / Update).
+        pending = new Swing { tool = tool, side = side, hitbox = hitbox, ranged = ranged, range = tool.range, armed = true, heavy = false };
+        charging = true;
+        chargePaused = false;
+        chargeStart = Time.time;
 
         float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
         // always faces the direction the hit will actually land in.
-        if (animator != null) animator.PlayAttack(side, lockDuration, AimDirection(Origin));
+        if (animator != null) animator.PlayAttack(side, ChargeFailsafeCeiling, AimDirection(Origin));
         SetReadyAt(side, Time.time + lockDuration);
+    }
+
+    // Called by an Animation Event on each *_attack clip, at the "charge hold" frame —
+    // before the swing/hit. Purely visual: if the button's still held once the windup
+    // reaches this pose, freeze the clip there until release. Whether the eventual
+    // release counts as light or heavy is decided in Update by tool.chargeTime, not by
+    // whether this ever fired — a release can already be a valid heavy before the
+    // animation gets here, or still resolve light after it, if chargeTime says so.
+    public void OnAttackChargeReady()
+    {
+        if (!charging || !UserInput.Instance.AttackHeld) return;
+        chargePaused = true;
+        if (animator != null) animator.PauseAttack();
+    }
+
+    void ResolveCharge(bool heavy, float fraction)
+    {
+        pending.heavy = heavy;
+        pending.chargeFraction = fraction;
+        charging = false;
+        if (chargePaused && animator != null) animator.ResumeAttack();
+        chargePaused = false;
     }
 
     // Called by an Animation Event on each *_attack clip, at the swing's start
@@ -129,10 +203,11 @@ public class ToolUser : MonoBehaviour
         // Left-hand swings sweep the opposite way (mirrorSweep) for directional art;
         // the effect follows the swing origin so it moves with the player.
         pending.tool.SpawnSwingEffect(Origin, dir, pending.side == HandSide.Left,
-                                      aimOrigin != null ? aimOrigin : transform);
+                                      aimOrigin != null ? aimOrigin : transform, pending.heavy);
 
         // Push fires here, at the windup, not on the later hit frame.
-        if (lunge != null && lunge.Begin(dir, pending.tool.lungeSpeed, pending.tool.lungeDuration, pending.tool.lungeCurve))
+        (float lungeSpeed, float lungeDuration, AnimationCurve lungeCurve) = pending.tool.GetLunge(pending.heavy);
+        if (lunge != null && lunge.Begin(dir, lungeSpeed, lungeDuration, lungeCurve))
             HitResolution.NotifySwing(gameObject);
     }
 
@@ -145,15 +220,19 @@ public class ToolUser : MonoBehaviour
         Vector2 origin = Origin;
         Vector2 dir = AimDirection(origin);
 
+        AttackData attack = pending.tool.GetAttack(pending.heavy);
+
         if (pending.hitbox != null)
         {
-            pending.hitbox.Strike(pending.attack, gameObject, origin + dir * pending.range);
+            pending.hitbox.Strike(attack, gameObject, origin + dir * pending.range);
         }
         else if (pending.ranged != null)
         {
             RangedWeapon ranged = pending.ranged;
             Projectile arrow = Instantiate(ranged.projectilePrefab, origin + dir * ranged.spawnOffset, Quaternion.identity);
-            arrow.Launch(pending.attack, gameObject, dir, ranged.projectileSpeed);
+            float speed = ranged.GetSpeed(pending.chargeFraction);
+            float range = ranged.GetRange(pending.chargeFraction, pending.tool.range);
+            arrow.Launch(attack, gameObject, dir, speed, range);
         }
         else return;
 

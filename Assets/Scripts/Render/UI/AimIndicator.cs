@@ -65,11 +65,12 @@ public class AimIndicator : MonoBehaviour
 
     // Reach of the hand the next attack would use (ToolUser.ResolveAttackHand),
     // measured to the FURTHEST point of the strike: Tool.range (strike center
-    // distance) + Hitbox.radius (how far the strike circle extends past it).
-    // ActiveItem is the held item or the default fists when empty, so bare hands
-    // count (fists are a Tool). Returns false when that hand can't swing (it holds
-    // a non-tool, e.g. wood). Without a ToolUser, falls back to the larger reach
-    // of the two hands.
+    // distance) + Hitbox.radius (how far the strike circle extends past it) for
+    // melee, or RangedWeapon.GetRange (live charge fraction lerped toward
+    // chargedRange) for a bow. ActiveItem is the held item or the default fists
+    // when empty, so bare hands count (fists are a Tool). Returns false when that
+    // hand can't swing (it holds a non-tool, e.g. wood). Without a ToolUser, falls
+    // back to the larger reach of the two hands.
     bool TryActiveRange(out float range)
     {
         range = 0f;
@@ -87,7 +88,15 @@ public class AimIndicator : MonoBehaviour
         if (item != null && item.TryGetComponent(out Tool tool))
         {
             float reach = tool.range;
-            if (item.TryGetComponent(out Hitbox hitbox)) reach += hitbox.radius;
+            if (item.TryGetComponent(out Hitbox hitbox))
+            {
+                reach += hitbox.radius;
+            }
+            else if (item.TryGetComponent(out RangedWeapon ranged))
+            {
+                float chargeFraction = toolUser != null ? toolUser.ChargeProgress : 0f;
+                reach = ranged.GetRange(chargeFraction, tool.range);
+            }
             range = Mathf.Max(range, reach);
             return true;
         }

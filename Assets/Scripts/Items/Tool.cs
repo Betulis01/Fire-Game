@@ -46,28 +46,68 @@ public class Tool : MonoBehaviour
         new Keyframe(0f, 1f, 0f, 0f),
         new Keyframe(1f, 0f, 0f, 0f));
 
-    // The hit-affecting stats bundled for a swing (damage/positioning live separately).
-    public AttackData Attack => new AttackData(damage, kind, targetKnockback, selfKnockback, hitEffectPrefab);
+    [Header("Heavy Attack (charged)")]
+    [Tooltip("Stats used when the attack is released after being charged, instead of " +
+             "the light fields above. Defaults to inert (0 damage, no effects) until tuned.")]
+    public AttackProfile heavy;
 
-    // Spawn this tool's swing VFX. Directional art (a SwingEffectOrienter on the
-    // prefab) is anchored at the swing origin, rotated to the aim, mirrored for
-    // the off-hand sweep, and follows `anchor` (the wielder) while it plays.
-    // Legacy art without one spawns where the strike will land (origin + dir *
-    // range), free-rotated along the aim + angle offset, and stays put.
-    // Safe no-op when the tool has no swing effect.
-    public void SpawnSwingEffect(Vector2 origin, Vector2 dir, bool mirrorSweep = false, Transform anchor = null)
+    [Tooltip("Minimum time the button must be held for a release to count as heavy. " +
+             "Releasing any earlier than this always resolves light, no matter how far " +
+             "the windup animation has played.")]
+    public float chargeTime = 0.3f;
+
+    // The hit-affecting stats bundled for a swing, from either the light (top-level)
+    // fields or the heavy profile.
+    public AttackData GetAttack(bool isHeavy) => isHeavy
+        ? new AttackData(heavy.damage, kind, heavy.targetKnockback, heavy.selfKnockback, heavy.hitEffectPrefab)
+        : new AttackData(damage, kind, targetKnockback, selfKnockback, hitEffectPrefab);
+
+    // Lunge params for the resolved swing, from either the light (top-level) fields
+    // or the heavy profile.
+    public (float speed, float duration, AnimationCurve curve) GetLunge(bool isHeavy) => isHeavy
+        ? (heavy.lungeSpeed, heavy.lungeDuration, heavy.lungeCurve)
+        : (lungeSpeed, lungeDuration, lungeCurve);
+
+    // Spawn this tool's swing VFX (light or heavy). Directional art (a
+    // SwingEffectOrienter on the prefab) is anchored at strike range from the swing
+    // origin, rotated to the aim, mirrored for the off-hand sweep, and follows
+    // `anchor` (the wielder) at that same range while it plays. Legacy art without
+    // one spawns where the strike will land (origin + dir * range), free-rotated
+    // along the aim + angle offset, and stays put. Safe no-op when the resolved
+    // profile has no swing effect.
+    public void SpawnSwingEffect(Vector2 origin, Vector2 dir, bool mirrorSweep, Transform anchor, bool isHeavy)
     {
-        if (swingEffectPrefab == null) return;
+        GameObject prefab = isHeavy ? heavy.swingEffectPrefab : swingEffectPrefab;
+        float angleOffset = isHeavy ? heavy.swingEffectAngleOffset : swingEffectAngleOffset;
+        if (prefab == null) return;
 
-        if (swingEffectPrefab.TryGetComponent(out SwingEffectOrienter _))
+        if (prefab.TryGetComponent(out SwingEffectOrienter _))
         {
-            GameObject effect = Instantiate(swingEffectPrefab, origin, Quaternion.identity);
-            effect.GetComponent<SwingEffectOrienter>().Orient(dir, mirrorSweep, anchor);
+            GameObject effect = Instantiate(prefab, origin + dir * range, Quaternion.identity);
+            effect.GetComponent<SwingEffectOrienter>().Orient(dir, mirrorSweep, anchor, range);
             return;
         }
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        Instantiate(swingEffectPrefab, origin + dir * range,
-                    Quaternion.Euler(0f, 0f, angle + swingEffectAngleOffset));
+        Instantiate(prefab, origin + dir * range, Quaternion.Euler(0f, 0f, angle + angleOffset));
     }
+}
+
+// Damage/knockback/effects/lunge for a charged (heavy) release. Mirrors Tool's
+// light-attack fields (which stay top-level/flat to avoid re-entering existing
+// weapon data) so a weapon's heavy attack can be tuned fully independently.
+[System.Serializable]
+public class AttackProfile
+{
+    public float damage;
+    public float targetKnockback;
+    public float selfKnockback;
+    public GameObject swingEffectPrefab;
+    public float swingEffectAngleOffset;
+    public GameObject hitEffectPrefab;
+    public float lungeSpeed;
+    public float lungeDuration;
+    public AnimationCurve lungeCurve = new AnimationCurve(
+        new Keyframe(0f, 1f, 0f, 0f),
+        new Keyframe(1f, 0f, 0f, 0f));
 }

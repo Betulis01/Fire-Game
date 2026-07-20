@@ -10,16 +10,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2253911629886400664, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_Name
-      value: SwordSwingEffect
+      value: BowSwingEffect
       objectReference: {fileID: 0}
     - target: {fileID: 1160356261127867848, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: d5739ba5148a3f64785be45d36531c4f, type: 2}
+      objectReference: {fileID: 9100000, guid: 9ea3c1d60dea87e429ac1c4e580356b8, type: 2}
     - target: {fileID: 3626916397498700004, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6024030693235814084, guid: dc1dedebfc354ab46bfb027b7f02bc7f, type: 3}
+      objectReference: {fileID: 2068113754240654575, guid: c81443c8602d2c3409f1131581a9df3f, type: 3}
     - target: {fileID: 3626916397498700004, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       propertyPath: m_SortingLayer
       value: 0
@@ -115,7 +115,7 @@ Animation:
   m_GameObject: {fileID: 7824789142328981932}
   m_Enabled: 1
   serializedVersion: 4
-  m_Animation: {fileID: 7400000, guid: be335ef8137eada4f8a5590086aadbed, type: 2}
+  m_Animation: {fileID: 7400000, guid: eff7a42deebfe8b43ac3cd428c952bdc, type: 2}
   m_Animations: []
   m_WrapMode: 0
   m_PlayAutomatically: 1
@@ -151,5 +151,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91421707b02b429eaa37979f215164e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwingEffectOrienter
-  startAngleOffset: 80
-  rangeOffset: 0.15

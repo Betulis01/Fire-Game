@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Knockback knockback;
     AttackLunge lunge;
+    ToolUser toolUser;
 
     public float speed = 4f;
 
@@ -34,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
         lunge = GetComponent<AttackLunge>();
         if (lunge != null) lunge.SelfMove = false;
+
+        toolUser = GetComponent<ToolUser>();
     }
 
     void Update()
@@ -46,10 +49,10 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // lock movement input while a lunge is easing out, so the player isn't
-        // fighting the push with held direction keys
-        bool lunging = lunge != null && lunge.IsLunging;
-        Vector2 input = lunging ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
+        // lock movement input while a lunge is easing out or a charged attack is being
+        // held, so the player isn't fighting the push or drifting mid-charge
+        bool inputLocked = (lunge != null && lunge.IsLunging) || (toolUser != null && toolUser.IsCharging);
+        Vector2 input = inputLocked ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
         Vector2 velocity = input.normalized * speed * speedMultiplier;
 
         // add any active knockback/lunge (each decays itself); composes with input in one move

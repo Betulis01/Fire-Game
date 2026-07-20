@@ -151,3 +151,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91421707b02b429eaa37979f215164e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwingEffectOrienter
+  startAngleOffset: 70
+  rangeOffset: 0

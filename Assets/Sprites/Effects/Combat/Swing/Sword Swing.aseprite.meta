@@ -102,7 +102,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 639200758554980464
+  platformSettingsDirtyTick: 639201595802452063
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -129,16 +129,16 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 1.1666667, y: 4}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 21
-      y: 38
+      y: 41
       width: 6
-      height: 2
+      height: 3
     spriteID: 49a177e2eae0a17429c4e5b13537a4f4
     spriteBone: []
     spriteOutline: []
@@ -147,19 +147,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 21, y: 38}
+    uvTransform: {x: 21, y: 41}
   - name: Frame_1
     originalName: 
-    pivot: {x: 0.7777778, y: 4}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 38
+      y: 41
       width: 9
-      height: 2
+      height: 3
     spriteID: 27f0be4a6d8f2e84aa3b0297686956eb
     spriteBone: []
     spriteOutline: []
@@ -168,19 +168,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 38}
+    uvTransform: {x: 4, y: 41}
   - name: Frame_2
     originalName: 
-    pivot: {x: 0.6363636, y: 4}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 28
+      y: 30
       width: 11
-      height: 2
+      height: 3
     spriteID: a9f15211d741d114db4408d788b3a62f
     spriteBone: []
     spriteOutline: []
@@ -189,19 +189,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 28}
+    uvTransform: {x: 4, y: 30}
   - name: Frame_3
     originalName: 
-    pivot: {x: 0.53846157, y: 2.6666667}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 17
+      y: 18
       width: 13
-      height: 3
+      height: 4
     spriteID: 96b50a0c7fd4e124bb14e488ccea45d1
     spriteBone: []
     spriteOutline: []
@@ -210,11 +210,11 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 17}
+    uvTransform: {x: 4, y: 18}
   - name: Frame_4
     originalName: 
-    pivot: {x: 0.4666667, y: 1.6}
-    alignment: 9
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -222,7 +222,7 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 15
-      height: 5
+      height: 6
     spriteID: 6cd1f2abcde6934459e39390a86a6f89
     spriteBone: []
     spriteOutline: []
@@ -254,7 +254,7 @@ ScriptedImporter:
         x: 1
         y: 0
         width: 6
-        height: 2
+        height: 3
       spriteId: 49a177e2eae0a17429c4e5b13537a4f4
     - name: Frame_1
       frameIndex: 1
@@ -263,7 +263,7 @@ ScriptedImporter:
         x: 1
         y: 0
         width: 9
-        height: 2
+        height: 3
       spriteId: 27f0be4a6d8f2e84aa3b0297686956eb
     - name: Frame_2
       frameIndex: 2
@@ -272,7 +272,7 @@ ScriptedImporter:
         x: 1
         y: 0
         width: 11
-        height: 2
+        height: 3
       spriteId: a9f15211d741d114db4408d788b3a62f
     - name: Frame_3
       frameIndex: 3
@@ -281,7 +281,7 @@ ScriptedImporter:
         x: 1
         y: 0
         width: 13
-        height: 3
+        height: 4
       spriteId: 96b50a0c7fd4e124bb14e488ccea45d1
     - name: Frame_4
       frameIndex: 4
@@ -290,7 +290,7 @@ ScriptedImporter:
         x: 1
         y: 0
         width: 15
-        height: 5
+        height: 6
       spriteId: 6cd1f2abcde6934459e39390a86a6f89
     linkedCells: []
     tileCells: []
