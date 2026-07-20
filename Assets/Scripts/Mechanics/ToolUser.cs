@@ -26,15 +26,15 @@ public class ToolUser : MonoBehaviour
              "Event at its contact frame calling OnAttackHit. Defaults to one here.")]
     public PlayerAnimator animator;
 
+    AttackLunge lunge;
     Hands hands;
     PlayerInteractor interactor;   // source of the selected hand (1/2 keys)
     float leftReadyAt;
     float rightReadyAt;
 
-    // Dual-wield alternation: when both hands hold a weapon, swings alternate
-    // starting from the right hand, resetting back to right after 1s (-999f) of no attacks.
+    // Dual-wield alternation: when both hands hold a weapon, swings alternate hands
+    // each time one actually lands (see UseHand) — starting from the right.
     HandSide lastHandUsed = HandSide.Right;
-    float lastAttackTime = -999f;
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
@@ -51,6 +51,7 @@ public class ToolUser : MonoBehaviour
     {
         hands = GetComponent<Hands>();
         interactor = GetComponent<PlayerInteractor>();
+        lunge = GetComponent<AttackLunge>();
         if (cam == null) cam = Camera.main;
         if (animator == null) animator = GetComponent<PlayerAnimator>();
     }
@@ -73,11 +74,11 @@ public class ToolUser : MonoBehaviour
     // The attack button uses the selected hand (PlayerInteractor.ActiveHand) —
     // whatever it holds, and nothing happens if that's not a weapon. The one
     // exception is dual-wield: when both hands wield melee of the same class
-    // (two real held weapons, or two bare fists), swings alternate starting from
-    // the right, resetting to right after a 0.33s gap so a fresh flurry always
-    // opens with the same hand. A mixed pair (weapon + fist) does not alternate.
-    // Side-effect-free (only UseHand mutates the alternation state), so UI like
-    // AimIndicator can poll it every frame to preview the next attack's hand.
+    // (two real held weapons, or two bare fists), swings alternate hands every
+    // time one lands, starting from the right. A mixed pair (weapon + fist) does
+    // not alternate. Side-effect-free (only UseHand mutates the alternation
+    // state), so UI like AimIndicator can poll it every frame to preview the
+    // next attack's hand.
     public HandSide ResolveAttackHand()
     {
         bool leftReal = hands.Held(HandSide.Left) != null;
@@ -87,10 +88,7 @@ public class ToolUser : MonoBehaviour
             && leftReal == rightReal;
 
         if (dualWield)
-        {
-            if (Time.time - lastAttackTime > 0.33f) return HandSide.Right;
             return lastHandUsed == HandSide.Right ? HandSide.Left : HandSide.Right;
-        }
 
         return interactor != null ? interactor.ActiveHand : HandSide.Left;
     }
@@ -110,7 +108,6 @@ public class ToolUser : MonoBehaviour
         if (hitbox == null && ranged == null) return;
 
         lastHandUsed = side;
-        lastAttackTime = Time.time;
 
         // Arm the strike/shot; it lands when the clip's Animation Event fires.
         pending = new Swing { tool = tool, side = side, hitbox = hitbox, ranged = ranged, attack = tool.Attack, range = tool.range, armed = true };
@@ -128,10 +125,15 @@ public class ToolUser : MonoBehaviour
     public void OnAttackSwing()
     {
         if (!pending.armed || pending.tool == null) return;
+        Vector2 dir = AimDirection(Origin);
         // Left-hand swings sweep the opposite way (mirrorSweep) for directional art;
         // the effect follows the swing origin so it moves with the player.
-        pending.tool.SpawnSwingEffect(Origin, AimDirection(Origin), pending.side == HandSide.Left,
+        pending.tool.SpawnSwingEffect(Origin, dir, pending.side == HandSide.Left,
                                       aimOrigin != null ? aimOrigin : transform);
+
+        // Push fires here, at the windup, not on the later hit frame.
+        if (lunge != null && lunge.Begin(dir, pending.tool.lungeSpeed, pending.tool.lungeDuration, pending.tool.lungeCurve))
+            HitResolution.NotifySwing(gameObject);
     }
 
     // Called by an Animation Event on each *_attack clip, at the contact frame.

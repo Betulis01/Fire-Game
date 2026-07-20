@@ -29,11 +29,11 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        if (DayNightCycle.Instance == null || !DayNightCycle.Instance.IsNight)
-        {
-            timer = 0f;
-            return;
-        }
+        // if (DayNightCycle.Instance == null || !DayNightCycle.Instance.IsNight)
+        // {
+        //     timer = 0f;
+        //     return;
+        // }
 
         float fuelLevel = fuel.fuelLevel;
         if (fuelLevel <= 0f) return;

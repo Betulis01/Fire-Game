@@ -11,16 +11,14 @@ public readonly struct AttackData
     public readonly float targetKnockback;   // shove dealt to a hit target
     public readonly float selfKnockback;     // recoil dealt back to the attacker
     public readonly GameObject hitEffectPrefab;   // the weapon's contact VFX, spawned by the victim
-    public readonly float hitEffectAngleOffset;
 
     public AttackData(float damage, ToolKind kind, float targetKnockback, float selfKnockback,
-                      GameObject hitEffectPrefab, float hitEffectAngleOffset)
+                      GameObject hitEffectPrefab)
     {
         this.damage = damage;
         this.kind = kind;
         this.targetKnockback = targetKnockback;
         this.selfKnockback = selfKnockback;
         this.hitEffectPrefab = hitEffectPrefab;
-        this.hitEffectAngleOffset = hitEffectAngleOffset;
     }
 }

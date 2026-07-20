@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     PlayerTemperature body;
     Rigidbody2D rb;
     Knockback knockback;
+    AttackLunge lunge;
 
     public float speed = 4f;
 
@@ -30,6 +31,9 @@ public class PlayerController : MonoBehaviour
         // than letting it move the body separately (two MovePosition calls conflict).
         knockback = GetComponent<Knockback>();
         if (knockback != null) knockback.SelfMove = false;
+
+        lunge = GetComponent<AttackLunge>();
+        if (lunge != null) lunge.SelfMove = false;
     }
 
     void Update()
@@ -42,11 +46,15 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 input = UserInput.Instance.Move;   // WASD/arrows or gamepad stick
+        // lock movement input while a lunge is easing out, so the player isn't
+        // fighting the push with held direction keys
+        bool lunging = lunge != null && lunge.IsLunging;
+        Vector2 input = lunging ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
         Vector2 velocity = input.normalized * speed * speedMultiplier;
 
-        // add any active knockback (it decays itself); composes with input in one move
+        // add any active knockback/lunge (each decays itself); composes with input in one move
         if (knockback != null) velocity += knockback.Velocity;
+        if (lunge != null) velocity += lunge.Velocity;
 
         // move through the physics engine so colliders stop us against trees, etc.
         Vector2 newPos = rb.position + velocity * Time.fixedDeltaTime;

@@ -36,4 +36,13 @@ public static class HitResolution
         foreach (IAttackReactor reactor in owner.GetComponents<IAttackReactor>())
             reactor.OnDealtHit(info);
     }
+
+    // Notify the attacker's swing reactors (e.g. HitStopOnSwing) the instant a swing
+    // starts (windup), regardless of whether it goes on to connect.
+    public static void NotifySwing(GameObject owner)
+    {
+        if (owner == null) return;
+        foreach (IAttackSwingReactor reactor in owner.GetComponents<IAttackSwingReactor>())
+            reactor.OnSwing();
+    }
 }

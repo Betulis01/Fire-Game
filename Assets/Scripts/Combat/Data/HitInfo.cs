@@ -15,7 +15,6 @@ public readonly struct HitInfo
     public readonly float targetKnockback;    // shove for the victim
     public readonly float selfKnockback;      // recoil for the attacker
     public readonly GameObject hitEffectPrefab;   // the weapon's contact VFX (SurfaceHitEffect tints it)
-    public readonly float hitEffectAngleOffset;
 
     public HitInfo(GameObject attacker, GameObject victim, in AttackData attack,
                    Vector2 point, Vector2 direction)
@@ -29,7 +28,6 @@ public readonly struct HitInfo
         targetKnockback = attack.targetKnockback;
         selfKnockback = attack.selfKnockback;
         hitEffectPrefab = attack.hitEffectPrefab;
-        hitEffectAngleOffset = attack.hitEffectAngleOffset;
     }
 }
 
@@ -38,3 +36,7 @@ public interface IHitReactor { void OnHit(in HitInfo hit); }
 
 // Implemented by components on an attacker that react to landing a hit.
 public interface IAttackReactor { void OnDealtHit(in HitInfo hit); }
+
+// Implemented by components on an attacker that react to a swing starting
+// (windup), before it's known whether the swing will connect.
+public interface IAttackSwingReactor { void OnSwing(); }

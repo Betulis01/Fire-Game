@@ -32,13 +32,22 @@ public class Tool : MonoBehaviour
              "effect above plays regardless of connecting.")]
     public GameObject hitEffectPrefab;
 
-    [Tooltip("Degrees added so the impact effect's drawn forward aligns with the hit " +
-             "direction (+X). Art pointing right = 0, up = -90.")]
-    public float hitEffectAngleOffset;
+    [Header("Lunge (fires on windup)")]
+    [Tooltip("Forward push speed fired the instant the swing starts (windup), not on " +
+             "hit. 0 disables the lunge for this tool.")]
+    public float lungeSpeed = 0f;
+
+    [Tooltip("How long the lunge takes to ease down to zero.")]
+    public float lungeDuration = 0.15f;
+
+    [Tooltip("Shapes the lunge's speed over its duration, 0..1 normalized time to a " +
+             "0..1 speed multiplier. Defaults to an ease-out (fast start, smooth stop).")]
+    public AnimationCurve lungeCurve = new AnimationCurve(
+        new Keyframe(0f, 1f, 0f, 0f),
+        new Keyframe(1f, 0f, 0f, 0f));
 
     // The hit-affecting stats bundled for a swing (damage/positioning live separately).
-    public AttackData Attack => new AttackData(damage, kind, targetKnockback, selfKnockback,
-                                               hitEffectPrefab, hitEffectAngleOffset);
+    public AttackData Attack => new AttackData(damage, kind, targetKnockback, selfKnockback, hitEffectPrefab);
 
     // Spawn this tool's swing VFX. Directional art (a SwingEffectOrienter on the
     // prefab) is anchored at the swing origin, rotated to the aim, mirrored for

@@ -273,6 +273,7 @@ GameObject:
   - component: {fileID: 5500000000000000034}
   - component: {fileID: 4239748836073507299}
   - component: {fileID: 3983932385213641728}
+  - component: {fileID: -7315947511421571028}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -701,6 +702,19 @@ MonoBehaviour:
   flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
   duration: 0.07
   target: {fileID: 6843272148859934745}
+--- !u!114 &-7315947511421571028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89576d8acb372ac4298667a2d2f62183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackLunge
+  SelfMove: 1
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0

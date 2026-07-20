@@ -54,7 +54,6 @@ MonoBehaviour:
   swingEffectPrefab: {fileID: 0}
   swingEffectAngleOffset: 0
   hitEffectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
-  hitEffectAngleOffset: 0
 --- !u!114 &7700000000000000103
 MonoBehaviour:
   m_ObjectHideFlags: 0
