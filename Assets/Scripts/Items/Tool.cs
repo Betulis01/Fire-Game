@@ -8,7 +8,6 @@ public class Tool : MonoBehaviour
 
     public ToolKind kind = ToolKind.Fist;   // gates what this tool can damage
     public float damage = 1f;
-    public float swingSpeed = 1f;
     public float range = 1f;        // how far in front of the wielder the strike lands
 
     [Tooltip("Shove dealt to a hit target, away from the attacker (needs a Knockback " +
@@ -20,17 +19,12 @@ public class Tool : MonoBehaviour
     public float selfKnockback = 1f;
 
     [Tooltip("Slash/swing VFX spawned at swing start on every swing, hit or miss. " +
-             "The victim's SurfaceMaterial spray is separate and layers on top.")]
+             "The victim's HitEffect contact VFX is separate and layers on top.")]
     public GameObject swingEffectPrefab;
 
     [Tooltip("Degrees added so the swing effect's drawn forward aligns with the aim " +
              "(+X). Art pointing right = 0, up = -90.")]
     public float swingEffectAngleOffset;
-
-    [Tooltip("Contact VFX for a connecting hit, spawned by the victim's SurfaceHitEffect " +
-             "and tinted by its SurfaceMaterial (blood red on flesh, ...). The swing " +
-             "effect above plays regardless of connecting.")]
-    public GameObject hitEffectPrefab;
 
     [Header("Lunge (fires on windup)")]
     [Tooltip("Forward push speed fired the instant the swing starts (windup), not on " +
@@ -59,8 +53,8 @@ public class Tool : MonoBehaviour
     // The hit-affecting stats bundled for a swing, from either the light (top-level)
     // fields or the heavy profile.
     public AttackData GetAttack(bool isHeavy) => isHeavy
-        ? new AttackData(heavy.damage, kind, heavy.targetKnockback, heavy.selfKnockback, heavy.hitEffectPrefab)
-        : new AttackData(damage, kind, targetKnockback, selfKnockback, hitEffectPrefab);
+        ? new AttackData(heavy.damage, kind, heavy.targetKnockback, heavy.selfKnockback)
+        : new AttackData(damage, kind, targetKnockback, selfKnockback);
 
     // Lunge params for the resolved swing, from either the light (top-level) fields
     // or the heavy profile.
@@ -104,7 +98,6 @@ public class AttackProfile
     public float selfKnockback;
     public GameObject swingEffectPrefab;
     public float swingEffectAngleOffset;
-    public GameObject hitEffectPrefab;
     public float lungeSpeed;
     public float lungeDuration;
     public AnimationCurve lungeCurve = new AnimationCurve(

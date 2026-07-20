@@ -3,7 +3,7 @@ using UnityEngine;
 // Shared "does this collider count as a valid hit" check, used by every hit
 // detector (Hitbox's one-shot overlap, Projectile's per-frame trigger). Keeping it
 // in one place means melee and ranged attacks can't drift apart on what a hit is:
-// skip the attacker, respect ToolDamageFilter, require a Hurtbox with Health.
+// skip the attacker, require a Hurtbox with Health.
 public static class HitResolution
 {
     public static bool TryHit(Collider2D col, GameObject owner, in AttackData attack,
@@ -13,9 +13,6 @@ public static class HitResolution
 
         Hurtbox hb = col.GetComponentInParent<Hurtbox>();
         if (hb == null || hb.Health == null || hb.Owner == owner) return false;
-
-        ToolDamageFilter gate = hb.Health.GetComponent<ToolDamageFilter>();
-        if (gate != null && !gate.Accepts(attack.kind)) return false;
 
         Vector2 attackerPos = owner != null ? (Vector2)owner.transform.position : center;
         Vector2 toTarget = (Vector2)hb.Owner.transform.position - attackerPos;

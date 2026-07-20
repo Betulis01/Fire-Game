@@ -26,7 +26,6 @@ public class EnemyAttacker : MonoBehaviour
     Hitbox hitbox;
     EnemyBrain brain;
 
-    float readyAt;
     bool armed;
     Vector2 aimDir;
 
@@ -43,7 +42,7 @@ public class EnemyAttacker : MonoBehaviour
     void Update()
     {
         if (brain.CurrentState != EnemyBrain.State.Combat) return;
-        if (Time.time < readyAt) return;
+        if (animator != null && animator.IsAttacking) return;
 
         Transform target = brain.AggroTarget;
         if (target == null) return;
@@ -54,9 +53,7 @@ public class EnemyAttacker : MonoBehaviour
         aimDir = toTarget.normalized;
         armed = true;
 
-        float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
-        if (animator != null) animator.PlayAttack(lockDuration, aimDir);
-        readyAt = Time.time + lockDuration;
+        if (animator != null) animator.PlayAttack(0f, aimDir);
     }
 
     // Called by an Animation Event on the attack clip, at the swing's start frame —

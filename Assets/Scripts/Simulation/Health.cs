@@ -35,6 +35,13 @@ public class Health : MonoBehaviour, IHitReactor
         current = Mathf.Min(maxHealth, current + amount);
     }
 
-    // React to a landed hit by taking its damage (kind-gating already happened in Hitbox).
-    public void OnHit(in HitInfo hit) => TakeDamage(hit.damage, DamageType.Combat, hit.point);
+    // React to a landed hit by taking its damage, unless a ToolDamageFilter on this
+    // entity rejects the striking tool's kind (the hit itself still registered —
+    // knockback/VFX/recoil already ran off Hurtbox.TakeHit — only damage is skipped).
+    public void OnHit(in HitInfo hit)
+    {
+        ToolDamageFilter gate = GetComponent<ToolDamageFilter>();
+        if (gate != null && !gate.Accepts(hit.kind)) return;
+        TakeDamage(hit.damage, DamageType.Combat, hit.point);
+    }
 }

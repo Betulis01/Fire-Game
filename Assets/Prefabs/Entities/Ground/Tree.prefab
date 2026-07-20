@@ -514,4 +514,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
-  material: {fileID: 11400000, guid: 2b2d6f3ed1354e38b1c87f366228e1ab, type: 2}
+  hitEffect: {fileID: 11400000, guid: 2b2d6f3ed1354e38b1c87f366228e1ab, type: 2}

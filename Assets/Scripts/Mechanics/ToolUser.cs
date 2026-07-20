@@ -8,8 +8,8 @@ using UnityEngine;
 // GameObject with a Tool (stats) plus either a Hitbox (melee strike region) or a
 // RangedWeapon (fires a projectile); a hand holding neither (e.g. wood) can't
 // swing. The swing plays an attack animation; the hit/shot lands when that clip's
-// Animation Event calls OnAttackHit. Swing rate is limited per hand by the
-// weapon's swingSpeed.
+// Animation Event calls OnAttackHit. Swing rate is gated by the attack clip itself
+// finishing (animator.IsAttacking), not a weapon stat.
 [RequireComponent(typeof(Hands))]
 public class ToolUser : MonoBehaviour
 {
@@ -29,8 +29,6 @@ public class ToolUser : MonoBehaviour
     AttackLunge lunge;
     Hands hands;
     PlayerInteractor interactor;   // source of the selected hand (1/2 keys)
-    float leftReadyAt;
-    float rightReadyAt;
 
     // Dual-wield alternation: when both hands hold a weapon, swings alternate hands
     // each time one actually lands (see UseHand) — starting from the right.
@@ -143,7 +141,6 @@ public class ToolUser : MonoBehaviour
 
     void UseHand(HandSide side)
     {
-        if (Time.time < ReadyAt(side)) return;
         if (animator != null && animator.IsAttacking) return;
 
         // Swing whatever the hand offers (held weapon or default fists). It must be a
@@ -164,11 +161,9 @@ public class ToolUser : MonoBehaviour
         chargePaused = false;
         chargeStart = Time.time;
 
-        float lockDuration = 1f / Mathf.Max(0.01f, tool.swingSpeed);
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
         // always faces the direction the hit will actually land in.
         if (animator != null) animator.PlayAttack(side, ChargeFailsafeCeiling, AimDirection(Origin));
-        SetReadyAt(side, Time.time + lockDuration);
     }
 
     // Called by an Animation Event on each *_attack clip, at the "charge hold" frame —
@@ -246,11 +241,4 @@ public class ToolUser : MonoBehaviour
         return UserInput.Instance.AimDirection(origin, cam);
     }
 
-    float ReadyAt(HandSide side) => side == HandSide.Left ? leftReadyAt : rightReadyAt;
-
-    void SetReadyAt(HandSide side, float time)
-    {
-        if (side == HandSide.Left) leftReadyAt = time;
-        else rightReadyAt = time;
-    }
 }

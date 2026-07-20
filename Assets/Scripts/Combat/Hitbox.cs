@@ -3,9 +3,10 @@ using UnityEngine;
 
 // The damaging region produced by an attack. Authored on a weapon prefab; the shape
 // is a circle of `radius`. Strike() only DETECTS hits: it polls once, skips the
-// attacker and anything its ToolDamageFilter rejects, dedups per entity, and delivers
-// a HitInfo to each victim's Hurtbox. What a hit does (damage, knockback, ...) lives
-// in the victim's IHitReactor components; recoil lives in the attacker's IAttackReactor.
+// attacker, dedups per entity, and delivers a HitInfo to each victim's Hurtbox. What a
+// hit does (damage, knockback, ...) lives in the victim's IHitReactor components
+// (Health checks ToolDamageFilter before applying damage); recoil lives in the
+// attacker's IAttackReactor.
 public class Hitbox : MonoBehaviour
 {
     public float radius = 0.6f;        // strike size

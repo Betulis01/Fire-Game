@@ -155,10 +155,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 4
   damage: 1
-  swingSpeed: 2000
   range: 0.3
-  targetKnockback: 2
-  selfKnockback: 3
+  targetKnockback: 1
+  selfKnockback: 1
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
   swingEffectAngleOffset: 0
   hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
@@ -190,8 +189,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   heavy:
     damage: 3
-    targetKnockback: 4
-    selfKnockback: 6
+    targetKnockback: 2
+    selfKnockback: 2
     swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
     swingEffectAngleOffset: 0
     hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}

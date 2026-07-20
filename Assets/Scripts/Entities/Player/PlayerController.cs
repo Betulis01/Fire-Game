@@ -19,8 +19,14 @@ public class PlayerController : MonoBehaviour
     [Range(0f, 1f)] public float speedFloor = 0.4f;   // slowest fraction of base speed
     public float smoothTime = 0.5f;          // how quickly speed eases to the target
 
+    [Tooltip("Seconds for movement to ease to a stop after input is released. Redirecting " +
+             "while still holding input stays instant — only releasing eases out.")]
+    public float stopSmoothTime = 0.15f;
+
     float speedMultiplier = 1f;
     float smoothVel;
+    Vector2 moveVelocity;
+    Vector3 moveSmoothVel;
 
     void Start()
     {
@@ -49,11 +55,25 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // lock movement input while a lunge is easing out or a charged attack is being
-        // held, so the player isn't fighting the push or drifting mid-charge
-        bool inputLocked = (lunge != null && lunge.IsLunging) || (toolUser != null && toolUser.IsCharging);
+        // lock movement input for the whole attack (windup, any charge hold, swing,
+        // recovery) so the player can't walk out from under it mid-swing — driven by
+        // the attack animation itself, not just the brief lunge window.
+        bool inputLocked = toolUser != null && toolUser.animator != null && toolUser.animator.IsAttacking;
         Vector2 input = inputLocked ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
-        Vector2 velocity = input.normalized * speed * speedMultiplier;
+        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier;
+
+        if (input.sqrMagnitude > 0.0001f)
+        {
+            // actively steering: instant response, no lag while held
+            moveVelocity = targetMoveVelocity;
+            moveSmoothVel = Vector3.zero;
+        }
+        else
+        {
+            // released: ease the last velocity down to zero instead of cutting dead
+            moveVelocity = Vector3.SmoothDamp(moveVelocity, Vector3.zero, ref moveSmoothVel, stopSmoothTime);
+        }
+        Vector2 velocity = moveVelocity;
 
         // add any active knockback/lunge (each decays itself); composes with input in one move
         if (knockback != null) velocity += knockback.Velocity;

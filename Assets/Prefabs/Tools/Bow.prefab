@@ -155,7 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 2
   damage: 2
-  swingSpeed: 2500
   range: 3
   targetKnockback: 1.5
   selfKnockback: 0.25

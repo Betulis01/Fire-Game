@@ -85,9 +85,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1455362870533182596}
-    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5500000000000000301}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 412e2706e8cb1b84f85ab76646312588, type: 3}
 --- !u!1 &7824789142328981932 stripped
 GameObject:
@@ -139,17 +136,3 @@ MonoBehaviour:
   dynamic: 0
   precision: 100
   tierBand: 5000
---- !u!114 &5500000000000000301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7824789142328981932}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91421707b02b429eaa37979f215164e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SwingEffectOrienter
-  startAngleOffset: 70
-  rangeOffset: 0

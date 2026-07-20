@@ -152,4 +152,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwingEffectOrienter
   startAngleOffset: 80
-  rangeOffset: 0.15
+  rangeOffset: 0

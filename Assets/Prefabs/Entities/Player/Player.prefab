@@ -483,6 +483,7 @@ MonoBehaviour:
   warmTemp: 0
   speedFloor: 0.4
   smoothTime: 0.5
+  stopSmoothTime: 0.15
 --- !u!114 &2244934674691583818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -632,7 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e2d1f8c3a4596e8f0a1b2c3d4e5f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Knockback
-  deceleration: 30
+  smoothTime: 0.15
   SelfMove: 1
 --- !u!114 &5500000000000000031
 MonoBehaviour:
@@ -700,7 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d7016f67f74b33a5da55426de149bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlashOnHit
-  flashMaterial: {fileID: 2100000, guid: 7c12e228454148e3aab8283f5daa3a49, type: 2}
+  flashMaterial: {fileID: 2100000, guid: 42d9d87ad7f0f13408d78012e4f7d1bd, type: 2}
   duration: 0.07
   target: {fileID: 6843272148859934745}
 --- !u!114 &-7315947511421571028
@@ -716,6 +717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackLunge
   SelfMove: 1
+  smoothTime: 0.2
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5500000000000000021
 Transform:
   m_ObjectHideFlags: 0

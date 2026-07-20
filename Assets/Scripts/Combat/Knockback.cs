@@ -2,15 +2,16 @@ using UnityEngine;
 
 // Reusable shove: holds a velocity that decays to zero and slides the entity along
 // it. Opt-in per prefab (enemies, the player). Apply() adds an impulse; the velocity
-// bleeds off at `deceleration`. By default the component integrates itself through
-// rb.MovePosition (collision-aware, used by entities with no other mover). A script
-// that owns rb.MovePosition (e.g. PlayerController) sets SelfMove = false and folds
-// Velocity into its own move so there's only ever one MovePosition per step.
+// eases down to zero over `smoothTime` (SmoothDamp) rather than bleeding off at a
+// constant rate. By default the component integrates itself through rb.MovePosition
+// (collision-aware, used by entities with no other mover). A script that owns
+// rb.MovePosition (e.g. PlayerController) sets SelfMove = false and folds Velocity
+// into its own move so there's only ever one MovePosition per step.
 [RequireComponent(typeof(Rigidbody2D))]
 public class Knockback : MonoBehaviour, IHitReactor
 {
-    [Tooltip("How fast the knockback velocity bleeds off (units/sec^2). Higher = snappier.")]
-    public float deceleration = 30f;
+    [Tooltip("Seconds for the knockback velocity to ease down to zero. Lower = snappier.")]
+    public float smoothTime = 0.15f;
 
     // Whether this component moves the body itself. A mover that owns rb.MovePosition
     // turns this off and reads Velocity instead (see class summary).
@@ -20,6 +21,7 @@ public class Knockback : MonoBehaviour, IHitReactor
 
     Rigidbody2D rb;
     Vector2 velocity;
+    Vector3 smoothVel;
 
     void Awake() => rb = GetComponent<Rigidbody2D>();
 
@@ -35,11 +37,11 @@ public class Knockback : MonoBehaviour, IHitReactor
 
     void FixedUpdate()
     {
-        if (velocity.sqrMagnitude < 1e-6f) { velocity = Vector2.zero; return; }
+        if (velocity.sqrMagnitude < 1e-6f) { velocity = Vector2.zero; smoothVel = Vector3.zero; return; }
 
         if (SelfMove) rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
 
         // We own the decay regardless of who does the moving, so consumers only read.
-        velocity = Vector2.MoveTowards(velocity, Vector2.zero, deceleration * Time.fixedDeltaTime);
+        velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref smoothVel, smoothTime);
     }
 }

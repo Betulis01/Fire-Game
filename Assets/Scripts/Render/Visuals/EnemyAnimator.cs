@@ -22,6 +22,7 @@ public class EnemyAnimator : MonoBehaviour
     string currentState;
 
     bool attacking;
+    public bool IsAttacking => attacking;
     float attackFailsafe;
     string attackState;
 
