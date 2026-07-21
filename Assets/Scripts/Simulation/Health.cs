@@ -11,6 +11,7 @@ public class Health : MonoBehaviour, IHitReactor
 
     public event Action Died;
     public event Action<DamageInfo> Damaged;
+    public event Action<float> Healed;
     public bool IsDead => current <= 0f;
     public float Normalized => maxHealth > 0f ? current / maxHealth : 0f;
 
@@ -32,7 +33,9 @@ public class Health : MonoBehaviour, IHitReactor
     public void Heal(float amount)
     {
         if (amount <= 0f || IsDead) return;
+        float before = current;
         current = Mathf.Min(maxHealth, current + amount);
+        if (current > before) Healed?.Invoke(current - before);
     }
 
     // React to a landed hit by taking its damage, unless a ToolDamageFilter on this

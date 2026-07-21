@@ -26,18 +26,18 @@ public class CombatText : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public static void Spawn(Vector3 worldPos, float amount, PopupStyle style)
+    public static void Spawn(Vector3 worldPos, float amount, PopupStyle style, bool heal = false)
     {
         if (Instance == null || Instance.popupPrefab == null) return;
-        Instance.SpawnInternal(worldPos, amount, style);
+        Instance.SpawnInternal(worldPos, amount, style, heal);
     }
 
-    void SpawnInternal(Vector3 worldPos, float amount, PopupStyle style)
+    void SpawnInternal(Vector3 worldPos, float amount, PopupStyle style, bool heal)
     {
         DamagePopup popup = pool.Count > 0 ? pool.Dequeue() : Create();
         popup.transform.position = worldPos;
         popup.gameObject.SetActive(true);
-        popup.Play(amount, style, this);
+        popup.Play(amount, style, heal, this);
     }
 
     DamagePopup Create()

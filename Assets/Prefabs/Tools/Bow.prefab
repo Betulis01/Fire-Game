@@ -160,7 +160,6 @@ MonoBehaviour:
   selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 46762b09ed3853d428e392bb6487c48a, type: 3}
   swingEffectAngleOffset: 0
-  hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
   lungeSpeed: 0
   lungeDuration: 0.15
   lungeCurve:
@@ -193,7 +192,6 @@ MonoBehaviour:
     selfKnockback: 0.5
     swingEffectPrefab: {fileID: 7824789142328981932, guid: 46762b09ed3853d428e392bb6487c48a, type: 3}
     swingEffectAngleOffset: 0
-    hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
     lungeSpeed: 0
     lungeDuration: 0
     lungeCurve:
@@ -220,7 +218,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  chargeTime: 0.8
+  chargeTime: 0.5
 --- !u!114 &-2268743843223548929
 MonoBehaviour:
   m_ObjectHideFlags: 0

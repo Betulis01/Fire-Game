@@ -1,7 +1,7 @@
 using UnityEngine;
 
-// Orients a swing-effect whose art is drawn facing EAST (bottom-left pivot). The
-// effect simply rotates to the exact aim angle — no direction-based mirroring, so
+// Sword-specific swing-effect anchoring: orients art drawn facing EAST (bottom-left
+// pivot) by rotating it to the exact aim angle — no direction-based mirroring, so
 // the arc sweeps identically all the way around the circle with no flip pop.
 // The only mirror is `mirrorSweep` (left-hand swings): a local Y flip, which after
 // rotation is always across the aim axis, so the arc still points where aimed but
@@ -9,10 +9,13 @@ using UnityEngine;
 // The aim is also registered as a cardinal (same horizontal-wins tie-break as
 // PlayerAnimator.ResolveDir), exposed for systems that need the swing's discrete
 // direction.
-// Presence of this component makes Tool.SpawnSwingEffect anchor the effect at
-// strike range from the wielder (rather than spawning it fixed in place, as
-// legacy art without an orienter does).
-public class SwingEffectOrienter : MonoBehaviour
+// Presence of an ISwingEffectAnchor on the prefab makes Tool.SpawnSwingEffect anchor
+// the effect at strike range from the wielder (rather than spawning it fixed in
+// place, as legacy art without one does). AxeSwingEffectOrienter is the axe's
+// sibling implementation — its anchoring is a fixed per-direction offset instead of
+// this continuous rotate-and-follow-at-range, so the two don't share logic beyond
+// the interface Tool.cs dispatches through.
+public class SwordSwingEffectOrienter : MonoBehaviour, ISwingEffectAnchor
 {
     [Tooltip("Degrees added to the aim so the sweep starts offset from dead-on (e.g. " +
              "45 so a swing starts up-and-right of the aim and arcs through it). " +

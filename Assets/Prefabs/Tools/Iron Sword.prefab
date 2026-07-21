@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e068723dc3a7c4181b64b9e5569bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldItem
-  item: {fileID: 11400000, guid: e9dab3c8a32303b47be7250002c5cee3, type: 2}
+  item: {fileID: 11400000, guid: e668e816d1bca744493436401afff2a4, type: 2}
 --- !u!114 &9212449378994694727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +160,6 @@ MonoBehaviour:
   selfKnockback: 2
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 3f2a1901ee04a494281b6aa802136895, type: 3}
   swingEffectAngleOffset: 0
-  hitEffectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
   lungeSpeed: 1
   lungeDuration: 0.15
   lungeCurve:
@@ -193,7 +192,6 @@ MonoBehaviour:
     selfKnockback: 4
     swingEffectPrefab: {fileID: 7824789142328981932, guid: 3f2a1901ee04a494281b6aa802136895, type: 3}
     swingEffectAngleOffset: 0
-    hitEffectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
     lungeSpeed: 2
     lungeDuration: 0.3
     lungeCurve:

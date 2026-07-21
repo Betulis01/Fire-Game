@@ -105,9 +105,9 @@ public class PlayerAnimator : MonoBehaviour
     // Combat hook: play the attack clip for the aim direction and hand. Locomotion is
     // suppressed until the clip finishes; `duration` is only a safety ceiling (the real
     // end is the clip completing). The clip's Animation Event drives the actual hit
-    // (ToolUser.OnAttackHit). West reuses the east clip via the flipX applied above.
+    // (WeaponUse.OnAttackHit). West reuses the east clip via the flipX applied above.
     // facing is set to aimDir so the swing, sprite flip, and post-attack idle/walk
-    // pose all agree with where the hit actually lands (ToolUser aims the same way).
+    // pose all agree with where the hit actually lands (WeaponUse aims the same way).
     public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
     {
         facing = aimDir;
@@ -126,10 +126,5 @@ public class PlayerAnimator : MonoBehaviour
     public void PauseAttack() { if (attacking) animator.speed = 0f; }
     public void ResumeAttack() { animator.speed = 1f; }
 
-    // Horizontal wins ties so a mostly sideways diagonal reads as east/west.
-    static (string dir, bool flip) ResolveDir(Vector2 v)
-    {
-        if (Mathf.Abs(v.x) >= Mathf.Abs(v.y)) return ("e", v.x < 0f);
-        return (v.y >= 0f ? "n" : "s", false);
-    }
+    static (string dir, bool flip) ResolveDir(Vector2 v) => CardinalDir.Resolve(v);
 }

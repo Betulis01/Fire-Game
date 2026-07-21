@@ -1,17 +1,18 @@
 using UnityEngine;
 
-// "Use the item in a hand" via a single attack button. The attack goes to the
-// player's selected hand (PlayerInteractor.ActiveHand, the 1/2 keys), except when
-// both hands hold melee weapons of the same class — then swings alternate
-// (ResolveAttackHand). A hand swings whatever is "in" it — a held weapon, or its
-// default fists when empty (Hands.ActiveItem hides that distinction). Each is a
-// GameObject with a Tool (stats) plus either a Hitbox (melee strike region) or a
-// RangedWeapon (fires a projectile); a hand holding neither (e.g. wood) can't
-// swing. The swing plays an attack animation; the hit/shot lands when that clip's
-// Animation Event calls OnAttackHit. Swing rate is gated by the attack clip itself
-// finishing (animator.IsAttacking), not a weapon stat.
+// Weapon-swing capability: arms and resolves a melee/ranged attack for a given
+// hand. ItemUser decides whether a Use press reaches this (vs FoodUse); once it
+// does, this owns everything about the swing itself -- dual-wield hand
+// resolution, charging, animation events, landing the hit. A hand swings
+// whatever is "in" it -- a held weapon, or its default fists when empty
+// (Hands.ActiveItem hides that distinction). Each is a GameObject with a Tool
+// (stats) plus either a Hitbox (melee strike region) or a RangedWeapon (fires a
+// projectile); a hand holding neither (e.g. wood) can't swing. The swing plays
+// an attack animation; the hit/shot lands when that clip's Animation Event
+// calls OnAttackHit. Swing rate is gated by the attack clip itself finishing
+// (animator.IsAttacking), not a weapon stat.
 [RequireComponent(typeof(Hands))]
-public class ToolUser : MonoBehaviour
+public class WeaponUse : MonoBehaviour
 {
     [Tooltip("Camera used to turn the mouse position into a world aim point. " +
              "Defaults to Camera.main if left empty.")]
@@ -31,7 +32,7 @@ public class ToolUser : MonoBehaviour
     PlayerInteractor interactor;   // source of the selected hand (1/2 keys)
 
     // Dual-wield alternation: when both hands hold a weapon, swings alternate hands
-    // each time one actually lands (see UseHand) — starting from the right.
+    // each time one actually lands (see TryUse) -- starting from the right.
     HandSide lastHandUsed = HandSide.Right;
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
@@ -43,29 +44,27 @@ public class ToolUser : MonoBehaviour
     Swing pending;
 
     // Charging: the button was pressed and the swing is waiting on release to find out
-    // whether it resolves light or heavy — that's decided purely by elapsed hold time
+    // whether it resolves light or heavy -- that's decided purely by elapsed hold time
     // vs the tool's chargeTime (see Update), independent of the animation. chargePaused
     // is separate, purely visual bookkeeping: whether the clip is actually frozen right
     // now (true once OnAttackChargeReady has fired with the button still held). Holding
-    // is indefinite either way — no auto-release, only release ends a charge.
+    // is indefinite either way -- no auto-release, only release ends a charge.
     bool charging;
     bool chargePaused;
     float chargeStart;
     public bool IsCharging => charging;
 
     // 0 at press, 1 once held for the current weapon's chargeTime (and beyond, since
-    // holding is uncapped) — for UI like ChargeBar. 0 whenever not charging.
+    // holding is uncapped). 0 whenever not charging.
     public float ChargeProgress => charging
         ? Mathf.Clamp01((Time.time - chargeStart) / Mathf.Max(0.0001f, pending.tool.chargeTime))
         : 0f;
 
-    // Seconds the current press has been held — for UI that only wants to appear once
-    // a hold has gone on a moment (see ChargeBar), so a quick tap never flashes it. 0
-    // whenever not charging.
+    // Seconds the current press has been held. 0 whenever not charging.
     public float ChargeElapsed => charging ? Time.time - chargeStart : 0f;
 
     // Duration passed to PlayerAnimator.PlayAttack purely as its failsafe ceiling
-    // (see PlayAttack's doc comment) — large so an indefinitely held charge can never
+    // (see PlayAttack's doc comment) -- large so an indefinitely held charge can never
     // hit it; the real end of a charge is always the button release.
     const float ChargeFailsafeCeiling = 3600f;
 
@@ -84,22 +83,23 @@ public class ToolUser : MonoBehaviour
 
     void Update()
     {
-        if (UserInput.Instance.Attack) UseHand(ResolveAttackHand());
-
         if (!charging) return;
 
-        // Once the swing has actually landed (or its animation finished on its own —
+        // Once the swing has actually landed (or its animation finished on its own --
         // e.g. a weapon whose clip never calls OnAttackChargeReady) there's nothing
         // left to resolve. Stop treating a still-held button as an ongoing charge, so
-        // holding attack past a quick shot/tap can't leave movement locked forever.
+        // holding the button past a quick shot/tap can't leave movement locked forever.
         if (!pending.armed || (animator != null && !animator.IsAttacking))
         {
             charging = false;
             chargePaused = false;
+            CameraZoom.Instance?.SetZoomed(false);
             return;
         }
 
-        if (UserInput.Instance.AttackReleased)
+        CameraZoom.Instance?.SetZoomed(Time.time - chargeStart >= pending.tool.chargeTime);
+
+        if (UserInput.Instance.UseReleased)
         {
             float elapsed = Time.time - chargeStart;
             float fraction = Mathf.Clamp01(elapsed / Mathf.Max(0.0001f, pending.tool.chargeTime));
@@ -108,7 +108,7 @@ public class ToolUser : MonoBehaviour
     }
 
     // A hand "wields melee" if what it offers has a Tool (stats) and a Hitbox
-    // (melee strike region) but no RangedWeapon — fists count, since the fists
+    // (melee strike region) but no RangedWeapon -- fists count, since the fists
     // prefab has Tool + Hitbox.
     bool IsMelee(HandSide side)
     {
@@ -117,12 +117,12 @@ public class ToolUser : MonoBehaviour
         return item.TryGetComponent<Hitbox>(out _) && !item.TryGetComponent<RangedWeapon>(out _);
     }
 
-    // The attack button uses the selected hand (PlayerInteractor.ActiveHand) —
+    // The Use button uses the selected hand (PlayerInteractor.ActiveHand) --
     // whatever it holds, and nothing happens if that's not a weapon. The one
     // exception is dual-wield: when both hands wield melee of the same class
     // (two real held weapons, or two bare fists), swings alternate hands every
     // time one lands, starting from the right. A mixed pair (weapon + fist) does
-    // not alternate. Side-effect-free (only UseHand mutates the alternation
+    // not alternate. Side-effect-free (only TryUse mutates the alternation
     // state), so UI like AimIndicator can poll it every frame to preview the
     // next attack's hand.
     public HandSide ResolveAttackHand()
@@ -139,7 +139,7 @@ public class ToolUser : MonoBehaviour
         return interactor != null ? interactor.ActiveHand : HandSide.Left;
     }
 
-    void UseHand(HandSide side)
+    public void TryUse(HandSide side)
     {
         if (animator != null && animator.IsAttacking) return;
 
@@ -166,15 +166,15 @@ public class ToolUser : MonoBehaviour
         if (animator != null) animator.PlayAttack(side, ChargeFailsafeCeiling, AimDirection(Origin));
     }
 
-    // Called by an Animation Event on each *_attack clip, at the "charge hold" frame —
+    // Called by an Animation Event on each *_attack clip, at the "charge hold" frame --
     // before the swing/hit. Purely visual: if the button's still held once the windup
     // reaches this pose, freeze the clip there until release. Whether the eventual
     // release counts as light or heavy is decided in Update by tool.chargeTime, not by
-    // whether this ever fired — a release can already be a valid heavy before the
+    // whether this ever fired -- a release can already be a valid heavy before the
     // animation gets here, or still resolve light after it, if chargeTime says so.
     public void OnAttackChargeReady()
     {
-        if (!charging || !UserInput.Instance.AttackHeld) return;
+        if (!charging || !UserInput.Instance.UseHeld) return;
         chargePaused = true;
         if (animator != null) animator.PauseAttack();
     }
@@ -186,10 +186,11 @@ public class ToolUser : MonoBehaviour
         charging = false;
         if (chargePaused && animator != null) animator.ResumeAttack();
         chargePaused = false;
+        CameraZoom.Instance?.SetZoomed(false);
     }
 
     // Called by an Animation Event on each *_attack clip, at the swing's start
-    // frame — OnAttackHit's visual counterpart. Spawns the weapon's swing VFX
+    // frame -- OnAttackHit's visual counterpart. Spawns the weapon's swing VFX
     // aimed where the strike will land; leaves the swing armed for the hit.
     public void OnAttackSwing()
     {

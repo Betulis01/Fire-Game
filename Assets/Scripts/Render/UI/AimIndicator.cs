@@ -2,7 +2,7 @@ using UnityEngine;
 
 // A world-space arrow that orbits the player on the circle of the next attack's
 // reach, pointing where the player is aiming. It reads the same aim source as a real
-// swing (UserInput.AimDirection from the swing origin) and asks ToolUser which hand
+// swing (UserInput.AimDirection from the swing origin) and asks WeaponUse which hand
 // that swing would use, so it lands exactly on where an attack would. Hidden when
 // that hand can't attack (e.g. it holds wood) or the game isn't actually playing.
 public class AimIndicator : MonoBehaviour
@@ -10,7 +10,7 @@ public class AimIndicator : MonoBehaviour
     [Tooltip("Hands to read held weapons (and their Tool.range) from.")]
     public Hands hands;
 
-    [Tooltip("Swing origin to orbit around — the same point ToolUser strikes from.")]
+    [Tooltip("Swing origin to orbit around — the same point WeaponUse strikes from.")]
     public Transform aimOrigin;
 
     [Tooltip("Camera for mouse aim. Defaults to Camera.main.")]
@@ -23,13 +23,13 @@ public class AimIndicator : MonoBehaviour
              "Arrow art pointing right = 0, up = -90.")]
     public float spriteAngleOffset = 0f;
 
-    ToolUser toolUser;   // resolves which hand the next attack would use
+    WeaponUse weaponUse;   // resolves which hand the next attack would use
 
     void Awake()
     {
         if (cam == null) cam = Camera.main;
         if (arrow == null) arrow = GetComponent<SpriteRenderer>();
-        if (hands != null) toolUser = hands.GetComponent<ToolUser>();
+        if (hands != null) weaponUse = hands.GetComponent<WeaponUse>();
 
         // Detach from the player so we escape its SortingGroup; otherwise the group
         // forces us to sort with the player and our own Sorting Layer is ignored. We
@@ -63,19 +63,19 @@ public class AimIndicator : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, angle + spriteAngleOffset);
     }
 
-    // Reach of the hand the next attack would use (ToolUser.ResolveAttackHand),
+    // Reach of the hand the next attack would use (WeaponUse.ResolveAttackHand),
     // measured to the FURTHEST point of the strike: Tool.range (strike center
     // distance) + Hitbox.radius (how far the strike circle extends past it) for
     // melee, or RangedWeapon.GetRange (live charge fraction lerped toward
     // chargedRange) for a bow. ActiveItem is the held item or the default fists
     // when empty, so bare hands count (fists are a Tool). Returns false when that
-    // hand can't swing (it holds a non-tool, e.g. wood). Without a ToolUser, falls
+    // hand can't swing (it holds a non-tool, e.g. wood). Without a WeaponUse, falls
     // back to the larger reach of the two hands.
     bool TryActiveRange(out float range)
     {
         range = 0f;
         if (hands == null) return false;
-        if (toolUser != null) return Consider(toolUser.ResolveAttackHand(), ref range);
+        if (weaponUse != null) return Consider(weaponUse.ResolveAttackHand(), ref range);
 
         bool any = Consider(HandSide.Left, ref range);
         any |= Consider(HandSide.Right, ref range);
@@ -94,7 +94,7 @@ public class AimIndicator : MonoBehaviour
             }
             else if (item.TryGetComponent(out RangedWeapon ranged))
             {
-                float chargeFraction = toolUser != null ? toolUser.ChargeProgress : 0f;
+                float chargeFraction = weaponUse != null ? weaponUse.ChargeProgress : 0f;
                 reach = ranged.GetRange(chargeFraction, tool.range);
             }
             range = Mathf.Max(range, reach);

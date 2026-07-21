@@ -28,7 +28,7 @@ public class UserInput : MonoBehaviour
     InputAction moveAction;
     InputAction pointAction;
     InputAction aimAction;
-    InputAction attackAction;
+    InputAction useAction;
     InputAction interactLeftAction;
     InputAction interactRightAction;
     InputAction selectLeftAction;
@@ -60,7 +60,7 @@ public class UserInput : MonoBehaviour
         moveAction = playerMap.FindAction("Move", true);
         pointAction = playerMap.FindAction("Point", true);
         aimAction = playerMap.FindAction("Aim", true);
-        attackAction = playerMap.FindAction("Attack", true);
+        useAction = playerMap.FindAction("Use", true);
         interactLeftAction = playerMap.FindAction("InteractLeft", true);
         interactRightAction = playerMap.FindAction("InteractRight", true);
         selectLeftAction = playerMap.FindAction("SelectLeft", true);
@@ -103,9 +103,9 @@ public class UserInput : MonoBehaviour
     public Vector2 Move => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
 
     // --- One-shot buttons (true only on the frame the control is pressed) ---
-    public bool Attack => attackAction != null && attackAction.WasPressedThisFrame();
-    public bool AttackHeld => attackAction != null && attackAction.IsPressed();
-    public bool AttackReleased => attackAction != null && attackAction.WasReleasedThisFrame();
+    public bool Use => useAction != null && useAction.WasPressedThisFrame();
+    public bool UseHeld => useAction != null && useAction.IsPressed();
+    public bool UseReleased => useAction != null && useAction.WasReleasedThisFrame();
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
     public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
     public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();

@@ -43,7 +43,7 @@ public class Hands : MonoBehaviour
     public int Count(HandSide side) => side == HandSide.Left ? leftCount : rightCount;
 
     // The thing a hand swings: the real held item, or its default fists when empty.
-    // Combat (ToolUser) reads this so it never has to special-case being unarmed.
+    // Combat (WeaponUse) reads this so it never has to special-case being unarmed.
     public GameObject ActiveItem(HandSide side) =>
         Held(side) != null ? Held(side) : (side == HandSide.Left ? leftFists : rightFists);
 

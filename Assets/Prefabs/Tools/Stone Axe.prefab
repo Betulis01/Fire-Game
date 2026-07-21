@@ -157,11 +157,10 @@ MonoBehaviour:
   damage: 2
   range: 0.3
   targetKnockback: 3
-  selfKnockback: 2.5
+  selfKnockback: 1.5
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
   swingEffectAngleOffset: 0
-  hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
-  lungeSpeed: 2
+  lungeSpeed: 1
   lungeDuration: 0.15
   lungeCurve:
     serializedVersion: 2
@@ -176,8 +175,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1
-      value: 0
+      time: 0.9812927
+      value: 0.50476074
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -193,7 +192,6 @@ MonoBehaviour:
     selfKnockback: 3
     swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
     swingEffectAngleOffset: 0
-    hitEffectPrefab: {fileID: 7824789142328981932, guid: 527d2ef52d7895249967063e986efe7c, type: 3}
     lungeSpeed: 4
     lungeDuration: 0.3
     lungeCurve:
@@ -209,8 +207,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 1
-        value: 0
+        time: 0.9866333
+        value: 0.5095215
         inSlope: 0
         outSlope: 0
         tangentMode: 0

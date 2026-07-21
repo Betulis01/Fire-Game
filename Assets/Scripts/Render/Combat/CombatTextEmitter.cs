@@ -13,15 +13,25 @@ public class CombatTextEmitter : MonoBehaviour
     // damage accumulated per type but not yet shown, plus where to spawn it when it flushes
     readonly Dictionary<DamageType, (float amount, Vector3 position)> pending = new();
 
+    // healing accumulated but not yet shown, plus where to spawn it when it flushes
+    float pendingHeal;
+    Vector3 pendingHealPos;
+
     void Awake() => health = GetComponent<Health>();
 
     void OnEnable()
     {
         pending.Clear();
+        pendingHeal = 0f;
         health.Damaged += OnDamaged;
+        health.Healed += OnHealed;
     }
 
-    void OnDisable() => health.Damaged -= OnDamaged;
+    void OnDisable()
+    {
+        health.Damaged -= OnDamaged;
+        health.Healed -= OnHealed;
+    }
 
     void OnDamaged(DamageInfo info)
     {
@@ -40,9 +50,23 @@ public class CombatTextEmitter : MonoBehaviour
         CombatText.Spawn(spawnPos, toShow, StyleFor(info.type));
     }
 
+    void OnHealed(float amount)
+    {
+        pendingHealPos = transform.position + offset;
+        pendingHeal += amount;
+        if (pendingHeal < 1f) return;
+
+        float toShow = Mathf.Floor(pendingHeal);
+        pendingHeal -= toShow;
+
+        CombatText.Spawn(pendingHealPos, toShow, TargetStyle(), heal: true);
+    }
+
+    PopupStyle TargetStyle() => gameObject.CompareTag("Player") ? PopupStyle.Player : PopupStyle.Enemy;
+
     PopupStyle StyleFor(DamageType type) => type switch
     {
-        DamageType.Combat => gameObject.CompareTag("Player") ? PopupStyle.Player : PopupStyle.Enemy,
+        DamageType.Combat => TargetStyle(),
         DamageType.Environment => PopupStyle.Environment,
         _ => PopupStyle.Enemy,
     };

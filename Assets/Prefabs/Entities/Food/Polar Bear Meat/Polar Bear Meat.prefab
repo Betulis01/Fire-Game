@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 7671393458321787399}
   - component: {fileID: 6846531309664383173}
   - component: {fileID: -1338625431841748856}
+  - component: {fileID: 7001351802072832}
   m_Layer: 0
   m_Name: Polar Bear Meat
   m_TagString: Wood
@@ -296,6 +297,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cookable
   output: {fileID: 11400000, guid: be6131fc503ee0a468589a88c848a90f, type: 2}
   cookTime: 8
+--- !u!114 &7001351802072832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197461963866386601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3281f6ea59178e920ef2917528bcbfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Edible
+  heal: 0
+  damage: 10
+  healthChange: 0
+  speedMultiplier: 0.9
+  buffDuration: 30
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

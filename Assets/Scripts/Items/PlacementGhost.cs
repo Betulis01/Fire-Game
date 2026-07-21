@@ -56,7 +56,7 @@ public class PlacementGhost : MonoBehaviour
         transform.position = UserInput.Instance.AimPoint(follow.position, cam, distance);
 
         if (UserInput.Instance.Journal) { Cancel(); return; }
-        if (UserInput.Instance.Attack) Place();
+        if (UserInput.Instance.Use) Place();
     }
 
     void Place()

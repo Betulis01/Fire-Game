@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Capability: this item fires a projectile instead of striking with a Hitbox. Sits
-// beside Tool (stats) on a weapon prefab in place of Hitbox; data only, ToolUser
+// beside Tool (stats) on a weapon prefab in place of Hitbox; data only, WeaponUse
 // spawns the projectile. See Projectile for what the spawned arrow actually does.
 public class RangedWeapon : MonoBehaviour
 {

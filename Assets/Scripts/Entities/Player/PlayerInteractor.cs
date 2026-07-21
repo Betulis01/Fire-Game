@@ -148,7 +148,7 @@ public class PlayerInteractor : MonoBehaviour
         Vector3 pos = DropPreviewPosition();
         dropGhost.MoveTo(pos);
 
-        if (UserInput.Instance.InteractLeftReleased || UserInput.Instance.Attack)
+        if (UserInput.Instance.InteractLeftReleased || UserInput.Instance.Use)
         {
             ResolveDrop(pos);
             CancelDropGhost();

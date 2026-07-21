@@ -1,5 +1,5 @@
 // The parameters of one swing, sourced from the weapon's Tool. Collapses what used
-// to be a clump of arguments threaded weapon -> ToolUser -> Hitbox into one value.
+// to be a clump of arguments threaded weapon -> WeaponUse -> Hitbox into one value.
 public readonly struct AttackData
 {
     public readonly float damage;

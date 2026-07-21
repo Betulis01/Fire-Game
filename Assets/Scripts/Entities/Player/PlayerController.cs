@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Knockback knockback;
     AttackLunge lunge;
-    ToolUser toolUser;
+    WeaponUse weaponUse;
+    PlayerBuffs buffs;
 
     public float speed = 4f;
 
@@ -42,7 +43,8 @@ public class PlayerController : MonoBehaviour
         lunge = GetComponent<AttackLunge>();
         if (lunge != null) lunge.SelfMove = false;
 
-        toolUser = GetComponent<ToolUser>();
+        weaponUse = GetComponent<WeaponUse>();
+        buffs = GetComponent<PlayerBuffs>();
     }
 
     void Update()
@@ -58,9 +60,10 @@ public class PlayerController : MonoBehaviour
         // lock movement input for the whole attack (windup, any charge hold, swing,
         // recovery) so the player can't walk out from under it mid-swing — driven by
         // the attack animation itself, not just the brief lunge window.
-        bool inputLocked = toolUser != null && toolUser.animator != null && toolUser.animator.IsAttacking;
+        bool inputLocked = weaponUse != null && weaponUse.animator != null && weaponUse.animator.IsAttacking;
         Vector2 input = inputLocked ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
-        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier;
+        float buffMultiplier = buffs != null ? buffs.SpeedMultiplier : 1f;
+        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier * buffMultiplier;
 
         if (input.sqrMagnitude > 0.0001f)
         {

@@ -15,6 +15,8 @@ public class DamagePopup : MonoBehaviour
     public Color environmentDmgColor = new Color(1f, 0.5952402f, 0f);   // damage dealt to an enemy
     public Color enemyDmgColor = new Color(1f, 0.5952402f, 0f);   // damage dealt to an enemy
     public Color playerDmgColor = new Color(0.9f, 0.1f, 0.1f);    // damage dealt to the player
+    public Color enemyHealColor = new Color(0.2f, 0.9f, 0.3f);    // healing on an enemy
+    public Color playerHealColor = new Color(0.2f, 0.9f, 0.3f);   // healing on the player
 
     TMP_Text label;
     CombatText owner;
@@ -28,17 +30,19 @@ public class DamagePopup : MonoBehaviour
     }
 
     // Configure and start the animation. `home` is the pool to return to.
-    public void Play(float amount, PopupStyle style, CombatText home)
+    public void Play(float amount, PopupStyle style, bool heal, CombatText home)
     {
         owner = home;
         elapsed = 0f;
         label.text = Mathf.RoundToInt(amount).ToString();
-        baseColor = style switch
-        {
-            PopupStyle.Player => playerDmgColor,
-            PopupStyle.Environment => environmentDmgColor,
-            _ => enemyDmgColor,
-        };
+        baseColor = heal
+            ? (style == PopupStyle.Player ? playerHealColor : enemyHealColor)
+            : style switch
+            {
+                PopupStyle.Player => playerDmgColor,
+                PopupStyle.Environment => environmentDmgColor,
+                _ => enemyDmgColor,
+            };
         SetAlpha(1f);
     }
 

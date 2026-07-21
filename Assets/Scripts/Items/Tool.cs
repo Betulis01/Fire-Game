@@ -62,23 +62,23 @@ public class Tool : MonoBehaviour
         ? (heavy.lungeSpeed, heavy.lungeDuration, heavy.lungeCurve)
         : (lungeSpeed, lungeDuration, lungeCurve);
 
-    // Spawn this tool's swing VFX (light or heavy). Directional art (a
-    // SwingEffectOrienter on the prefab) is anchored at strike range from the swing
-    // origin, rotated to the aim, mirrored for the off-hand sweep, and follows
-    // `anchor` (the wielder) at that same range while it plays. Legacy art without
-    // one spawns where the strike will land (origin + dir * range), free-rotated
-    // along the aim + angle offset, and stays put. Safe no-op when the resolved
-    // profile has no swing effect.
+    // Spawn this tool's swing VFX (light or heavy). Directional art (an
+    // ISwingEffectAnchor on the prefab, e.g. SwordSwingEffectOrienter or
+    // AxeSwingEffectOrienter) is anchored and oriented however that implementation
+    // sees fit, then follows `anchor` (the wielder) while it plays. Legacy art
+    // without one spawns where the strike will land (origin + dir * range),
+    // free-rotated along the aim + angle offset, and stays put. Safe no-op when the
+    // resolved profile has no swing effect.
     public void SpawnSwingEffect(Vector2 origin, Vector2 dir, bool mirrorSweep, Transform anchor, bool isHeavy)
     {
         GameObject prefab = isHeavy ? heavy.swingEffectPrefab : swingEffectPrefab;
         float angleOffset = isHeavy ? heavy.swingEffectAngleOffset : swingEffectAngleOffset;
         if (prefab == null) return;
 
-        if (prefab.TryGetComponent(out SwingEffectOrienter _))
+        if (prefab.TryGetComponent(out ISwingEffectAnchor _))
         {
             GameObject effect = Instantiate(prefab, origin + dir * range, Quaternion.identity);
-            effect.GetComponent<SwingEffectOrienter>().Orient(dir, mirrorSweep, anchor, range);
+            effect.GetComponent<ISwingEffectAnchor>().Orient(dir, mirrorSweep, anchor, range);
             return;
         }
 

@@ -1,11 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 // Throwaway combat-visualization overlay. Press C to toggle wireframes for:
 //   - every Hurtbox collider (green)
-//   - every Hitbox's strike circle at its current position (red)
-//   - each weapon's attack range, Tool.range (yellow), plus a preview of where a
-//     swing would land right now toward the mouse (red)
+//   - every Hitbox's reach (yellow) and current strike circle (red) -- for a
+//     player's WeaponUse this follows the mouse live; for an EnemyAttacker it
+//     follows its last swing direction and also shows attackRange (orange); a
+//     world-lying weapon with no wielder just shows its own hitbox footprint
+//   - every other Collider2D in the scene (cyan) -- blockers, interaction
+//     zones, deposit zones, world bounds, anything not already drawn above
 // Draws in the Game and Scene views via GL (works under URP). Self-contained:
 // delete this one file to remove the feature. Note: DebugReadout also uses C, so
 // the two toggle together unless you change a toggleKey.
@@ -14,6 +18,10 @@ public class CombatDebug : MonoBehaviour
     static readonly Color HurtColor = Color.green;
     static readonly Color HitColor = Color.red;
     static readonly Color RangeColor = new Color(1f, 0.85f, 0.2f);
+    static readonly Color EnemyRangeColor = new Color(1f, 0.5f, 0.1f);
+    static readonly Color ColliderColor = Color.cyan;
+
+    readonly HashSet<Collider2D> drawnColliders = new();
 
     bool show = false;
     Material lineMat;
@@ -39,23 +47,60 @@ public class CombatDebug : MonoBehaviour
         lineMat.SetPass(0);
         GL.Begin(GL.LINES);
 
-        foreach (Hurtbox hb in FindObjectsByType<Hurtbox>(FindObjectsSortMode.None))
-            DrawCollider(hb.HurtCollider != null ? hb.HurtCollider : hb.GetComponentInChildren<Collider2D>(), HurtColor);
+        drawnColliders.Clear();
 
-        // Only weapons currently held by a player (ToolUser) are "able to hit": show
-        // their reach + a live strike preview that follows the mouse. Weapons lying
-        // in the world have no ToolUser parent and are skipped.
+        foreach (Hurtbox hb in FindObjectsByType<Hurtbox>(FindObjectsSortMode.None))
+        {
+            Collider2D col = hb.HurtCollider != null ? hb.HurtCollider : hb.GetComponentInChildren<Collider2D>();
+            if (col == null) continue;
+            drawnColliders.Add(col);
+            DrawCollider(col, HurtColor);
+        }
+
+        // A weapon's reach + strike circle. Wielder determines how the aim direction
+        // is resolved: a player's WeaponUse follows the mouse live; an EnemyAttacker
+        // follows its last swing direction and also shows its attackRange (the
+        // distance at which it starts swinging); a weapon lying in the world has no
+        // wielder, so just show its own hitbox footprint with no reach ring.
         foreach (Hitbox hit in FindObjectsByType<Hitbox>(FindObjectsSortMode.None))
         {
-            ToolUser user = hit.GetComponentInParent<ToolUser>();
             Tool tool = hit.GetComponent<Tool>();
-            if (user == null || tool == null) continue;
+            if (tool == null) continue;
 
-            Vector2 origin = user.Origin;                                   // same origin the real swing uses
-            Vector2 center = origin + AimDir(origin, camera) * tool.range;   // follows the mouse live
+            WeaponUse user = hit.GetComponentInParent<WeaponUse>();
+            EnemyAttacker enemy = user == null ? hit.GetComponentInParent<EnemyAttacker>() : null;
 
+            Vector2 origin;
+            Vector2 aimDir;
+
+            if (user != null)
+            {
+                origin = user.Origin;                    // same origin the real swing uses
+                aimDir = AimDir(origin, camera);          // follows the mouse live
+            }
+            else if (enemy != null)
+            {
+                origin = enemy.Origin;
+                aimDir = enemy.AimDir;
+                DrawCircle(origin, enemy.attackRange, EnemyRangeColor);   // distance it starts swinging at
+            }
+            else
+            {
+                DrawCircle(hit.transform.position, hit.radius, HitColor);   // orphaned/world weapon: footprint only
+                continue;
+            }
+
+            Vector2 center = origin + aimDir * tool.range;
             DrawCircle(origin, tool.range, RangeColor);                // reach
             DrawCircle(center, hit.radius, HitColor);                  // where a swing lands now
+        }
+
+        // Every other physics collider in the scene -- blockers, interaction zones,
+        // deposit zones, world bounds, anything not already drawn as a Hurtbox above.
+        foreach (Collider2D col in FindObjectsByType<Collider2D>(FindObjectsSortMode.None))
+        {
+            if (drawnColliders.Contains(col)) continue;
+            DrawCollider(col, ColliderColor);
         }
 
         GL.End();

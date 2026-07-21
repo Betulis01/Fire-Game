@@ -1,10 +1,10 @@
 using UnityEngine;
 
-// AI-driven counterpart to ToolUser, scoped down: no HandSide, no Hands. The enemy
+// AI-driven counterpart to WeaponUse, scoped down: no HandSide, no Hands. The enemy
 // swings whatever Tool+Hitbox sits on its assigned `weapon` object (its own object,
 // same convention as Fists.prefab), triggered by being in Combat and in range of
 // EnemyBrain's aggro target instead of a player input button. Mirrors
-// ToolUser.UseHand/OnAttackHit (arm a swing, land it on the clip's Animation Event)
+// WeaponUse.TryUse/OnAttackHit (arm a swing, land it on the clip's Animation Event)
 // so it stays reusable for enemies that never have Hands (e.g. a bear) and not just
 // this player-like first enemy.
 [RequireComponent(typeof(EnemyBrain))]
@@ -29,7 +29,11 @@ public class EnemyAttacker : MonoBehaviour
     bool armed;
     Vector2 aimDir;
 
-    Vector2 Origin => aimOrigin != null ? (Vector2)aimOrigin.position : (Vector2)transform.position;
+    public Vector2 Origin => aimOrigin != null ? (Vector2)aimOrigin.position : (Vector2)transform.position;
+
+    // Direction of the last (or current) swing, for debug visualization. Zero
+    // until this enemy has swung at least once.
+    public Vector2 AimDir => aimDir;
 
     void Awake()
     {
