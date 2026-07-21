@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // One icon cell in the Survival Journal grid. The root GameObject is both the
@@ -8,20 +9,21 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(Button))]
 [RequireComponent(typeof(CanvasGroup))]
-public class RecipeGrid : MonoBehaviour
+public class RecipeGrid : MonoBehaviour, IPointerEnterHandler
 {
     public Image icon;
     public Button button;
 
-    public void Set(Recipe recipe, bool craftable, System.Action onClick)
+    Recipe recipe;
+    System.Action<Recipe> onHover;
+
+    public void Set(Recipe recipe, bool craftable, System.Action onClick, System.Action<Recipe> onHover)
     {
+        this.recipe = recipe;
+        this.onHover = onHover;
+
         if (icon != null)
-        {
-            SpriteRenderer sr = recipe.output != null && recipe.output.prefab != null
-                ? recipe.output.prefab.GetComponent<SpriteRenderer>()
-                : null;
-            icon.sprite = sr != null ? sr.sprite : null;
-        }
+            icon.sprite = recipe.output != null ? recipe.output.ResolveIcon() : null;
 
         CanvasGroup group = GetComponent<CanvasGroup>();
         group.alpha = craftable ? 1f : 0.4f;
@@ -30,4 +32,6 @@ public class RecipeGrid : MonoBehaviour
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => onClick());
     }
+
+    public void OnPointerEnter(PointerEventData eventData) => onHover?.Invoke(recipe);
 }
