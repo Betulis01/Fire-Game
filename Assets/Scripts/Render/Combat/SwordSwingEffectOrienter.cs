@@ -6,9 +6,8 @@ using UnityEngine;
 // The only mirror is `mirrorSweep` (left-hand swings): a local Y flip, which after
 // rotation is always across the aim axis, so the arc still points where aimed but
 // sweeps the other way — the effect follows the hand wielding the weapon.
-// The aim is also registered as a cardinal (same horizontal-wins tie-break as
-// PlayerAnimator.ResolveDir), exposed for systems that need the swing's discrete
-// direction.
+// The aim is also registered as a cardinal (same NE/SE bucket as CardinalDir.Resolve),
+// exposed for systems that need the swing's discrete direction.
 // Presence of an ISwingEffectAnchor on the prefab makes Tool.SpawnSwingEffect anchor
 // the effect at strike range from the wielder (rather than spawning it fixed in
 // place, as legacy art without one does). AxeSwingEffectOrienter is the axe's
@@ -28,8 +27,9 @@ public class SwordSwingEffectOrienter : MonoBehaviour, ISwingEffectAnchor
              "a large startAngleOffset. Positive pushes it further from the wielder.")]
     public float rangeOffset = 0f;
 
-    // The discrete direction this swing registered as (unit right/left/up/down).
-    public Vector2 Cardinal { get; private set; } = Vector2.right;
+    // The discrete direction this swing registered as (unit NE/NW/SE/SW). Default
+    // matches CardinalDir.Resolve's own zero-vector result (SE, unflipped).
+    public Vector2 Cardinal { get; private set; } = new Vector2(1f, -1f).normalized;
 
     // The wielder's swing origin, followed by world position each frame (offset out
     // to `range + rangeOffset` along the aim). Not parented: the wielder's
@@ -47,10 +47,8 @@ public class SwordSwingEffectOrienter : MonoBehaviour, ISwingEffectAnchor
 
         float aim = Mathf.Atan2(aimDir.y, aimDir.x) * Mathf.Rad2Deg;
 
-        // Horizontal wins ties, so a mostly sideways diagonal reads as east/west.
-        bool horizontal = Mathf.Abs(aimDir.x) >= Mathf.Abs(aimDir.y);
-        Cardinal = horizontal ? (aimDir.x < 0f ? Vector2.left : Vector2.right)
-                              : (aimDir.y >= 0f ? Vector2.up : Vector2.down);
+        (string cardinalDir, bool cardinalFlip) = CardinalDir.Resolve(aimDir);
+        Cardinal = new Vector2(cardinalFlip ? -1f : 1f, cardinalDir == "ne" ? 1f : -1f).normalized;
 
         float offset = mirrorSweep ? -startAngleOffset : startAngleOffset;
         transform.localRotation = Quaternion.Euler(0f, 0f, aim + offset);

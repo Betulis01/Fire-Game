@@ -1,15 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-// Drives the player's Animator from movement. The art has discrete directional
-// poses (south/north/east; west is east mirrored), each with an idle and a walk
-// clip. Rather than blend trees, we pick the matching state by name and call
-// Animator.Play only when it changes (cheap, and never restarts a looping clip
-// mid-stride). West reuses the east clips with SpriteRenderer.flipX.
+// Drives the player's Animator from movement. The art has discrete isometric
+// facing poses (NE/SE; NW/SW are their horizontal mirrors), each with an idle and
+// a walk clip. Rather than blend trees, we pick the matching state by name and
+// call Animator.Play only when it changes (cheap, and never restarts a looping
+// clip mid-stride). NW/SW reuse the NE/SE clips with SpriteRenderer.flipX.
 //
 // State names must match the AnimatorController / Aseprite tag names:
-//   s_idle n_idle e_idle  s_walk n_walk e_walk
-//   s_attack_l n_attack_l e_attack_l  s_attack_r n_attack_r e_attack_r
-// (west reuses the east clips via flipX, same as locomotion).
+//   se_idle ne_idle  se_walk ne_walk
+//   se_attack_l ne_attack_l  se_attack_r ne_attack_r
+// (NW/SW reuse the NE/SE clips via flipX, same as locomotion).
 //
 // Attacks route through PlayAttack(side, duration, aimDir): it latches the matching
 // per-hand attack state so movement can't cut the swing off.
@@ -44,7 +45,10 @@ public class PlayerAnimator : MonoBehaviour
     float attackFailsafe;
     string attackState;
 
-    
+    // Missing-clip states we've already warned about (see PlayAttack) — logged once
+    // each rather than every attempt, since a swing that can't arm still gets retried
+    // on every subsequent attack press.
+    static readonly HashSet<string> warnedMissingStates = new();
 
     void Awake()
     {
@@ -59,16 +63,15 @@ public class PlayerAnimator : MonoBehaviour
         bool moving = move.sqrMagnitude > moveDeadzone * moveDeadzone;
         if (moving) facing = move;
 
-        // Resolve facing to a cardinal direction. Horizontal wins ties so a mostly
-        // sideways diagonal reads as east/west.
+        // Resolve facing to an isometric direction (see CardinalDir).
         (string dir, bool flip) = ResolveDir(facing);
 
         sr.flipX = flip;
         FlipX = flip;
 
-        // Mirror the hand rig for west: localScale.x = -base flips both hand
-        // positions and sprites around the player's center, turning the east hand
-        // poses into west poses.
+        // Mirror the hand rig for west (NW/SW): localScale.x = -base flips both hand
+        // positions and sprites around the player's center, turning the NE/SE hand
+        // poses into NW/SW poses.
         if (handRig != null)
         {
             Vector3 s = handRig.localScale;
@@ -91,7 +94,7 @@ public class PlayerAnimator : MonoBehaviour
             attacking = false;
         }
 
-        Play($"{dir}_{(moving ? "walk" : "idle")}");
+        Play($"{dir}_{(moving ? "run" : "idle")}");
     }
 
     // Play a state by name, but only when it actually changes.
@@ -105,7 +108,7 @@ public class PlayerAnimator : MonoBehaviour
     // Combat hook: play the attack clip for the aim direction and hand. Locomotion is
     // suppressed until the clip finishes; `duration` is only a safety ceiling (the real
     // end is the clip completing). The clip's Animation Event drives the actual hit
-    // (WeaponUse.OnAttackHit). West reuses the east clip via the flipX applied above.
+    // (WeaponUse.OnAttackHit). NW/SW reuse the NE/SE clip via the flipX applied above.
     // facing is set to aimDir so the swing, sprite flip, and post-attack idle/walk
     // pose all agree with where the hit actually lands (WeaponUse aims the same way).
     public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
@@ -114,7 +117,20 @@ public class PlayerAnimator : MonoBehaviour
         (string dir, _) = ResolveDir(facing);
 
         string hand = side == HandSide.Left ? "l" : "r";
-        attackState = $"{dir}_attack_{hand}";
+        string state = $"{dir}_attack_{hand}";
+
+        // No clip for this direction yet (art pending) -- arming the swing anyway
+        // would set attacking=true with no way for it to ever reach clipDone, locking
+        // out every future attack until the failsafe (which WeaponUse sets to a full
+        // simulated hour for a charge-holdable swing).
+        if (!animator.HasState(0, Animator.StringToHash(state)))
+        {
+            if (warnedMissingStates.Add(state))
+                Debug.LogWarning($"[PlayerAnimator] No '{state}' clip yet — skipping swing so it can't lock movement/attacks.", this);
+            return;
+        }
+
+        attackState = state;
         attacking = true;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);   // safety ceiling only
         currentState = null;   // force the next Play to switch

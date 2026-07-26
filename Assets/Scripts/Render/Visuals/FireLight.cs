@@ -3,7 +3,8 @@ using UnityEngine.Rendering.Universal;
 
 public class FireLight : MonoBehaviour
 {
-    Light2D light2D;
+    [Tooltip("Light to drive. Falls back to one found on this GameObject/children if left empty.")]
+    [SerializeField] Light2D light2D;
     Fuel fuel;
 
     public float maxLightIntensity = 1f;   // brightness at full fuel
@@ -27,17 +28,44 @@ public class FireLight : MonoBehaviour
     public float scaleFlickerAmount = 0.05f; // how much the shared noise flickers the scale
     public float scaleBoost = 0.2f;          // extra scale at the fuel-add boost peak
 
+    [Tooltip("Non-uniform factor applied on top of the flicker so the light pool reads as " +
+             "lying flat on the isometric ground instead of a screen-space circle -- a light " +
+             "spilling across the floor projects as an ellipse at an isometric angle, the same " +
+             "reason shadows are drawn squashed. (1, 1) is the old circular behavior.")]
+    public Vector2 groundSquash = new Vector2(1f, 0.5f);
+
+    [Header("Secondary light (optional)")]
+    [Tooltip("A second Light2D driven alongside the primary one, mirroring its intensity " +
+             "and radius exactly -- e.g. an elevated, shadow-casting flame light layered " +
+             "over a ground-anchored pool light (see Torch). Leave empty if this fire only " +
+             "has one light.")]
+    public Light2D secondaryLight;
+
+    [Tooltip("Static non-uniform scale applied once to the secondary light's own transform " +
+             "-- unlike groundSquash it doesn't breathe with the flicker, since the light's " +
+             "own intensity/radius already animate. (1, 1) keeps it circular, which fits a " +
+             "light representing the flame/shadow source itself rather than its ground pool.")]
+    public Vector2 secondaryGroundSquash = Vector2.one;
+
     float boostTimer;
 
     void Awake()
     {
-        light2D = GetComponentInChildren<Light2D>();
+        if (light2D == null) light2D = GetComponentInChildren<Light2D>();
         fuel = GetComponent<Fuel>();
 
         // the scale flicker rides on the light's own transform by default, so it
         // stays where the light is placed
         if (scaleTarget == null && light2D != null)
             scaleTarget = light2D.transform;
+
+        // secondary light's squash is static (set once here), not part of the per-frame
+        // breathing flicker the primary's scaleTarget gets -- see field tooltip
+        if (secondaryLight != null)
+        {
+            Vector3 s = secondaryLight.transform.localScale;
+            secondaryLight.transform.localScale = new Vector3(secondaryGroundSquash.x, secondaryGroundSquash.y, s.z);
+        }
     }
 
     void OnEnable()  { if (fuel != null) fuel.FuelAdded += OnFuelAdded; }
@@ -68,12 +96,24 @@ public class FireLight : MonoBehaviour
                           + boost * boostRange;
         light2D.pointLightInnerRadius = level * maxInnerRadius * flicker;
 
+        // secondary light mirrors the primary's intensity/radius exactly -- only its
+        // static squash (see Awake) and shadow settings differ
+        if (secondaryLight != null)
+        {
+            secondaryLight.intensity = light2D.intensity;
+            secondaryLight.pointLightOuterRadius = light2D.pointLightOuterRadius;
+            secondaryLight.pointLightInnerRadius = light2D.pointLightInnerRadius;
+        }
+
         // scale flickers off the same noise as the intensity (no breathing wave),
-        // with the same fuel-added pop layered on top
+        // with the same fuel-added pop layered on top. groundSquash keeps the pool
+        // elliptical throughout -- it multiplies in, rather than being a separate
+        // static scale, since this line already overwrites localScale every frame.
         if (scaleTarget != null)
         {
             float scaleFlicker = 1f + (noise - 0.5f) * 2f * scaleFlickerAmount * level;
-            scaleTarget.localScale = Vector3.one * (baseScale * (level * scaleFlicker + boost * scaleBoost));
+            float s = baseScale * (level * scaleFlicker + boost * scaleBoost);
+            scaleTarget.localScale = new Vector3(s * groundSquash.x, s * groundSquash.y, 1f);
         }
     }
 }

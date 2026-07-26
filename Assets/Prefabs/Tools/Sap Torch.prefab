@@ -39,6 +39,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 312155956685065874}
   - {fileID: 7700000000000000002}
   - {fileID: 7053172193105522212}
   m_Father: {fileID: 0}
@@ -201,11 +202,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9887847107fc7464c8f6668c17938bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FireLight
+  light2D: {fileID: 0}
   maxLightIntensity: 1
   maxOuterRadius: 6
   maxInnerRadius: 0
   flickerAmount: 0.09
   flickerSpeed: 8
+  minLevel: 0.1
   boostDuration: 1
   boostIntensity: 0.8
   boostRange: 2
@@ -237,6 +240,9 @@ MonoBehaviour:
   baseScale: 1.5
   scaleFlickerAmount: 0.05
   scaleBoost: 0.2
+  groundSquash: {x: 1, y: 0.5}
+  secondaryLight: {fileID: 5490926818239691813}
+  secondaryGroundSquash: {x: 1, y: 1}
 --- !u!114 &1585957440290948344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +287,90 @@ MonoBehaviour:
   promptPrefab: {fileID: 3129362597859867209, guid: a39d035bab27a7544ba518799e83694f, type: 3}
   promptOffset: {x: 0, y: 0.18, z: 0}
   acceptedFuelTypes: 02000000
+--- !u!1 &5290250976460836239
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 312155956685065874}
+  - component: {fileID: 5490926818239691813}
+  m_Layer: 0
+  m_Name: TorchLight (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &312155956685065874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5290250976460836239}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.308, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8068585793333922016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5490926818239691813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5290250976460836239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.Light2D
+  m_ComponentVersion: 2
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.8396226, g: 0.68115014, b: 0.4950605, a: 1}
+  m_Intensity: 0.5
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 6d9d9de000000000af1c5170
+  m_LightCookieSprite: {fileID: 21300000, guid: 90ff2f9b659a8694aa243f5f30154fa7, type: 3}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 0.5
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &6271916498960289702
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +381,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7053172193105522212}
   - component: {fileID: 13203534266911383}
+  - component: {fileID: 4876616714120213095}
   m_Layer: 0
   m_Name: TorchLight
   m_TagString: Untagged
@@ -307,7 +398,7 @@ Transform:
   m_GameObject: {fileID: 6271916498960289702}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.369, z: 0}
+  m_LocalPosition: {x: -0.007, y: -0.006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -365,6 +456,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &4876616714120213095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6271916498960289702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15be258ef06db33d888cd7bb6df92f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FloorAnchor
+  floorOffset: 0
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,8 +3,9 @@ using UnityEngine;
 // Sorts items held in the hands in front of or behind the body based on facing.
 // Held items are parented under the player's SortingGroup, so their sortingOrder is
 // relative to the body sprite: above it draws in front, below draws behind. Facing
-// north (away from the camera) puts items behind the body; every other direction
-// puts them in front.
+// NE (away from the camera) puts items behind the body; facing SE (toward the
+// camera) puts them in front. Both hands always match — there's no side-on facing
+// left in the 4-direction isometric scheme to justify treating them differently.
 //
 // Runs each frame so it tracks both facing changes and newly picked-up items. A
 // held item's own world YSort is disabled while held (see WorldItem.SetHeld), so
@@ -22,7 +23,7 @@ public class HeldItemSorter : MonoBehaviour
     [Tooltip("Order added to the body's when the item should draw in front.")]
     [SerializeField] int frontOffset = 1;
 
-    [Tooltip("Order added to the body's when the item should draw behind (facing north).")]
+    [Tooltip("Order added to the body's when the item should draw behind (facing NE).")]
     [SerializeField] int backOffset = -1;
 
     Hands hands;
@@ -36,11 +37,12 @@ public class HeldItemSorter : MonoBehaviour
 
     void LateUpdate()
     {
-        Apply(HandSide.Left);
-        Apply(HandSide.Right);
+        bool front = CardinalDir.Resolve(playerAnimator.Facing).dir == "se";
+        Apply(HandSide.Left, front);
+        Apply(HandSide.Right, front);
     }
 
-    void Apply(HandSide side)
+    void Apply(HandSide side, bool front)
     {
         GameObject item = hands.Held(side);
         if (item == null) return;
@@ -48,24 +50,7 @@ public class HeldItemSorter : MonoBehaviour
         SpriteRenderer sr = item.GetComponentInChildren<SpriteRenderer>();
         if (sr == null) return;
 
-        int order = body.sortingOrder + (IsFront(side) ? frontOffset : backOffset);
+        int order = body.sortingOrder + (front ? frontOffset : backOffset);
         sr.sortingOrder = order;
-    }
-
-    // Whether the item in this hand should draw in front of the body for the current
-    // facing. South: both front. North: both behind. Side-on: the leading hand is in
-    // front (right when facing east, left when facing west), the trailing hand behind.
-    bool IsFront(HandSide side)
-    {
-        Vector2 f = playerAnimator.Facing;
-
-        // Same cardinal resolution as PlayerAnimator: horizontal wins ties.
-        if (Mathf.Abs(f.x) >= Mathf.Abs(f.y))
-        {
-            bool west = f.x < 0f;
-            return west ? side == HandSide.Left : side == HandSide.Right;
-        }
-
-        return f.y < 0f;   // south = facing camera = front; north = behind
     }
 }

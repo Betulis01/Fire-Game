@@ -18,7 +18,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 1b275f88133126d46ae1b36dbf54b173, type: 2}
       amount: 1
     output: {fileID: 11400000, guid: 0ce1cf9ae6ac66d4ea2adf81d7ddbed4, type: 2}
-    requiredStation: 5
+    requiredStation: 0
     kind: 0
   - displayName: Sap Torch
     ingredients:

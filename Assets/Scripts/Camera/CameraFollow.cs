@@ -26,12 +26,12 @@ public class CameraFollow : MonoBehaviour
             ? Vector3.SmoothDamp(transform.position, destination, ref velocity, smoothTime)
             : destination;
 
-        if (WorldBounds.Instance != null && cam != null)
-        {
-            Vector2 clamped = WorldBounds.Instance.ClampCamera(position, cam);
-            position.x = clamped.x;
-            position.y = clamped.y;
-        }
+        // if (WorldBounds.Instance != null && cam != null)
+        // {
+        //     Vector2 clamped = WorldBounds.Instance.ClampCamera(position, cam);
+        //     position.x = clamped.x;
+        //     position.y = clamped.y;
+        // }
 
         // shake rides on top of the followed position (it isn't smoothed away)
         if (shake != null) position += shake.Offset;

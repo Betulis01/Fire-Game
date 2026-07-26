@@ -75,6 +75,7 @@ public class Hands : MonoBehaviour
         Transform hand = side == HandSide.Left ? leftHand : rightHand;
         worldItem.transform.SetParent(hand);
         worldItem.transform.localPosition = Vector3.zero;
+        worldItem.transform.localRotation = Quaternion.identity;
         worldItem.GetComponent<WorldItem>().SetHeld(true);
 
         Set(side, worldItem);
@@ -93,6 +94,7 @@ public class Hands : MonoBehaviour
         Transform hand = side == HandSide.Left ? leftHand : rightHand;
         newItem.transform.SetParent(hand);
         newItem.transform.localPosition = Vector3.zero;
+        newItem.transform.localRotation = Quaternion.identity;
         newItem.GetComponent<WorldItem>().SetHeld(true);
 
         Set(side, newItem);
