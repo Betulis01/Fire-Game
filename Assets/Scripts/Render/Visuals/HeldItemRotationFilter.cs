@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Held items are parented onto the hand rig's BackHand/FrontHand transforms, which
+// Held items are parented onto the hand rig's LeftHand/RightHand transforms, which
 // have their rotation keyframed directly in the animation clips (idle sway, attack
 // swings). That rotation would otherwise apply to every held item uniformly. This
 // filters it by capability: weapons (anything with a Tool component, including bare
