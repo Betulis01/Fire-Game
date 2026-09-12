@@ -18,8 +18,8 @@ public class HeldItemRotationFilter : MonoBehaviour
 
     void LateUpdate()
     {
-        Apply(HandSide.Left, hands.leftHand);
-        Apply(HandSide.Right, hands.rightHand);
+        Apply(HandSide.Left, hands.Anchor(HandSide.Left));
+        Apply(HandSide.Right, hands.Anchor(HandSide.Right));
     }
 
     void Apply(HandSide side, Transform hand)

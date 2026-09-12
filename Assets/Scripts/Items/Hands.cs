@@ -16,6 +16,10 @@ public class Hands : MonoBehaviour
              "spawned into each hand and shown whenever that hand holds no real item.")]
     public GameObject fistsPrefab;
 
+    [Tooltip("Source of the west-facing mirror flip. Falls back to a PlayerAnimator " +
+             "on this GameObject.")]
+    [SerializeField] PlayerAnimator playerAnimator;
+
     GameObject leftItem;
     GameObject rightItem;
     int leftCount;
@@ -31,6 +35,7 @@ public class Hands : MonoBehaviour
 
     void Awake()
     {
+        if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
         leftFists = SpawnFists(leftHand);
         rightFists = SpawnFists(rightHand);
         RefreshFists();
@@ -46,6 +51,33 @@ public class Hands : MonoBehaviour
     // Combat (WeaponUse) reads this so it never has to special-case being unarmed.
     public GameObject ActiveItem(HandSide side) =>
         Held(side) != null ? Held(side) : (side == HandSide.Left ? leftFists : rightFists);
+
+    // The physical transform a hand's item should render at right now. leftHand/
+    // rightHand are fixed anchors, but which one visually reads as "left"/"right"
+    // flips when the player mirrors to face west (PlayerAnimator.FlipX) -- so the
+    // anchor for a side swaps too outside of combat, and any already-held item is
+    // re-parented onto it here rather than staying stuck on whichever anchor it
+    // was picked up on. Swapping is suppressed mid-attack: leftHand/rightHand
+    // aren't a mirrored pair, they carry different authored motion (the active
+    // swing clip drives whichever anchor its own _l/_r suffix already picked), so
+    // re-parenting onto the other one there would trade the correct swing curve
+    // for the idle one.
+    public Transform Anchor(HandSide side)
+    {
+        bool flip = playerAnimator != null && playerAnimator.FlipX;
+        bool attacking = playerAnimator != null && playerAnimator.IsAttacking;
+        bool swap = flip && !attacking;
+        Transform anchor = (side == HandSide.Right) != swap ? rightHand : leftHand;
+
+        GameObject item = Held(side);
+        if (item != null && item.transform.parent != anchor)
+        {
+            item.transform.SetParent(anchor, false);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
+        }
+        return anchor;
+    }
 
     // move a world item onto the given hand, or merge it into a matching stack
     public bool TryHold(GameObject worldItem, HandSide side)
@@ -72,7 +104,7 @@ public class Hands : MonoBehaviour
             return false;                      // hand occupied and can't stack
         }
 
-        Transform hand = side == HandSide.Left ? leftHand : rightHand;
+        Transform hand = Anchor(side);
         worldItem.transform.SetParent(hand);
         worldItem.transform.localPosition = Vector3.zero;
         worldItem.transform.localRotation = Quaternion.identity;
@@ -91,7 +123,7 @@ public class Hands : MonoBehaviour
         GameObject old = Held(side);
         if (old != null) Destroy(old);
 
-        Transform hand = side == HandSide.Left ? leftHand : rightHand;
+        Transform hand = Anchor(side);
         newItem.transform.SetParent(hand);
         newItem.transform.localPosition = Vector3.zero;
         newItem.transform.localRotation = Quaternion.identity;
