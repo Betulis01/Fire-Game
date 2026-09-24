@@ -31,8 +31,8 @@ public class HeldItemSorter : MonoBehaviour
     [Header("In front of the body? (per anchor, NE/SE art; NW/SW mirror these)")]
     [SerializeField] bool seLeftHandFront = true;
     [SerializeField] bool seRightHandFront = true;
-    [SerializeField] bool neLeftHandFront = true;
-    [SerializeField] bool neRightHandFront = false;
+    [SerializeField] bool neLeftHandFront = false;
+    [SerializeField] bool neRightHandFront = true;
 
     Hands hands;
 
