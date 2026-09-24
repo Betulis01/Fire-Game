@@ -41,6 +41,7 @@ public class PlayerAnimator : MonoBehaviour
     // again would make it oscillate.
     class HandAnchor
     {
+    
         public Transform t;
         public Vector3 sourcePos, writtenPos;
         public Quaternion sourceRot = Quaternion.identity, writtenRot = Quaternion.identity;
@@ -171,13 +172,15 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
     {
         facing = aimDir;
-        (string dir, bool flip) = ResolveDir(facing);
+        (string dir, bool _) = ResolveDir(facing);
 
-        // Mirroring (NW/SW) flips which screen-side the swing lands on, so the
-        // drawn hand pose has to flip with it -- otherwise a mirrored SE clip
-        // keeps showing the SE art's hand on the wrong (now-mirrored) side.
-        bool left = side == HandSide.Left;
-        string hand = (left != flip) ? "l" : "r";
+        // The clip suffix picks which HandRig anchor gets animated (_l ->
+        // LeftHand, _r -> RightHand), and Hands.Anchor() pins the held item to
+        // that same anchor unswapped during an attack -- so the suffix must
+        // track `side` directly, not the west-facing mirror. Mirroring (NW/SW)
+        // still flips the drawn art and both anchors' positions uniformly via
+        // flipX/LateUpdate, which is all that's needed for it to read correctly.
+        string hand = side == HandSide.Left ? "l" : "r";
         string state = $"{dir}_attack_{hand}";
 
         // No clip for this direction yet (art pending) -- arming the swing anyway
