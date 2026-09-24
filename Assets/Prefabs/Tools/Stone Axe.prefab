@@ -160,7 +160,7 @@ MonoBehaviour:
   selfKnockback: 1.5
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
   swingEffectAngleOffset: 0
-  lungeSpeed: 1
+  lungeSpeed: 0
   lungeDuration: 0.15
   lungeCurve:
     serializedVersion: 2
