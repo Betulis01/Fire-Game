@@ -182,13 +182,13 @@ public class PlayerAnimator : MonoBehaviour
         facing = aimDir;
         (string dir, bool flip) = ResolveDir(facing);
 
-        // The clip suffix picks which HandRig anchor gets animated (_l ->
-        // LeftHand, _r -> RightHand), and Hands.Anchor() pins the held item to
-        // that same anchor unswapped during an attack -- so the suffix must
-        // track `side` directly, not the west-facing mirror. Mirroring (NW/SW)
-        // still flips the drawn art and both anchors' positions uniformly via
-        // flipX/LateUpdate, which is all that's needed for it to read correctly.
-        string hand = side == HandSide.Left ? "l" : "r";
+        // Mirroring (NW/SW) turns the NE/SE clip's right-hand swing into a
+        // left-hand one, so the suffix flips with it: left hand facing SW plays
+        // se_attack_r mirrored, facing NW plays ne_attack_r mirrored. Hands.Anchor()
+        // swaps anchors on the same mirror, so the held item sits on the anchor
+        // the chosen clip animates (_l -> LeftHand, _r -> RightHand).
+        bool left = side == HandSide.Left;
+        string hand = (left != flip) ? "l" : "r";
         string state = $"{dir}_attack_{hand}";
 
         // No clip for this direction yet (art pending) -- arming the swing anyway
