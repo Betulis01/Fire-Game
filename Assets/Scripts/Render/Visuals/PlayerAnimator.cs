@@ -8,7 +8,7 @@ using UnityEngine;
 // clip mid-stride). NW/SW reuse the NE/SE clips with SpriteRenderer.flipX.
 //
 // State names must match the AnimatorController / Aseprite tag names:
-//   se_idle ne_idle  se_walk ne_walk
+//   se_idle ne_idle  se_run ne_run
 //   se_attack_l ne_attack_l  se_attack_r ne_attack_r
 // (NW/SW reuse the NE/SE clips via flipX, same as locomotion).
 //
@@ -125,17 +125,6 @@ public class PlayerAnimator : MonoBehaviour
     {
         Vector2 move = UserInput.Instance.Move;
         bool moving = move.sqrMagnitude > moveDeadzone * moveDeadzone;
-        if (moving) facing = move;
-
-        // Resolve facing to an isometric direction (see CardinalDir).
-        (string dir, bool flip) = ResolveDir(facing);
-
-        sr.flipX = flip;
-        FlipX = flip;
-        // The hand rig's west mirror is applied arithmetically in LateUpdate (after
-        // the Animator writes the anchors), not by negating scale here -- a negative
-        // scale makes every descendant's matrix a reflection, which a quaternion can't
-        // represent and which corrupts held items' rotation.
 
         // An in-progress attack owns the Animator until its clip finishes. We detect
         // completion via normalizedTime (non-looping clips count past 1.0) rather than
@@ -144,15 +133,34 @@ public class PlayerAnimator : MonoBehaviour
         {
             AnimatorStateInfo st = animator.GetCurrentAnimatorStateInfo(0);
             bool clipDone = st.IsName(attackState) && st.normalizedTime >= 1f;
-            if (Time.time < attackFailsafe && !clipDone)
-            {
-                Play(attackState);
-                return;
-            }
-            attacking = false;
+            if (Time.time >= attackFailsafe || clipDone) attacking = false;
+        }
+
+        // Mid-attack, facing stays latched to the aim PlayAttack set: the attack
+        // state's direction and _l/_r suffix were picked from it, so letting movement
+        // re-derive the flip here would mirror (or un-mirror) the swing onto the
+        // wrong side -- e.g. running east while swinging west.
+        if (moving && !attacking) facing = move;
+        (string dir, bool flip) = ResolveDir(facing);
+        ApplyFlip(flip);
+
+        if (attacking)
+        {
+            Play(attackState);
+            return;
         }
 
         Play($"{dir}_{(moving ? "run" : "idle")}");
+    }
+
+    // Mirror the body for west-facing (NW/SW). The hand rig's west mirror is applied arithmetically in LateUpdate
+    // (after the Animator writes the anchors), not by negating scale here -- a
+    // negative scale makes every descendant's matrix a reflection, which a quaternion
+    // can't represent and which corrupts held items' rotation.
+    void ApplyFlip(bool flip)
+    {
+        sr.flipX = flip;
+        FlipX = flip;
     }
 
     // Play a state by name, but only when it actually changes.
@@ -196,6 +204,9 @@ public class PlayerAnimator : MonoBehaviour
 
         attackState = state;
         attacking = true;
+        // Flip now rather than on the next Update, so this frame's anchor mirror and
+        // Hands.Anchor already agree with the suffix picked above.
+        ApplyFlip(flip);
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);   // safety ceiling only
         currentState = null;   // force the next Play to switch
         animator.speed = 1f;   // in case a prior charge left this paused
