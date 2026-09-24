@@ -63,17 +63,32 @@ public class Hands : MonoBehaviour
     // left item on.
     public Transform Anchor(HandSide side)
     {
-        bool swap = playerAnimator != null && playerAnimator.FlipX;
-        Transform anchor = (side == HandSide.Right) != swap ? rightHand : leftHand;
+        Transform anchor = (side == HandSide.Right) != FlipX ? rightHand : leftHand;
 
         GameObject item = Held(side);
-        if (item != null && item.transform.parent != anchor)
-        {
-            item.transform.SetParent(anchor, false);
-            item.transform.localPosition = Vector3.zero;
-            item.transform.localRotation = Quaternion.identity;
-        }
+        if (item != null && item.transform.parent != anchor) Attach(item, anchor, worldPositionStays: false);
         return anchor;
+    }
+
+    bool FlipX => playerAnimator != null && playerAnimator.FlipX;
+
+    // Parent an item onto a hand anchor and match its sprite to the west-facing
+    // mirror. The anchor's own mirror (PlayerAnimator.LateUpdate) only moves and
+    // rotates the item, so asymmetric art (an axe head) needs flipX to read
+    // mirrored too. FlipX only changes together with the anchor swap above, so
+    // re-attaching is the one place the flip needs updating.
+    void Attach(GameObject item, Transform anchor, bool worldPositionStays = true)
+    {
+        item.transform.SetParent(anchor, worldPositionStays);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+        SetSpriteFlip(item, FlipX);
+    }
+
+    static void SetSpriteFlip(GameObject item, bool flip)
+    {
+        foreach (SpriteRenderer sr in item.GetComponentsInChildren<SpriteRenderer>(true))
+            sr.flipX = flip;
     }
 
     // move a world item onto the given hand, or merge it into a matching stack
@@ -101,10 +116,7 @@ public class Hands : MonoBehaviour
             return false;                      // hand occupied and can't stack
         }
 
-        Transform hand = Anchor(side);
-        worldItem.transform.SetParent(hand);
-        worldItem.transform.localPosition = Vector3.zero;
-        worldItem.transform.localRotation = Quaternion.identity;
+        Attach(worldItem, Anchor(side));
         worldItem.GetComponent<WorldItem>().SetHeld(true);
 
         Set(side, worldItem);
@@ -120,10 +132,7 @@ public class Hands : MonoBehaviour
         GameObject old = Held(side);
         if (old != null) Destroy(old);
 
-        Transform hand = Anchor(side);
-        newItem.transform.SetParent(hand);
-        newItem.transform.localPosition = Vector3.zero;
-        newItem.transform.localRotation = Quaternion.identity;
+        Attach(newItem, Anchor(side));
         newItem.GetComponent<WorldItem>().SetHeld(true);
 
         Set(side, newItem);
@@ -158,6 +167,7 @@ public class Hands : MonoBehaviour
 
         item.transform.SetParent(null);
         item.transform.position = dropPos;
+        SetSpriteFlip(item, false);
         item.GetComponent<WorldItem>().SetHeld(false);
 
         Set(side, null);
@@ -185,6 +195,7 @@ public class Hands : MonoBehaviour
         // the held object itself becomes one world single
         item.transform.SetParent(null);
         item.transform.position = pos;
+        SetSpriteFlip(item, false);
         wi.SetHeld(false);
 
         // spawn the remaining stacked copies with a small offset so they don't
