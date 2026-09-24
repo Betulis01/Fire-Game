@@ -55,18 +55,15 @@ public class Hands : MonoBehaviour
     // The physical transform a hand's item should render at right now. leftHand/
     // rightHand are fixed anchors, but which one visually reads as "left"/"right"
     // flips when the player mirrors to face west (PlayerAnimator.FlipX) -- so the
-    // anchor for a side swaps too outside of combat, and any already-held item is
+    // anchor for a side swaps too, and any already-held item is
     // re-parented onto it here rather than staying stuck on whichever anchor it
-    // was picked up on. Swapping is suppressed mid-attack: leftHand/rightHand
-    // aren't a mirrored pair, they carry different authored motion (the active
-    // swing clip drives whichever anchor its own _l/_r suffix already picked), so
-    // re-parenting onto the other one there would trade the correct swing curve
-    // for the idle one.
+    // was picked up on. This holds mid-attack too: PlayerAnimator.PlayAttack flips
+    // the clip's _l/_r suffix on the same mirror, so a west-facing left-hand swing
+    // plays the _r clip, which animates rightHand -- exactly the anchor this swap
+    // puts the left item on.
     public Transform Anchor(HandSide side)
     {
-        bool flip = playerAnimator != null && playerAnimator.FlipX;
-        bool attacking = playerAnimator != null && playerAnimator.IsAttacking;
-        bool swap = flip && !attacking;
+        bool swap = playerAnimator != null && playerAnimator.FlipX;
         Transform anchor = (side == HandSide.Right) != swap ? rightHand : leftHand;
 
         GameObject item = Held(side);
