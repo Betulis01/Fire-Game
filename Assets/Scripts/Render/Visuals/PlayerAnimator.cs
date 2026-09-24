@@ -180,7 +180,7 @@ public class PlayerAnimator : MonoBehaviour
     public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
     {
         facing = aimDir;
-        (string dir, bool _) = ResolveDir(facing);
+        (string dir, bool flip) = ResolveDir(facing);
 
         // The clip suffix picks which HandRig anchor gets animated (_l ->
         // LeftHand, _r -> RightHand), and Hands.Anchor() pins the held item to
