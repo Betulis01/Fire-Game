@@ -29,10 +29,10 @@ public class HeldItemSorter : MonoBehaviour
     [SerializeField] int backOffset = -1;
 
     [Header("In front of the body? (per anchor, NE/SE art; NW/SW mirror these)")]
-    [SerializeField] bool seLeftHandFront = true;
-    [SerializeField] bool seRightHandFront = true;
-    [SerializeField] bool neLeftHandFront = false;
-    [SerializeField] bool neRightHandFront = true;
+    [SerializeField] bool seLeftAnchorFront = true;
+    [SerializeField] bool seRightAnchorFront = true;
+    [SerializeField] bool neLeftAnchorFront = false;
+    [SerializeField] bool neRightAnchorFront = true;
 
     Hands hands;
 
@@ -57,8 +57,8 @@ public class HeldItemSorter : MonoBehaviour
 
         bool onLeftAnchor = hands.Anchor(side) == hands.leftHand;
         bool front = se
-            ? (onLeftAnchor ? seLeftHandFront : seRightHandFront)
-            : (onLeftAnchor ? neLeftHandFront : neRightHandFront);
+            ? (onLeftAnchor ? seLeftAnchorFront : seRightAnchorFront)
+            : (onLeftAnchor ? neLeftAnchorFront : neRightAnchorFront);
         int order = body.sortingOrder + (front ? frontOffset : backOffset);
 
         // Shift every sprite in the item by the same amount, so multi-sprite items
