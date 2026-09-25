@@ -212,6 +212,20 @@ public class Hands : MonoBehaviour
         Changed?.Invoke();
     }
 
+    // Take a hand's item out without dropping it into the world (e.g. to wear it).
+    // The caller owns the returned object; it keeps WorldItem.IsHeld until the caller
+    // changes that. The whole stack goes with it.
+    public GameObject Release(HandSide side)
+    {
+        GameObject item = Held(side);
+        if (item == null) return null;
+
+        Set(side, null);
+        SetCount(side, 0);
+        Changed?.Invoke();
+        return item;
+    }
+
     // remove `amount` from a hand's stack (e.g. a crafting input). Decrements the
     // count, freeing the hand only when it hits zero.
     public void Consume(HandSide side, int amount = 1)

@@ -4,9 +4,9 @@ using UnityEngine;
 
 // Paper-doll layer: shows this layer's sprite for whatever frame the source (body)
 // renderer is on. The body's clips only animate the body sprite ("Body_Frame_N");
-// this renderer follows with its own "<Layer>_Frame_N" -- e.g. the Head layer now,
-// gear slots later. Also mirrors the source's flipX and material (so the white
-// hit flash covers it too), and sorts a fixed offset above the source.
+// this renderer follows with its own "<Layer>_Frame_N" -- the Head layer, and the
+// gear slots PaperDoll creates. Also mirrors the source's flipX and material (so the
+// white hit flash covers it too), and sorts a fixed offset above the source.
 //
 // Sprites from the same Aseprite file share the canvas-space pivot, so placing
 // this at the source's local origin lines every layer up.
@@ -16,17 +16,15 @@ public class SpriteLayerFollower : MonoBehaviour
     [Tooltip("Renderer to follow. Falls back to the parent's SpriteRenderer.")]
     [SerializeField] SpriteRenderer source;
 
-    [Tooltip("This layer's sprites, indexed by frame number. Fill with the " +
-             "context-menu 'Fill Frames From Layer'.")]
+    [Tooltip("Aseprite layer whose frames fill `frames` (GearSpriteSync, editor). " +
+             "Leave empty for a renderer whose frames are set in code (gear slots).")]
+    public string layerName;
+
+    [Tooltip("This layer's sprites, indexed by frame number. Filled automatically.")]
     [SerializeField] Sprite[] frames;
 
     [Tooltip("Sorting order relative to the source.")]
     [SerializeField] int orderOffset = 1;
-
-#if UNITY_EDITOR
-    [Tooltip("Aseprite layer name to fill frames from (editor only).")]
-    [SerializeField] string layerName = "Head";
-#endif
 
     static readonly Regex FrameSuffix = new(@"_Frame_(\d+)$");
     static readonly Dictionary<Sprite, int> frameOf = new();   // shared parse cache
@@ -40,13 +38,17 @@ public class SpriteLayerFollower : MonoBehaviour
             source = transform.parent.GetComponent<SpriteRenderer>();
     }
 
+    // Swap what this layer draws (null/empty = nothing), e.g. equipping gear.
+    public void SetFrames(Sprite[] newFrames) => frames = newFrames;
+    public void SetOrderOffset(int offset) => orderOffset = offset;
+
     // After the Animator has written this frame's body sprite.
     void LateUpdate()
     {
         if (source == null) return;
 
         int frame = FrameOf(source.sprite);
-        sr.sprite = frame >= 0 && frame < frames.Length ? frames[frame] : null;
+        sr.sprite = frames != null && frame >= 0 && frame < frames.Length ? frames[frame] : null;
         sr.flipX = source.flipX;
         sr.sharedMaterial = source.sharedMaterial;
         sr.sortingLayerID = source.sortingLayerID;
@@ -64,63 +66,4 @@ public class SpriteLayerFollower : MonoBehaviour
         }
         return frame;
     }
-
-#if UNITY_EDITOR
-    // Auto-fill once when added or when the list is empty, so there's no manual step.
-    void OnValidate()
-    {
-        if (frames != null && frames.Length > 0) return;
-        UnityEditor.EditorApplication.delayCall += () => { if (this != null) FillFrames(); };
-    }
-
-    // The source's Aseprite file: its current sprite if it has one, otherwise the
-    // first sprite its Animator's clips key (a prefab often has no sprite of its own).
-    string SourceAssetPath()
-    {
-        SpriteRenderer src = source != null ? source
-            : transform.parent != null ? transform.parent.GetComponent<SpriteRenderer>() : null;
-        if (src == null) return null;
-        if (src.sprite != null) return UnityEditor.AssetDatabase.GetAssetPath(src.sprite);
-
-        Animator anim = src.GetComponent<Animator>();
-        if (anim == null || anim.runtimeAnimatorController == null) return null;
-        foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips)
-            foreach (var b in UnityEditor.AnimationUtility.GetObjectReferenceCurveBindings(clip))
-                foreach (var k in UnityEditor.AnimationUtility.GetObjectReferenceCurve(clip, b))
-                    if (k.value is Sprite s) return UnityEditor.AssetDatabase.GetAssetPath(s);
-        return null;
-    }
-
-    // Collect "<layerName>_Frame_N" from the source's Aseprite file into frames[N].
-    // Frames where the layer is empty stay null (nothing drawn).
-    [ContextMenu("Fill Frames From Layer")]
-    void FillFrames()
-    {
-        string path = SourceAssetPath();
-        if (string.IsNullOrEmpty(path))
-        {
-            Debug.LogError("[SpriteLayerFollower] Couldn't find the source's Aseprite file (no sprite on the parent renderer or its clips).", this);
-            return;
-        }
-
-        var found = new Dictionary<int, Sprite>();
-        foreach (Object o in UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path))
-            if (o is Sprite s && s.name.StartsWith(layerName + "_Frame_"))
-                found[FrameOf(s)] = s;
-
-        if (found.Count == 0)
-        {
-            Debug.LogError($"[SpriteLayerFollower] No '{layerName}_Frame_N' sprites in {path}.", this);
-            return;
-        }
-
-        UnityEditor.Undo.RecordObject(this, "Fill layer frames");
-        int max = 0;
-        foreach (int f in found.Keys) max = Mathf.Max(max, f);
-        frames = new Sprite[max + 1];
-        foreach (var kv in found) frames[kv.Key] = kv.Value;
-        UnityEditor.EditorUtility.SetDirty(this);
-        Debug.Log($"[SpriteLayerFollower] Filled {found.Count} '{layerName}' frames from {path}.", this);
-    }
-#endif
 }

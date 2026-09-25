@@ -23938,6 +23938,7 @@ GameObject:
   - component: {fileID: 1949446910}
   - component: {fileID: 1949446912}
   - component: {fileID: 1949446911}
+  - component: {fileID: 7400000000000000001}
   m_Layer: 5
   m_Name: Character - Panel
   m_TagString: Untagged
@@ -24840,6 +24841,83 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8acdb03dcdbb1314fb8ee17e98206e63, type: 3}
+--- !u!114 &7400000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949446909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15079221bb6247ca8bda1432c65dbe08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentPanelUI
+  equipment: {fileID: 0}
+  interactor: {fileID: 0}
+  boxSize: {x: 72, y: 72}
+  spacing: 12
+  topLeft: {x: 40, y: -40}
+  emptyColor: {r: 0, g: 0, b: 0, a: 0.45}
+  filledColor: {r: 0.25, g: 0.2, b: 0.12, a: 0.85}
+  fitsHeldColor: {r: 0.35, g: 0.3, b: 0.1, a: 0.85}
+--- !u!1001 &7400000000000000002
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2153550024464775476, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 449804582166282785, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+      propertyPath: m_Name
+      value: Iron Helmet
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -24857,3 +24935,4 @@ SceneRoots:
   - {fileID: 2094435115}
   - {fileID: 259637527}
   - {fileID: 878166353}
+  - {fileID: 7400000000000000002}
