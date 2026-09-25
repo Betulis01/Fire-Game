@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 // Keeps paper-doll sprite references correct. Every Equippable and every
@@ -15,6 +16,12 @@ using UnityEngine;
 // Also gives an Equippable with no world sprite its first layer frame as one, and
 // errors on duplicate layer names inside one file (their sprites would share names,
 // so body and gear could swap).
+//
+// Body clips get the same protection: each player Animator state is named after
+// an Aseprite tag (se_idle, ne_attack_l, ...), and the importer's generated clip
+// for that tag keys the Body layer's current sprites in order -- so the state's
+// hand-made clip gets its root sprite keys rewritten from it. Hiding Body/Head and
+// saving, or inserting frames, reassigns sprite IDs; this re-points the clips.
 class GearSpriteSync : AssetPostprocessor
 {
     const string PaperDollGuid = "332edefdd70e4fe4a9454bfb41b591e2";   // Simple Pete.aseprite
@@ -28,7 +35,7 @@ class GearSpriteSync : AssetPostprocessor
             EditorApplication.delayCall += Sync;
     }
 
-    [MenuItem("Tools/Gear/Sync Layer Sprites")]
+    [MenuItem("Tools/Gear/Sync Layer Sprites and Body Clips")]
     static void Sync()
     {
         Dictionary<string, Sprite[]> layers = IndexLayers();
@@ -65,12 +72,73 @@ class GearSpriteSync : AssetPostprocessor
             }
         }
 
-        if (updated > 0)
+        int clips = SyncBodyClips();
+
+        if (updated > 0 || clips > 0)
         {
             AssetDatabase.SaveAssets();
-            Debug.Log($"[GearSpriteSync] Updated layer sprites in {updated} prefab(s).");
+            Debug.Log($"[GearSpriteSync] Updated layer sprites in {updated} prefab(s) and body keys in {clips} clip(s).");
         }
     }
+
+    // Rewrite the root sprite keys of every paper-doll Animator state's clip from the
+    // generated clip of the tag with the same name. Key i shows the tag's frame i;
+    // extra keys (a clip's final hold key) keep the tag's last frame. Returns the
+    // number of clips changed.
+    static int SyncBodyClips()
+    {
+        // tag name -> the Body layer's sprites in frame order
+        var tagFrames = new Dictionary<string, Sprite[]>();
+        foreach (AnimationClip gen in AssetDatabase.LoadAllAssetsAtPath(PaperDollPath).OfType<AnimationClip>())
+            foreach (EditorCurveBinding b in AnimationUtility.GetObjectReferenceCurveBindings(gen))
+                if (b.propertyName == "m_Sprite" && (b.path == "Body" || b.path.EndsWith("/Body")))
+                    tagFrames[gen.name] = AnimationUtility.GetObjectReferenceCurve(gen, b)
+                        .OrderBy(k => k.time).Select(k => k.value as Sprite).ToArray();
+        if (tagFrames.Count == 0) return 0;
+
+        var controllers = new HashSet<AnimatorController>();
+        foreach (string path in AssetDatabase.GetAllAssetPaths().Where(p => p.StartsWith("Assets/") && p.EndsWith(".prefab")))
+        {
+            var root = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (root == null) continue;
+            foreach (PaperDoll doll in root.GetComponentsInChildren<PaperDoll>(true))
+                if (doll.TryGetComponent(out Animator anim) && anim.runtimeAnimatorController is AnimatorController c)
+                    controllers.Add(c);
+        }
+
+        var binding = EditorCurveBinding.PPtrCurve("", typeof(SpriteRenderer), "m_Sprite");
+        int changedClips = 0;
+
+        foreach (AnimatorController controller in controllers)
+            foreach (AnimatorState state in controller.layers.SelectMany(l => AllStates(l.stateMachine)))
+            {
+                if (state.motion is not AnimationClip clip) continue;
+                if (!tagFrames.TryGetValue(state.name, out Sprite[] frames) || frames.Length == 0) continue;
+
+                ObjectReferenceKeyframe[] kf = AnimationUtility.GetObjectReferenceCurve(clip, binding);
+                if (kf == null || kf.Length == 0) continue;
+
+                bool changed = false;
+                for (int i = 0; i < kf.Length; i++)
+                {
+                    Sprite want = frames[Mathf.Min(i, frames.Length - 1)];
+                    if (kf[i].value == want) continue;
+                    kf[i].value = want;
+                    changed = true;
+                }
+                if (!changed) continue;
+
+                AnimationUtility.SetObjectReferenceCurve(clip, binding, kf);
+                EditorUtility.SetDirty(clip);
+                changedClips++;
+                Debug.Log($"[GearSpriteSync] Re-pointed body keys of '{clip.name}' (state '{state.name}').", clip);
+            }
+
+        return changedClips;
+    }
+
+    static IEnumerable<AnimatorState> AllStates(AnimatorStateMachine sm) =>
+        sm.states.Select(s => s.state).Concat(sm.stateMachines.SelectMany(c => AllStates(c.stateMachine)));
 
     // Write `frames` on a component via SerializedObject; true if anything changed.
     static bool SyncFrames(Component c, string layerName, Dictionary<string, Sprite[]> layers, string path)
