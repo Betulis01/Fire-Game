@@ -15,3 +15,4 @@ MonoBehaviour:
   id: IronHelmet
   displayName: Iron Helmet
   prefab: {fileID: 449804582166282785, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
+  icon: {fileID: 21300000, guid: df4bd59170924ad6a72be98bbb3a6c55, type: 3}
