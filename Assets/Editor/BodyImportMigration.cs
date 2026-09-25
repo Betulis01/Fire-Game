@@ -21,7 +21,7 @@ using UnityEngine;
 static class BodyImportMigration
 {
     const string BodyGuid = "332edefdd70e4fe4a9454bfb41b591e2";   // Simple Pete.aseprite
-    const string BodyLayer = "Stick";
+    const string BodyLayer = "Body";
     const string RecordPath = "Library/BodyImportMigration.json";
 
     static readonly Regex FrameName = new(@"(?:^|_)Frame_(\d+)$");

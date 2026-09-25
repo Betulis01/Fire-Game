@@ -618,7 +618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeldItemSorter
   playerAnimator: {fileID: 4782380961119324567}
   body: {fileID: 6843272148859934745}
-  frontOffset: 1
+  frontOffset: 2
   backOffset: -1
 --- !u!114 &5908559995381518829
 MonoBehaviour:

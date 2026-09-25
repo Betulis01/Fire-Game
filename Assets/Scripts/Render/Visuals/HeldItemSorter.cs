@@ -24,7 +24,7 @@ public class HeldItemSorter : MonoBehaviour
     [SerializeField] SpriteRenderer body;
 
     [Tooltip("Order added to the body's when the item should draw in front.")]
-    [SerializeField] int frontOffset = 1;
+    [SerializeField] int frontOffset = 2;   // above the head layer (+1)
 
     [Tooltip("Order added to the body's when the item should draw behind.")]
     [SerializeField] int backOffset = -1;
