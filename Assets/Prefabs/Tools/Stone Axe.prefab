@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9212449378994694727}
   - component: {fileID: 6593106120193128840}
   - component: {fileID: -2268743843223548929}
+  - component: {fileID: -533480274767452030}
   m_Layer: 0
   m_Name: Stone Axe
   m_TagString: Untagged
@@ -235,6 +236,23 @@ MonoBehaviour:
   hurtboxLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &-533480274767452030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462038774614361535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206d4899719e8914e844a5aece100318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeldSwingAnimation
+  frames:
+  - {fileID: 4831261975660782534, guid: 25bf893df1650be47b7095890145afef, type: 3}
+  - {fileID: 4215148133712738539, guid: 25bf893df1650be47b7095890145afef, type: 3}
+  - {fileID: -5582332688382588916, guid: 25bf893df1650be47b7095890145afef, type: 3}
+  frameTime: 0.05
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0
