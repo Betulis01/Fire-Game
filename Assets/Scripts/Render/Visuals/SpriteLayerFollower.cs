@@ -66,20 +66,43 @@ public class SpriteLayerFollower : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    // Collect "<layerName>_Frame_N" from the source sprite's Aseprite file into
-    // frames[N]. Frames where the layer is empty stay null (nothing drawn).
-    [ContextMenu("Fill Frames From Layer")]
-    void FillFrames()
+    // Auto-fill once when added or when the list is empty, so there's no manual step.
+    void OnValidate()
+    {
+        if (frames != null && frames.Length > 0) return;
+        UnityEditor.EditorApplication.delayCall += () => { if (this != null) FillFrames(); };
+    }
+
+    // The source's Aseprite file: its current sprite if it has one, otherwise the
+    // first sprite its Animator's clips key (a prefab often has no sprite of its own).
+    string SourceAssetPath()
     {
         SpriteRenderer src = source != null ? source
             : transform.parent != null ? transform.parent.GetComponent<SpriteRenderer>() : null;
-        if (src == null || src.sprite == null)
+        if (src == null) return null;
+        if (src.sprite != null) return UnityEditor.AssetDatabase.GetAssetPath(src.sprite);
+
+        Animator anim = src.GetComponent<Animator>();
+        if (anim == null || anim.runtimeAnimatorController == null) return null;
+        foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips)
+            foreach (var b in UnityEditor.AnimationUtility.GetObjectReferenceCurveBindings(clip))
+                foreach (var k in UnityEditor.AnimationUtility.GetObjectReferenceCurve(clip, b))
+                    if (k.value is Sprite s) return UnityEditor.AssetDatabase.GetAssetPath(s);
+        return null;
+    }
+
+    // Collect "<layerName>_Frame_N" from the source's Aseprite file into frames[N].
+    // Frames where the layer is empty stay null (nothing drawn).
+    [ContextMenu("Fill Frames From Layer")]
+    void FillFrames()
+    {
+        string path = SourceAssetPath();
+        if (string.IsNullOrEmpty(path))
         {
-            Debug.LogError("[SpriteLayerFollower] Needs a source renderer with a sprite assigned.", this);
+            Debug.LogError("[SpriteLayerFollower] Couldn't find the source's Aseprite file (no sprite on the parent renderer or its clips).", this);
             return;
         }
 
-        string path = UnityEditor.AssetDatabase.GetAssetPath(src.sprite);
         var found = new Dictionary<int, Sprite>();
         foreach (Object o in UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path))
             if (o is Sprite s && s.name.StartsWith(layerName + "_Frame_"))
