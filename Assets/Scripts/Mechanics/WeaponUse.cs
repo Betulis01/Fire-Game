@@ -201,6 +201,15 @@ public class WeaponUse : MonoBehaviour
         pending.tool.SpawnSwingEffect(Origin, dir, pending.side == HandSide.Left,
                                       aimOrigin != null ? aimOrigin : transform, pending.heavy);
 
+        // The held item's own sprite loops its swing frames until the attack ends
+        // or it leaves the hand (dropped/swapped mid-swing).
+        if (pending.tool.TryGetComponent(out HeldSwingAnimation heldAnim))
+        {
+            GameObject item = pending.tool.gameObject;
+            HandSide side = pending.side;
+            heldAnim.Play(() => animator != null && animator.IsAttacking && hands.ActiveItem(side) == item);
+        }
+
         // Push fires here, at the windup, not on the later hit frame.
         (float lungeSpeed, float lungeDuration, AnimationCurve lungeCurve) = pending.tool.GetLunge(pending.heavy);
         if (lunge != null && lunge.Begin(dir, lungeSpeed, lungeDuration, lungeCurve))
