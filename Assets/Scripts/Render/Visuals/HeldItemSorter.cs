@@ -4,10 +4,11 @@ using UnityEngine;
 // parented under the player's SortingGroup, so their sortingOrder is relative to
 // the body sprite: above it draws in front, below draws behind.
 //
-// Front/back is decided per physical anchor (LeftHand/RightHand) and art direction
-// (NE/SE), not per hand: in the NE art one arm is on the near side of the body and
-// the other behind it. NW/SW reuse the NE/SE art mirrored and Hands.Anchor swaps
-// the anchors on the same mirror, so the same table covers them.
+// Weapons (anything with a Tool, the same test HeldItemRotationFilter uses) sort
+// per physical anchor (LeftHand/RightHand) and art direction (NE/SE), not per hand:
+// one arm is on the near side of the body and the other behind it. NW/SW reuse the
+// NE/SE art mirrored and Hands.Anchor swaps the anchors on the same mirror, so the
+// same table covers them. Everything else (torches, resources) always draws in front.
 //
 // Runs each frame so it tracks both facing changes and newly picked-up items. A
 // held item's own world YSort is disabled while held (see WorldItem.SetHeld), so
@@ -28,11 +29,11 @@ public class HeldItemSorter : MonoBehaviour
     [Tooltip("Order added to the body's when the item should draw behind.")]
     [SerializeField] int backOffset = -1;
 
-    [Header("In front of the body? (per anchor, NE/SE art; NW/SW mirror these)")]
-    [SerializeField] bool seLeftAnchorFront = true;
-    [SerializeField] bool seRightAnchorFront = true;
-    [SerializeField] bool neLeftAnchorFront = false;
-    [SerializeField] bool neRightAnchorFront = true;
+    [Header("Weapon in front of the body? (per anchor, NE/SE art; NW/SW mirror these)")]
+    [SerializeField] bool weaponSeLeftAnchorFront = false;
+    [SerializeField] bool weaponSeRightAnchorFront = true;
+    [SerializeField] bool weaponNeLeftAnchorFront = false;
+    [SerializeField] bool weaponNeRightAnchorFront = true;
 
     Hands hands;
 
@@ -55,10 +56,7 @@ public class HeldItemSorter : MonoBehaviour
         GameObject item = hands.Held(side);
         if (item == null) return;
 
-        bool onLeftAnchor = hands.Anchor(side) == hands.leftHand;
-        bool front = se
-            ? (onLeftAnchor ? seLeftAnchorFront : seRightAnchorFront)
-            : (onLeftAnchor ? neLeftAnchorFront : neRightAnchorFront);
+        bool front = item.GetComponent<Tool>() == null || WeaponFront(side, se);
         int order = body.sortingOrder + (front ? frontOffset : backOffset);
 
         // Shift every sprite in the item by the same amount, so multi-sprite items
@@ -69,5 +67,13 @@ public class HeldItemSorter : MonoBehaviour
         int shift = order - srs[0].sortingOrder;
         if (shift == 0) return;
         foreach (SpriteRenderer sr in srs) sr.sortingOrder += shift;
+    }
+
+    bool WeaponFront(HandSide side, bool se)
+    {
+        bool onLeftAnchor = hands.Anchor(side) == hands.leftHand;
+        return se
+            ? (onLeftAnchor ? weaponSeLeftAnchorFront : weaponSeRightAnchorFront)
+            : (onLeftAnchor ? weaponNeLeftAnchorFront : weaponNeRightAnchorFront);
     }
 }
