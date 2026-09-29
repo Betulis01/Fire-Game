@@ -11,6 +11,10 @@ using UnityEngine;
 // the same test HeldItemRotationFilter uses) and other items (torches, resources)
 // each have their own table.
 //
+// A Shield is the one exception: its front/back depends purely on facing, not on
+// which hand holds it (SE always in front, NE always behind), so it bypasses both
+// anchor tables entirely -- see Apply.
+//
 // Runs each frame so it tracks both facing changes and newly picked-up items. A
 // held item's own world YSort is disabled while held (see WorldItem.SetHeld), so
 // the two never fight over the same sortingOrder.
@@ -63,7 +67,19 @@ public class HeldItemSorter : MonoBehaviour
         GameObject item = hands.Held(side);
         if (item == null) return;
 
+        if (item.TryGetComponent(out Shield shield))
+        {
+            shield.SetFacing(se);
+            Reorder(item, se);   // front on SE, behind on NE -- regardless of anchor
+            return;
+        }
+
         bool front = item.GetComponent<Tool>() != null ? WeaponFront(side, se) : ItemFront(side, se);
+        Reorder(item, front);
+    }
+
+    void Reorder(GameObject item, bool front)
+    {
         int order = body.sortingOrder + (front ? frontOffset : backOffset);
 
         // Shift every sprite in the item by the same amount, so multi-sprite items

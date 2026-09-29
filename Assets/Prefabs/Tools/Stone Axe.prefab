@@ -156,12 +156,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 1
   damage: 2
-  range: 0.3
-  targetKnockback: 3
-  selfKnockback: 1.5
+  range: 0.15
+  targetKnockback: 1.5
+  selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
   swingEffectAngleOffset: 0
-  lungeSpeed: 0
+  lungeSpeed: 0.25
   lungeDuration: 0.15
   lungeCurve:
     serializedVersion: 2
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19cfe1a3838229f4cb5bc91abcc98f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hitbox
-  radius: 0.6
+  radius: 0.3
   hurtboxLayers:
     serializedVersion: 2
     m_Bits: 512

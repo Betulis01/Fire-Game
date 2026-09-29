@@ -22,6 +22,14 @@ public class WarmthBar : MonoBehaviour
             baseScaleZ = fill.localScale.z;
         }
         if (temperature == null) temperature = GetComponentInParent<PlayerTemperature>();
+
+        // A Canvas-parented HUD bar isn't a descendant of the Player GameObject, so
+        // GetComponentInParent can't find it -- fall back to the tagged Player.
+        if (temperature == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null) temperature = player.GetComponent<PlayerTemperature>();
+        }
     }
 
     void LateUpdate()

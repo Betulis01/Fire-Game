@@ -8,6 +8,8 @@ using UnityEngine.Rendering;
 //     player's WeaponUse this follows the mouse live; for an EnemyAttacker it
 //     follows its last swing direction and also shows attackRange (orange); a
 //     world-lying weapon with no wielder just shows its own hitbox footprint
+//   - every EnemyBrain's detection radius (cyan) -- otherwise only an
+//     Editor-only OnDrawGizmosSelected, invisible here without this
 //   - every other Collider2D in the scene (cyan) -- blockers, interaction
 //     zones, deposit zones, world bounds, anything not already drawn above
 // Draws in the Game and Scene views via GL (works under URP). Self-contained:
@@ -20,6 +22,7 @@ public class CombatDebug : MonoBehaviour
     static readonly Color RangeColor = new Color(1f, 0.85f, 0.2f);
     static readonly Color EnemyRangeColor = new Color(1f, 0.5f, 0.1f);
     static readonly Color ColliderColor = Color.cyan;
+    static readonly Color DetectionColor = Color.cyan;
 
     readonly HashSet<Collider2D> drawnColliders = new();
 
@@ -94,6 +97,12 @@ public class CombatDebug : MonoBehaviour
             DrawCircle(origin, tool.range, RangeColor);                // reach
             DrawCircle(center, hit.radius, HitColor);                  // where a swing lands now
         }
+
+        // Enemy detection radius -- normally only an OnDrawGizmosSelected wire sphere
+        // (Editor-only, needs the object selected), so it's otherwise invisible in
+        // this GL-based overlay unlike everything else here.
+        foreach (EnemyBrain brain in FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))
+            DrawCircle(brain.transform.position, brain.detectionRadius, DetectionColor);
 
         // Every other physics collider in the scene -- blockers, interaction zones,
         // deposit zones, world bounds, anything not already drawn as a Hurtbox above.

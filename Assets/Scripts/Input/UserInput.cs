@@ -29,6 +29,7 @@ public class UserInput : MonoBehaviour
     InputAction pointAction;
     InputAction aimAction;
     InputAction useAction;
+    InputAction blockAction;
     InputAction interactLeftAction;
     InputAction interactRightAction;
     InputAction selectLeftAction;
@@ -61,6 +62,7 @@ public class UserInput : MonoBehaviour
         pointAction = playerMap.FindAction("Point", true);
         aimAction = playerMap.FindAction("Aim", true);
         useAction = playerMap.FindAction("Use", true);
+        blockAction = playerMap.FindAction("Block", true);
         interactLeftAction = playerMap.FindAction("InteractLeft", true);
         interactRightAction = playerMap.FindAction("InteractRight", true);
         selectLeftAction = playerMap.FindAction("SelectLeft", true);
@@ -106,6 +108,9 @@ public class UserInput : MonoBehaviour
     public bool Use => useAction != null && useAction.WasPressedThisFrame();
     public bool UseHeld => useAction != null && useAction.IsPressed();
     public bool UseReleased => useAction != null && useAction.WasReleasedThisFrame();
+    public bool Block => blockAction != null && blockAction.WasPressedThisFrame();
+    public bool BlockHeld => blockAction != null && blockAction.IsPressed();
+    public bool BlockReleased => blockAction != null && blockAction.WasReleasedThisFrame();
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
     public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
     public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();

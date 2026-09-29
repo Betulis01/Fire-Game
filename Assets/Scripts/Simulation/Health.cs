@@ -41,10 +41,16 @@ public class Health : MonoBehaviour, IHitReactor
     // React to a landed hit by taking its damage, unless a ToolDamageFilter on this
     // entity rejects the striking tool's kind (the hit itself still registered —
     // knockback/VFX/recoil already ran off Hurtbox.TakeHit — only damage is skipped).
+    // A ShieldBlock that's actively blocking scales the damage down the same way —
+    // HitInfo/AttackData are immutable, so this is the one place to gate it.
     public void OnHit(in HitInfo hit)
     {
         ToolDamageFilter gate = GetComponent<ToolDamageFilter>();
         if (gate != null && !gate.Accepts(hit.kind)) return;
-        TakeDamage(hit.damage, DamageType.Combat, hit.point);
+
+        ShieldBlock block = GetComponent<ShieldBlock>();
+        float damage = block != null && block.IsBlocking ? hit.damage * (1f - block.DamageReduction) : hit.damage;
+
+        TakeDamage(damage, DamageType.Combat, hit.point);
     }
 }

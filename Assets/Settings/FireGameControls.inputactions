@@ -43,6 +43,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Block",
+                    "type": "Button",
+                    "id": "3c9d2b1a-6e4f-48a3-9c2d-7f1b0a5e3d6c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "InteractLeft",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000006",
@@ -240,6 +249,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Use",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5a1e2d3c-8b47-4f9a-b1c6-2e7d9a4f0c3b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f4c7b2a-1d3e-46a8-8c5f-3b6e9d2a7f1c",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

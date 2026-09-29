@@ -23,6 +23,15 @@ public class HealthBar : MonoBehaviour
             baseScaleZ = fill.localScale.z;
         }
         if (health == null) health = GetComponentInParent<Health>();
+
+        // A Canvas-parented HUD bar (e.g. the player's) isn't a descendant of its
+        // target, so GetComponentInParent can't find it -- fall back to the tagged
+        // Player. A no-op for enemy bars, which already found it above.
+        if (health == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null) health = player.GetComponent<Health>();
+        }
     }
 
     // Poll each frame so the bar tracks any change (damage and healing alike).
