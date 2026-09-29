@@ -127,1266 +127,6 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Iron_Helmet_Frame_0
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 4
-      width: 14
-      height: 12
-    spriteID: 1d3777f15d70ccc4bbbbc2a2c562e058
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
-  - name: Iron_Helmet_Frame_1
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 24
-      width: 14
-      height: 12
-    spriteID: fa9a52d89f61a81438503d5347a98c7d
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 24}
-  - name: Iron_Helmet_Frame_2
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 44
-      width: 14
-      height: 12
-    spriteID: b75002448132f93458a137ce82a5b2ed
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 44}
-  - name: Iron_Helmet_Frame_3
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 64
-      width: 14
-      height: 12
-    spriteID: 9fb2a1e7f91ca7c4980ba675545df038
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 64}
-  - name: Iron_Helmet_Frame_4
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 84
-      width: 14
-      height: 12
-    spriteID: bba1e3b733a6926478fa6cd1e741e153
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 84}
-  - name: Iron_Helmet_Frame_5
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 104
-      width: 14
-      height: 12
-    spriteID: 815615c4e9a0c7944a80e40f82e1b509
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 104}
-  - name: Iron_Helmet_Frame_6
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 124
-      width: 14
-      height: 12
-    spriteID: 6ee1da4f04fddc9448c743ea5776e968
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 124}
-  - name: Iron_Helmet_Frame_7
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 144
-      width: 14
-      height: 12
-    spriteID: b04c8d55cdef06d449ee2785ce46849e
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 144}
-  - name: Iron_Helmet_Frame_8
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 164
-      width: 14
-      height: 12
-    spriteID: 1b117f0825e37964499ede227b1aac11
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 164}
-  - name: Iron_Helmet_Frame_9
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 184
-      width: 14
-      height: 12
-    spriteID: 0e0e1baf7fca75246a9aa3b7a834b652
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 184}
-  - name: Iron_Helmet_Frame_10
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 204
-      width: 14
-      height: 12
-    spriteID: 53576d53f58a8dc4fb7426fb13c08259
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 204}
-  - name: Iron_Helmet_Frame_11
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 224
-      width: 14
-      height: 12
-    spriteID: 01760e9a19a176741bfa20875b4fcd72
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 224}
-  - name: Iron_Helmet_Frame_12
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 48
-      y: 480
-      width: 11
-      height: 12
-    spriteID: 78d2b6b12cfd30146881de8173cf2c0a
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 48, y: 480}
-  - name: Iron_Helmet_Frame_13
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 4
-      width: 11
-      height: 12
-    spriteID: 7f5ecb94da805704ca22988f9329c9c8
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 4}
-  - name: Iron_Helmet_Frame_14
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 24
-      width: 11
-      height: 12
-    spriteID: 69a6430c59401ba488f2a32172a6710f
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 24}
-  - name: Iron_Helmet_Frame_15
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 44
-      width: 11
-      height: 12
-    spriteID: bc36d5e05410b644aa2eb0bdf14187ee
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 44}
-  - name: Iron_Helmet_Frame_16
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 64
-      width: 11
-      height: 12
-    spriteID: e0d07e4536209094999f028ec0577e61
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 64}
-  - name: Iron_Helmet_Frame_17
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 84
-      width: 11
-      height: 12
-    spriteID: 89a77eb181f0cfb4295123f5ed4a92c1
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 84}
-  - name: Iron_Helmet_Frame_18
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 104
-      width: 11
-      height: 12
-    spriteID: beaf804737203b94fb46a569e147b2bf
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 104}
-  - name: Iron_Helmet_Frame_19
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 124
-      width: 11
-      height: 12
-    spriteID: b3d55519e911e604caca2f777da8e373
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 124}
-  - name: Iron_Helmet_Frame_20
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 144
-      width: 11
-      height: 12
-    spriteID: eba32322a90470b419d2b2ec79791340
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 144}
-  - name: Iron_Helmet_Frame_21
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 164
-      width: 11
-      height: 12
-    spriteID: f9fa94cdea39bc4489f6c79ee95a4a1f
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 164}
-  - name: Iron_Helmet_Frame_22
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 184
-      width: 11
-      height: 12
-    spriteID: 4ab3f9ad9a2adf141a75b0c9e3bda7aa
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 184}
-  - name: Iron_Helmet_Frame_23
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 204
-      width: 11
-      height: 12
-    spriteID: 6d4deaf1537ded948b689e3f9617a374
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 204}
-  - name: Iron_Helmet_Frame_24
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 244
-      width: 14
-      height: 12
-    spriteID: ea3c78695850221478d9dc79f1267186
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 244}
-  - name: Iron_Helmet_Frame_25
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.0500001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 264
-      width: 14
-      height: 12
-    spriteID: 0f9917c8f4f801541932a0b381444d3d
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 264}
-  - name: Iron_Helmet_Frame_26
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 284
-      width: 14
-      height: 12
-    spriteID: 4c4b5abe6d66ba644a8852b9eab6bb98
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 284}
-  - name: Iron_Helmet_Frame_27
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 304
-      width: 14
-      height: 12
-    spriteID: 98886b9d486ca1547a56c49fe1f49731
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 304}
-  - name: Iron_Helmet_Frame_28
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 324
-      width: 14
-      height: 12
-    spriteID: 8e8c39bff2b323941b980aaf8b0bbd85
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 324}
-  - name: Iron_Helmet_Frame_29
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.0500001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 344
-      width: 14
-      height: 12
-    spriteID: a6313c26a018fdb4c95c57390d01a3a1
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 344}
-  - name: Iron_Helmet_Frame_30
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 364
-      width: 14
-      height: 12
-    spriteID: 6b62c9016de99ef4ab6dd31b068ec49d
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 364}
-  - name: Iron_Helmet_Frame_31
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 384
-      width: 14
-      height: 12
-    spriteID: 859b2742b9b22f0498045285fd5ef2e7
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 384}
-  - name: Iron_Helmet_Frame_32
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 224
-      width: 11
-      height: 12
-    spriteID: 634fa495dd5cb99459f76de9be8b0799
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 224}
-  - name: Iron_Helmet_Frame_33
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.0500001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 244
-      width: 11
-      height: 12
-    spriteID: 32a6b2b11102bbf4ea6ab54072d56114
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 244}
-  - name: Iron_Helmet_Frame_34
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 264
-      width: 11
-      height: 12
-    spriteID: a9d7e6f01e14e064eac90af86e20fe57
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 264}
-  - name: Iron_Helmet_Frame_35
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 284
-      width: 11
-      height: 12
-    spriteID: a35e01386fe577746a5eaefe0b2e4113
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 284}
-  - name: Iron_Helmet_Frame_36
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 304
-      width: 11
-      height: 12
-    spriteID: 01c7b5d739302534fbc037fd29fa96cc
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 304}
-  - name: Iron_Helmet_Frame_37
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.0500001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 324
-      width: 11
-      height: 12
-    spriteID: fb02dd83b7f7a9848a363cd9cf0e4b91
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 324}
-  - name: Iron_Helmet_Frame_38
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 344
-      width: 11
-      height: 12
-    spriteID: b911d79ad8a4daf4397ad41dcf6cf67f
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 344}
-  - name: Iron_Helmet_Frame_39
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 364
-      width: 11
-      height: 12
-    spriteID: fa82b396a9a96cd49aae1604b94c6b5a
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 364}
-  - name: Iron_Helmet_Frame_40
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.3000001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 404
-      width: 14
-      height: 12
-    spriteID: 60f8367f01f75314d907eeee6d2daede
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 404}
-  - name: Iron_Helmet_Frame_41
-    originalName: 
-    pivot: {x: 0.6428572, y: -1.3000001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 424
-      width: 14
-      height: 12
-    spriteID: e57adfef09764e742aff9763b086c990
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 424}
-  - name: Iron_Helmet_Frame_42
-    originalName: 
-    pivot: {x: 0.6428572, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 444
-      width: 14
-      height: 12
-    spriteID: 1e75346311366af4eb79f5dc782aa513
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 444}
-  - name: Iron_Helmet_Frame_43
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 464
-      width: 14
-      height: 12
-    spriteID: 709ed4b3e55a3114ca3b681e7c0d0551
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 464}
-  - name: Iron_Helmet_Frame_44
-    originalName: 
-    pivot: {x: 0.5, y: -1.0500001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 484
-      width: 14
-      height: 12
-    spriteID: 6eca322b0e108404b840e5a61dfb140b
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 484}
-  - name: Iron_Helmet_Frame_45
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.3000001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 26
-      y: 4
-      width: 14
-      height: 12
-    spriteID: 344511f6e5d75864d8965cc0e050a041
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 26, y: 4}
-  - name: Iron_Helmet_Frame_46
-    originalName: 
-    pivot: {x: 0.6428572, y: -1.3000001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 26
-      y: 24
-      width: 14
-      height: 12
-    spriteID: 3378beea99dce1e46ae4b363a45c52a2
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 26, y: 24}
-  - name: Iron_Helmet_Frame_47
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 26
-      y: 44
-      width: 14
-      height: 12
-    spriteID: 612e2b6d7349e5b4080661a5471174df
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 26, y: 44}
-  - name: Iron_Helmet_Frame_48
-    originalName: 
-    pivot: {x: 0.5714286, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 26
-      y: 64
-      width: 14
-      height: 12
-    spriteID: cd31df026dcbcb643b0a2245be8e86d7
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 26, y: 64}
-  - name: Iron_Helmet_Frame_49
-    originalName: 
-    pivot: {x: 0.5, y: -1.0500001}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 26
-      y: 84
-      width: 14
-      height: 12
-    spriteID: 75f74be333a0e4548921dd34d59de1f9
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 26, y: 84}
-  - name: Iron_Helmet_Frame_50
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 384
-      width: 11
-      height: 12
-    spriteID: 6a00ad73a04f027429295011446ad91e
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 384}
-  - name: Iron_Helmet_Frame_51
-    originalName: 
-    pivot: {x: 0.54545456, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 404
-      width: 11
-      height: 12
-    spriteID: afb861c3dbbc8684995b6412ec262aac
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 404}
-  - name: Iron_Helmet_Frame_52
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 424
-      width: 11
-      height: 12
-    spriteID: b49cc4f08705c184f8b5e60cbd796159
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 424}
-  - name: Iron_Helmet_Frame_53
-    originalName: 
-    pivot: {x: 0.54545456, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 444
-      width: 11
-      height: 12
-    spriteID: 605070c68510872489fe386e0b939c09
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 444}
-  - name: Iron_Helmet_Frame_54
-    originalName: 
-    pivot: {x: 0.54545456, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 464
-      width: 11
-      height: 12
-    spriteID: 65335f58d442c3d4f9c45c3a07cba847
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 464}
-  - name: Iron_Helmet_Frame_55
-    originalName: 
-    pivot: {x: 0.54545456, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 67
-      y: 484
-      width: 11
-      height: 12
-    spriteID: 315c2231ca656804db09c725e1b43807
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 67, y: 484}
-  - name: Iron_Helmet_Frame_56
-    originalName: 
-    pivot: {x: 0.54545456, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 86
-      y: 4
-      width: 11
-      height: 12
-    spriteID: 3ff622ed9eb2b1f4fb7c04704ae40b07
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 86, y: 4}
-  - name: Iron_Helmet_Frame_57
-    originalName: 
-    pivot: {x: 0.54545456, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 86
-      y: 24
-      width: 11
-      height: 12
-    spriteID: 7748fa9083fbeb74eb05e8353496612b
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 86, y: 24}
-  - name: Iron_Helmet_Frame_58
-    originalName: 
-    pivot: {x: 0.45454547, y: -1.2166667}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 86
-      y: 44
-      width: 11
-      height: 12
-    spriteID: 13627a2bebd58ce4d8fffa3b7dccf80e
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 86, y: 44}
-  - name: Iron_Helmet_Frame_59
-    originalName: 
-    pivot: {x: 0.36363637, y: -1.1333334}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 86
-      y: 64
-      width: 11
-      height: 12
-    spriteID: bab5923b89404784382d0aee9d460612
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 86, y: 64}
   - name: Body_Frame_0
     originalName: 
     pivot: {x: 0.54545456, y: 0.026666643}
@@ -1416,8 +156,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 50
+      x: 88
+      y: 84
       width: 11
       height: 14
     spriteID: 8b644b96bcd7e844f994c8e630901333
@@ -1428,7 +168,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 50}
+    uvTransform: {x: 88, y: 84}
   - name: Body_Frame_2
     originalName: 
     pivot: {x: 0.54545456, y: 0.028571403}
@@ -1437,8 +177,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 72
+      x: 88
+      y: 106
       width: 11
       height: 14
     spriteID: 0c1aec16e68a92247be770fdf226bd7f
@@ -1449,7 +189,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 72}
+    uvTransform: {x: 88, y: 106}
   - name: Body_Frame_3
     originalName: 
     pivot: {x: 0.54545456, y: 0.028571403}
@@ -1458,8 +198,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 94
+      x: 88
+      y: 128
       width: 11
       height: 14
     spriteID: 35db3755e16a1f9448e0aa5d96555e2a
@@ -1470,7 +210,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 94}
+    uvTransform: {x: 88, y: 128}
   - name: Body_Frame_4
     originalName: 
     pivot: {x: 0.54545456, y: 0.028571403}
@@ -1479,8 +219,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 116
+      x: 88
+      y: 150
       width: 11
       height: 14
     spriteID: c6fdfe1fa5074094cb07e42bd03058ba
@@ -1491,7 +231,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 116}
+    uvTransform: {x: 88, y: 150}
   - name: Body_Frame_5
     originalName: 
     pivot: {x: 0.54545456, y: 0.028571403}
@@ -1500,8 +240,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 138
+      x: 88
+      y: 172
       width: 11
       height: 14
     spriteID: 10ab4eb97d50e3f4f9f54de15c6505ab
@@ -1512,7 +252,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 138}
+    uvTransform: {x: 88, y: 172}
   - name: Body_Frame_6
     originalName: 
     pivot: {x: 0.54545456, y: 0.026666643}
@@ -1668,8 +408,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 160
+      x: 88
+      y: 194
       width: 11
       height: 14
     spriteID: e9e4e0d133aada041adc74bf6118a301
@@ -1680,7 +420,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 160}
+    uvTransform: {x: 88, y: 194}
   - name: Body_Frame_14
     originalName: 
     pivot: {x: 0.45454547, y: 0.028571403}
@@ -1689,8 +429,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 182
+      x: 88
+      y: 216
       width: 11
       height: 14
     spriteID: 735098163256b1f4b8f06a4f6d8d9c30
@@ -1701,7 +441,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 182}
+    uvTransform: {x: 88, y: 216}
   - name: Body_Frame_15
     originalName: 
     pivot: {x: 0.45454547, y: 0.028571403}
@@ -1710,8 +450,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 204
+      x: 88
+      y: 238
       width: 11
       height: 14
     spriteID: 997482ed623d22343be867a6abeb22af
@@ -1722,7 +462,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 204}
+    uvTransform: {x: 88, y: 238}
   - name: Body_Frame_16
     originalName: 
     pivot: {x: 0.45454547, y: 0.028571403}
@@ -1731,8 +471,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 226
+      x: 88
+      y: 260
       width: 11
       height: 14
     spriteID: a764949f52c9a73458187a32a2e5cd62
@@ -1743,7 +483,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 226}
+    uvTransform: {x: 88, y: 260}
   - name: Body_Frame_17
     originalName: 
     pivot: {x: 0.45454547, y: 0.026666643}
@@ -1941,8 +681,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 248
+      x: 88
+      y: 282
       width: 11
       height: 14
     spriteID: 4164c2f3636c77240ad83c20cdeed85c
@@ -1953,7 +693,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 248}
+    uvTransform: {x: 88, y: 282}
   - name: Body_Frame_27
     originalName: 
     pivot: {x: 0.54545456, y: -0.114285745}
@@ -1962,8 +702,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 270
+      x: 88
+      y: 304
       width: 11
       height: 14
     spriteID: b62ce130a5fbca646ab9b9dfba1da456
@@ -1974,7 +714,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 270}
+    uvTransform: {x: 88, y: 304}
   - name: Body_Frame_28
     originalName: 
     pivot: {x: 0.54545456, y: 0.026666643}
@@ -2004,8 +744,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 26
-      y: 495
+      x: 88
+      y: 370
       width: 11
       height: 13
     spriteID: 7d0e08e0819347e40b74f685eb753d82
@@ -2016,7 +756,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 26, y: 495}
+    uvTransform: {x: 88, y: 370}
   - name: Body_Frame_30
     originalName: 
     pivot: {x: 0.54545456, y: -0.042857174}
@@ -2025,8 +765,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 292
+      x: 88
+      y: 326
       width: 11
       height: 14
     spriteID: 8b7ca21eb33ebc44ba172aba93591c17
@@ -2037,7 +777,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 292}
+    uvTransform: {x: 88, y: 326}
   - name: Body_Frame_31
     originalName: 
     pivot: {x: 0.54545456, y: -0.04000003}
@@ -2067,8 +807,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 314
+      x: 88
+      y: 348
       width: 11
       height: 14
     spriteID: 958e38250d58de74f8457176c08ec42e
@@ -2079,7 +819,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 314}
+    uvTransform: {x: 88, y: 348}
   - name: Body_Frame_33
     originalName: 
     pivot: {x: 0.45454547, y: -0.046153877}
@@ -2088,8 +828,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 336
+      x: 88
+      y: 391
       width: 11
       height: 13
     spriteID: 2221a9785fc48c146a47dfd430c0429f
@@ -2100,7 +840,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 336}
+    uvTransform: {x: 88, y: 391}
   - name: Body_Frame_34
     originalName: 
     pivot: {x: 0.45454547, y: -0.13333337}
@@ -2109,8 +849,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 420
+      x: 88
+      y: 475
       width: 11
       height: 12
     spriteID: 76960522bce2b6d488d215608958ad0c
@@ -2121,7 +861,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 420}
+    uvTransform: {x: 88, y: 475}
   - name: Body_Frame_35
     originalName: 
     pivot: {x: 0.45454547, y: -0.12307696}
@@ -2130,8 +870,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 357
+      x: 88
+      y: 412
       width: 11
       height: 13
     spriteID: f32519a1bcc5ddf4bbaed7614515fc2a
@@ -2142,7 +882,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 357}
+    uvTransform: {x: 88, y: 412}
   - name: Body_Frame_36
     originalName: 
     pivot: {x: 0.45454547, y: -0.13333337}
@@ -2151,8 +891,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 440
+      x: 88
+      y: 495
       width: 11
       height: 12
     spriteID: 1449b0c5dd45ca740a6afe0ebf0324c9
@@ -2163,7 +903,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 440}
+    uvTransform: {x: 88, y: 495}
   - name: Body_Frame_37
     originalName: 
     pivot: {x: 0.45454547, y: -0.13333337}
@@ -2173,7 +913,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 48
-      y: 460
+      y: 50
       width: 11
       height: 12
     spriteID: 65225d95f39a3a64aa799bb2610cc06d
@@ -2184,7 +924,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 460}
+    uvTransform: {x: 48, y: 50}
   - name: Body_Frame_38
     originalName: 
     pivot: {x: 0.45454547, y: -0.12307696}
@@ -2193,8 +933,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 378
+      x: 88
+      y: 433
       width: 11
       height: 13
     spriteID: a6594f5504e562145bbe0e9440736407
@@ -2205,7 +945,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 378}
+    uvTransform: {x: 88, y: 433}
   - name: Body_Frame_39
     originalName: 
     pivot: {x: 0.45454547, y: -0.12307696}
@@ -2214,8 +954,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 48
-      y: 399
+      x: 88
+      y: 454
       width: 11
       height: 13
     spriteID: f1407bbfbb3628c48967f8118f37817a
@@ -2226,7 +966,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 48, y: 399}
+    uvTransform: {x: 88, y: 454}
   - name: Body_Frame_40
     originalName: 
     pivot: {x: 0.5, y: -0.04000003}
@@ -2235,8 +975,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 132
+      x: 48
+      y: 118
       width: 8
       height: 15
     spriteID: 64b3abab3e5f4324c968e460cf813a0b
@@ -2247,7 +987,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 132}
+    uvTransform: {x: 48, y: 118}
   - name: Body_Frame_41
     originalName: 
     pivot: {x: 0.5, y: -0.2166667}
@@ -2256,7 +996,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 159
       width: 8
       height: 12
@@ -2268,7 +1008,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 159}
+    uvTransform: {x: 143, y: 159}
   - name: Body_Frame_42
     originalName: 
     pivot: {x: 0.5, y: -0.12307696}
@@ -2277,8 +1017,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 475
+      x: 48
+      y: 461
       width: 8
       height: 13
     spriteID: 3850f5ea2d222fa4b9d4988dd6cc598a
@@ -2289,7 +1029,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 475}
+    uvTransform: {x: 48, y: 461}
   - name: Body_Frame_43
     originalName: 
     pivot: {x: 0.5, y: -0.042857174}
@@ -2298,8 +1038,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 339
+      x: 48
+      y: 325
       width: 8
       height: 14
     spriteID: 349a2da14063ce3478c8b753a8766edc
@@ -2310,7 +1050,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 339}
+    uvTransform: {x: 48, y: 325}
   - name: Body_Frame_44
     originalName: 
     pivot: {x: 0.42857146, y: 0.028571403}
@@ -2319,7 +1059,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 137
       width: 7
       height: 14
@@ -2331,7 +1071,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 137}
+    uvTransform: {x: 143, y: 137}
   - name: Body_Frame_45
     originalName: 
     pivot: {x: 0.5, y: 0.024999976}
@@ -2340,8 +1080,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 84
+      x: 48
+      y: 70
       width: 8
       height: 16
     spriteID: 25c1f3126bc57bb46a1528f3a5e5a86d
@@ -2352,7 +1092,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 84}
+    uvTransform: {x: 48, y: 70}
   - name: Body_Frame_46
     originalName: 
     pivot: {x: 0.5714286, y: 0.024999976}
@@ -2361,8 +1101,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 361
+      x: 48
+      y: 347
       width: 7
       height: 16
     spriteID: 45cc89731d035294f8ee868ab8b076bf
@@ -2373,7 +1113,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 361}
+    uvTransform: {x: 48, y: 347}
   - name: Body_Frame_47
     originalName: 
     pivot: {x: 0.5, y: 0.026666643}
@@ -2382,8 +1122,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 155
+      x: 48
+      y: 141
       width: 8
       height: 15
     spriteID: 3719866dbe4b40247854d4d7f4e43a1e
@@ -2394,7 +1134,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 155}
+    uvTransform: {x: 48, y: 141}
   - name: Body_Frame_48
     originalName: 
     pivot: {x: 0.5, y: 0.026666643}
@@ -2403,8 +1143,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 178
+      x: 48
+      y: 164
       width: 8
       height: 15
     spriteID: 871d9a1e40d78e649b64960089f2211c
@@ -2415,7 +1155,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 178}
+    uvTransform: {x: 48, y: 164}
   - name: Body_Frame_49
     originalName: 
     pivot: {x: 0.5, y: 0.028571403}
@@ -2424,8 +1164,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 385
+      x: 48
+      y: 371
       width: 8
       height: 14
     spriteID: 016b50543ff6f744cbd983a84f4d3478
@@ -2436,7 +1176,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 385}
+    uvTransform: {x: 48, y: 371}
   - name: Body_Frame_50
     originalName: 
     pivot: {x: 0.5, y: 0.087499976}
@@ -2445,8 +1185,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 108
+      x: 48
+      y: 94
       width: 8
       height: 16
     spriteID: d38f03512db808347b5400baf8106ef0
@@ -2457,7 +1197,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 108}
+    uvTransform: {x: 48, y: 94}
   - name: Body_Frame_51
     originalName: 
     pivot: {x: 0.5714286, y: 0.087499976}
@@ -2466,8 +1206,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 407
+      x: 48
+      y: 393
       width: 7
       height: 16
     spriteID: c77da5609d5f438418e1ff9945849a5b
@@ -2478,7 +1218,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 407}
+    uvTransform: {x: 48, y: 393}
   - name: Body_Frame_52
     originalName: 
     pivot: {x: 0.5, y: -0.04000003}
@@ -2487,8 +1227,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 201
+      x: 48
+      y: 187
       width: 8
       height: 15
     spriteID: 7f8daab9d2ecd7e47a753e5fc336e612
@@ -2499,7 +1239,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 201}
+    uvTransform: {x: 48, y: 187}
   - name: Body_Frame_53
     originalName: 
     pivot: {x: 0.5, y: -0.1066667}
@@ -2508,8 +1248,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 224
+      x: 48
+      y: 210
       width: 8
       height: 15
     spriteID: 4167ac2d5d4d25044b024a18b3eb8534
@@ -2520,7 +1260,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 224}
+    uvTransform: {x: 48, y: 210}
   - name: Body_Frame_54
     originalName: 
     pivot: {x: 0.5, y: -0.114285745}
@@ -2529,8 +1269,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 431
+      x: 48
+      y: 417
       width: 8
       height: 14
     spriteID: 26e201caca57a7e49a98abc3126f72a8
@@ -2541,7 +1281,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 431}
+    uvTransform: {x: 48, y: 417}
   - name: Body_Frame_55
     originalName: 
     pivot: {x: 0.5, y: 0.026666643}
@@ -2550,8 +1290,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 247
+      x: 48
+      y: 233
       width: 8
       height: 15
     spriteID: 325b886449f1a7841af605dcb75e7a7e
@@ -2562,7 +1302,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 247}
+    uvTransform: {x: 48, y: 233}
   - name: Body_Frame_56
     originalName: 
     pivot: {x: 0.5, y: 0.026666643}
@@ -2571,8 +1311,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 270
+      x: 48
+      y: 256
       width: 8
       height: 15
     spriteID: 871aadad3f0dff546833c51e95abc206
@@ -2583,7 +1323,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 270}
+    uvTransform: {x: 48, y: 256}
   - name: Body_Frame_57
     originalName: 
     pivot: {x: 0.5, y: 0.026666643}
@@ -2592,8 +1332,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 293
+      x: 48
+      y: 279
       width: 8
       height: 15
     spriteID: 513679340416810468ea5118a6b3192d
@@ -2604,7 +1344,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 293}
+    uvTransform: {x: 48, y: 279}
   - name: Body_Frame_58
     originalName: 
     pivot: {x: 0.5, y: 0.026666643}
@@ -2613,8 +1353,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 316
+      x: 48
+      y: 302
       width: 8
       height: 15
     spriteID: 2d22586dee25da94db3e7e134ad3891e
@@ -2625,7 +1365,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 316}
+    uvTransform: {x: 48, y: 302}
   - name: Body_Frame_59
     originalName: 
     pivot: {x: 0.5, y: 0.028571403}
@@ -2634,8 +1374,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 453
+      x: 48
+      y: 439
       width: 8
       height: 14
     spriteID: 1b239dc0cf75b0445b6fa6eaa04f109f
@@ -2646,7 +1386,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 453}
+    uvTransform: {x: 48, y: 439}
   - name: Head_Frame_0
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2655,8 +1395,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 86
-      y: 496
+      x: 48
+      y: 482
       width: 9
       height: 11
     spriteID: 0b256849926d55c4ebe6fac344ae424a
@@ -2667,7 +1407,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 86, y: 496}
+    uvTransform: {x: 48, y: 482}
   - name: Head_Frame_1
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2676,7 +1416,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 4
       width: 9
       height: 11
@@ -2688,7 +1428,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 4}
+    uvTransform: {x: 109, y: 4}
   - name: Head_Frame_2
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2697,7 +1437,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 23
       width: 9
       height: 11
@@ -2709,7 +1449,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 23}
+    uvTransform: {x: 109, y: 23}
   - name: Head_Frame_3
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2718,7 +1458,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 42
       width: 9
       height: 11
@@ -2730,7 +1470,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 42}
+    uvTransform: {x: 109, y: 42}
   - name: Head_Frame_4
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2739,7 +1479,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 61
       width: 9
       height: 11
@@ -2751,7 +1491,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 61}
+    uvTransform: {x: 109, y: 61}
   - name: Head_Frame_5
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2760,7 +1500,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 80
       width: 9
       height: 11
@@ -2772,7 +1512,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 80}
+    uvTransform: {x: 109, y: 80}
   - name: Head_Frame_6
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2781,7 +1521,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 99
       width: 9
       height: 11
@@ -2793,7 +1533,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 99}
+    uvTransform: {x: 109, y: 99}
   - name: Head_Frame_7
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2802,7 +1542,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 118
       width: 9
       height: 11
@@ -2814,7 +1554,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 118}
+    uvTransform: {x: 109, y: 118}
   - name: Head_Frame_8
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2823,7 +1563,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 137
       width: 9
       height: 11
@@ -2835,7 +1575,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 137}
+    uvTransform: {x: 109, y: 137}
   - name: Head_Frame_9
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2844,7 +1584,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 156
       width: 9
       height: 11
@@ -2856,7 +1596,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 156}
+    uvTransform: {x: 109, y: 156}
   - name: Head_Frame_10
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2865,7 +1605,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 175
       width: 9
       height: 11
@@ -2877,7 +1617,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 175}
+    uvTransform: {x: 109, y: 175}
   - name: Head_Frame_11
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2886,7 +1626,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 194
       width: 9
       height: 11
@@ -2898,7 +1638,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 194}
+    uvTransform: {x: 109, y: 194}
   - name: Head_Frame_12
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -2907,7 +1647,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 213
       width: 9
       height: 11
@@ -2919,7 +1659,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 213}
+    uvTransform: {x: 109, y: 213}
   - name: Head_Frame_13
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2928,7 +1668,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 232
       width: 9
       height: 11
@@ -2940,7 +1680,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 232}
+    uvTransform: {x: 109, y: 232}
   - name: Head_Frame_14
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2949,7 +1689,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 251
       width: 9
       height: 11
@@ -2961,7 +1701,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 251}
+    uvTransform: {x: 109, y: 251}
   - name: Head_Frame_15
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2970,7 +1710,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 270
       width: 9
       height: 11
@@ -2982,7 +1722,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 270}
+    uvTransform: {x: 109, y: 270}
   - name: Head_Frame_16
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -2991,7 +1731,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 289
       width: 9
       height: 11
@@ -3003,7 +1743,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 289}
+    uvTransform: {x: 109, y: 289}
   - name: Head_Frame_17
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3012,7 +1752,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 308
       width: 9
       height: 11
@@ -3024,7 +1764,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 308}
+    uvTransform: {x: 109, y: 308}
   - name: Head_Frame_18
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3033,7 +1773,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 327
       width: 9
       height: 11
@@ -3045,7 +1785,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 327}
+    uvTransform: {x: 109, y: 327}
   - name: Head_Frame_19
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3054,7 +1794,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 346
       width: 9
       height: 11
@@ -3066,7 +1806,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 346}
+    uvTransform: {x: 109, y: 346}
   - name: Head_Frame_20
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3075,7 +1815,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 365
       width: 9
       height: 11
@@ -3087,7 +1827,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 365}
+    uvTransform: {x: 109, y: 365}
   - name: Head_Frame_21
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3096,7 +1836,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 384
       width: 9
       height: 11
@@ -3108,7 +1848,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 384}
+    uvTransform: {x: 109, y: 384}
   - name: Head_Frame_22
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3117,7 +1857,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 403
       width: 9
       height: 11
@@ -3129,7 +1869,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 403}
+    uvTransform: {x: 109, y: 403}
   - name: Head_Frame_23
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3138,7 +1878,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 422
       width: 9
       height: 11
@@ -3150,7 +1890,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 422}
+    uvTransform: {x: 109, y: 422}
   - name: Head_Frame_24
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3159,7 +1899,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 441
       width: 9
       height: 11
@@ -3171,7 +1911,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 441}
+    uvTransform: {x: 109, y: 441}
   - name: Head_Frame_25
     originalName: 
     pivot: {x: 0.5555556, y: -1.0545455}
@@ -3180,7 +1920,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 460
       width: 9
       height: 11
@@ -3192,7 +1932,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 460}
+    uvTransform: {x: 109, y: 460}
   - name: Head_Frame_26
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3201,7 +1941,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 105
+      x: 109
       y: 479
       width: 9
       height: 11
@@ -3213,7 +1953,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 105, y: 479}
+    uvTransform: {x: 109, y: 479}
   - name: Head_Frame_27
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3222,7 +1962,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 4
       width: 9
       height: 11
@@ -3234,7 +1974,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 4}
+    uvTransform: {x: 126, y: 4}
   - name: Head_Frame_28
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3243,7 +1983,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 23
       width: 9
       height: 11
@@ -3255,7 +1995,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 23}
+    uvTransform: {x: 126, y: 23}
   - name: Head_Frame_29
     originalName: 
     pivot: {x: 0.5555556, y: -1.0545455}
@@ -3264,7 +2004,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 42
       width: 9
       height: 11
@@ -3276,7 +2016,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 42}
+    uvTransform: {x: 126, y: 42}
   - name: Head_Frame_30
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3285,7 +2025,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 61
       width: 9
       height: 11
@@ -3297,7 +2037,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 61}
+    uvTransform: {x: 126, y: 61}
   - name: Head_Frame_31
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3306,7 +2046,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 80
       width: 9
       height: 11
@@ -3318,7 +2058,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 80}
+    uvTransform: {x: 126, y: 80}
   - name: Head_Frame_32
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3327,7 +2067,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 99
       width: 9
       height: 11
@@ -3339,7 +2079,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 99}
+    uvTransform: {x: 126, y: 99}
   - name: Head_Frame_33
     originalName: 
     pivot: {x: 0.5555556, y: -1.0545455}
@@ -3348,7 +2088,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 118
       width: 9
       height: 11
@@ -3360,7 +2100,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 118}
+    uvTransform: {x: 126, y: 118}
   - name: Head_Frame_34
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3369,7 +2109,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 137
       width: 9
       height: 11
@@ -3381,7 +2121,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 137}
+    uvTransform: {x: 126, y: 137}
   - name: Head_Frame_35
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3390,7 +2130,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 156
       width: 9
       height: 11
@@ -3402,7 +2142,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 156}
+    uvTransform: {x: 126, y: 156}
   - name: Head_Frame_36
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3411,7 +2151,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 175
       width: 9
       height: 11
@@ -3423,7 +2163,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 175}
+    uvTransform: {x: 126, y: 175}
   - name: Head_Frame_37
     originalName: 
     pivot: {x: 0.5555556, y: -1.0545455}
@@ -3432,7 +2172,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 194
       width: 9
       height: 11
@@ -3444,7 +2184,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 194}
+    uvTransform: {x: 126, y: 194}
   - name: Head_Frame_38
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3453,7 +2193,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 213
       width: 9
       height: 11
@@ -3465,7 +2205,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 213}
+    uvTransform: {x: 126, y: 213}
   - name: Head_Frame_39
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3474,7 +2214,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 232
       width: 9
       height: 11
@@ -3486,7 +2226,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 232}
+    uvTransform: {x: 126, y: 232}
   - name: Head_Frame_40
     originalName: 
     pivot: {x: 0.5555556, y: -1.3272728}
@@ -3495,7 +2235,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 251
       width: 9
       height: 11
@@ -3507,7 +2247,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 251}
+    uvTransform: {x: 126, y: 251}
   - name: Head_Frame_41
     originalName: 
     pivot: {x: 0.6666667, y: -1.3272728}
@@ -3516,7 +2256,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 270
       width: 9
       height: 11
@@ -3528,7 +2268,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 270}
+    uvTransform: {x: 126, y: 270}
   - name: Head_Frame_42
     originalName: 
     pivot: {x: 0.6666667, y: -1.2363636}
@@ -3537,7 +2277,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 289
       width: 9
       height: 11
@@ -3549,7 +2289,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 289}
+    uvTransform: {x: 126, y: 289}
   - name: Head_Frame_43
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3558,7 +2298,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 308
       width: 9
       height: 11
@@ -3570,7 +2310,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 308}
+    uvTransform: {x: 126, y: 308}
   - name: Head_Frame_44
     originalName: 
     pivot: {x: 0.44444445, y: -1.0545455}
@@ -3579,7 +2319,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 327
       width: 9
       height: 11
@@ -3591,7 +2331,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 327}
+    uvTransform: {x: 126, y: 327}
   - name: Head_Frame_45
     originalName: 
     pivot: {x: 0.5555556, y: -1.3272728}
@@ -3600,7 +2340,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 346
       width: 9
       height: 11
@@ -3612,7 +2352,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 346}
+    uvTransform: {x: 126, y: 346}
   - name: Head_Frame_46
     originalName: 
     pivot: {x: 0.6666667, y: -1.3272728}
@@ -3621,7 +2361,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 365
       width: 9
       height: 11
@@ -3633,7 +2373,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 365}
+    uvTransform: {x: 126, y: 365}
   - name: Head_Frame_47
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3642,7 +2382,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 384
       width: 9
       height: 11
@@ -3654,7 +2394,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 384}
+    uvTransform: {x: 126, y: 384}
   - name: Head_Frame_48
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3663,7 +2403,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 403
       width: 9
       height: 11
@@ -3675,7 +2415,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 403}
+    uvTransform: {x: 126, y: 403}
   - name: Head_Frame_49
     originalName: 
     pivot: {x: 0.44444445, y: -1.0545455}
@@ -3684,7 +2424,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 422
       width: 9
       height: 11
@@ -3696,7 +2436,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 422}
+    uvTransform: {x: 126, y: 422}
   - name: Head_Frame_50
     originalName: 
     pivot: {x: 0.5555556, y: -1.1454546}
@@ -3705,7 +2445,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 441
       width: 9
       height: 11
@@ -3717,7 +2457,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 441}
+    uvTransform: {x: 126, y: 441}
   - name: Head_Frame_51
     originalName: 
     pivot: {x: 0.6666667, y: -1.1454546}
@@ -3726,7 +2466,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 460
       width: 9
       height: 11
@@ -3738,7 +2478,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 460}
+    uvTransform: {x: 126, y: 460}
   - name: Head_Frame_52
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3747,7 +2487,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 122
+      x: 126
       y: 479
       width: 9
       height: 11
@@ -3759,7 +2499,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 122, y: 479}
+    uvTransform: {x: 126, y: 479}
   - name: Head_Frame_53
     originalName: 
     pivot: {x: 0.6666667, y: -1.2363636}
@@ -3768,7 +2508,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 4
       width: 9
       height: 11
@@ -3780,7 +2520,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 4}
+    uvTransform: {x: 143, y: 4}
   - name: Head_Frame_54
     originalName: 
     pivot: {x: 0.6666667, y: -1.1454546}
@@ -3789,7 +2529,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 23
       width: 9
       height: 11
@@ -3801,7 +2541,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 23}
+    uvTransform: {x: 143, y: 23}
   - name: Head_Frame_55
     originalName: 
     pivot: {x: 0.6666667, y: -1.2363636}
@@ -3810,7 +2550,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 42
       width: 9
       height: 11
@@ -3822,7 +2562,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 42}
+    uvTransform: {x: 143, y: 42}
   - name: Head_Frame_56
     originalName: 
     pivot: {x: 0.6666667, y: -1.1454546}
@@ -3831,7 +2571,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 61
       width: 9
       height: 11
@@ -3843,7 +2583,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 61}
+    uvTransform: {x: 143, y: 61}
   - name: Head_Frame_57
     originalName: 
     pivot: {x: 0.6666667, y: -1.2363636}
@@ -3852,7 +2592,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 80
       width: 9
       height: 11
@@ -3864,7 +2604,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 80}
+    uvTransform: {x: 143, y: 80}
   - name: Head_Frame_58
     originalName: 
     pivot: {x: 0.5555556, y: -1.2363636}
@@ -3873,7 +2613,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 99
       width: 9
       height: 11
@@ -3885,7 +2625,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 99}
+    uvTransform: {x: 143, y: 99}
   - name: Head_Frame_59
     originalName: 
     pivot: {x: 0.44444445, y: -1.1454546}
@@ -3894,7 +2634,7 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 139
+      x: 143
       y: 118
       width: 9
       height: 11
@@ -3906,7 +2646,1267 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 139, y: 118}
+    uvTransform: {x: 143, y: 118}
+  - name: Iron_Helmet_Frame_0
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 14
+      height: 12
+    spriteID: f698a35a1880f2f48b74ab9005d17641
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+  - name: Iron_Helmet_Frame_1
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 24
+      width: 14
+      height: 12
+    spriteID: b196b74b06ab143409756daca1362888
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 24}
+  - name: Iron_Helmet_Frame_2
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 44
+      width: 14
+      height: 12
+    spriteID: c4958765c8977034f88dd1eab5f37df3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 44}
+  - name: Iron_Helmet_Frame_3
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 64
+      width: 14
+      height: 12
+    spriteID: 61ddf93e941e26f41800161e578bec69
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 64}
+  - name: Iron_Helmet_Frame_4
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 84
+      width: 14
+      height: 12
+    spriteID: 7982561e206cd81438a501c44da541ae
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 84}
+  - name: Iron_Helmet_Frame_5
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 104
+      width: 14
+      height: 12
+    spriteID: c33219fdcb09f74458f23e1eae3f72e9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 104}
+  - name: Iron_Helmet_Frame_6
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 124
+      width: 14
+      height: 12
+    spriteID: 8e49a035ee0907443ad3826b079cd5c4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 124}
+  - name: Iron_Helmet_Frame_7
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 144
+      width: 14
+      height: 12
+    spriteID: bd1f8e7eb98d32d418ad92ab3cbc2a26
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 144}
+  - name: Iron_Helmet_Frame_8
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 164
+      width: 14
+      height: 12
+    spriteID: 02c4cdd0aefc0e547bd6f902f13e7c62
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 164}
+  - name: Iron_Helmet_Frame_9
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 184
+      width: 14
+      height: 12
+    spriteID: d951cff5f64e55c41b507475744f3510
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 184}
+  - name: Iron_Helmet_Frame_10
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 204
+      width: 14
+      height: 12
+    spriteID: e52d7428c60f7ee49aa1ed768c8ecdba
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 204}
+  - name: Iron_Helmet_Frame_11
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 224
+      width: 14
+      height: 12
+    spriteID: 99c3d94ec0b3fa24e83242112da4dc57
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 224}
+  - name: Iron_Helmet_Frame_12
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 26
+      y: 495
+      width: 13
+      height: 12
+    spriteID: 03c89de1c876ccd4eb00343c5e7609dd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 26, y: 495}
+  - name: Iron_Helmet_Frame_13
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 4
+      width: 13
+      height: 12
+    spriteID: 7abba766dd8896a4abb395fbbf0350d1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 4}
+  - name: Iron_Helmet_Frame_14
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 24
+      width: 13
+      height: 12
+    spriteID: 22087a91b9cb0ec4ca5e2d6bb58d08a7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 24}
+  - name: Iron_Helmet_Frame_15
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 44
+      width: 13
+      height: 12
+    spriteID: 6c94bc1b295f442439434aa3f6f7bf2c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 44}
+  - name: Iron_Helmet_Frame_16
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 64
+      width: 13
+      height: 12
+    spriteID: ce8ec90842eaef44f9d083d7ad56015b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 64}
+  - name: Iron_Helmet_Frame_17
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 84
+      width: 13
+      height: 12
+    spriteID: 18f82b86b5a29364da11567c764ef5b3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 84}
+  - name: Iron_Helmet_Frame_18
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 104
+      width: 13
+      height: 12
+    spriteID: f3e1d474ad1bee0489df47a50b5490df
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 104}
+  - name: Iron_Helmet_Frame_19
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 124
+      width: 13
+      height: 12
+    spriteID: 70ac3512ffdb45748b2c694bb1f60bb1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 124}
+  - name: Iron_Helmet_Frame_20
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 144
+      width: 13
+      height: 12
+    spriteID: fc52f6a16d6a45245a8650e20f66835e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 144}
+  - name: Iron_Helmet_Frame_21
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 164
+      width: 13
+      height: 12
+    spriteID: 8b71ba32073544d4c88585c9d2b7c773
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 164}
+  - name: Iron_Helmet_Frame_22
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 184
+      width: 13
+      height: 12
+    spriteID: fb9959e7a7593c84ebcddc40e6c801f4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 184}
+  - name: Iron_Helmet_Frame_23
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 204
+      width: 13
+      height: 12
+    spriteID: c9e143033f6e06247abfd4817369b33c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 204}
+  - name: Iron_Helmet_Frame_24
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 244
+      width: 14
+      height: 12
+    spriteID: bf4f85ba166c7ca4f96219ca4afb2237
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 244}
+  - name: Iron_Helmet_Frame_25
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.0500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 264
+      width: 14
+      height: 12
+    spriteID: b93d0f8c2d07b24428e901087845a7da
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 264}
+  - name: Iron_Helmet_Frame_26
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 284
+      width: 14
+      height: 12
+    spriteID: c73ae99545dc55e4284a9e8589580f8f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 284}
+  - name: Iron_Helmet_Frame_27
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 304
+      width: 14
+      height: 12
+    spriteID: 236d6f531572e7c45b00cacf0203d6d6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 304}
+  - name: Iron_Helmet_Frame_28
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 324
+      width: 14
+      height: 12
+    spriteID: 714f3cac956b5054b9771d27928d4346
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 324}
+  - name: Iron_Helmet_Frame_29
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.0500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 344
+      width: 14
+      height: 12
+    spriteID: 7821c63a181a1b34e9af4f063049e674
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 344}
+  - name: Iron_Helmet_Frame_30
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 364
+      width: 14
+      height: 12
+    spriteID: a40f8fed87f7606489a98f47a27ce6d7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 364}
+  - name: Iron_Helmet_Frame_31
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 384
+      width: 14
+      height: 12
+    spriteID: b85c7dc9bb55952408ecaea275d82293
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 384}
+  - name: Iron_Helmet_Frame_32
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 224
+      width: 13
+      height: 12
+    spriteID: 0f0b4789402b6fe43a1d4c20826decd3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 224}
+  - name: Iron_Helmet_Frame_33
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.0500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 244
+      width: 13
+      height: 12
+    spriteID: bab644fae42422f4b8afa5b038ffa3e3
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 244}
+  - name: Iron_Helmet_Frame_34
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 264
+      width: 13
+      height: 12
+    spriteID: 1a7c9b5b1289dfd4e864c2bac3c2415b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 264}
+  - name: Iron_Helmet_Frame_35
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 284
+      width: 13
+      height: 12
+    spriteID: 8beb187ed4ac0c641b84fc3938062a9f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 284}
+  - name: Iron_Helmet_Frame_36
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 304
+      width: 13
+      height: 12
+    spriteID: b44c08782eb2b4c47be90accad117ccd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 304}
+  - name: Iron_Helmet_Frame_37
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.0500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 324
+      width: 13
+      height: 12
+    spriteID: 9fa7ee739d2e6844a8de4dcbf7a62e45
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 324}
+  - name: Iron_Helmet_Frame_38
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 344
+      width: 13
+      height: 12
+    spriteID: 379df2936200080428e1d5c882b57e83
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 344}
+  - name: Iron_Helmet_Frame_39
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 364
+      width: 13
+      height: 12
+    spriteID: fb4b8d79ba5c013448a30b5ad9f43ece
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 364}
+  - name: Iron_Helmet_Frame_40
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.3000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 404
+      width: 14
+      height: 12
+    spriteID: 12cb3a20a61a16c43bd28a1d231d362c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 404}
+  - name: Iron_Helmet_Frame_41
+    originalName: 
+    pivot: {x: 0.6428572, y: -1.3000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 424
+      width: 14
+      height: 12
+    spriteID: 376d45dfaa5184d4392487ebfc53dd4a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 424}
+  - name: Iron_Helmet_Frame_42
+    originalName: 
+    pivot: {x: 0.6428572, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 444
+      width: 14
+      height: 12
+    spriteID: 301d7354cc7da6a408635c37a99c67c6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 444}
+  - name: Iron_Helmet_Frame_43
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 464
+      width: 14
+      height: 12
+    spriteID: 435bc46bcceeb0745a3e001f0c03cfbd
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 464}
+  - name: Iron_Helmet_Frame_44
+    originalName: 
+    pivot: {x: 0.5, y: -1.0500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 484
+      width: 14
+      height: 12
+    spriteID: b2e4b1793bf6c6846982ecd0b5e28fb0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 484}
+  - name: Iron_Helmet_Frame_45
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.3000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 26
+      y: 4
+      width: 14
+      height: 12
+    spriteID: 04927868a3e7366469125e40ad6231fc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 26, y: 4}
+  - name: Iron_Helmet_Frame_46
+    originalName: 
+    pivot: {x: 0.6428572, y: -1.3000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 26
+      y: 24
+      width: 14
+      height: 12
+    spriteID: 5c020bc599d95cf49a8f89b38e7a3bb7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 26, y: 24}
+  - name: Iron_Helmet_Frame_47
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 26
+      y: 44
+      width: 14
+      height: 12
+    spriteID: b5e8d2ac46665e1479e8f4bf37fe8032
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 26, y: 44}
+  - name: Iron_Helmet_Frame_48
+    originalName: 
+    pivot: {x: 0.5714286, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 26
+      y: 64
+      width: 14
+      height: 12
+    spriteID: 0ca3ff3e32144f24392212089af7cc16
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 26, y: 64}
+  - name: Iron_Helmet_Frame_49
+    originalName: 
+    pivot: {x: 0.5, y: -1.0500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 26
+      y: 84
+      width: 14
+      height: 12
+    spriteID: 0f640605d0589eb469156f228a0153b1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 26, y: 84}
+  - name: Iron_Helmet_Frame_50
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 384
+      width: 13
+      height: 12
+    spriteID: da749ff3dc2f8484fa25b47f9f2a940e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 384}
+  - name: Iron_Helmet_Frame_51
+    originalName: 
+    pivot: {x: 0.53846157, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 404
+      width: 13
+      height: 12
+    spriteID: 85fe2b6539979dd488cbb6729133e4aa
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 404}
+  - name: Iron_Helmet_Frame_52
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 424
+      width: 13
+      height: 12
+    spriteID: 1ff3fffab9f8c65479c394391553b4da
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 424}
+  - name: Iron_Helmet_Frame_53
+    originalName: 
+    pivot: {x: 0.53846157, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 444
+      width: 13
+      height: 12
+    spriteID: 5ef0cfe2772fc3847a3707a6a85ca9df
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 444}
+  - name: Iron_Helmet_Frame_54
+    originalName: 
+    pivot: {x: 0.53846157, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 464
+      width: 13
+      height: 12
+    spriteID: ce46bce100afa7349af9e66d89efdde6
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 464}
+  - name: Iron_Helmet_Frame_55
+    originalName: 
+    pivot: {x: 0.53846157, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 67
+      y: 484
+      width: 13
+      height: 12
+    spriteID: bf254f8343954654892d85226f297ca8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 67, y: 484}
+  - name: Iron_Helmet_Frame_56
+    originalName: 
+    pivot: {x: 0.53846157, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 88
+      y: 4
+      width: 13
+      height: 12
+    spriteID: a972ebe3e6f139e4ea097f39fd6cc5e7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 88, y: 4}
+  - name: Iron_Helmet_Frame_57
+    originalName: 
+    pivot: {x: 0.53846157, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 88
+      y: 24
+      width: 13
+      height: 12
+    spriteID: 88b6dc6ea633acc4394ffb2fe7abb37f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 88, y: 24}
+  - name: Iron_Helmet_Frame_58
+    originalName: 
+    pivot: {x: 0.4615385, y: -1.2166667}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 88
+      y: 44
+      width: 13
+      height: 12
+    spriteID: c8cf235693dee7a4db1482c83e3ea1e1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 88, y: 44}
+  - name: Iron_Helmet_Frame_59
+    originalName: 
+    pivot: {x: 0.3846154, y: -1.1333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 88
+      y: 64
+      width: 13
+      height: 12
+    spriteID: 369d2d6de74c9444ca4119c139f02f4c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 88, y: 64}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
@@ -5056,6 +5056,22 @@ ScriptedImporter:
     parentIndex: 4
   - layerIndex: 6
     uuid:
+      value0: 2863708059
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 0
+    name: Leather_Pant
+    layerFlags: 3
+    layerType: 0
+    blendMode: 0
+    cells: []
+    linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
+    parentIndex: 5
+  - layerIndex: 7
+    uuid:
       value0: 44249356
       value1: 0
       value2: 0
@@ -5070,7 +5086,7 @@ ScriptedImporter:
     tileCells: []
     tileSetIndex: 0
     parentIndex: 4
-  - layerIndex: 7
+  - layerIndex: 8
     uuid:
       value0: 3260776919
       value1: 0
@@ -5086,7 +5102,7 @@ ScriptedImporter:
     tileCells: []
     tileSetIndex: 0
     parentIndex: 4
-  - layerIndex: 8
+  - layerIndex: 9
     uuid:
       value0: 717883595
       value1: 0
@@ -5102,7 +5118,7 @@ ScriptedImporter:
     tileCells: []
     tileSetIndex: 0
     parentIndex: 4
-  - layerIndex: 9
+  - layerIndex: 10
     uuid:
       value0: 68076052
       value1: 0
@@ -5118,7 +5134,7 @@ ScriptedImporter:
     tileCells: []
     tileSetIndex: 0
     parentIndex: 4
-  - layerIndex: 10
+  - layerIndex: 11
     uuid:
       value0: 1405457557
       value1: 0
@@ -5138,7 +5154,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 1d3777f15d70ccc4bbbbc2a2c562e058
+      spriteId: f698a35a1880f2f48b74ab9005d17641
     - name: Iron_Helmet_Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -5147,7 +5163,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: fa9a52d89f61a81438503d5347a98c7d
+      spriteId: b196b74b06ab143409756daca1362888
     - name: Iron_Helmet_Frame_2
       frameIndex: 2
       additiveSortOrder: 0
@@ -5156,7 +5172,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: b75002448132f93458a137ce82a5b2ed
+      spriteId: c4958765c8977034f88dd1eab5f37df3
     - name: Iron_Helmet_Frame_3
       frameIndex: 3
       additiveSortOrder: 0
@@ -5165,7 +5181,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: 9fb2a1e7f91ca7c4980ba675545df038
+      spriteId: 61ddf93e941e26f41800161e578bec69
     - name: Iron_Helmet_Frame_4
       frameIndex: 4
       additiveSortOrder: 0
@@ -5174,7 +5190,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: bba1e3b733a6926478fa6cd1e741e153
+      spriteId: 7982561e206cd81438a501c44da541ae
     - name: Iron_Helmet_Frame_5
       frameIndex: 5
       additiveSortOrder: 0
@@ -5183,7 +5199,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 815615c4e9a0c7944a80e40f82e1b509
+      spriteId: c33219fdcb09f74458f23e1eae3f72e9
     - name: Iron_Helmet_Frame_6
       frameIndex: 6
       additiveSortOrder: 0
@@ -5192,7 +5208,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 6ee1da4f04fddc9448c743ea5776e968
+      spriteId: 8e49a035ee0907443ad3826b079cd5c4
     - name: Iron_Helmet_Frame_7
       frameIndex: 7
       additiveSortOrder: 0
@@ -5201,7 +5217,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: b04c8d55cdef06d449ee2785ce46849e
+      spriteId: bd1f8e7eb98d32d418ad92ab3cbc2a26
     - name: Iron_Helmet_Frame_8
       frameIndex: 8
       additiveSortOrder: 0
@@ -5210,7 +5226,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 1b117f0825e37964499ede227b1aac11
+      spriteId: 02c4cdd0aefc0e547bd6f902f13e7c62
     - name: Iron_Helmet_Frame_9
       frameIndex: 9
       additiveSortOrder: 0
@@ -5219,7 +5235,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 0e0e1baf7fca75246a9aa3b7a834b652
+      spriteId: d951cff5f64e55c41b507475744f3510
     - name: Iron_Helmet_Frame_10
       frameIndex: 10
       additiveSortOrder: 0
@@ -5228,7 +5244,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 53576d53f58a8dc4fb7426fb13c08259
+      spriteId: e52d7428c60f7ee49aa1ed768c8ecdba
     - name: Iron_Helmet_Frame_11
       frameIndex: 11
       additiveSortOrder: 0
@@ -5237,115 +5253,115 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 01760e9a19a176741bfa20875b4fcd72
+      spriteId: 99c3d94ec0b3fa24e83242112da4dc57
     - name: Iron_Helmet_Frame_12
       frameIndex: 12
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 78d2b6b12cfd30146881de8173cf2c0a
+      spriteId: 03c89de1c876ccd4eb00343c5e7609dd
     - name: Iron_Helmet_Frame_13
       frameIndex: 13
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 7f5ecb94da805704ca22988f9329c9c8
+      spriteId: 7abba766dd8896a4abb395fbbf0350d1
     - name: Iron_Helmet_Frame_14
       frameIndex: 14
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 69a6430c59401ba488f2a32172a6710f
+      spriteId: 22087a91b9cb0ec4ca5e2d6bb58d08a7
     - name: Iron_Helmet_Frame_15
       frameIndex: 15
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: bc36d5e05410b644aa2eb0bdf14187ee
+      spriteId: 6c94bc1b295f442439434aa3f6f7bf2c
     - name: Iron_Helmet_Frame_16
       frameIndex: 16
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: e0d07e4536209094999f028ec0577e61
+      spriteId: ce8ec90842eaef44f9d083d7ad56015b
     - name: Iron_Helmet_Frame_17
       frameIndex: 17
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 89a77eb181f0cfb4295123f5ed4a92c1
+      spriteId: 18f82b86b5a29364da11567c764ef5b3
     - name: Iron_Helmet_Frame_18
       frameIndex: 18
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: beaf804737203b94fb46a569e147b2bf
+      spriteId: f3e1d474ad1bee0489df47a50b5490df
     - name: Iron_Helmet_Frame_19
       frameIndex: 19
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: b3d55519e911e604caca2f777da8e373
+      spriteId: 70ac3512ffdb45748b2c694bb1f60bb1
     - name: Iron_Helmet_Frame_20
       frameIndex: 20
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: eba32322a90470b419d2b2ec79791340
+      spriteId: fc52f6a16d6a45245a8650e20f66835e
     - name: Iron_Helmet_Frame_21
       frameIndex: 21
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: f9fa94cdea39bc4489f6c79ee95a4a1f
+      spriteId: 8b71ba32073544d4c88585c9d2b7c773
     - name: Iron_Helmet_Frame_22
       frameIndex: 22
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 4ab3f9ad9a2adf141a75b0c9e3bda7aa
+      spriteId: fb9959e7a7593c84ebcddc40e6c801f4
     - name: Iron_Helmet_Frame_23
       frameIndex: 23
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 6d4deaf1537ded948b689e3f9617a374
+      spriteId: c9e143033f6e06247abfd4817369b33c
     - name: Iron_Helmet_Frame_24
       frameIndex: 24
       additiveSortOrder: 0
@@ -5354,7 +5370,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: ea3c78695850221478d9dc79f1267186
+      spriteId: bf4f85ba166c7ca4f96219ca4afb2237
     - name: Iron_Helmet_Frame_25
       frameIndex: 25
       additiveSortOrder: 0
@@ -5363,7 +5379,7 @@ ScriptedImporter:
         y: 35
         width: 14
         height: 12
-      spriteId: 0f9917c8f4f801541932a0b381444d3d
+      spriteId: b93d0f8c2d07b24428e901087845a7da
     - name: Iron_Helmet_Frame_26
       frameIndex: 26
       additiveSortOrder: 0
@@ -5372,7 +5388,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: 4c4b5abe6d66ba644a8852b9eab6bb98
+      spriteId: c73ae99545dc55e4284a9e8589580f8f
     - name: Iron_Helmet_Frame_27
       frameIndex: 27
       additiveSortOrder: 0
@@ -5381,7 +5397,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 98886b9d486ca1547a56c49fe1f49731
+      spriteId: 236d6f531572e7c45b00cacf0203d6d6
     - name: Iron_Helmet_Frame_28
       frameIndex: 28
       additiveSortOrder: 0
@@ -5390,7 +5406,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: 8e8c39bff2b323941b980aaf8b0bbd85
+      spriteId: 714f3cac956b5054b9771d27928d4346
     - name: Iron_Helmet_Frame_29
       frameIndex: 29
       additiveSortOrder: 0
@@ -5399,7 +5415,7 @@ ScriptedImporter:
         y: 35
         width: 14
         height: 12
-      spriteId: a6313c26a018fdb4c95c57390d01a3a1
+      spriteId: 7821c63a181a1b34e9af4f063049e674
     - name: Iron_Helmet_Frame_30
       frameIndex: 30
       additiveSortOrder: 0
@@ -5408,7 +5424,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: 6b62c9016de99ef4ab6dd31b068ec49d
+      spriteId: a40f8fed87f7606489a98f47a27ce6d7
     - name: Iron_Helmet_Frame_31
       frameIndex: 31
       additiveSortOrder: 0
@@ -5417,79 +5433,79 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 859b2742b9b22f0498045285fd5ef2e7
+      spriteId: b85c7dc9bb55952408ecaea275d82293
     - name: Iron_Helmet_Frame_32
       frameIndex: 32
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 634fa495dd5cb99459f76de9be8b0799
+      spriteId: 0f0b4789402b6fe43a1d4c20826decd3
     - name: Iron_Helmet_Frame_33
       frameIndex: 33
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 35
-        width: 11
+        width: 13
         height: 12
-      spriteId: 32a6b2b11102bbf4ea6ab54072d56114
+      spriteId: bab644fae42422f4b8afa5b038ffa3e3
     - name: Iron_Helmet_Frame_34
       frameIndex: 34
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: a9d7e6f01e14e064eac90af86e20fe57
+      spriteId: 1a7c9b5b1289dfd4e864c2bac3c2415b
     - name: Iron_Helmet_Frame_35
       frameIndex: 35
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: a35e01386fe577746a5eaefe0b2e4113
+      spriteId: 8beb187ed4ac0c641b84fc3938062a9f
     - name: Iron_Helmet_Frame_36
       frameIndex: 36
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 01c7b5d739302534fbc037fd29fa96cc
+      spriteId: b44c08782eb2b4c47be90accad117ccd
     - name: Iron_Helmet_Frame_37
       frameIndex: 37
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 35
-        width: 11
+        width: 13
         height: 12
-      spriteId: fb02dd83b7f7a9848a363cd9cf0e4b91
+      spriteId: 9fa7ee739d2e6844a8de4dcbf7a62e45
     - name: Iron_Helmet_Frame_38
       frameIndex: 38
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: b911d79ad8a4daf4397ad41dcf6cf67f
+      spriteId: 379df2936200080428e1d5c882b57e83
     - name: Iron_Helmet_Frame_39
       frameIndex: 39
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: fa82b396a9a96cd49aae1604b94c6b5a
+      spriteId: fb4b8d79ba5c013448a30b5ad9f43ece
     - name: Iron_Helmet_Frame_40
       frameIndex: 40
       additiveSortOrder: 0
@@ -5498,7 +5514,7 @@ ScriptedImporter:
         y: 38
         width: 14
         height: 12
-      spriteId: 60f8367f01f75314d907eeee6d2daede
+      spriteId: 12cb3a20a61a16c43bd28a1d231d362c
     - name: Iron_Helmet_Frame_41
       frameIndex: 41
       additiveSortOrder: 0
@@ -5507,7 +5523,7 @@ ScriptedImporter:
         y: 38
         width: 14
         height: 12
-      spriteId: e57adfef09764e742aff9763b086c990
+      spriteId: 376d45dfaa5184d4392487ebfc53dd4a
     - name: Iron_Helmet_Frame_42
       frameIndex: 42
       additiveSortOrder: 0
@@ -5516,7 +5532,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 1e75346311366af4eb79f5dc782aa513
+      spriteId: 301d7354cc7da6a408635c37a99c67c6
     - name: Iron_Helmet_Frame_43
       frameIndex: 43
       additiveSortOrder: 0
@@ -5525,7 +5541,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 709ed4b3e55a3114ca3b681e7c0d0551
+      spriteId: 435bc46bcceeb0745a3e001f0c03cfbd
     - name: Iron_Helmet_Frame_44
       frameIndex: 44
       additiveSortOrder: 0
@@ -5534,7 +5550,7 @@ ScriptedImporter:
         y: 35
         width: 14
         height: 12
-      spriteId: 6eca322b0e108404b840e5a61dfb140b
+      spriteId: b2e4b1793bf6c6846982ecd0b5e28fb0
     - name: Iron_Helmet_Frame_45
       frameIndex: 45
       additiveSortOrder: 0
@@ -5543,7 +5559,7 @@ ScriptedImporter:
         y: 38
         width: 14
         height: 12
-      spriteId: 344511f6e5d75864d8965cc0e050a041
+      spriteId: 04927868a3e7366469125e40ad6231fc
     - name: Iron_Helmet_Frame_46
       frameIndex: 46
       additiveSortOrder: 0
@@ -5552,7 +5568,7 @@ ScriptedImporter:
         y: 38
         width: 14
         height: 12
-      spriteId: 3378beea99dce1e46ae4b363a45c52a2
+      spriteId: 5c020bc599d95cf49a8f89b38e7a3bb7
     - name: Iron_Helmet_Frame_47
       frameIndex: 47
       additiveSortOrder: 0
@@ -5561,7 +5577,7 @@ ScriptedImporter:
         y: 37
         width: 14
         height: 12
-      spriteId: 612e2b6d7349e5b4080661a5471174df
+      spriteId: b5e8d2ac46665e1479e8f4bf37fe8032
     - name: Iron_Helmet_Frame_48
       frameIndex: 48
       additiveSortOrder: 0
@@ -5570,7 +5586,7 @@ ScriptedImporter:
         y: 36
         width: 14
         height: 12
-      spriteId: cd31df026dcbcb643b0a2245be8e86d7
+      spriteId: 0ca3ff3e32144f24392212089af7cc16
     - name: Iron_Helmet_Frame_49
       frameIndex: 49
       additiveSortOrder: 0
@@ -5579,101 +5595,101 @@ ScriptedImporter:
         y: 35
         width: 14
         height: 12
-      spriteId: 75f74be333a0e4548921dd34d59de1f9
+      spriteId: 0f640605d0589eb469156f228a0153b1
     - name: Iron_Helmet_Frame_50
       frameIndex: 50
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 6a00ad73a04f027429295011446ad91e
+      spriteId: da749ff3dc2f8484fa25b47f9f2a940e
     - name: Iron_Helmet_Frame_51
       frameIndex: 51
       additiveSortOrder: 0
       cellRect:
-        x: 26
+        x: 25
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: afb861c3dbbc8684995b6412ec262aac
+      spriteId: 85fe2b6539979dd488cbb6729133e4aa
     - name: Iron_Helmet_Frame_52
       frameIndex: 52
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: b49cc4f08705c184f8b5e60cbd796159
+      spriteId: 1ff3fffab9f8c65479c394391553b4da
     - name: Iron_Helmet_Frame_53
       frameIndex: 53
       additiveSortOrder: 0
       cellRect:
-        x: 26
+        x: 25
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 605070c68510872489fe386e0b939c09
+      spriteId: 5ef0cfe2772fc3847a3707a6a85ca9df
     - name: Iron_Helmet_Frame_54
       frameIndex: 54
       additiveSortOrder: 0
       cellRect:
-        x: 26
+        x: 25
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 65335f58d442c3d4f9c45c3a07cba847
+      spriteId: ce46bce100afa7349af9e66d89efdde6
     - name: Iron_Helmet_Frame_55
       frameIndex: 55
       additiveSortOrder: 0
       cellRect:
-        x: 26
+        x: 25
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 315c2231ca656804db09c725e1b43807
+      spriteId: bf254f8343954654892d85226f297ca8
     - name: Iron_Helmet_Frame_56
       frameIndex: 56
       additiveSortOrder: 0
       cellRect:
-        x: 26
+        x: 25
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: 3ff622ed9eb2b1f4fb7c04704ae40b07
+      spriteId: a972ebe3e6f139e4ea097f39fd6cc5e7
     - name: Iron_Helmet_Frame_57
       frameIndex: 57
       additiveSortOrder: 0
       cellRect:
-        x: 26
+        x: 25
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 7748fa9083fbeb74eb05e8353496612b
+      spriteId: 88b6dc6ea633acc4394ffb2fe7abb37f
     - name: Iron_Helmet_Frame_58
       frameIndex: 58
       additiveSortOrder: 0
       cellRect:
-        x: 27
+        x: 26
         y: 37
-        width: 11
+        width: 13
         height: 12
-      spriteId: 13627a2bebd58ce4d8fffa3b7dccf80e
+      spriteId: c8cf235693dee7a4db1482c83e3ea1e1
     - name: Iron_Helmet_Frame_59
       frameIndex: 59
       additiveSortOrder: 0
       cellRect:
-        x: 28
+        x: 27
         y: 36
-        width: 11
+        width: 13
         height: 12
-      spriteId: bab5923b89404784382d0aee9d460612
+      spriteId: 369d2d6de74c9444ca4119c139f02f4c
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
-    parentIndex: 9
+    parentIndex: 10
   tileSets: []
   platformSettings:
   - name: DefaultTexturePlatform

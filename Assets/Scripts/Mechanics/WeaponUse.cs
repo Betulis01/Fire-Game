@@ -196,6 +196,11 @@ public class WeaponUse : MonoBehaviour
     {
         if (!pending.armed || pending.tool == null) return;
         Vector2 dir = AimDirection(Origin);
+
+        // Re-aim the clip to wherever the player is pointing right now, not where they
+        // were pointing when the button was pressed.
+        if (animator != null) animator.RetargetAttack(pending.side, dir);
+
         // Left-hand swings sweep the opposite way (mirrorSweep) for directional art;
         // the effect follows the swing origin so it moves with the player.
         pending.tool.SpawnSwingEffect(Origin, dir, pending.side == HandSide.Left,
@@ -224,6 +229,10 @@ public class WeaponUse : MonoBehaviour
 
         Vector2 origin = Origin;
         Vector2 dir = AimDirection(origin);
+
+        // Second re-aim: the clip can switch again between the swing and the contact
+        // frame if the player kept moving the mouse.
+        if (animator != null) animator.RetargetAttack(pending.side, dir);
 
         AttackData attack = pending.tool.GetAttack(pending.heavy);
 

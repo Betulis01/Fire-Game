@@ -151,7 +151,7 @@ ScriptedImporter:
   - name: Frame_1
     originalName: 
     pivot: {x: 0, y: 0}
-    alignment: 9
+    alignment: 6
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:

@@ -27,7 +27,7 @@ public class JournalUI : MonoBehaviour
     public BlueprintPanelUI blueprintPanel;
 
     bool open;
-    Tab tab = Tab.Crafting;
+    Tab tab = Tab.Character;
     StationType selectedLocation = StationType.None;
     readonly List<(RecipeGrid row, Recipe recipe)> rows = new();
 
@@ -49,7 +49,7 @@ public class JournalUI : MonoBehaviour
             panel.SetActive(open);
             if (open)
             {
-                SelectTab(Tab.Crafting);
+                SelectTab(Tab.Character);
                 Rebuild();
             }
         }

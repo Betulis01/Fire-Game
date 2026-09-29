@@ -143,21 +143,25 @@ public class PlayerAnimator : MonoBehaviour
         animator.Play(state);
     }
 
+    // Mirroring turns a right-hand swing into a left-hand one, so the suffix flips
+    // with it: left hand facing SW plays se_attack_r mirrored, NW plays ne_attack_r
+    // mirrored. Hands.Anchor swaps anchors on the same mirror, so the held item sits
+    // on the anchor the clip animates (_l -> LeftHand, _r -> RightHand).
+    string AttackState(HandSide side, Vector2 aimDir, out string dir, out bool flip)
+    {
+        (dir, flip) = CardinalDir.Resolve(aimDir);
+        bool left = side == HandSide.Left;
+        return $"{dir}_attack_{(left != flip ? "l" : "r")}";
+    }
+
     // Play the attack clip for the aim direction and hand. `duration` is only the
     // failsafe ceiling; the clip finishing ends the attack, and its Animation Events
-    // drive the hit (WeaponUse.OnAttackHit). Facing follows the aim so the swing and
-    // the post-attack pose agree with where the hit lands.
+    // drive the hit (WeaponUse.OnAttackHit). Facing follows the aim so the windup
+    // starts out agreeing with where the swing began aiming; RetargetAttack re-picks
+    // it as the swing/hit events fire.
     public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
     {
-        facing = aimDir;
-        (string dir, bool flip) = CardinalDir.Resolve(facing);
-
-        // Mirroring turns a right-hand swing into a left-hand one, so the suffix
-        // flips with it: left hand facing SW plays se_attack_r mirrored, NW plays
-        // ne_attack_r mirrored. Hands.Anchor swaps anchors on the same mirror, so the
-        // held item sits on the anchor the clip animates (_l -> LeftHand, _r -> RightHand).
-        bool left = side == HandSide.Left;
-        string state = $"{dir}_attack_{(left != flip ? "l" : "r")}";
+        string state = AttackState(side, aimDir, out _, out bool flip);
 
         // Arming a swing with no clip would never reach clipDone and would lock out
         // attacks until the failsafe (an hour for a charge-holdable swing).
@@ -168,12 +172,42 @@ public class PlayerAnimator : MonoBehaviour
             return;
         }
 
+        facing = aimDir;
         attackState = state;
         attacking = true;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);
         ApplyFlip(flip);       // now, so Hands.Anchor agrees with the suffix this frame
         currentState = null;   // force the next Play to switch
         animator.speed = 1f;   // in case a prior charge left it paused
+    }
+
+    // Re-aims the in-progress attack clip: called from the swing/hit Animation Events
+    // (WeaponUse.OnAttackSwing/OnAttackHit) with the aim sampled at that instant, so a
+    // mouse move mid-attack can still change which directional clip plays. Jumps to
+    // the equivalent normalized time in the new clip rather than restarting it -- this
+    // relies on a weapon's directional clip variants sharing event timing (confirmed
+    // for se/ne_attack_hack_l/r: swing @0.17, hit @0.26). A weapon missing the target
+    // direction's clip (e.g. slash has no ne_attack yet) just keeps the current one.
+    public void RetargetAttack(HandSide side, Vector2 aimDir)
+    {
+        if (!attacking) return;
+
+        string state = AttackState(side, aimDir, out _, out bool flip);
+        if (state == attackState) return;
+
+        if (!animator.HasState(0, Animator.StringToHash(state)))
+        {
+            if (warnedMissingStates.Add(state))
+                Debug.LogWarning($"[PlayerAnimator] No '{state}' clip yet — keeping '{attackState}' for this swing.", this);
+            return;
+        }
+
+        float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        facing = aimDir;
+        attackState = state;
+        ApplyFlip(flip);
+        currentState = state;   // Play() below matches this already, so record it directly
+        animator.Play(state, 0, normalizedTime);
     }
 
     // Charged attacks freeze the clip while held and resume on release. Pause is a
