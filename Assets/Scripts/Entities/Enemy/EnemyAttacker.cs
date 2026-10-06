@@ -19,6 +19,9 @@ public class EnemyAttacker : MonoBehaviour
     [Tooltip("Distance to the aggro target within which a swing can start.")]
     public float attackRange = 0.8f;
 
+    [Tooltip("Seconds to wait after a swing ends before the next one can start.")]
+    public float attackCooldown = 3f;
+
     [Tooltip("Point swings originate from. Falls back to this transform if unset.")]
     public Transform aimOrigin;
 
@@ -27,6 +30,8 @@ public class EnemyAttacker : MonoBehaviour
     EnemyBrain brain;
 
     bool armed;
+    bool wasAttacking;
+    float nextAttackAt;
     Vector2 aimDir;
 
     public Vector2 Origin => aimOrigin != null ? (Vector2)aimOrigin.position : (Vector2)transform.position;
@@ -46,7 +51,13 @@ public class EnemyAttacker : MonoBehaviour
     void Update()
     {
         if (brain.CurrentState != EnemyBrain.State.Combat) return;
-        if (animator != null && animator.IsAttacking) return;
+
+        // The swing just finished (clip done): the cooldown runs from here.
+        bool attacking = animator != null && animator.IsAttacking;
+        if (wasAttacking && !attacking) nextAttackAt = Time.time + attackCooldown;
+        wasAttacking = attacking;
+
+        if (attacking || Time.time < nextAttackAt) return;
 
         Transform target = brain.AggroTarget;
         if (target == null) return;

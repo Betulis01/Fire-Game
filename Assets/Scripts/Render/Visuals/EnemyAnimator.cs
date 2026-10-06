@@ -3,18 +3,22 @@ using UnityEngine;
 
 // Drives the enemy's Animator from EnemyBrain.MoveDirection. Same directional-pose
 // scheme and state naming as PlayerAnimator (NE/SE, NW/SW mirrored via flipX):
-//   se_idle ne_idle  se_run ne_run  se_attack ne_attack
+//   se_idle ne_idle  se_run ne_run  se_attack ne_attack  se_hit ne_hit
+// The hit pair plays from OnHit (a landed hit) and never interrupts a swing.
 // Attacks route through PlayAttack(duration, aimDir), the same latch-until-clip-done
 // scheme as PlayerAnimator.PlayAttack, just without a HandSide (the enemy swings one
 // weapon, not two hands) — see EnemyAttacker.
 [RequireComponent(typeof(EnemyBrain))]
-public class EnemyAnimator : MonoBehaviour
+public class EnemyAnimator : MonoBehaviour, IHitReactor
 {
     [Tooltip("Animator to drive. Falls back to one on this GameObject.")]
     public Animator animator;
 
     [Tooltip("Movement below this magnitude counts as idle (keeps the last facing).")]
     [SerializeField] float moveDeadzone = 0.05f;
+
+    [Tooltip("How long the hit clip holds before locomotion resumes.")]
+    [SerializeField] float hitDuration = 0.2f;
 
     // The skeleton's art is layered (Body, Head) per Skeleton.aseprite's Individual
     // Layers import -- unlike the player's single flattened sprite, flipping needs to
@@ -31,6 +35,8 @@ public class EnemyAnimator : MonoBehaviour
     public bool IsAttacking => attacking;
     float attackFailsafe;
     string attackState;
+
+    float hitUntil;   // hit reaction holds until then
 
     // Missing-clip states we've already warned about (see PlayAttack), shared across
     // every enemy instance — logged once total rather than once per enemy per frame.
@@ -73,8 +79,11 @@ public class EnemyAnimator : MonoBehaviour
             attacking = false;
         }
 
-        Play($"{dir}_{(moving ? "run" : "idle")}");
+        Play(Time.time < hitUntil ? $"{dir}_hit" : $"{dir}_{(moving ? "run" : "idle")}");
     }
+
+    // A landed hit (Hurtbox fans it out to every IHitReactor on this entity).
+    public void OnHit(in HitInfo hit) => hitUntil = Time.time + hitDuration;
 
     void Play(string state)
     {

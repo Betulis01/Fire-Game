@@ -8,6 +8,7 @@ using UnityEngine;
 // State names must match the AnimatorController:
 //   se_idle ne_idle  se_run ne_run
 //   se_attack_l ne_attack_l  se_attack_r ne_attack_r
+//   se_hit ne_hit  (played from OnHit when a hit lands; never interrupts a swing)
 //
 // Attacks go through PlayAttack(side, duration, aimDir), which latches the attack
 // state until its clip finishes so movement can't cut the swing off.
@@ -16,7 +17,7 @@ using UnityEngine;
 // and before HeldItemRotationFilter (default order 0) reads them.
 [DefaultExecutionOrder(-100)]
 [RequireComponent(typeof(SpriteRenderer))]
-public class PlayerAnimator : MonoBehaviour
+public class PlayerAnimator : MonoBehaviour, IHitReactor
 {
     [Tooltip("Animator to drive. Falls back to one on this GameObject.")]
     public Animator animator;
@@ -27,6 +28,9 @@ public class PlayerAnimator : MonoBehaviour
 
     [Tooltip("Movement below this magnitude counts as idle (keeps the last facing).")]
     [SerializeField] float moveDeadzone = 0.05f;
+
+    [Tooltip("How long the hit clip holds before locomotion resumes.")]
+    [SerializeField] float hitDuration = 0.2f;
 
     // One hand anchor's mirror bookkeeping: the Animator's unmirrored pose, plus the
     // pose we last wrote. If the anchor still holds what we wrote, the Animator
@@ -51,6 +55,9 @@ public class PlayerAnimator : MonoBehaviour
     string attackState;
     float attackFailsafe;
 
+    // Hit reaction: holds until hitUntil, then locomotion resumes.
+    float hitUntil;
+
     // Missing attack states already warned about, so each logs once.
     static readonly HashSet<string> warnedMissingStates = new();
 
@@ -70,6 +77,10 @@ public class PlayerAnimator : MonoBehaviour
                 handAnchors[i] = new HandAnchor { t = handRig.GetChild(i) };
         }
     }
+
+    // A landed hit (Hurtbox fans it out to every IHitReactor on this entity) starts the
+    // hit reaction, whether or not it ends up doing damage.
+    public void OnHit(in HitInfo hit) => hitUntil = Time.time + hitDuration;
 
     void Update()
     {
@@ -91,7 +102,9 @@ public class PlayerAnimator : MonoBehaviour
         (string dir, bool flip) = CardinalDir.Resolve(facing);
         ApplyFlip(flip);
 
-        Play(attacking ? attackState : $"{dir}_{(moving ? "run" : "idle")}");
+        if (attacking) Play(attackState);
+        else if (Time.time < hitUntil) Play($"{dir}_hit");
+        else Play($"{dir}_{(moving ? "run" : "idle")}");
     }
 
     // Mirror the hands for west-facing by reflecting each anchor's local pose
