@@ -67,7 +67,7 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Fire Game.slnx",
+    "dotnet.defaultSolution": "Fire-Game.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false,
     "FSharp.suggestGitignore": false
 }

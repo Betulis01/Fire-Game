@@ -22,15 +22,15 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: -4984418864842847138, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.17
+    - time: 0.08
       value: {fileID: -1693064899090689882, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.22
+    - time: 0.13
       value: {fileID: -8938771261596492536, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.27
+    - time: 0.18
       value: {fileID: -6569783253499456213, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.32
+    - time: 0.23
       value: {fileID: -7119030967764225034, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.49000013
+    - time: 0.33
       value: {fileID: -7119030967764225034, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
     attribute: m_Sprite
     path: Body
@@ -41,15 +41,15 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 332478603995855831, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.17
+    - time: 0.08
       value: {fileID: 9097653483048547759, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.22
+    - time: 0.13
       value: {fileID: -9198410239558457577, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.27
+    - time: 0.18
       value: {fileID: -5735912980687685597, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.32
+    - time: 0.23
       value: {fileID: -8548862138726912140, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
-    - time: 0.49000013
+    - time: 0.33
       value: {fileID: -8548862138726912140, guid: 7a2f1084b50109b40933596ddac256f6, type: 3}
     attribute: m_Sprite
     path: Head
@@ -99,7 +99,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5000001
+    m_StopTime: 0.34
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -119,14 +119,14 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.17
+  - time: 0.08
     functionName: OnAttackSwing
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.32
+  - time: 0.23
     functionName: OnAttackHit
     data: 
     objectReferenceParameter: {fileID: 0}

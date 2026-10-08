@@ -364,7 +364,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.34375, y: 0.46875}
+  m_Size: {x: 0.3125, y: 0.46875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -609,7 +609,6 @@ MonoBehaviour:
   animator: {fileID: 222080283975191594}
   handRig: {fileID: 2617665783858779241}
   moveDeadzone: 0.05
-  health: {fileID: 0}
   hitDuration: 0.2
 --- !u!114 &4957745241349174120
 MonoBehaviour:
@@ -631,10 +630,10 @@ MonoBehaviour:
   weaponSeRightAnchorFront: 1
   weaponNeLeftAnchorFront: 0
   weaponNeRightAnchorFront: 1
-  itemSeLeftAnchorFront: 0
+  itemSeLeftAnchorFront: 1
   itemSeRightAnchorFront: 1
   itemNeLeftAnchorFront: 0
-  itemNeRightAnchorFront: 1
+  itemNeRightAnchorFront: 0
 --- !u!114 &5908559995381518829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1118,6 +1117,29 @@ MonoBehaviour:
   - {fileID: 203623201438950826, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   - {fileID: 3971790376792388956, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   - {fileID: -5968188880231154211, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -2092879941348129816, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -9138204299985132413, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -9157613519783995307, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -988645652060690687, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 8905335060957165236, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 2840554603817658348, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 559994872527701463, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -3412260499596598570, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 1629887005056697830, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 1866089611954721693, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 1480299439780206793, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -5945964253877984856, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -6734454641024952641, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 859747095113744233, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 2389383715480242560, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 8641085682056326905, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: 5045931494257690574, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -1009598092297949578, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -7893698653145919294, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -5416046050113409467, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -5641873932100724553, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -8931629600281550199, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  - {fileID: -3224727649452715295, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   orderOffset: 1
 --- !u!1 &9043528258346829001
 GameObject:

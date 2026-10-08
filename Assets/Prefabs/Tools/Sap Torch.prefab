@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 1585957440290948344}
   - component: {fileID: 8550946972357729814}
   - component: {fileID: -7691799619491963564}
+  - component: {fileID: 8800000000000000001}
+  - component: {fileID: 8800000000000000002}
   m_Layer: 0
   m_Name: Sap Torch
   m_TagString: Untagged
@@ -537,3 +539,40 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.15}
   m_Radius: 0.4
+--- !u!95 &8800000000000000001
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b7e41c9a2d5f4083a6c1e9d07f3a8b52, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8800000000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c967222a19a9bf43a1177e91cfea782, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireRender
+  fuel: {fileID: 7173787885017024267}
+  animator: {fileID: 8800000000000000001}
+  stageCount: 3

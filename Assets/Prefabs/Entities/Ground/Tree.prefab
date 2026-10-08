@@ -215,10 +215,11 @@ GameObject:
   - component: {fileID: 1522422904613888390}
   - component: {fileID: -450146210862123819}
   - component: {fileID: -9001062974677319736}
-  - component: {fileID: -839812588098009237}
   - component: {fileID: 5500000000000000001}
   - component: {fileID: 5500000000000000003}
   - component: {fileID: 5500000000000000201}
+  - component: {fileID: 5500000000000000301}
+  - component: {fileID: 5500000000000000302}
   m_Layer: 6
   m_Name: Tree
   m_TagString: Untagged
@@ -293,7 +294,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -317825125816557920, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
+  m_Sprite: {fileID: -317825125816557920, guid: 798f6463d7f485c4d9970d588e1cee6f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -380,22 +381,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatTextEmitter
   offset: {x: 0, y: 1, z: 0}
---- !u!114 &-839812588098009237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4749449456151482961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 530c22f03a080044a8840673daa40d8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RandomSprite
-  sprites:
-  - {fileID: -317825125816557920, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
-  - {fileID: -7842934620412757995, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
-  - {fileID: -1771777824678166875, guid: e8a6e44408421d14e8a9dafe9ed7737c, type: 3}
 --- !u!114 &5500000000000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,6 +409,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToolDamageFilter
   damagedBy: 1
+--- !u!114 &5500000000000000201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
+  hitEffect: {fileID: 11400000, guid: 2b2d6f3ed1354e38b1c87f366228e1ab, type: 2}
+--- !u!95 &5500000000000000301
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8d3f4b21c7a6495e9b0a1f2e3d4c5b6a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5500000000000000302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1e7a90b3d24f68a1e4d2c7b9f06e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreeHitAnimation
+  animator: {fileID: 5500000000000000301}
 --- !u!1 &8939883893667941428
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,16 +535,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.20206848, y: 0.8684728}
   m_EdgeRadius: 0
---- !u!114 &5500000000000000201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4749449456151482961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
-  hitEffect: {fileID: 11400000, guid: 2b2d6f3ed1354e38b1c87f366228e1ab, type: 2}

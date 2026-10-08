@@ -57,10 +57,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // lock movement input for the whole attack (windup, any charge hold, swing,
-        // recovery) so the player can't walk out from under it mid-swing — driven by
-        // the attack animation itself, not just the brief lunge window.
-        bool inputLocked = weaponUse != null && weaponUse.animator != null && weaponUse.animator.IsAttacking;
+        // lock movement input from the attack's contact frame to the end of its clip, so
+        // the player can walk during windup but is planted for the strike's recovery.
+        bool inputLocked = weaponUse != null && weaponUse.MovementLocked;
         Vector2 input = inputLocked ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
         float buffMultiplier = buffs != null ? buffs.SpeedMultiplier : 1f;
         Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier * buffMultiplier;

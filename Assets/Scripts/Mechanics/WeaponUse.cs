@@ -54,6 +54,12 @@ public class WeaponUse : MonoBehaviour
     float chargeStart;
     public bool IsCharging => charging;
 
+    // True from the contact frame (OnAttackHit) to the end of the attack clip. The player
+    // can walk during windup; once the strike/shot has gone out they're planted for the
+    // recovery. Unlocks by itself when the clip ends (IsAttacking goes false).
+    bool hitLanded;
+    public bool MovementLocked => hitLanded && animator != null && animator.IsAttacking;
+
     // 0 at press, 1 once held for the current weapon's chargeTime (and beyond, since
     // holding is uncapped). 0 whenever not charging.
     public float ChargeProgress => charging
@@ -153,6 +159,7 @@ public class WeaponUse : MonoBehaviour
         if (hitbox == null && ranged == null) return;
 
         lastHandUsed = side;
+        hitLanded = false;
 
         // Arm the strike/shot; it lands when the clip's Animation Event fires. Whether
         // this resolves light or heavy is decided later (OnAttackChargeReady / Update).
@@ -251,6 +258,7 @@ public class WeaponUse : MonoBehaviour
         else return;
 
         pending.armed = false;
+        hitLanded = true;
     }
 
     // direction the swing aims: toward the mouse cursor, or the gamepad aim stick
