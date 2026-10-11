@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9212449378994694727}
   - component: {fileID: 6593106120193128840}
   - component: {fileID: -2268743843223548929}
+  - component: {fileID: 5902727336176480353}
   m_Layer: 0
   m_Name: Stone Pickaxe
   m_TagString: Untagged
@@ -156,8 +157,8 @@ MonoBehaviour:
   kind: 4
   damage: 1
   range: 0.3
-  targetKnockback: 1
-  selfKnockback: 1
+  targetKnockback: 1.5
+  selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
   swingEffectAngleOffset: 0
   lungeSpeed: 1.5
@@ -235,6 +236,23 @@ MonoBehaviour:
   hurtboxLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &5902727336176480353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462038774614361535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206d4899719e8914e844a5aece100318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeldSwingAnimation
+  frames:
+  - {fileID: -4579878281794012560, guid: d0a95c03502712742a1c1b84e1d830ed, type: 3}
+  - {fileID: -1115293830277600180, guid: d0a95c03502712742a1c1b84e1d830ed, type: 3}
+  - {fileID: -8392825186088011902, guid: d0a95c03502712742a1c1b84e1d830ed, type: 3}
+  frameTime: 0.05
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

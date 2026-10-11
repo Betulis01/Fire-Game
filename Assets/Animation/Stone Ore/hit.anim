@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StoneHitEffect_Clip
+  m_Name: hit
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,17 +21,15 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -317825125816557920, guid: 819cd679317255d48aee12c80a801e2d, type: 3}
+      value: {fileID: -5104108981244634526, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
     - time: 0.1
-      value: {fileID: -7842934620412757995, guid: 819cd679317255d48aee12c80a801e2d, type: 3}
-    - time: 0.2
-      value: {fileID: -1771777824678166875, guid: 819cd679317255d48aee12c80a801e2d, type: 3}
+      value: {fileID: 2679404545053225964, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+    - time: 0.20000002
+      value: {fileID: 1674313245013899394, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
     - time: 0.3
-      value: {fileID: -7949905074691487419, guid: 819cd679317255d48aee12c80a801e2d, type: 3}
-    - time: 0.4
-      value: {fileID: 6644271774399067226, guid: 819cd679317255d48aee12c80a801e2d, type: 3}
-    - time: 0.49
-      value: {fileID: 6644271774399067226, guid: 819cd679317255d48aee12c80a801e2d, type: 3}
+      value: {fileID: -40995747511117169, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+    - time: 0.39000002
+      value: {fileID: -40995747511117169, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,7 +48,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.4
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

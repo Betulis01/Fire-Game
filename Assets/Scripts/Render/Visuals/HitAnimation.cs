@@ -1,10 +1,10 @@
 using UnityEngine;
 
 // Victim-side reactor: fires the Animator's "Hit" trigger whenever this entity takes a
-// hit, which plays the tree's one-shot hit clip. Hurtbox discovers it through
-// IHitReactor, so it needs no wiring into the hit pipeline.
+// hit, which plays its one-shot hit clip. Hurtbox discovers it through IHitReactor,
+// so it needs no wiring into the hit pipeline.
 [RequireComponent(typeof(Animator))]
-public class TreeHitAnimation : MonoBehaviour, IHitReactor
+public class HitAnimation : MonoBehaviour, IHitReactor
 {
     static readonly int HitTrigger = Animator.StringToHash("Hit");
 

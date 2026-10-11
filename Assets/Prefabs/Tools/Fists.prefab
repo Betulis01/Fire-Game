@@ -52,7 +52,6 @@ MonoBehaviour:
   selfKnockback: 2
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 2e23bd40fd702754c97727638d6df176, type: 3}
   swingEffectAngleOffset: 0
-  hitEffectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
   lungeSpeed: 1
   lungeDuration: 0.15
   lungeCurve:
@@ -85,7 +84,6 @@ MonoBehaviour:
     selfKnockback: 4
     swingEffectPrefab: {fileID: 7824789142328981932, guid: 2e23bd40fd702754c97727638d6df176, type: 3}
     swingEffectAngleOffset: 0
-    hitEffectPrefab: {fileID: 7824789142328981932, guid: b6d1d4d9cc4544d4ead3d27da28860d8, type: 3}
     lungeSpeed: 2
     lungeDuration: 0.3
     lungeCurve:

@@ -217,7 +217,6 @@ GameObject:
   - component: {fileID: -9001062974677319736}
   - component: {fileID: 5500000000000000001}
   - component: {fileID: 5500000000000000003}
-  - component: {fileID: 5500000000000000201}
   - component: {fileID: 5500000000000000301}
   - component: {fileID: 5500000000000000302}
   m_Layer: 6
@@ -409,19 +408,6 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::ToolDamageFilter
   damagedBy: 1
---- !u!114 &5500000000000000201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4749449456151482961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ede54c8fcd54dd7ac6026bf14242523, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::SurfaceHitEffect
-  hitEffect: {fileID: 11400000, guid: 2b2d6f3ed1354e38b1c87f366228e1ab, type: 2}
 --- !u!95 &5500000000000000301
 Animator:
   serializedVersion: 7
@@ -455,7 +441,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c1e7a90b3d24f68a1e4d2c7b9f06e83, type: 3}
   m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::TreeHitAnimation
+  m_EditorClassIdentifier: Assembly-CSharp::HitAnimation
   animator: {fileID: 5500000000000000301}
 --- !u!1 &8939883893667941428
 GameObject:
