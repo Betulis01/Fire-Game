@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 5500000000000000301}
   - component: {fileID: 5500000000000000302}
   m_Layer: 6
-  m_Name: Tree
+  m_Name: Scots Pine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,4 +13,5 @@ public enum ToolKind
     Pickaxe = 4,
     Sword = 8,
     Fist = 16,    // empty-handed punch; hurts enemies but not trees/ore
+    Torch = 32,   // ignites Flammable targets; hurts enemies but not trees/ore
 }

@@ -1,1 +1,1 @@
-public enum DamageType { Combat, Environment, Poison }
+public enum DamageType { Combat, Environment, Poison, Fire }

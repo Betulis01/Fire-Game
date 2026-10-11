@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: roaring
+  m_Name: hit
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,15 +21,19 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 2052222847640300674, guid: ff0be3802493a054a9810ea67b0f6cd5, type: 3}
-    - time: 0.099999964
-      value: {fileID: 752598980940914650, guid: ff0be3802493a054a9810ea67b0f6cd5, type: 3}
-    - time: 0.19999999
-      value: {fileID: 9197144190355770455, guid: ff0be3802493a054a9810ea67b0f6cd5, type: 3}
+      value: {fileID: -7842934620412757995, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
+    - time: 0.1
+      value: {fileID: -1771777824678166875, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
+    - time: 0.20000002
+      value: {fileID: 3093627325212580576, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
     - time: 0.3
-      value: {fileID: -8546661564891632379, guid: ff0be3802493a054a9810ea67b0f6cd5, type: 3}
-    - time: 0.39000002
-      value: {fileID: -8546661564891632379, guid: ff0be3802493a054a9810ea67b0f6cd5, type: 3}
+      value: {fileID: 4212006121335641136, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
+    - time: 0.4
+      value: {fileID: -1356254421458063009, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
+    - time: 0.5
+      value: {fileID: 3880757500875368592, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
+    - time: 0.59000003
+      value: {fileID: 3880757500875368592, guid: 1b963a42bcb4a384381fb70cb9a2cdb9, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,7 +52,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.4
+    m_StopTime: 0.6
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

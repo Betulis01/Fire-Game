@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5b37d7a6007d65d42b3c112647538892
+guid: 6ab165a14b96fdd41b555cef6c2a8907
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -36,7 +36,7 @@ ScriptedImporter:
     spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 16
+    spritePixelsToUnits: 32
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -74,14 +74,14 @@ ScriptedImporter:
   previousAsepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
-    layerImportMode: 0
+    layerImportMode: 1
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
     customPivotPosition: {x: 0.5, y: 0.5}
     mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
-    generateAnimationClips: 0
+    generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
     generateIndividualEvents: 1
@@ -89,20 +89,20 @@ ScriptedImporter:
   asepriteImporterSettings:
     fileImportMode: 1
     importHiddenLayers: 0
-    layerImportMode: 0
+    layerImportMode: 1
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
     customPivotPosition: {x: 0.5, y: 0.5}
     mosaicPadding: 4
     spritePadding: 0
     generateModelPrefab: 1
-    generateAnimationClips: 0
+    generateAnimationClips: 1
     addSortingGroup: 1
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 639202324540861171
+  platformSettingsDirtyTick: 639273515929092277
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -127,51 +127,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: Bush
+  - name: Frame_0
     originalName: 
-    pivot: {x: 0.42857146, y: -0.2857143}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 4
-      y: 18
-      width: 7
-      height: 7
-    spriteID: 957e35b7b10b19b49a80bfdd2c8ad053
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 4, y: 18}
-  - name: Berries
-    originalName: 
-    pivot: {x: 0.44444445, y: -1.5}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    customData: 
-    rect:
-      serializedVersion: 2
-      x: 19
-      y: 18
-      width: 9
-      height: 4
-    spriteID: ccd66b34fe3dfb340b8a13c49a5a0584
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 19, y: 18}
-  - name: Highlight
-    originalName: 
-    pivot: {x: 0.45454547, y: -0.8333334}
+    pivot: {x: 0.35, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -179,9 +137,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 11
-      height: 6
-    spriteID: 321644d583e7f50438f45c23d774ba8b
+      width: 20
+      height: 12
+    spriteID: 49a177e2eae0a17429c4e5b13537a4f4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -190,80 +148,120 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 4, y: 4}
+  - name: Frame_1
+    originalName: 
+    pivot: {x: 0.33333334, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 4
+      width: 21
+      height: 11
+    spriteID: fc82dd79c7627a0458aee769401045c9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 32, y: 4}
+  - name: Frame_2
+    originalName: 
+    pivot: {x: 0.39130434, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 23
+      width: 23
+      height: 10
+    spriteID: d5c7a8e0f5ddb434e947c6dee2f76aab
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 32, y: 23}
+  - name: Frame_3
+    originalName: 
+    pivot: {x: 0.33333334, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 32
+      y: 41
+      width: 21
+      height: 10
+    spriteID: 01c0db47556c15647aad6ae43e106d42
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 32, y: 41}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 4069224012
+      value0: 580213614
       value1: 0
       value2: 0
       value3: 0
     guid: 0
-    name: Bush
-    layerFlags: 3
+    name: Stick
+    layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: Bush
+    - name: Frame_0
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 5
-        y: 2
-        width: 7
-        height: 7
-      spriteId: 957e35b7b10b19b49a80bfdd2c8ad053
-    linkedCells: []
-    tileCells: []
-    tileSetIndex: 0
-    parentIndex: -1
-  - layerIndex: 1
-    uuid:
-      value0: 2148333666
-      value1: 0
-      value2: 0
-      value3: 0
-    guid: 0
-    name: Berries
-    layerFlags: 3
-    layerType: 0
-    blendMode: 0
-    cells:
-    - name: Berries
-      frameIndex: 0
+        x: 25
+        y: 0
+        width: 20
+        height: 12
+      spriteId: 49a177e2eae0a17429c4e5b13537a4f4
+    - name: Frame_1
+      frameIndex: 1
       additiveSortOrder: 0
       cellRect:
-        x: 4
-        y: 6
-        width: 9
-        height: 4
-      spriteId: ccd66b34fe3dfb340b8a13c49a5a0584
-    linkedCells: []
-    tileCells: []
-    tileSetIndex: 0
-    parentIndex: -1
-  - layerIndex: 2
-    uuid:
-      value0: 993591534
-      value1: 0
-      value2: 0
-      value3: 0
-    guid: 0
-    name: Highlight
-    layerFlags: 3
-    layerType: 0
-    blendMode: 0
-    cells:
-    - name: Highlight
-      frameIndex: 0
+        x: 25
+        y: 0
+        width: 21
+        height: 11
+      spriteId: fc82dd79c7627a0458aee769401045c9
+    - name: Frame_2
+      frameIndex: 2
       additiveSortOrder: 0
       cellRect:
-        x: 3
-        y: 5
-        width: 11
-        height: 6
-      spriteId: 321644d583e7f50438f45c23d774ba8b
+        x: 23
+        y: 0
+        width: 23
+        height: 10
+      spriteId: d5c7a8e0f5ddb434e947c6dee2f76aab
+    - name: Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 0
+        width: 21
+        height: 10
+      spriteId: 01c0db47556c15647aad6ae43e106d42
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -297,5 +295,5 @@ ScriptedImporter:
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 16, y: 16}
-  previousTextureSize: {x: 32, y: 32}
+  canvasSize: {x: 64, y: 64}
+  previousTextureSize: {x: 64, y: 64}

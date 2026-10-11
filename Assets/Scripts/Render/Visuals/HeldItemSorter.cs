@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 // Sorts items held in the hands in front of or behind the body. Held items are
 // parented under the player's SortingGroup, so their sortingOrder is relative to
@@ -82,9 +83,19 @@ public class HeldItemSorter : MonoBehaviour
     {
         int order = body.sortingOrder + (front ? frontOffset : backOffset);
 
+        // An item with its own SortingGroup (e.g. a torch with a flame child) sorts
+        // as one unit: the group's order places it among siblings (the body, other
+        // held items), while the sprites inside it keep their own authored relative
+        // order. Same split YSort uses for a rig vs. a lone sprite.
+        if (item.TryGetComponent(out SortingGroup group))
+        {
+            group.sortingOrder = order;
+            return;
+        }
+
         // Shift every sprite in the item by the same amount, so multi-sprite items
-        // (e.g. a torch's flame) keep their internal layering. The first renderer
-        // is the reference; once it's at `order` the shift is 0.
+        // keep their internal layering. The first renderer is the reference; once
+        // it's at `order` the shift is 0.
         SpriteRenderer[] srs = item.GetComponentsInChildren<SpriteRenderer>();
         if (srs.Length == 0) return;
         int shift = order - srs[0].sortingOrder;

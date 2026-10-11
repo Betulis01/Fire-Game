@@ -67,7 +67,7 @@ public class CombatTextEmitter : MonoBehaviour
     PopupStyle StyleFor(DamageType type) => type switch
     {
         DamageType.Combat => TargetStyle(),
-        DamageType.Environment => PopupStyle.Environment,
+        DamageType.Environment or DamageType.Fire => PopupStyle.Environment,   // orange
         _ => PopupStyle.Enemy,
     };
 }
