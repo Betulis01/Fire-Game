@@ -74,4 +74,12 @@ public class Fuel : MonoBehaviour
         items.Add(new BurningItem { remaining = amount, burnRate = burnRate });
         FuelAdded?.Invoke(amount);
     }
+
+    // clears the queue and starts fresh with a single item -- for callers that drive this
+    // fire from their own external timer (e.g. Flammable) rather than scripted feeding.
+    public void Reset(float amount, float burnRate)
+    {
+        items.Clear();
+        if (amount > 0f) items.Add(new BurningItem { remaining = amount, burnRate = burnRate });
+    }
 }

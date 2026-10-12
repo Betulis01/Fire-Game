@@ -5,8 +5,12 @@ using UnityEngine;
 // poses; NW/SW reuse them mirrored via SpriteRenderer.flipX. Play() only switches
 // when the state changes, so a looping clip is never restarted mid-stride.
 //
+// The aim (mouse, or gamepad right stick) picks the facing for every clip; movement
+// only decides whether the run plays forward or backwards (moving away from the aim
+// backpedals with the *_run_backwards states, which play the run clip at speed -1).
+//
 // State names must match the AnimatorController:
-//   se_idle ne_idle  se_run ne_run
+//   se_idle ne_idle  se_run ne_run  se_run_backwards ne_run_backwards
 //   se_attack_l ne_attack_l  se_attack_r ne_attack_r
 //   se_hit ne_hit  (played from OnHit when a hit lands; never interrupts a swing)
 //
@@ -26,7 +30,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
              "(NW/SW). Leave empty to skip hand mirroring.")]
     public Transform handRig;
 
-    [Tooltip("Movement below this magnitude counts as idle (keeps the last facing).")]
+    [Tooltip("Movement below this magnitude counts as idle.")]
     [SerializeField] float moveDeadzone = 0.05f;
 
     [Tooltip("How long the hit clip holds before locomotion resumes.")]
@@ -45,6 +49,8 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     }
 
     SpriteRenderer sr;
+    Camera cam;
+    WeaponUse weaponUse;
     HandAnchor[] handAnchors = System.Array.Empty<HandAnchor>();
     Vector2 facing = Vector2.down;   // start facing the camera
     string currentState;
@@ -69,6 +75,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     {
         sr = GetComponent<SpriteRenderer>();
         if (animator == null) animator = GetComponent<Animator>();
+        weaponUse = GetComponent<WeaponUse>();
 
         if (handRig != null)
         {
@@ -96,15 +103,27 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
             if (clipDone || Time.time >= attackFailsafe) attacking = false;
         }
 
-        // Mid-attack, facing stays latched to the aim: the attack state's direction
-        // and hand suffix were picked from it, so movement mustn't re-flip the swing.
-        if (moving && !attacking) facing = move;
+        // Facing follows the aim. Mid-attack it stays latched to the aim the swing
+        // picked (PlayAttack/RetargetAttack), so the swing isn't re-flipped between
+        // its events.
+        // Aimed from WeaponUse.Origin (the body's center) rather than the feet pivot,
+        // so the N/S split runs through the middle of the sprite and matches the swing.
+        if (!attacking)
+        {
+            if (cam == null) cam = Camera.main;
+            Vector2 origin = weaponUse != null ? weaponUse.Origin : (Vector2)transform.position;
+            facing = UserInput.Instance.AimDirection(origin, cam);
+        }
         (string dir, bool flip) = CardinalDir.Resolve(facing);
         ApplyFlip(flip);
 
+        // Moving against the aim backpedals; perpendicular counts as forward.
+        bool backwards = Vector2.Dot(move, facing) < 0f;
+
         if (attacking) Play(attackState);
         else if (Time.time < hitUntil) Play($"{dir}_hit");
-        else Play($"{dir}_{(moving ? "run" : "idle")}");
+        else if (!moving) Play($"{dir}_idle");
+        else Play(backwards ? $"{dir}_run_backwards" : $"{dir}_run");
     }
 
     // Mirror the hands for west-facing by reflecting each anchor's local pose
@@ -152,8 +171,28 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     void Play(string state)
     {
         if (state == currentState) return;
+
+        // X_run <-> X_run_backwards share a clip, so keep the stride's phase and just
+        // reverse it instead of snapping to frame 0.
+        string runBase = RunBase(state);
+        if (runBase != null && currentState != null && runBase == RunBase(currentState))
+        {
+            float t = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            currentState = state;
+            animator.Play(state, 0, t - Mathf.Floor(t));
+            return;
+        }
+
         currentState = state;
         animator.Play(state);
+    }
+
+    // "ne_run_backwards" -> "ne_run"; null for non-run states.
+    static string RunBase(string state)
+    {
+        if (state.EndsWith("_run")) return state;
+        if (state.EndsWith("_run_backwards")) return state.Substring(0, state.Length - "_backwards".Length);
+        return null;
     }
 
     // Mirroring turns a right-hand swing into a left-hand one, so the suffix flips

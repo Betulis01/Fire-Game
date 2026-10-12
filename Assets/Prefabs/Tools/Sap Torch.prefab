@@ -637,7 +637,7 @@ GameObject:
   - component: {fileID: 13203534266911383}
   - component: {fileID: 4876616714120213095}
   m_Layer: 0
-  m_Name: TorchLight
+  m_Name: GroundLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

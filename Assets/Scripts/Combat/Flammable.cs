@@ -29,6 +29,7 @@ public class Flammable : MonoBehaviour, IHitReactor
     Health health;
     Hurtbox hurtbox;
     GameObject fire;
+    Fuel fireFuel;        // drives the spawned VFX's ember/medium/roaring stages
     float remaining;     // burn time left; > 0 means burning
     float tickTimer;     // time until the next tick
 
@@ -61,6 +62,10 @@ public class Flammable : MonoBehaviour, IHitReactor
             tickTimer = tickInterval;
             SpawnFire();
         }
+        else if (fireFuel != null)
+        {
+            fireFuel.Reset(1f, 1f / burnDuration);
+        }
         remaining = burnDuration;
     }
 
@@ -69,6 +74,7 @@ public class Flammable : MonoBehaviour, IHitReactor
         remaining = 0f;
         if (fire != null) Destroy(fire);
         fire = null;
+        fireFuel = null;
     }
 
     void Update()
@@ -97,5 +103,7 @@ public class Flammable : MonoBehaviour, IHitReactor
     {
         if (fireEffectPrefab == null) return;
         fire = Instantiate(fireEffectPrefab, Center, Quaternion.identity, transform);
+        fireFuel = fire.GetComponent<Fuel>();
+        if (fireFuel != null) fireFuel.Reset(1f, 1f / burnDuration);
     }
 }
