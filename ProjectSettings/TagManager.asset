@@ -19,8 +19,8 @@ TagManager:
   - Shadow
   - EnemyHurtbox
   - ResourceHurtbox
-  - 
-  - 
+  - Occluder
+  - OcclusionProbe
   - 
   - 
   - 
