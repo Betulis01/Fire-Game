@@ -11,11 +11,12 @@ using UnityEngine;
 //
 // State names must match the AnimatorController:
 //   se_idle ne_idle  se_run ne_run  se_run_backwards ne_run_backwards
-//   se_attack_l ne_attack_l  se_attack_r ne_attack_r
+//   se_attack_l ne_attack_l  se_attack_r ne_attack_r  (generic, any tool)
+//   {se,ne}_attack_{style}_{l,r}  (per Tool.AttackStyle: slash = swords, hack = axes)
 //   se_hit ne_hit  (played from OnHit when a hit lands; never interrupts a swing)
 //
-// Attacks go through PlayAttack(side, duration, aimDir), which latches the attack
-// state until its clip finishes so movement can't cut the swing off.
+// Attacks go through PlayAttack(side, duration, aimDir, style), which latches the
+// attack state until its clip finishes so movement can't cut the swing off.
 //
 // Order -100: LateUpdate mirrors the hand anchors after the Animator writes them
 // and before HeldItemRotationFilter (default order 0) reads them.
@@ -59,6 +60,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     // ceiling so a state that never completes can't lock us forever.
     bool attacking;
     string attackState;
+    string attackStyle;   // the swing's Tool.AttackStyle, kept so RetargetAttack stays in the same clip family
     float attackFailsafe;
 
     // Hit reaction: holds until hitUntil, then locomotion resumes.
@@ -199,21 +201,31 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     // with it: left hand facing SW plays se_attack_r mirrored, NW plays ne_attack_r
     // mirrored. Hands.Anchor swaps anchors on the same mirror, so the held item sits
     // on the anchor the clip animates (_l -> LeftHand, _r -> RightHand).
-    string AttackState(HandSide side, Vector2 aimDir, out string dir, out bool flip)
+    // A style (Tool.AttackStyle) picks {dir}_attack_{style}_{l|r}; with no style, or
+    // no such state, it's the generic {dir}_attack_{l|r}.
+    string AttackState(HandSide side, Vector2 aimDir, string style, out bool flip)
     {
-        (dir, flip) = CardinalDir.Resolve(aimDir);
+        (string dir, bool f) = CardinalDir.Resolve(aimDir);
+        flip = f;
         bool left = side == HandSide.Left;
-        return $"{dir}_attack_{(left != flip ? "l" : "r")}";
+        string hand = left != flip ? "l" : "r";
+
+        if (!string.IsNullOrEmpty(style))
+        {
+            string styled = $"{dir}_attack_{style}_{hand}";
+            if (animator.HasState(0, Animator.StringToHash(styled))) return styled;
+        }
+        return $"{dir}_attack_{hand}";
     }
 
     // Play the attack clip for the aim direction and hand. `duration` is only the
     // failsafe ceiling; the clip finishing ends the attack, and its Animation Events
     // drive the hit (WeaponUse.OnAttackHit). Facing follows the aim so the windup
     // starts out agreeing with where the swing began aiming; RetargetAttack re-picks
-    // it as the swing/hit events fire.
-    public void PlayAttack(HandSide side, float duration, Vector2 aimDir)
+    // it as the swing/hit events fire. `style` is the weapon's Tool.AttackStyle.
+    public void PlayAttack(HandSide side, float duration, Vector2 aimDir, string style = null)
     {
-        string state = AttackState(side, aimDir, out _, out bool flip);
+        string state = AttackState(side, aimDir, style, out bool flip);
 
         // Arming a swing with no clip would never reach clipDone and would lock out
         // attacks until the failsafe (an hour for a charge-holdable swing).
@@ -226,6 +238,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
 
         facing = aimDir;
         attackState = state;
+        attackStyle = style;
         attacking = true;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);
         ApplyFlip(flip);       // now, so Hands.Anchor agrees with the suffix this frame
@@ -233,18 +246,19 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
         animator.speed = 1f;   // in case a prior charge left it paused
     }
 
-    // Re-aims the in-progress attack clip: called from the swing/hit Animation Events
-    // (WeaponUse.OnAttackSwing/OnAttackHit) with the aim sampled at that instant, so a
+    // Re-aims the in-progress attack clip: called from the swing Animation Event
+    // (WeaponUse.OnAttackSwing, or OnAttackHit for a clip without one) with the aim
+    // sampled at that instant, so a
     // mouse move mid-attack can still change which directional clip plays. Jumps to
     // the equivalent normalized time in the new clip rather than restarting it -- this
     // relies on a weapon's directional clip variants sharing event timing (confirmed
-    // for se/ne_attack_hack_l/r: swing @0.17, hit @0.26). A weapon missing the target
-    // direction's clip (e.g. slash has no ne_attack yet) just keeps the current one.
+    // for se/ne_attack_hack_l/r: swing @0.17, hit @0.26). Stays in the swing's style;
+    // a weapon missing the target direction's clip just keeps the current one.
     public void RetargetAttack(HandSide side, Vector2 aimDir)
     {
         if (!attacking) return;
 
-        string state = AttackState(side, aimDir, out _, out bool flip);
+        string state = AttackState(side, aimDir, attackStyle, out bool flip);
         if (state == attackState) return;
 
         if (!animator.HasState(0, Animator.StringToHash(state)))

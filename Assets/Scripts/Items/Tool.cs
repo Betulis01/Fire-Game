@@ -50,6 +50,16 @@ public class Tool : MonoBehaviour
              "the windup animation has played.")]
     public float chargeTime = 0.3f;
 
+    // Which family of player attack clips this tool swings with: PlayerAnimator plays
+    // {dir}_attack_{style}_{l|r}, falling back to {dir}_attack_{l|r} when the style is
+    // null or that clip doesn't exist.
+    public string AttackStyle => kind switch
+    {
+        ToolKind.Sword => "slash",
+        ToolKind.Axe => "hack",
+        _ => null,
+    };
+
     // The hit-affecting stats bundled for a swing, from either the light (top-level)
     // fields or the heavy profile.
     public AttackData GetAttack(bool isHeavy) => isHeavy

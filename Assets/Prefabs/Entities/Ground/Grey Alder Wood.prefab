@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 6168115021343026273}
   - component: {fileID: 4893751357336791858}
   m_Layer: 6
-  m_Name: Wood
+  m_Name: Grey Alder Wood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4244330738073987413, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  m_Sprite: {fileID: -317825125816557920, guid: 8f7647feed4e03940bde76e2a9933e81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

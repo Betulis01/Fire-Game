@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b66b54fc50f07b849bcd3d2cd740b566, type: 3}
-  m_Name: Wood
+  m_Name: Scots Pine Wood
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   id: Wood
   displayName: Wood

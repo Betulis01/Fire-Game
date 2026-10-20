@@ -467,8 +467,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropOnDeath
   drops:
-  - prefab: {fileID: 4257288121414011606, guid: 2b25a5f193ee9cb4db5ed8914ed19272, type: 3}
-    count: 3
+  - prefab: {fileID: 4257288121414011606, guid: 575d8828520733b43a459c991f1afd7e, type: 3}
+    count: 1
   - prefab: {fileID: 6197461963866386601, guid: 46e2eded97f871e48ad022a01860cf33, type: 3}
     count: 1
   scatterRadius: 1

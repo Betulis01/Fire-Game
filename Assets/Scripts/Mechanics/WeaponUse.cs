@@ -40,7 +40,9 @@ public class WeaponUse : MonoBehaviour
     // swing supersedes an earlier one that hasn't landed yet. Exactly one of
     // hitbox/ranged is set, depending on which the held item offered. `heavy` is
     // resolved once the charge decides (see charging below), not at arm time.
-    struct Swing { public Tool tool; public HandSide side; public Hitbox hitbox; public RangedWeapon ranged; public float range; public bool armed; public bool heavy; public float chargeFraction; }
+    // `dir` is latched at the swing frame (aimed = true) so the swing effect, lunge,
+    // clip facing and the hit all share one direction.
+    struct Swing { public Tool tool; public HandSide side; public Hitbox hitbox; public RangedWeapon ranged; public float range; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; }
     Swing pending;
 
     // Charging: the button was pressed and the swing is waiting on release to find out
@@ -170,7 +172,7 @@ public class WeaponUse : MonoBehaviour
 
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
         // always faces the direction the hit will actually land in.
-        if (animator != null) animator.PlayAttack(side, ChargeFailsafeCeiling, AimDirection(Origin));
+        if (animator != null) animator.PlayAttack(side, ChargeFailsafeCeiling, AimDirection(Origin), tool.AttackStyle);
     }
 
     // Called by an Animation Event on each *_attack clip, at the "charge hold" frame --
@@ -204,6 +206,11 @@ public class WeaponUse : MonoBehaviour
         if (!pending.armed || pending.tool == null) return;
         Vector2 dir = AimDirection(Origin);
 
+        // The swing commits to this direction: OnAttackHit lands along it rather than
+        // re-sampling the mouse, so the effect and the strike can't disagree.
+        pending.dir = dir;
+        pending.aimed = true;
+
         // Re-aim the clip to wherever the player is pointing right now, not where they
         // were pointing when the button was pressed.
         if (animator != null) animator.RetargetAttack(pending.side, dir);
@@ -229,17 +236,15 @@ public class WeaponUse : MonoBehaviour
     }
 
     // Called by an Animation Event on each *_attack clip, at the contact frame.
-    // Lands the armed swing/shot where the player is currently aiming.
+    // Lands the armed swing/shot along the direction latched at OnAttackSwing. A clip
+    // with no swing event (nothing latched) aims here instead, re-aiming the clip once.
     public void OnAttackHit()
     {
         if (!pending.armed) return;
 
         Vector2 origin = Origin;
-        Vector2 dir = AimDirection(origin);
-
-        // Second re-aim: the clip can switch again between the swing and the contact
-        // frame if the player kept moving the mouse.
-        if (animator != null) animator.RetargetAttack(pending.side, dir);
+        Vector2 dir = pending.aimed ? pending.dir : AimDirection(origin);
+        if (!pending.aimed && animator != null) animator.RetargetAttack(pending.side, dir);
 
         AttackData attack = pending.tool.GetAttack(pending.heavy);
 

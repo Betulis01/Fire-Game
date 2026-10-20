@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 8
   damage: 1
-  range: 0.2
+  range: 0.5
   targetKnockback: 1
   selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 3f2a1901ee04a494281b6aa802136895, type: 3}
