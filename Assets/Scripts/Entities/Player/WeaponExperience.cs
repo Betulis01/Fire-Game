@@ -17,12 +17,21 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor
         public int xpPerHit;
     }
 
+    [Serializable]
+    public struct PointGrant
+    {
+        public ToolKind kind;
+        public int points;
+    }
+
     [Tooltip("One tree per weapon kind; the Skills tab shows the tree for the selected weapon.")]
     [SerializeField] SkillTree[] trees = Array.Empty<SkillTree>();
     [Tooltip("Which weapon kinds earn XP, and how much per damaging hit.")]
     [SerializeField] XpRule[] rules = { new() { kind = ToolKind.Axe, xpPerHit = 1 } };
     [SerializeField] int xpPerLevel = 10;
     [SerializeField] int pointsPerLevel = 1;
+    [Tooltip("Skill points a weapon starts with, on top of those earned by levelling.")]
+    [SerializeField] PointGrant[] startingPoints = { new() { kind = ToolKind.Axe, points = 5 } };
 
     class Progress
     {
@@ -52,7 +61,15 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor
     public int Xp(ToolKind kind) => Get(kind).track.xp;
     public int XpPerLevel => xpPerLevel;
     public float Normalized(ToolKind kind) => Get(kind).track.Normalized;
-    public int Points(ToolKind kind) => Level(kind) * pointsPerLevel - Get(kind).spent;
+    public int Points(ToolKind kind) => StartingPoints(kind) + Level(kind) * pointsPerLevel - Get(kind).spent;
+
+    int StartingPoints(ToolKind kind)
+    {
+        int total = 0;
+        foreach (PointGrant g in startingPoints)
+            if (g.kind == kind) total += g.points;
+        return total;
+    }
 
     public int Rank(ToolKind kind, string nodeId) =>
         Get(kind).ranks.TryGetValue(nodeId, out int r) ? r : 0;

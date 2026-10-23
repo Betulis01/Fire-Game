@@ -441,6 +441,8 @@ MonoBehaviour:
   fuel: {fileID: 0}
   animator: {fileID: 0}
   stageCount: 4
+  outSprite: {fileID: -317825125816557920, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+  spriteRenderer: {fileID: 0}
 --- !u!114 &350223773031179567
 MonoBehaviour:
   m_ObjectHideFlags: 0

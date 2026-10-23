@@ -21,15 +21,15 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 8195825864547237748, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
-    - time: 0.099999964
       value: {fileID: 4671235511770542909, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
-    - time: 0.19999999
+    - time: 0.099999964
       value: {fileID: -5921514219580413739, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+    - time: 0.19999999
+      value: {fileID: 4244754722484084009, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
     - time: 0.3
-      value: {fileID: 4244754722484084009, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+      value: {fileID: -6454955423806017856, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
     - time: 0.39000002
-      value: {fileID: 4244754722484084009, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+      value: {fileID: -6454955423806017856, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -41,8 +41,22 @@ AnimationClip:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings: []
-    pptrCurveMapping: []
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 4671235511770542909, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+    - {fileID: -5921514219580413739, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+    - {fileID: 4244754722484084009, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+    - {fileID: -6454955423806017856, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
+    - {fileID: -6454955423806017856, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

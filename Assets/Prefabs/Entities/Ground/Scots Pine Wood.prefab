@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 5500000000000000002}
   - component: {fileID: 6168115021343026273}
   - component: {fileID: 4893751357336791858}
+  - component: {fileID: 70420990791515005}
+  - component: {fileID: -3586161722661753034}
   m_Layer: 6
   m_Name: Scots Pine Wood
   m_TagString: Untagged
@@ -208,7 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Hurtbox
   health: {fileID: -1608985560213818405}
   owner: {fileID: 4257288121414011606}
-  hurtCollider: {fileID: 7832334864181502445}
+  hurtCollider: {fileID: 0}
 --- !u!114 &-6367491114643470580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +273,41 @@ MonoBehaviour:
     highlight: {fileID: 1820521835281049957, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
   - baseSprite: {fileID: -1525576368369757184, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
     highlight: {fileID: 4840602739635127225, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+--- !u!95 &70420990791515005
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257288121414011606}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d31e8d719ad16d94f97521b710c0efed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3586161722661753034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257288121414011606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c1e7a90b3d24f68a1e4d2c7b9f06e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitAnimation
+  animator: {fileID: 70420990791515005}
 --- !u!1 &4320884447366764477
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +317,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4662695210056142834}
-  - component: {fileID: 7832334864181502445}
+  - component: {fileID: 7320883239197853912}
   m_Layer: 9
   m_Name: HurtboxArea
   m_TagString: Untagged
@@ -303,8 +340,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5142720297667691128}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &7832334864181502445
-BoxCollider2D:
+--- !u!60 &7320883239197853912
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -337,7 +374,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.03, y: 0.2}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -347,8 +384,16 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.8, y: 0.45}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.056195043, y: 0.2750839}
+      - {x: -0.18118441, y: 0.14043184}
+      - {x: -0.18293905, y: 0.07666783}
+      - {x: -0.15131034, y: 0.034871873}
+      - {x: -0.070966996, y: 0.041383922}
+      - {x: 0.1550836, y: 0.1659671}
+      - {x: 0.13951975, y: 0.26301742}
+  m_UseDelaunayMesh: 1
 --- !u!1 &6950990041736242199
 GameObject:
   m_ObjectHideFlags: 0
