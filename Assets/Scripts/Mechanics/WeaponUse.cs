@@ -2,8 +2,9 @@ using UnityEngine;
 
 // Weapon-swing capability: arms and resolves a melee/ranged attack for a given
 // hand. ItemUser decides whether a Use press reaches this (vs FoodUse); once it
-// does, this owns everything about the swing itself -- dual-wield hand
-// resolution, charging, animation events, landing the hit. A hand swings
+// does, this owns everything about the swing itself -- charging, animation
+// events, landing the hit. Each hand has its own Use button (LMB = left, RMB =
+// right), and the charge follows the button that started it. A hand swings
 // whatever is "in" it -- a held weapon, or its default fists when empty
 // (Hands.ActiveItem hides that distinction). Each is a GameObject with a Tool
 // (stats) plus either a Hitbox (melee strike region) or a RangedWeapon (fires a
@@ -29,11 +30,6 @@ public class WeaponUse : MonoBehaviour
 
     AttackLunge lunge;
     Hands hands;
-    PlayerInteractor interactor;   // source of the selected hand (1/2 keys)
-
-    // Dual-wield alternation: when both hands hold a weapon, swings alternate hands
-    // each time one actually lands (see TryUse) -- starting from the right.
-    HandSide lastHandUsed = HandSide.Right;
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
@@ -60,7 +56,9 @@ public class WeaponUse : MonoBehaviour
     // can walk during windup; once the strike/shot has gone out they're planted for the
     // recovery. Unlocks by itself when the clip ends (IsAttacking goes false).
     bool hitLanded;
-    public bool MovementLocked => hitLanded && animator != null && animator.IsAttacking;
+    // A spell cast (PlayerAnimator.IsCasting) isn't a swing: a stale hitLanded from the
+    // previous swing mustn't plant the player for a whole Whirlwind.
+    public bool MovementLocked => hitLanded && animator != null && animator.IsAttacking && !animator.IsCasting;
 
     // 0 at press, 1 once held for the current weapon's chargeTime (and beyond, since
     // holding is uncapped). 0 whenever not charging.
@@ -83,7 +81,6 @@ public class WeaponUse : MonoBehaviour
     void Awake()
     {
         hands = GetComponent<Hands>();
-        interactor = GetComponent<PlayerInteractor>();
         lunge = GetComponent<AttackLunge>();
         if (cam == null) cam = Camera.main;
         if (animator == null) animator = GetComponent<PlayerAnimator>();
@@ -107,7 +104,7 @@ public class WeaponUse : MonoBehaviour
 
         CameraZoom.Instance?.SetZoomed(Time.time - chargeStart >= pending.tool.chargeTime);
 
-        if (UserInput.Instance.UseReleased)
+        if (UserInput.Instance.UseReleased(pending.side))
         {
             float elapsed = Time.time - chargeStart;
             float fraction = Mathf.Clamp01(elapsed / Mathf.Max(0.0001f, pending.tool.chargeTime));
@@ -115,36 +112,12 @@ public class WeaponUse : MonoBehaviour
         }
     }
 
-    // A hand "wields melee" if what it offers has a Tool (stats) and a Hitbox
-    // (melee strike region) but no RangedWeapon -- fists count, since the fists
-    // prefab has Tool + Hitbox.
-    bool IsMelee(HandSide side)
+    // The hand of the swing currently armed (charging or waiting on its contact
+    // frame). Lets UI like AimIndicator preview the reach of the hand that's swinging.
+    public bool TryGetPendingSide(out HandSide side)
     {
-        GameObject item = hands.ActiveItem(side);
-        if (item == null || !item.TryGetComponent<Tool>(out _)) return false;
-        return item.TryGetComponent<Hitbox>(out _) && !item.TryGetComponent<RangedWeapon>(out _);
-    }
-
-    // The Use button uses the selected hand (PlayerInteractor.ActiveHand) --
-    // whatever it holds, and nothing happens if that's not a weapon. The one
-    // exception is dual-wield: when both hands wield melee of the same class
-    // (two real held weapons, or two bare fists), swings alternate hands every
-    // time one lands, starting from the right. A mixed pair (weapon + fist) does
-    // not alternate. Side-effect-free (only TryUse mutates the alternation
-    // state), so UI like AimIndicator can poll it every frame to preview the
-    // next attack's hand.
-    public HandSide ResolveAttackHand()
-    {
-        bool leftReal = hands.Held(HandSide.Left) != null;
-        bool rightReal = hands.Held(HandSide.Right) != null;
-
-        bool dualWield = IsMelee(HandSide.Left) && IsMelee(HandSide.Right)
-            && leftReal == rightReal;
-
-        if (dualWield)
-            return lastHandUsed == HandSide.Right ? HandSide.Left : HandSide.Right;
-
-        return interactor != null ? interactor.ActiveHand : HandSide.Left;
+        side = pending.side;
+        return pending.armed;
     }
 
     public void TryUse(HandSide side)
@@ -160,7 +133,6 @@ public class WeaponUse : MonoBehaviour
         weapon.TryGetComponent(out RangedWeapon ranged);
         if (hitbox == null && ranged == null) return;
 
-        lastHandUsed = side;
         hitLanded = false;
 
         // Arm the strike/shot; it lands when the clip's Animation Event fires. Whether
@@ -183,7 +155,7 @@ public class WeaponUse : MonoBehaviour
     // animation gets here, or still resolve light after it, if chargeTime says so.
     public void OnAttackChargeReady()
     {
-        if (!charging || !UserInput.Instance.UseHeld) return;
+        if (!charging || !UserInput.Instance.UseHeld(pending.side)) return;
         chargePaused = true;
         if (animator != null) animator.PauseAttack();
     }

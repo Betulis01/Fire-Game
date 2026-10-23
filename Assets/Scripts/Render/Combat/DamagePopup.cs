@@ -1,9 +1,9 @@
 using UnityEngine;
 using TMPro;
 
-public enum PopupStyle { Enemy, Player, Environment }
+public enum PopupStyle { Enemy, Player, Environment, Experience }
 
-// A single floating number. Scrolls upward and fades out over `lifetime`, then
+// A single floating number (or short text, e.g. "+2" XP). Scrolls upward and fades out over `lifetime`, then
 // returns itself to the pool. Authored on a world-space TMP prefab.
 [RequireComponent(typeof(TMP_Text))]
 public class DamagePopup : MonoBehaviour
@@ -17,32 +17,43 @@ public class DamagePopup : MonoBehaviour
     public Color playerDmgColor = new Color(0.9f, 0.1f, 0.1f);    // damage dealt to the player
     public Color enemyHealColor = new Color(0.2f, 0.9f, 0.3f);    // healing on an enemy
     public Color playerHealColor = new Color(0.2f, 0.9f, 0.3f);   // healing on the player
+    public Color experienceColor = new Color(0.66f, 0.42f, 0.95f); // XP gained (purple)
+    [Tooltip("Size of Experience popups relative to damage numbers (XP text is the small one).")]
+    public float experienceScale = 0.7f;
 
     TMP_Text label;
     CombatText owner;
     float elapsed;
     Color baseColor;
+    Vector3 baseScale;
 
     void Awake()
     {
         label = GetComponent<TMP_Text>();
         baseColor = label.color;
+        baseScale = transform.localScale;
     }
 
     // Configure and start the animation. `home` is the pool to return to.
-    public void Play(float amount, PopupStyle style, bool heal, CombatText home)
+    public void Play(float amount, PopupStyle style, bool heal, CombatText home) =>
+        Play(Mathf.RoundToInt(amount).ToString(), style, heal, home);
+
+    public void Play(string text, PopupStyle style, bool heal, CombatText home)
     {
         owner = home;
         elapsed = 0f;
-        label.text = Mathf.RoundToInt(amount).ToString();
+        label.text = text;
         baseColor = heal
             ? (style == PopupStyle.Player ? playerHealColor : enemyHealColor)
             : style switch
             {
                 PopupStyle.Player => playerDmgColor,
                 PopupStyle.Environment => environmentDmgColor,
+                PopupStyle.Experience => experienceColor,
                 _ => enemyDmgColor,
             };
+        // pooled: every Play resets the scale, so a recycled XP popup doesn't stay small
+        transform.localScale = style == PopupStyle.Experience ? baseScale * experienceScale : baseScale;
         SetAlpha(1f);
     }
 

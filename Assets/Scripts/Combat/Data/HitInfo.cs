@@ -38,3 +38,13 @@ public interface IAttackReactor { void OnDealtHit(in HitInfo hit); }
 // Implemented by components on an attacker that react to a swing starting
 // (windup), before it's known whether the swing will connect.
 public interface IAttackSwingReactor { void OnSwing(); }
+
+// Implemented by components on an attacker that react to damage they actually
+// dealt (after ToolDamageFilter/blocking, never for a 0-damage hit). Health calls
+// these on DamageInfo.attacker, so e.g. an axe glancing off stone never counts.
+public interface IDamageDealtReactor { void OnDealtDamage(Health victim, in DamageInfo info); }
+
+// Implemented by components on an attacker that react to finishing a victim off.
+// Health calls these on the killing blow's attacker *before* raising Died, so the
+// victim is still intact (position, components) while they run.
+public interface IKillReactor { void OnKilled(Health victim, in DamageInfo killingBlow); }

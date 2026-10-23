@@ -34,7 +34,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Use",
+                    "name": "UseLeft",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000004",
                     "expectedControlType": "Button",
@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Block",
+                    "name": "UseRight",
                     "type": "Button",
                     "id": "3c9d2b1a-6e4f-48a3-9c2d-7f1b0a5e3d6c",
                     "expectedControlType": "Button",
@@ -70,7 +70,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Journal",
+                    "name": "SwitchHand",
                     "type": "Button",
                     "id": "0a1f2b30-0002-4000-8000-000000000008",
                     "expectedControlType": "",
@@ -79,7 +79,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelectLeft",
+                    "name": "Skill1",
                     "type": "Button",
                     "id": "7258dfc1-890a-4bf5-88a2-383c6d4b0ff7",
                     "expectedControlType": "",
@@ -88,13 +88,31 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SelectRight",
+                    "name": "Skill2",
                     "type": "Button",
                     "id": "1f83c845-b5e2-4721-b84d-99e70658ddca",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "9f2023ca-dca2-4e21-a21e-493f521bbbb3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HandScroll",
+                    "type": "Value",
+                    "id": "7f9114db-0f73-4966-b16d-e168541ebe7b",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -237,18 +255,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Use",
+                    "action": "UseLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-00000000000e",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Use",
+                    "action": "UseLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -259,18 +277,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Block",
+                    "action": "UseRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "9f4c7b2a-1d3e-46a8-8c5f-3b6e9d2a7f1c",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Block",
+                    "action": "UseRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -325,18 +343,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Journal",
+                    "action": "SwitchHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-000000000016",
-                    "path": "<Gamepad>/select",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Journal",
+                    "action": "SwitchHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -346,8 +364,8 @@
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SelectLeft",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Skill1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -357,8 +375,8 @@
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SelectLeft",
+                    "groups": "Gamepad",
+                    "action": "Skill1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -368,8 +386,8 @@
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse;Gamepad",
-                    "action": "SelectRight",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Skill2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -379,8 +397,41 @@
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "SelectRight",
+                    "groups": "Gamepad",
+                    "action": "Skill2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "480839d1-fad6-483e-a980-a59ef286dcf4",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7114525-de90-444f-b7c6-e5d076526cbc",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "77df2f95-b188-4da6-b258-16591e15c636",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "HandScroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

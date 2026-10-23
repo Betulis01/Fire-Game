@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3f5acf035df73f4a8269163ed4f6e5f, type: 3}
+  m_Name: Axe Skill Tree
+  m_EditorClassIdentifier: Assembly-CSharp::SkillTree
+  weapon: 1
+  displayName: Axe
+  icon: {fileID: 21300000, guid: 33b662754aa443a44bc6b0f364da3c98, type: 3}
+  nodes:
+  - id: axe_a
+    displayName: Axe Skill A
+    description: 
+    kind: 0
+    maxRank: 2
+    parents: []
+    size: 0
+    position: {x: 0, y: 0}
+    icon: {fileID: 0}
+  - id: axe_b
+    displayName: Axe Skill B
+    description: 
+    kind: 0
+    maxRank: 2
+    parents: []
+    size: 0
+    position: {x: 72, y: 0}
+    icon: {fileID: 0}
+  - id: axe_whirlwind
+    displayName: Whirlwind
+    description: Spin with your axe held out, striking everything around you on every
+      turn.
+    kind: 1
+    maxRank: 1
+    parents:
+    - axe_a
+    - axe_b
+    size: 1
+    position: {x: 38, y: 87}
+    icon: {fileID: 21300000, guid: b5c59c9ad07a4e94ab9e9c6f4a2d5cd4, type: 3}

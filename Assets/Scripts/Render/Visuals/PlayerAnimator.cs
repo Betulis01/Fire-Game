@@ -14,9 +14,12 @@ using UnityEngine;
 //   se_attack_l ne_attack_l  se_attack_r ne_attack_r  (generic, any tool)
 //   {se,ne}_attack_{style}_{l,r}  (per Tool.AttackStyle: slash = swords, hack = axes)
 //   se_hit ne_hit  (played from OnHit when a hit lands; never interrupts a swing)
+//   whirlwind      (a spell: one full turn, drawn as a spin; see PlayCast)
 //
 // Attacks go through PlayAttack(side, duration, aimDir, style), which latches the
-// attack state until its clip finishes so movement can't cut the swing off.
+// attack state until its clip finishes so movement can't cut the swing off. Spells
+// go through PlayCast(state, loops, mirrored), which latches the same way for
+// `loops` plays of a looping clip.
 //
 // Order -100: LateUpdate mirrors the hand anchors after the Animator writes them
 // and before HeldItemRotationFilter (default order 0) reads them.
@@ -62,6 +65,8 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     string attackState;
     string attackStyle;   // the swing's Tool.AttackStyle, kept so RetargetAttack stays in the same clip family
     float attackFailsafe;
+    int attackLoops = 1;  // plays of the clip before the attack ends (PlayCast spins loop it)
+    bool casting;         // the latched state is a spell (PlayCast), not a weapon swing
 
     // Hit reaction: holds until hitUntil, then locomotion resumes.
     float hitUntil;
@@ -72,6 +77,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     public Vector2 Facing => facing;
     public bool FlipX { get; private set; }
     public bool IsAttacking => attacking;
+    public bool IsCasting => attacking && casting;
 
     void Awake()
     {
@@ -101,7 +107,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
         if (attacking)
         {
             AnimatorStateInfo st = animator.GetCurrentAnimatorStateInfo(0);
-            bool clipDone = st.IsName(attackState) && st.normalizedTime >= 1f;
+            bool clipDone = st.IsName(attackState) && st.normalizedTime >= attackLoops;
             if (clipDone || Time.time >= attackFailsafe) attacking = false;
         }
 
@@ -240,10 +246,41 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
         attackState = state;
         attackStyle = style;
         attacking = true;
+        attackLoops = 1;
+        casting = false;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);
         ApplyFlip(flip);       // now, so Hands.Anchor agrees with the suffix this frame
         currentState = null;   // force the next Play to switch
         animator.speed = 1f;   // in case a prior charge left it paused
+    }
+
+    // Play a spell's clip `loops` times in a row (its state's clip must loop), latched
+    // like an attack: movement and new swings can't cut it off. The clip itself is
+    // non-directional (e.g. a full spin); `mirrored` plays it flipped, which also swaps
+    // the hand anchors (Hands.Anchor), so a left-hand cast swings on the anchor the
+    // clip animates. Returns false when the state doesn't exist.
+    public bool PlayCast(string state, int loops, bool mirrored)
+    {
+        if (!animator.HasState(0, Animator.StringToHash(state)))
+        {
+            if (warnedMissingStates.Add(state))
+                Debug.LogWarning($"[PlayerAnimator] No '{state}' state in the Animator — can't cast.", this);
+            return false;
+        }
+
+        // Update re-derives the flip from `facing` every frame, so park facing on the
+        // SE/SW diagonal that resolves to the wanted mirror
+        facing = mirrored ? new Vector2(-1f, -1f) : new Vector2(1f, -1f);
+        attackState = state;
+        attackStyle = null;
+        attacking = true;
+        attackLoops = Mathf.Max(1, loops);
+        casting = true;
+        attackFailsafe = Time.time + Mathf.Max(attackLoops * 2f, 3f);
+        ApplyFlip(mirrored);
+        currentState = null;
+        animator.speed = 1f;
+        return true;
     }
 
     // Re-aims the in-progress attack clip: called from the swing Animation Event
@@ -256,7 +293,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     // a weapon missing the target direction's clip just keeps the current one.
     public void RetargetAttack(HandSide side, Vector2 aimDir)
     {
-        if (!attacking) return;
+        if (!attacking || casting) return;
 
         string state = AttackState(side, aimDir, attackStyle, out bool flip);
         if (state == attackState) return;

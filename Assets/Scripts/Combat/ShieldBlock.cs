@@ -1,6 +1,7 @@
 using UnityEngine;
 
-// Right-click blocking with a Shield held in either hand: raises the hand rig
+// Blocking with a Shield: holding the Use button of the hand that carries it (LMB
+// = left, RMB = right) raises the hand rig
 // (visually lifting the shield in front of the body) and reduces incoming damage
 // while held. IsBlocking/DamageReduction are read by Health.OnHit, the same way it
 // already reads ToolDamageFilter -- a per-hit gate, not a mutation of HitInfo
@@ -28,24 +29,24 @@ public class ShieldBlock : MonoBehaviour
 
     void Update()
     {
-        activeShield = FindShield();
-        IsBlocking = activeShield != null && UserInput.Instance.BlockHeld;
+        activeShield = FindBlockingShield();
+        IsBlocking = activeShield != null;
 
         if (playerAnimator == null || playerAnimator.handRig == null) return;
         Vector3 offset = IsBlocking ? (Vector3)activeShield.raiseOffset : Vector3.zero;
         playerAnimator.handRig.localPosition = restHandRigPos + offset;
     }
 
-    // Either hand -- a shield in the off-hand should still block while the other
-    // hand swings a weapon.
-    Shield FindShield()
+    // The shield whose hand's Use button is held, if any. Each hand blocks on its
+    // own button, so the other hand can still swing a weapon meanwhile.
+    Shield FindBlockingShield()
     {
-        GameObject left = hands.Held(HandSide.Left);
-        if (left != null && left.TryGetComponent(out Shield leftShield)) return leftShield;
-
-        GameObject right = hands.Held(HandSide.Right);
-        if (right != null && right.TryGetComponent(out Shield rightShield)) return rightShield;
-
+        foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
+        {
+            GameObject item = hands.Held(side);
+            if (item != null && item.TryGetComponent(out Shield shield) && UserInput.Instance.UseHeld(side))
+                return shield;
+        }
         return null;
     }
 }

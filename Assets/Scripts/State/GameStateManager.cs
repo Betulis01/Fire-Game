@@ -27,9 +27,13 @@ public class GameStateManager : MonoBehaviour
 
     void Update()
     {
-        // Esc/Start toggles pause, but only while playing/paused
+        // Esc/Start toggles pause, but only while playing/paused. While playing it
+        // first backs out of whatever is "on top": a placement ghost, then the HUD
+        // menu -- one owner for the key, so frame order can't make it do both.
         if (UserInput.Instance.Pause)
         {
+            if (State == GameState.Playing && (PlacementGhost.CancelActive() || (HudMenu.Instance != null && HudMenu.Instance.TryClose())))
+                return;
             if (State == GameState.Playing) SetState(GameState.Paused);
             else if (State == GameState.Paused) SetState(GameState.Playing);
         }

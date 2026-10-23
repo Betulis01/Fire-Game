@@ -32,12 +32,22 @@ public class CombatText : MonoBehaviour
         Instance.SpawnInternal(worldPos, amount, style, heal);
     }
 
-    void SpawnInternal(Vector3 worldPos, float amount, PopupStyle style, bool heal)
+    // Free-form text instead of a number (e.g. "+2" XP).
+    public static void SpawnText(Vector3 worldPos, string text, PopupStyle style)
+    {
+        if (Instance == null || Instance.popupPrefab == null) return;
+        Instance.Take(worldPos).Play(text, style, false, Instance);
+    }
+
+    void SpawnInternal(Vector3 worldPos, float amount, PopupStyle style, bool heal) =>
+        Take(worldPos).Play(amount, style, heal, this);
+
+    DamagePopup Take(Vector3 worldPos)
     {
         DamagePopup popup = pool.Count > 0 ? pool.Dequeue() : Create();
         popup.transform.position = worldPos;
         popup.gameObject.SetActive(true);
-        popup.Play(amount, style, heal, this);
+        return popup;
     }
 
     DamagePopup Create()

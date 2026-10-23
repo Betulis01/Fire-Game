@@ -280,6 +280,10 @@ GameObject:
   - component: {fileID: 7310000000000000001}
   - component: {fileID: 7310000000000000002}
   - component: {fileID: 7320000000000000001}
+  - component: {fileID: 8483483459779746828}
+  - component: {fileID: 1327526121772987822}
+  - component: {fileID: 5249907805609078014}
+  - component: {fileID: 8118181947786773592}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -635,6 +639,7 @@ MonoBehaviour:
   itemSeRightAnchorFront: 1
   itemNeLeftAnchorFront: 0
   itemNeRightAnchorFront: 0
+  spinCentreY: -0.55
 --- !u!114 &5908559995381518829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,7 +800,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4585e94affb545b19893bc037f1336d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PaperDoll
-  slotOrder: 0500000004000000030000000400000002000000
+  slotOrder: 0500000003000000020000000000000000000000
 --- !u!114 &7320000000000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -809,6 +814,74 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShieldBlock
   playerAnimator: {fileID: 0}
+--- !u!114 &8483483459779746828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1ee3a37ad5444d4caf1eee3e9090b7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerExperience
+  xpPerKill: 2
+  xpPerLevel: 10
+  startLevel: 1
+  popupOffset: {x: 0, y: 1.3, z: 0}
+--- !u!114 &1327526121772987822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5467d219045879b498596c4c2ecc6de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillSlots
+--- !u!114 &5249907805609078014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 748a8ed4d428d4545ad7dfc98ed8d3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponExperience
+  trees:
+  - {fileID: 11400000, guid: 987dba5991e4bd348805b71d21a0a666, type: 2}
+  rules:
+  - kind: 1
+    xpPerHit: 1
+  xpPerLevel: 10
+  pointsPerLevel: 1
+--- !u!114 &8118181947786773592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106e6d688a3ea174fa2ca44c35b2828e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WhirlwindSkill
+  nodeId: axe_whirlwind
+  displayName: Whirlwind
+  icon: {fileID: 21300000, guid: b5c59c9ad07a4e94ab9e9c6f4a2d5cd4, type: 3}
+  state: whirlwind
+  spins: 5
+  radius: 1
+  damageMultiplier: 1
+  cooldown: 8
+  origin: {fileID: 0}
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,12 +1223,6 @@ MonoBehaviour:
   - {fileID: -3257577104064110947, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   - {fileID: 3384332661801788982, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   - {fileID: -9146350683653163389, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
-  - {fileID: -8229129935716407062, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
-  - {fileID: 4642720223358441560, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
-  - {fileID: -8158446907109262232, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
-  - {fileID: -4425981158765294801, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
-  - {fileID: 510475392036237435, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
-  - {fileID: -5791942739054166695, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   orderOffset: 1
 --- !u!1 &8794073900615560940
 GameObject:

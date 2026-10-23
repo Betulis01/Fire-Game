@@ -3,7 +3,9 @@ using UnityEngine;
 
 // General hit-point health for entities (trees, mobs, ...). Player freezing lives
 // in PlayerHealth instead. Consumers react to Died (e.g. DropOnDeath spawns drops).
-// As an IHitReactor it turns a landed hit into damage.
+// As an IHitReactor it turns a landed hit into damage. Damage carries its attacker
+// so the attacker's IDamageDealtReactor/IKillReactor components (XP, ...) hear
+// about it without subscribing to every victim.
 public class Health : MonoBehaviour, IHitReactor
 {
     public float maxHealth = 100f;
@@ -13,11 +15,13 @@ public class Health : MonoBehaviour, IHitReactor
     public event Action<DamageInfo> Damaged;
     public event Action<float> Healed;
     public bool IsDead => current <= 0f;
+    public GameObject Killer { get; private set; }   // attacker of the killing blow; null if environmental
     public float Normalized => maxHealth > 0f ? current / maxHealth : 0f;
 
     protected virtual void Awake() => current = maxHealth;
 
-    public void TakeDamage(float amount, DamageType type = DamageType.Combat, Vector2? point = null)
+    public void TakeDamage(float amount, DamageType type = DamageType.Combat, Vector2? point = null,
+                           GameObject attacker = null, ToolKind kind = ToolKind.None)
     {
         if (amount <= 0f || IsDead) return;
 
@@ -26,8 +30,21 @@ public class Health : MonoBehaviour, IHitReactor
 
         float before = current;
         current = Mathf.Max(0f, current - amount);
-        Damaged?.Invoke(new DamageInfo(before - current, type, point));
-        if (current <= 0f) Died?.Invoke();
+        DamageInfo info = new(before - current, type, point, attacker, kind);
+        Damaged?.Invoke(info);
+
+        if (attacker != null)
+            foreach (IDamageDealtReactor r in attacker.GetComponents<IDamageDealtReactor>())
+                r.OnDealtDamage(this, info);
+
+        if (current > 0f) return;
+
+        // kill reactors run before Died: Died handlers disable/destroy the victim
+        Killer = attacker;
+        if (attacker != null)
+            foreach (IKillReactor r in attacker.GetComponents<IKillReactor>())
+                r.OnKilled(this, info);
+        Died?.Invoke();
     }
 
     public void Heal(float amount)
@@ -51,6 +68,6 @@ public class Health : MonoBehaviour, IHitReactor
         ShieldBlock block = GetComponent<ShieldBlock>();
         float damage = block != null && block.IsBlocking ? hit.damage * (1f - block.DamageReduction) : hit.damage;
 
-        TakeDamage(damage, DamageType.Combat, hit.point);
+        TakeDamage(damage, DamageType.Combat, hit.point, hit.attacker, hit.kind);
     }
 }

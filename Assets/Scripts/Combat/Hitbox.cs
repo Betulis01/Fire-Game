@@ -15,14 +15,18 @@ public class Hitbox : MonoBehaviour
     readonly List<Collider2D> results = new();
     readonly HashSet<Health> hitThisStrike = new();
 
-    public void Strike(in AttackData attack, GameObject owner, Vector2 center)
+    public void Strike(in AttackData attack, GameObject owner, Vector2 center) =>
+        Strike(attack, owner, center, radius);
+
+    // Same, with a one-off strike size (e.g. a Whirlwind's circle around the player).
+    public void Strike(in AttackData attack, GameObject owner, Vector2 center, float strikeRadius)
     {
         ContactFilter2D filter = new ContactFilter2D { useTriggers = true };
         filter.SetLayerMask(hurtboxLayers);
 
         results.Clear();
         hitThisStrike.Clear();
-        Physics2D.OverlapCircle(center, radius, filter, results);
+        Physics2D.OverlapCircle(center, strikeRadius, filter, results);
 
         bool anyHit = false;
         Vector2 contactPoint = center;     // where the circle actually touched a hurtbox

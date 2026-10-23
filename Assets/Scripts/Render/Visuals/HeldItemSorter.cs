@@ -47,6 +47,11 @@ public class HeldItemSorter : MonoBehaviour
     [SerializeField] bool itemNeLeftAnchorFront = false;
     [SerializeField] bool itemNeRightAnchorFront = true;
 
+    [Header("While casting a spin (PlayerAnimator.IsCasting, e.g. Whirlwind)")]
+    [Tooltip("Hand-rig local Y of the spin's centre: an anchor below it is on the near " +
+             "side of the body (draws in front), above it on the far side (behind).")]
+    [SerializeField] float spinCentreY = -0.55f;
+
     Hands hands;
 
     void Awake()
@@ -75,7 +80,10 @@ public class HeldItemSorter : MonoBehaviour
             return;
         }
 
-        bool front = item.GetComponent<Tool>() != null ? WeaponFront(side, se) : ItemFront(side, se);
+        // mid-spin the hands circle the body, so the anchor's depth decides, not facing
+        bool front = playerAnimator.IsCasting ? hands.Anchor(side).localPosition.y < spinCentreY
+            : item.GetComponent<Tool>() != null ? WeaponFront(side, se)
+            : ItemFront(side, se);
         Reorder(item, front);
     }
 

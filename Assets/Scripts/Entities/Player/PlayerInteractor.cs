@@ -5,7 +5,8 @@ using UnityEngine;
 // Drives the whole interaction loop from the player's side:
 // tracks interactables in range, focuses the nearest usable one, floats the "E"
 // prompt over it, and routes the E press into it. The player never needs to know
-// what the interactable actually is.
+// what the interactable actually is. Also owns the selected hand (Tab / scroll
+// wheel), which Q drop, E interact and crafting output act on.
 [RequireComponent(typeof(PlayerController), typeof(Hands))]
 public class PlayerInteractor : MonoBehaviour
 {
@@ -53,10 +54,17 @@ public class PlayerInteractor : MonoBehaviour
         if (UserInput.Instance.Pause && current is StationInteractable focused && focused.IsOpen)
             focused.Close();
 
-        // 1/2 selects active hand. Switching hands cancels an in-progress drop so
-        // the ghost never previews the wrong hand's item.
-        if (UserInput.Instance.SelectLeft) { CancelDropGhost(); SetActiveHand(HandSide.Left); }
-        if (UserInput.Instance.SelectRight) { CancelDropGhost(); SetActiveHand(HandSide.Right); }
+        // Tab toggles the selected hand; the scroll wheel picks a side (up = left,
+        // down = right) rather than toggling, so a smooth-scrolling touchpad sending
+        // many events can't flicker between hands. Switching hands cancels an
+        // in-progress drop so the ghost never previews the wrong hand's item.
+        if (UserInput.Instance.SwitchHand) { CancelDropGhost(); SetActiveHand(Other(ActiveHand)); }
+        int scroll = UserInput.Instance.HandScrollStep;
+        if (scroll != 0)
+        {
+            HandSide side = scroll > 0 ? HandSide.Left : HandSide.Right;
+            if (side != ActiveHand) { CancelDropGhost(); SetActiveHand(side); }
+        }
         if (UserInput.Instance.Pause) CancelDropGhost();
 
         bool menuOpen = current is StationInteractable s && s.IsOpen;
@@ -148,8 +156,11 @@ public class PlayerInteractor : MonoBehaviour
         Vector3 pos = DropPreviewPosition();
         dropGhost.MoveTo(pos);
 
-        if (UserInput.Instance.InteractLeftReleased || UserInput.Instance.Use)
+        // LMB also commits; claim the press so the left hand doesn't swing too
+        bool click = UserInput.Instance.UseLeft;
+        if (UserInput.Instance.InteractLeftReleased || click)
         {
+            if (click) UserInput.Instance.ConsumeUse(HandSide.Left);
             ResolveDrop(pos);
             CancelDropGhost();
         }
@@ -182,12 +193,13 @@ public class PlayerInteractor : MonoBehaviour
         if (current.Interact(player, side)) return;
         if (hands.IsHolding(side))
         {
-            HandSide other = side == HandSide.Left ? HandSide.Right : HandSide.Left;
-            if (current.Interact(player, other)) return;
+            if (current.Interact(player, Other(side))) return;
             // both hands full and neither could take it -> swap into the active hand
             current.Swap(player, side);
         }
     }
+
+    static HandSide Other(HandSide side) => side == HandSide.Left ? HandSide.Right : HandSide.Left;
 
     void SetActiveHand(HandSide side)
     {

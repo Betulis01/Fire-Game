@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Player-side crafting driven by the Survival Journal (JournalUI). The Journal
-// only needs to know what's craftable (HasIngredients/StationSatisfied); clicking a
-// recipe calls TryCraft here, which either hands the player an Instant output or
+// Player-side crafting driven by the HUD menu's Crafting tab (CraftingTabUI). The
+// tab only needs to know what's craftable (HasIngredients/StationSatisfied); clicking
+// a blueprint calls TryCraft here, which either hands the player an Instant output or
 // spawns a PlacementGhost for a Placeable one. Recipes live in a central RecipeBook.
 [RequireComponent(typeof(Hands))]
 public class CraftingController : MonoBehaviour
@@ -16,10 +16,12 @@ public class CraftingController : MonoBehaviour
     public InteractPrompt buildPromptPrefab;
 
     Hands hands;
+    PlayerInteractor interactor;   // selected hand: where crafted output prefers to go
 
     void Awake()
     {
         hands = GetComponent<Hands>();
+        interactor = GetComponent<PlayerInteractor>();
     }
 
     public StationType NearbyStationTypes()
@@ -104,11 +106,14 @@ public class CraftingController : MonoBehaviour
         return true;
     }
 
-    // A hand that will be empty for the output: prefer an input hand whose stack
-    // empties after consuming its amount, else a hand not used as input that's
-    // already empty. Null means there's nowhere to put the result.
+    // A hand that will be empty for the output: the selected hand if it will be
+    // free, else an input hand whose stack empties after consuming its amount, else
+    // a hand not used as input that's already empty. Null means there's nowhere to
+    // put the result.
     HandSide? ChooseOutputHand(List<(HandSide side, int amount)> draws)
     {
+        if (interactor != null && WillBeFree(interactor.ActiveHand, draws)) return interactor.ActiveHand;
+
         foreach ((HandSide side, int amount) in draws)
             if (hands.Count(side) <= amount) return side;
 
@@ -117,6 +122,13 @@ public class CraftingController : MonoBehaviour
             if (!drawHands.Contains(side) && !hands.IsHolding(side)) return side;
 
         return null;
+    }
+
+    bool WillBeFree(HandSide side, List<(HandSide side, int amount)> draws)
+    {
+        foreach ((HandSide s, int amount) in draws)
+            if (s == side) return hands.Count(side) <= amount;
+        return !hands.IsHolding(side);
     }
 
     ItemDefinition ItemIn(HandSide side)

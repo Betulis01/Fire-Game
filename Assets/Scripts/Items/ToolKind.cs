@@ -14,4 +14,5 @@ public enum ToolKind
     Sword = 8,
     Fist = 16,    // empty-handed punch; hurts enemies but not trees/ore
     Torch = 32,   // ignites Flammable targets; hurts enemies but not trees/ore
+    Wand = 64,    // reserved for the Wand skill tree; no wand item yet
 }

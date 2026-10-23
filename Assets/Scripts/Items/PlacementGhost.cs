@@ -1,13 +1,16 @@
 using UnityEngine;
 
 // A transparent preview of a Placeable recipe's output. CraftingController spawns
-// one when the player picks a Placeable recipe in the Journal; it follows the
-// player's aim until placed (Attack) or cancelled (Journal key again). Once placed
+// one when the player picks a Placeable recipe on the HUD menu's Crafting tab; it
+// follows the player's aim until placed (left click) or cancelled (Esc or the menu
+// key, via CancelActive -- GameStateManager / HudMenu own those keys). Once placed
 // it adds a BuildRequirement that waits for materials dropped on top of it and
 // calls back into Complete() to turn the ghost into the real, opaque structure.
 public class PlacementGhost : MonoBehaviour
 {
     public static bool AnyActive { get; private set; }
+
+    static PlacementGhost active;   // the ghost still following the cursor, if any
 
     Recipe recipe;
     Transform follow;
@@ -36,6 +39,7 @@ public class PlacementGhost : MonoBehaviour
         this.distance = distance;
         this.buildPromptPrefab = buildPromptPrefab;
         AnyActive = true;
+        active = this;
 
         renderers = GetComponentsInChildren<SpriteRenderer>();
         colliders = GetComponentsInChildren<Collider2D>();
@@ -55,14 +59,28 @@ public class PlacementGhost : MonoBehaviour
 
         transform.position = UserInput.Instance.AimPoint(follow.position, cam, distance);
 
-        if (UserInput.Instance.Journal) { Cancel(); return; }
-        if (UserInput.Instance.Use) Place();
+        // claim the click so the left hand doesn't also swing at the build spot
+        if (UserInput.Instance.UseLeft)
+        {
+            UserInput.Instance.ConsumeUse(HandSide.Left);
+            Place();
+        }
+    }
+
+    // Cancel the ghost that's still following the cursor. Returns whether there was
+    // one, so a key that cancels (Esc, the menu key) can skip its normal action.
+    public static bool CancelActive()
+    {
+        if (active == null || active.placed) return false;
+        active.Cancel();
+        return true;
     }
 
     void Place()
     {
         placed = true;
-        AnyActive = false;   // ghost is no longer following; journal can reopen now
+        AnyActive = false;   // ghost is no longer following
+        if (active == this) active = null;
         BuildRequirement req = gameObject.AddComponent<BuildRequirement>();
         req.Init(recipe, this, buildPromptPrefab);
     }
@@ -88,6 +106,7 @@ public class PlacementGhost : MonoBehaviour
     void Cancel()
     {
         AnyActive = false;
+        if (active == this) active = null;
         Destroy(gameObject);
     }
 

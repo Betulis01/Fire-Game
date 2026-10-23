@@ -9,9 +9,9 @@ using UnityEngine;
 public class PaperDoll : MonoBehaviour
 {
     [Tooltip("Sorting order above the body per slot, in EquipSlot order " +
-             "(Head, Shoulders, Chest, Hands, Legs). The body's Head layer is +1, " +
+             "(Head, Chest, Legs, Ring, Amulet). The body's Head layer is +1, " +
              "held items in front are +6 (HeldItemSorter).")]
-    [SerializeField] int[] slotOrder = { 5, 4, 3, 4, 2 };
+    [SerializeField] int[] slotOrder = { 5, 3, 2, 0, 0 };
 
     Equipment equipment;
     SpriteLayerFollower[] slots;

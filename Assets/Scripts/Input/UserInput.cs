@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 // Central input hub. Lives on the "Input Manager" GameObject and is the single
@@ -7,6 +8,9 @@ using UnityEngine.InputSystem;
 // the Input System directly; they poll UserInput.Instance instead, e.g.
 //   if (UserInput.Instance.InteractLeft) ...
 //   Vector2 move = UserInput.Instance.Move;
+// Runs early (-100) so its per-frame state (pointer-over-UI latch, consumed
+// presses) is settled before any gameplay script reads it.
+[DefaultExecutionOrder(-100)]
 public class UserInput : MonoBehaviour
 {
     public static UserInput Instance { get; private set; }
@@ -28,18 +32,28 @@ public class UserInput : MonoBehaviour
     InputAction moveAction;
     InputAction pointAction;
     InputAction aimAction;
-    InputAction useAction;
-    InputAction blockAction;
+    InputAction useLeftAction;      // LMB: whatever the left hand does (swing, eat, block)
+    InputAction useRightAction;     // RMB: same for the right hand
     InputAction interactLeftAction;
     InputAction interactRightAction;
-    InputAction selectLeftAction;
-    InputAction selectRightAction;
-    InputAction journalAction;
+    InputAction skill1Action;       // left hand's action slot
+    InputAction skill2Action;       // right hand's action slot
+    InputAction switchHandAction;
+    InputAction handScrollAction;
+    InputAction menuAction;
     InputAction pauseAction;
     // Debug map
     InputAction toggleInvincibilityAction;
     InputAction toggleReadoutAction;
     InputAction toggleDayNightAction;
+
+    // Per hand (index = (int)HandSide): a mouse press that began over the HUD is
+    // swallowed until its release, so clicking a menu button never swings or
+    // blocks. consumedFrame lets one reader claim a press (e.g. PlacementGhost
+    // placing) so later readers in the same frame don't also act on it.
+    readonly bool[] suppressed = new bool[2];
+    readonly int[] consumedFrame = { -1, -1 };
+    bool pointerOverUI;
 
     void Awake()
     {
@@ -61,13 +75,15 @@ public class UserInput : MonoBehaviour
         moveAction = playerMap.FindAction("Move", true);
         pointAction = playerMap.FindAction("Point", true);
         aimAction = playerMap.FindAction("Aim", true);
-        useAction = playerMap.FindAction("Use", true);
-        blockAction = playerMap.FindAction("Block", true);
+        useLeftAction = playerMap.FindAction("UseLeft", true);
+        useRightAction = playerMap.FindAction("UseRight", true);
         interactLeftAction = playerMap.FindAction("InteractLeft", true);
         interactRightAction = playerMap.FindAction("InteractRight", true);
-        selectLeftAction = playerMap.FindAction("SelectLeft", true);
-        selectRightAction = playerMap.FindAction("SelectRight", true);
-        journalAction = playerMap.FindAction("Journal", true);
+        skill1Action = playerMap.FindAction("Skill1", true);
+        skill2Action = playerMap.FindAction("Skill2", true);
+        switchHandAction = playerMap.FindAction("SwitchHand", true);
+        handScrollAction = playerMap.FindAction("HandScroll", true);
+        menuAction = playerMap.FindAction("Menu", true);
 
         globalMap = actions.FindActionMap("Global", throwIfNotFound: true);
         pauseAction = globalMap.FindAction("Pause", true);
@@ -101,23 +117,77 @@ public class UserInput : MonoBehaviour
         else playerMap.Disable();
     }
 
+    void Update()
+    {
+        pointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+
+        for (int i = 0; i < 2; i++)
+        {
+            InputAction use = UseAction((HandSide)i);
+            if (use == null) continue;
+
+            // a swallowed press stays swallowed through its release frame
+            if (suppressed[i] && !use.IsPressed() && !use.WasReleasedThisFrame()) suppressed[i] = false;
+
+            // only the mouse is gated by the cursor; a gamepad trigger isn't
+            // "over" the HUD just because the cursor happens to rest on it
+            if (use.WasPressedThisFrame())
+                suppressed[i] = pointerOverUI && use.activeControl?.device is Mouse;
+        }
+    }
+
+    InputAction UseAction(HandSide side) => side == HandSide.Left ? useLeftAction : useRightAction;
+
     // --- Movement ---
     public Vector2 Move => moveAction != null ? moveAction.ReadValue<Vector2>() : Vector2.zero;
 
     // --- One-shot buttons (true only on the frame the control is pressed) ---
-    public bool Use => useAction != null && useAction.WasPressedThisFrame();
-    public bool UseHeld => useAction != null && useAction.IsPressed();
-    public bool UseReleased => useAction != null && useAction.WasReleasedThisFrame();
-    public bool Block => blockAction != null && blockAction.WasPressedThisFrame();
-    public bool BlockHeld => blockAction != null && blockAction.IsPressed();
-    public bool BlockReleased => blockAction != null && blockAction.WasReleasedThisFrame();
+    // Use buttons, one per hand (LMB = left, RMB = right). All three read false for
+    // a mouse press that started over the HUD; UsePressed also reads false once a
+    // reader has claimed this frame's press with ConsumeUse.
+    public bool UsePressed(HandSide side)
+    {
+        InputAction a = UseAction(side);
+        return a != null && !suppressed[(int)side] && consumedFrame[(int)side] != Time.frameCount
+            && a.WasPressedThisFrame();
+    }
+    public bool UseHeld(HandSide side)
+    {
+        InputAction a = UseAction(side);
+        return a != null && !suppressed[(int)side] && a.IsPressed();
+    }
+    public bool UseReleased(HandSide side)
+    {
+        InputAction a = UseAction(side);
+        return a != null && !suppressed[(int)side] && a.WasReleasedThisFrame();
+    }
+    public bool UseLeft => UsePressed(HandSide.Left);
+    public bool UseRight => UsePressed(HandSide.Right);
+    public void ConsumeUse(HandSide side) => consumedFrame[(int)side] = Time.frameCount;
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
     public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
     public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();
     public bool InteractRight => interactRightAction != null && interactRightAction.WasPressedThisFrame();
-    public bool SelectLeft => selectLeftAction != null && selectLeftAction.WasPressedThisFrame();
-    public bool SelectRight => selectRightAction != null && selectRightAction.WasPressedThisFrame();
-    public bool Journal => journalAction != null && journalAction.WasPressedThisFrame();
+    public bool SkillPressed(HandSide side)
+    {
+        InputAction a = side == HandSide.Left ? skill1Action : skill2Action;
+        return a != null && a.WasPressedThisFrame();
+    }
+    public bool SwitchHand => switchHandAction != null && switchHandAction.WasPressedThisFrame();
+    public bool Menu => menuAction != null && menuAction.WasPressedThisFrame();
+
+    // Scroll wheel this frame as a step: +1 (up), -1 (down) or 0.
+    public int HandScrollStep
+    {
+        get
+        {
+            float y = handScrollAction != null ? handScrollAction.ReadValue<float>() : 0f;
+            return y > 0.01f ? 1 : y < -0.01f ? -1 : 0;
+        }
+    }
+
+    // Whether the mouse cursor is over a raycastable HUD element this frame.
+    public bool PointerOverUI => pointerOverUI;
     public bool Pause => pauseAction != null && pauseAction.WasPressedThisFrame();
     public bool ToggleInvincibility => toggleInvincibilityAction != null && toggleInvincibilityAction.WasPressedThisFrame();
     public bool ToggleReadout => toggleReadoutAction != null && toggleReadoutAction.WasPressedThisFrame();

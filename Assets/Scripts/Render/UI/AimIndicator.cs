@@ -63,19 +63,20 @@ public class AimIndicator : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, angle + spriteAngleOffset);
     }
 
-    // Reach of the hand the next attack would use (WeaponUse.ResolveAttackHand),
-    // measured to the FURTHEST point of the strike: Tool.range (strike center
+    // Reach of the hand that's swinging right now (WeaponUse's pending swing), or
+    // the larger reach of the two hands when idle -- each hand has its own button,
+    // so there's no single "next" hand. Measured to the FURTHEST point of the strike: Tool.range (strike center
     // distance) + Hitbox.radius (how far the strike circle extends past it) for
     // melee, or RangedWeapon.GetRange (live charge fraction lerped toward
     // chargedRange) for a bow. ActiveItem is the held item or the default fists
     // when empty, so bare hands count (fists are a Tool). Returns false when that
-    // hand can't swing (it holds a non-tool, e.g. wood). Without a WeaponUse, falls
-    // back to the larger reach of the two hands.
+    // hand can't swing (it holds a non-tool, e.g. wood).
     bool TryActiveRange(out float range)
     {
         range = 0f;
         if (hands == null) return false;
-        if (weaponUse != null) return Consider(weaponUse.ResolveAttackHand(), ref range);
+        if (weaponUse != null && weaponUse.TryGetPendingSide(out HandSide swinging))
+            return Consider(swinging, ref range);
 
         bool any = Consider(HandSide.Left, ref range);
         any |= Consider(HandSide.Right, ref range);

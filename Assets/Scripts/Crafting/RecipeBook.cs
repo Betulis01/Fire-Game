@@ -30,7 +30,7 @@ public class Recipe
 }
 
 // Central list of every recipe in the game. Assigned on the player's
-// CraftingController and read by the Journal UI.
+// CraftingController and read by the HUD menu's Crafting tab.
 [CreateAssetMenu(menuName = "Items/Recipe Book")]
 public class RecipeBook : ScriptableObject
 {
