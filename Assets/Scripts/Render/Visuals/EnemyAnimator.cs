@@ -3,8 +3,10 @@ using UnityEngine;
 
 // Drives the enemy's Animator from EnemyBrain.MoveDirection. Same directional-pose
 // scheme and state naming as PlayerAnimator (NE/SE, NW/SW mirrored via flipX):
-//   se_idle ne_idle  se_run ne_run  se_attack ne_attack  se_hit ne_hit
-// The hit pair plays from OnHit (a landed hit) and never interrupts a swing.
+//   se_idle ne_idle  se_run ne_run  se_attack ne_attack  se_hit ne_hit  se_die ne_die
+// The hit pair plays from OnHit (a landed hit) and never interrupts a swing. The die
+// pair plays once on Health.Died and then holds its last frame for good (an enemy
+// without die art -- no such state -- just keeps its current pose).
 // Attacks route through PlayAttack(duration, aimDir), the same latch-until-clip-done
 // scheme as PlayerAnimator.PlayAttack, just without a HandSide (the enemy swings one
 // weapon, not two hands) — see EnemyAttacker.
@@ -37,6 +39,7 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
     string attackState;
 
     float hitUntil;   // hit reaction holds until then
+    bool dead;        // the die clip owns the Animator from here on
 
     // Missing-clip states we've already warned about (see PlayAttack), shared across
     // every enemy instance — logged once total rather than once per enemy per frame.
@@ -56,10 +59,13 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
 
         brain = GetComponent<EnemyBrain>();
         if (animator == null) animator = GetComponent<Animator>();
+        if (TryGetComponent(out Health health)) health.Died += PlayDeath;
     }
 
     void Update()
     {
+        if (dead) return;
+
         Vector2 move = brain.MoveDirection;
         bool moving = move.sqrMagnitude > moveDeadzone * moveDeadzone;
         if (moving) facing = move;
@@ -80,6 +86,20 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
         }
 
         Play(Time.time < hitUntil ? $"{dir}_hit" : $"{dir}_{(moving ? "run" : "idle")}");
+    }
+
+    // Play the die clip for the current facing (west mirrors via the flipX already
+    // set), once. The clip doesn't loop, so the Animator holds its last frame.
+    void PlayDeath()
+    {
+        (string dir, _) = CardinalDir.Resolve(facing);
+        string state = $"{dir}_die";
+        if (!animator.HasState(0, Animator.StringToHash(state))) return;
+
+        dead = true;
+        attacking = false;
+        currentState = state;
+        animator.Play(state, 0, 0f);
     }
 
     // A landed hit (Hurtbox fans it out to every IHitReactor on this entity).

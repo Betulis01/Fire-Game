@@ -5,17 +5,23 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 // Keeps hand-made Animator clips that play an Aseprite tag pointed at the right
-// frames. The Aseprite importer names merged-frame sprites by frame number
-// ("Frame_N") and their IDs follow the name, so inserting or deleting a frame in
-// Aseprite silently shifts every clip keyed after it by that many frames (e.g. a
-// new unlit frame 0 on the campfire made "ember" start on the unlit frame).
+// frames. The Aseprite importer names sprites by frame number ("Frame_N", or
+// "<Layer>_Frame_N" for files imported as separate layers) and the stored sprite
+// references follow those names, so inserting or deleting a frame in Aseprite
+// silently shifts or breaks every clip keyed after it -- e.g. a new unlit frame 0
+// made the campfire's "ember" start on the unlit frame, and trimming the skeleton's
+// die frames left its die clips' Head keys pointing at sprites that no longer exist.
 //
-// For every Animator state whose clip keys root sprites from an .aseprite file that
-// has a tag with the state's name, key i is rewritten to the tag's frame i (extra
-// hold key keeps its last frame), taken from the importer's own clip for that tag.
-// Only clips with one key per tag frame are touched, so hand-ordered ones survive.
-// Files imported as separate layers (the player's paper doll) have one curve per
-// layer and are left to GearSpriteSync. Runs after any .aseprite import and from
+// For every Animator state whose clip keys sprites from an .aseprite file that has a
+// tag with the state's name, each sprite track's key i is rewritten to the tag's
+// frame i (an extra hold key keeps its last frame), taken from the importer's own
+// clip for that tag:
+//   - single-layer files: the clip's root track <- the tag clip's only track
+//   - layered files (the skeleton's Body / Head): each track <- the tag clip's track
+//     on the same layer path
+// The player's clips key the root while its file is layered, so they never match
+// here and stay with GearSpriteSync. Only tracks with one key per tag frame are
+// touched, so hand-ordered ones survive. Runs after any .aseprite import and from
 // Tools/Aseprite/Sync Tag Clips.
 class AsepriteTagClipSync : AssetPostprocessor
 {
@@ -28,8 +34,8 @@ class AsepriteTagClipSync : AssetPostprocessor
     [MenuItem("Tools/Aseprite/Sync Tag Clips")]
     static void Sync()
     {
-        var binding = EditorCurveBinding.PPtrCurve("", typeof(SpriteRenderer), "m_Sprite");
-        var tagCache = new Dictionary<(string, string), Sprite[]>();
+        var tagCache = new Dictionary<(string, string), Dictionary<string, Sprite[]>>();
+        var done = new HashSet<AnimationClip>();
         int changed = 0;
 
         foreach (string guid in AssetDatabase.FindAssets("t:AnimatorController"))
@@ -39,35 +45,52 @@ class AsepriteTagClipSync : AssetPostprocessor
 
             foreach (AnimatorState state in controller.layers.SelectMany(l => AllStates(l.stateMachine)))
             {
-                if (state.motion is not AnimationClip clip) continue;
+                if (state.motion is not AnimationClip clip || !done.Add(clip)) continue;
 
-                ObjectReferenceKeyframe[] kf = AnimationUtility.GetObjectReferenceCurve(clip, binding);
-                if (kf == null || kf.Length == 0) continue;
+                EditorCurveBinding[] tracks = AnimationUtility.GetObjectReferenceCurveBindings(clip)
+                    .Where(b => b.propertyName == "m_Sprite" && b.type == typeof(SpriteRenderer))
+                    .ToArray();
+                if (tracks.Length == 0) continue;
 
-                // the source file: any key whose sprite still resolves
-                string source = kf.Select(k => AssetDatabase.GetAssetPath(k.value))
-                                  .FirstOrDefault(p => p != null && p.EndsWith(".aseprite"));
+                // the source file: any key on any track whose sprite still resolves
+                // (a track whose keys all broke can't name it itself)
+                string source = tracks
+                    .SelectMany(t => AnimationUtility.GetObjectReferenceCurve(clip, t))
+                    .Select(k => k.value != null ? AssetDatabase.GetAssetPath(k.value) : null)
+                    .FirstOrDefault(p => p != null && p.EndsWith(".aseprite"));
                 if (source == null) continue;
 
-                if (!tagCache.TryGetValue((source, state.name), out Sprite[] frames))
-                    tagCache[(source, state.name)] = frames = TagFrames(source, state.name);
-                if (frames == null || frames.Length == 0) continue;
+                if (!tagCache.TryGetValue((source, state.name), out var tag))
+                    tagCache[(source, state.name)] = tag = TagTracks(source, state.name);
+                if (tag == null) continue;
 
-                // one key per tag frame (+ an optional hold key on the end); anything
-                // else (ping-pong, reordered or skipped frames) was keyed by hand on purpose
-                if (kf.Length != frames.Length && kf.Length != frames.Length + 1) continue;
-
-                bool dirty = false;
-                for (int i = 0; i < kf.Length; i++)
+                bool clipChanged = false;
+                foreach (EditorCurveBinding track in tracks)
                 {
-                    Sprite want = frames[Mathf.Min(i, frames.Length - 1)];
-                    if (kf[i].value == want) continue;
-                    kf[i].value = want;
-                    dirty = true;
-                }
-                if (!dirty) continue;
+                    Sprite[] frames = FramesFor(track.path, tag);
+                    if (frames == null || frames.Length == 0) continue;
 
-                AnimationUtility.SetObjectReferenceCurve(clip, binding, kf);
+                    ObjectReferenceKeyframe[] kf = AnimationUtility.GetObjectReferenceCurve(clip, track);
+
+                    // one key per tag frame (+ an optional hold key on the end); anything
+                    // else (ping-pong, reordered or skipped frames) was keyed by hand on purpose
+                    if (kf.Length != frames.Length && kf.Length != frames.Length + 1) continue;
+
+                    bool dirty = false;
+                    for (int i = 0; i < kf.Length; i++)
+                    {
+                        Sprite want = frames[Mathf.Min(i, frames.Length - 1)];
+                        if (kf[i].value == want) continue;
+                        kf[i].value = want;
+                        dirty = true;
+                    }
+                    if (!dirty) continue;
+
+                    AnimationUtility.SetObjectReferenceCurve(clip, track, kf);
+                    clipChanged = true;
+                }
+                if (!clipChanged) continue;
+
                 EditorUtility.SetDirty(clip);
                 changed++;
                 Debug.Log($"[AsepriteTagClipSync] Re-pointed '{clip.name}' (state '{state.name}') to tag frames of {source}.", clip);
@@ -77,24 +100,34 @@ class AsepriteTagClipSync : AssetPostprocessor
         if (changed > 0) AssetDatabase.SaveAssets();
     }
 
-    // The tag's sprites in frame order, from the importer's generated clip of that
-    // name; null when there's no such tag or the file is imported per layer.
-    static Sprite[] TagFrames(string asepritePath, string tag)
+    // The tag clip's track for a hand-made clip's track path: the only track, for the
+    // root of a single-layer file; otherwise the track on the same layer path.
+    static Sprite[] FramesFor(string path, Dictionary<string, Sprite[]> tag)
+    {
+        if (tag.TryGetValue(path, out Sprite[] frames)) return frames;
+        if (path == "" && tag.Count == 1) return tag.Values.First();
+        return null;
+    }
+
+    // layer path -> the tag's sprites in frame order, from the importer's generated
+    // clip of that name; null when the file has no such tag.
+    static Dictionary<string, Sprite[]> TagTracks(string asepritePath, string tag)
     {
         AnimationClip gen = AssetDatabase.LoadAllAssetsAtPath(asepritePath)
                                          .OfType<AnimationClip>()
                                          .FirstOrDefault(c => c.name == tag);
         if (gen == null) return null;
 
-        EditorCurveBinding[] sprites = AnimationUtility.GetObjectReferenceCurveBindings(gen)
-                                                       .Where(b => b.propertyName == "m_Sprite")
-                                                       .ToArray();
-        if (sprites.Length != 1) return null;
-
-        return AnimationUtility.GetObjectReferenceCurve(gen, sprites[0])
-                               .OrderBy(k => k.time)
-                               .Select(k => k.value as Sprite)
-                               .ToArray();
+        var tracks = new Dictionary<string, Sprite[]>();
+        foreach (EditorCurveBinding b in AnimationUtility.GetObjectReferenceCurveBindings(gen))
+        {
+            if (b.propertyName != "m_Sprite") continue;
+            tracks[b.path] = AnimationUtility.GetObjectReferenceCurve(gen, b)
+                                             .OrderBy(k => k.time)
+                                             .Select(k => k.value as Sprite)
+                                             .ToArray();
+        }
+        return tracks;
     }
 
     static IEnumerable<AnimatorState> AllStates(AnimatorStateMachine sm) =>

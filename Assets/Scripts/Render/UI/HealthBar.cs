@@ -39,6 +39,14 @@ public class HealthBar : MonoBehaviour
     {
         if (health == null || fill == null) return;
 
+        // a corpse (EntityDeath.keepBody) has no health left to show
+        if (health.IsDead)
+        {
+            if (fill.gameObject.activeSelf) fill.gameObject.SetActive(false);
+            if (background != null && background.gameObject.activeSelf) background.gameObject.SetActive(false);
+            return;
+        }
+
         float n = health.Normalized;
         if (Mathf.Approximately(n, lastNormalized)) return;
         lastNormalized = n;

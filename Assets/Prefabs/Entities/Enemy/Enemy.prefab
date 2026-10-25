@@ -670,8 +670,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityDeath
   destroyDelay: 0
+  keepBody: 1
   deathTrigger: 
-  disableOnDeath: []
+  disableOnDeath:
+  - {fileID: 7522230735282061757}
+  - {fileID: -2873041553864755815}
+  - {fileID: 9186625054510859394}
+  - {fileID: -2252976718455288882}
+  - {fileID: 7881639635714789569}
+  - {fileID: 6520143798241125390}
 --- !u!114 &7881639635714789569
 MonoBehaviour:
   m_ObjectHideFlags: 0
