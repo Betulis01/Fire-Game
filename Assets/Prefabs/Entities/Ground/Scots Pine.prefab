@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8321555764355061064}
-  - component: {fileID: 4304858177802777430}
+  - component: {fileID: 8963228039241373610}
   m_Layer: 3
   m_Name: ColliderArea
   m_TagString: Untagged
@@ -32,8 +32,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8477599328861590345}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4304858177802777430
-BoxCollider2D:
+--- !u!60 &8963228039241373610
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -66,7 +66,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.3}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -76,8 +76,15 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.25, y: 0.2}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.082232, y: 0.21969366}
+      - {x: -0.032084465, y: 0.23378015}
+      - {x: -0.1468373, y: 0.16322306}
+      - {x: -0.08960956, y: 0.0666424}
+      - {x: 0.040819287, y: 0.06921029}
+      - {x: 0.1216197, y: 0.13953441}
+  m_UseDelaunayMesh: 1
 --- !u!1 &1719088763116050398
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 1719088763116050398}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.0028, y: -0.1298, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -146,8 +153,8 @@ MonoBehaviour:
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: -0.017364502, y: 0.24999237, z: 0}
-      m_Extent: {x: 0.046905518, y: 0.046913147, z: 0}
+      m_Center: {x: -0.017372131, y: 0.28712463, z: 0}
+      m_Extent: {x: 0.08403778, y: 0.08404541, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0
     m_FlipX: 0
@@ -198,8 +205,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.017370742, y: 0.25}
-  m_Radius: 0.04691427
+  m_Offset: {x: -0.017370746, y: 0.28713313}
+  m_Radius: 0.08404741
 --- !u!1 &4632119128080849101
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,6 +514,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityDeath
   destroyDelay: 0
+  keepBody: 0
   deathTrigger: 
   disableOnDeath: []
 --- !u!114 &5500000000000000003
@@ -623,7 +631,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.033612505, y: 0.55387557}
+  m_Offset: {x: -0.012012884, y: 0.41909444}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -633,5 +641,5 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.20206848, y: 0.8684728}
+  m_Size: {x: 0.24526772, y: 0.59891057}
   m_EdgeRadius: 0
