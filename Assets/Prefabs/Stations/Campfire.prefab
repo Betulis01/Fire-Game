@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1154560836893819345}
   - component: {fileID: 9021322263627388729}
+  - component: {fileID: 8278044099336305386}
   m_Layer: 0
   m_Name: CampfireLight (1)
   m_TagString: Untagged
@@ -363,7 +364,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -317825125816557920, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.89411765}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -567,8 +568,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemyPrefabs:
   - {fileID: 3988275448378025111, guid: 0ea381230697ef946be99c9bc7f180bf, type: 3}
-  minRadius: 5
-  maxRadius: 10
+  minRadius: 1
+  maxRadius: 5
   minSpawnInterval: 2
   maxSpawnInterval: 15
 --- !u!114 &454879806358771460
@@ -713,3 +714,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3628597009603593209, guid: 45d01a2bafd738e4f853c65012f5c5f8, type: 3}
   m_PrefabInstance: {fileID: 5958755821912270564}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8278044099336305386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5440219823183874435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39287bb438c04ff991408ba9d05bc63e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowLight
+  radius: 3

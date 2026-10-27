@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(DropOnDeath.Drop))]
+[CustomPropertyDrawer(typeof(DropOnHit.Drop))]
 public class DropDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)

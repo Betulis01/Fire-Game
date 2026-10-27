@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6a857caf40dc167cdcac95b0f023ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollideAnimation
-  animator: {fileID: 0}
+  animator: {fileID: -6101901726582534217}
   entityLayers:
     serializedVersion: 2
     m_Bits: 520

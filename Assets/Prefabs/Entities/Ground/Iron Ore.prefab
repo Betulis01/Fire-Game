@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 1070241218535459481}
   - component: {fileID: 1596328129607596738}
   - component: {fileID: 4227282769761115078}
+  - component: {fileID: 7521708526563786758}
   m_Layer: 6
   m_Name: Iron Ore
   m_TagString: Untagged
@@ -118,7 +119,6 @@ Transform:
   m_Children:
   - {fileID: 6445713059805398691}
   - {fileID: 8614062144113722432}
-  - {fileID: 8775132649976018915}
   - {fileID: 7481847158813774866}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -300,128 +300,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToolDamageFilter
   damagedBy: 4
---- !u!1 &5919995870168807713
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8775132649976018915}
-  - component: {fileID: 1737814789515832964}
-  - component: {fileID: 4307063312064255095}
-  m_Layer: 6
-  m_Name: ShadowCaster
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8775132649976018915
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5919995870168807713}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.241, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2061018066649538231}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1737814789515832964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5919995870168807713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.ShadowCaster2D
-  m_ShadowGroup: 0
-  m_Priority: 0
-  m_ComponentVersion: 5
-  m_HasRenderer: 0
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_AlphaCutoff: 0.1
-  m_ApplyToSortingLayers: 6d9d9de0ebf765e700000000af1c5170af529769
-  m_ShapePath:
-  - {x: -0.102954105, y: 0.13403043, z: 0}
-  - {x: -0.067617685, y: 0.23768035, z: 0}
-  - {x: 0.003872484, y: 0.23952897, z: 0}
-  - {x: 0.052491546, y: 0.13513376, z: 0}
-  m_ShapePathHash: 2095474011
-  m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 4307063312064255095}
-  m_ShadowShape2DProvider:
-    rid: 3215632235714576734
-  m_ShadowCastingSource: 2
-  m_ShadowMesh:
-    m_Mesh: {fileID: 0}
-    m_LocalBounds:
-      m_Center: {x: -0.017364502, y: 0.24999237, z: 0}
-      m_Extent: {x: 0.046905518, y: 0.046913147, z: 0}
-    m_EdgeProcessing: 1
-    m_TrimEdge: 0
-    m_FlipX: 0
-    m_FlipY: 0
-    m_InitialTrim: 0
-  m_CastingOption: 2
-  m_PreviousTrimEdge: 0
-  m_PreviousEdgeProcessing: 1
-  m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 4307063312064255095}
-  references:
-    version: 2
-    RefIds:
-    - rid: 3215632235714576734
-      type: {class: ShadowShape2DProvider_Collider2D, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
-      data: 
---- !u!58 &4307063312064255095
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5919995870168807713}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.017370742, y: 0.25}
-  m_Radius: 0.04691427
 --- !u!1 &8871351829821241250
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,3 +473,27 @@ MonoBehaviour:
   sortReference: {fileID: 0}
   fadedAlpha: 0.45
   fadeSpeed: 4
+--- !u!114 &7521708526563786758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fdb2eb867014a85b3b08d70b00364c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteShadow
+  material: {fileID: 2100000, guid: 2839925b222e4d45b2b8d0e13646f165, type: 2}
+  layers: []
+  opacity: 0.45
+  nearLength: 1
+  farLength: 0.3
+  groundAspect: 0.5
+  castHeight: 0
+  anchorOffset: {x: 0, y: 3}
+  maxShadows: 3
+  smoothing: 10
+  sortingLayer: Background
+  sortingOrder: 2

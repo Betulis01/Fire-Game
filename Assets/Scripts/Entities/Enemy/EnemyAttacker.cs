@@ -51,6 +51,7 @@ public class EnemyAttacker : MonoBehaviour
     void Update()
     {
         if (brain.CurrentState != EnemyBrain.State.Combat) return;
+        if (animator != null && animator.IsSpawning) return;
 
         // The swing just finished (clip done): the cooldown runs from here.
         bool attacking = animator != null && animator.IsAttacking;

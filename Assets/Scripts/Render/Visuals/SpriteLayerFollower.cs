@@ -6,7 +6,9 @@ using UnityEngine;
 // renderer is on. The body's clips only animate the body sprite ("Body_Frame_N");
 // this renderer follows with its own "<Layer>_Frame_N" -- the Head layer, and the
 // gear slots PaperDoll creates. Also mirrors the source's flipX and material (so the
-// white hit flash covers it too), and sorts a fixed offset above the source.
+// white hit flash covers it too), and sorts a fixed offset above the source. A
+// shadowLayer (the drawn Ground Shadow under the feet) keeps its own material instead,
+// so it never flashes, and SpriteShadow leaves it out of the shadows it casts.
 //
 // Sprites from the same Aseprite file share the canvas-space pivot, so placing
 // this at the source's local origin lines every layer up.
@@ -25,6 +27,9 @@ public class SpriteLayerFollower : MonoBehaviour
 
     [Tooltip("Sorting order relative to the source.")]
     [SerializeField] int orderOffset = 1;
+
+    [Tooltip("A drawn ground shadow: keeps its own material (no hit flash), and SpriteShadow doesn't cast it.")]
+    public bool shadowLayer;
 
     static readonly Regex FrameSuffix = new(@"_Frame_(\d+)$");
     static readonly Dictionary<Sprite, int> frameOf = new();   // shared parse cache
@@ -50,7 +55,7 @@ public class SpriteLayerFollower : MonoBehaviour
         int frame = FrameOf(source.sprite);
         sr.sprite = frames != null && frame >= 0 && frame < frames.Length ? frames[frame] : null;
         sr.flipX = source.flipX;
-        sr.sharedMaterial = source.sharedMaterial;
+        if (!shadowLayer) sr.sharedMaterial = source.sharedMaterial;
         sr.sortingLayerID = source.sortingLayerID;
         sr.sortingOrder = source.sortingOrder + orderOffset;
     }

@@ -21,9 +21,19 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     Transform aggroTarget;
     Transform player;
     bool lookedForPlayer;
+    EnemyAnimator anim;
+
+    void Awake() => anim = GetComponent<EnemyAnimator>();
 
     void Update()
     {
+        // still rising out of the ground (EnemyAnimator's spawn clip): stand still
+        if (anim != null && anim.IsSpawning)
+        {
+            MoveDirection = Vector2.zero;
+            return;
+        }
+
         if (CurrentState == State.Wander && aggroTarget == null) CheckDetection();
 
         IEnemyMoveBehavior active = CurrentState == State.Wander ? wander : (IEnemyMoveBehavior)chase;

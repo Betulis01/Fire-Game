@@ -132,6 +132,8 @@ MonoBehaviour:
   fuel: {fileID: 7173787885017024267}
   animator: {fileID: 9300000004}
   stageCount: 3
+  outSprite: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!114 &9300000006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,7 +163,6 @@ GameObject:
   - component: {fileID: 2221216645559647939}
   - component: {fileID: -4092216606003954472}
   - component: {fileID: 2892737069316276223}
-  - component: {fileID: 1585957440290948344}
   - component: {fileID: 8550946972357729814}
   - component: {fileID: -7691799619491963564}
   - component: {fileID: 6200000000000000001}
@@ -403,21 +404,6 @@ MonoBehaviour:
   groundSquash: {x: 1, y: 0.5}
   secondaryLight: {fileID: 5490926818239691813}
   secondaryGroundSquash: {x: 1, y: 1}
---- !u!114 &1585957440290948344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4906144326694474802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Burnable
-  fuelType: 1
-  fuelPerItem: 10
-  burnRate: 0.8
 --- !u!114 &8550946972357729814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +537,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312155956685065874}
   - component: {fileID: 5490926818239691813}
+  - component: {fileID: 4778640929830645042}
   m_Layer: 0
   m_Name: TorchLight (1)
   m_TagString: Untagged
@@ -791,3 +778,16 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.15}
   m_Radius: 0.4
+--- !u!114 &4778640929830645042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5290250976460836239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39287bb438c04ff991408ba9d05bc63e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowLight
+  radius: 3

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5380466634346340523}
   - component: {fileID: 4985530216488407919}
+  - component: {fileID: 4732299837673693300}
   m_Layer: 0
   m_Name: TorchLight (1)
   m_TagString: Untagged
@@ -733,3 +734,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 243355b23300b1a571c52ffac091fe93, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::FireUpright
+--- !u!114 &4732299837673693300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3907502146810907097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39287bb438c04ff991408ba9d05bc63e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowLight
+  radius: 3
