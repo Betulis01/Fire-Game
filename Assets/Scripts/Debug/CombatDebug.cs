@@ -59,13 +59,19 @@ public class CombatDebug : MonoBehaviour
             DrawCollider(col, HurtColor);
         }
 
-        // The player's strike: the same cone TargetPreview highlights with (the armed
-        // swing, or the longer-reaching melee hand), following the mouse live.
+        // The player's strikes, following the mouse live: the armed swing's cone, or
+        // idle, each melee hand's (TargetPreview highlights from one of them).
         foreach (WeaponUse user in FindObjectsByType<WeaponUse>(FindObjectsSortMode.None))
         {
-            if (!user.TryGetMeleePreview(out _, out _, out StrikeShape shape, out Vector2 aimDir)) continue;
-            DrawCircle(user.Origin, shape.range, RangeColor);                       // reach
-            DrawCone(user.Origin, aimDir, shape.range, shape.arcAngle, HitColor);   // where a swing lands now
+            if (user.IsSwingArmed)
+            {
+                if (user.TryGetArmedMeleePreview(out _, out _, out StrikeShape armed, out Vector2 armedDir))
+                    DrawStrike(user.Origin, armedDir, armed);
+                continue;
+            }
+            foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
+                if (user.TryGetHandMeleePreview(side, out _, out _, out StrikeShape shape, out Vector2 aimDir))
+                    DrawStrike(user.Origin, aimDir, shape);
         }
 
         // Each enemy's strike cone, aimed where its next (or armed) swing goes, plus
@@ -141,6 +147,12 @@ public class CombatDebug : MonoBehaviour
                 center.x + Mathf.Cos(a0) * radius, center.y + Mathf.Sin(a0) * radius,
                 center.x + Mathf.Cos(a1) * radius, center.y + Mathf.Sin(a1) * radius);
         }
+    }
+
+    void DrawStrike(Vector2 origin, Vector2 aimDir, in StrikeShape shape)
+    {
+        DrawCircle(origin, shape.range, RangeColor);                       // reach
+        DrawCone(origin, aimDir, shape.range, shape.arcAngle, HitColor);   // where a swing lands now
     }
 
     // A strike cone: its two edges and the rim arc between them (no edges for a full circle).

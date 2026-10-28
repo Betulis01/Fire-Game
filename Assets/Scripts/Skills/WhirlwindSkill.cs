@@ -37,6 +37,7 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
     Hands hands;
     PlayerAnimator animator;
     WeaponUse weaponUse;
+    CharacterStats stats;
 
     Tool tool;            // the axe that's spinning; null when not casting
     int strikesLeft;
@@ -53,6 +54,7 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
         hands = GetComponent<Hands>();
         animator = GetComponent<PlayerAnimator>();
         weaponUse = GetComponent<WeaponUse>();
+        stats = GetComponent<CharacterStats>();
     }
 
     public bool TryActivate(GameObject user, HandSide side)
@@ -83,9 +85,9 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
             return;
         }
 
-        AttackData light = tool.GetAttack(false);
-        // no recoil: the spin hits from every side at once
-        AttackData attack = new(light.damage * damageMultiplier, light.kind, light.targetKnockback, 0f);
+        // the axe's light attack at damageMultiplier (the skill's scaling); no recoil:
+        // the spin hits from every side at once
+        AttackData attack = tool.GetAttack(false, stats).Scaled(damageMultiplier).WithoutRecoil();
         StrikeShape spin = new(radius, 360f, maxTargets, tool.secondaryDamageMultiplier);
         melee.Strike(attack, melee.Query(gameObject, Centre, Vector2.right, spin, tool.kind, TargetScoring.Distance));
 

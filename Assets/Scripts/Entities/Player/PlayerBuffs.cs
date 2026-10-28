@@ -5,10 +5,10 @@ using UnityEngine;
 // temporary buff/debuff): movement-speed multipliers and max-health deltas.
 // Speed modifiers stack multiplicatively; PlayerController folds
 // SpeedMultiplier into its own temperature-driven speed calc. Max-health
-// deltas are applied directly to Health.maxHealth and reverted exactly when
-// they expire.
-[RequireComponent(typeof(Health))]
-public class PlayerBuffs : MonoBehaviour
+// deltas are a stat source: CharacterStats adds them to max health while they
+// last (it owns Health.maxHealth).
+[RequireComponent(typeof(CharacterStats))]
+public class PlayerBuffs : MonoBehaviour, IStatSource
 {
     class SpeedBuff
     {
@@ -22,14 +22,11 @@ public class PlayerBuffs : MonoBehaviour
         public float remaining;
     }
 
-    Health health;
-
     readonly List<SpeedBuff> speedBuffs = new();
     readonly List<MaxHealthBuff> healthBuffs = new();
 
     public float SpeedMultiplier { get; private set; } = 1f;
-
-    void Awake() => health = GetComponent<Health>();
+    public event System.Action StatsChanged;
 
     public void ApplySpeedBuff(float multiplier, float duration)
     {
@@ -40,8 +37,12 @@ public class PlayerBuffs : MonoBehaviour
     public void ApplyMaxHealthBuff(float amount, float duration)
     {
         healthBuffs.Add(new MaxHealthBuff { amount = amount, remaining = duration });
-        health.maxHealth += amount;
-        health.current = Mathf.Min(health.current, health.maxHealth);
+        StatsChanged?.Invoke();
+    }
+
+    public void AddStats(ref StatBlock total)
+    {
+        foreach (MaxHealthBuff b in healthBuffs) total.maxHealth += b.amount;
     }
 
     void Update()
@@ -61,9 +62,8 @@ public class PlayerBuffs : MonoBehaviour
             healthBuffs[i].remaining -= Time.deltaTime;
             if (healthBuffs[i].remaining <= 0f)
             {
-                health.maxHealth -= healthBuffs[i].amount;
-                health.current = Mathf.Min(health.current, health.maxHealth);
                 healthBuffs.RemoveAt(i);
+                StatsChanged?.Invoke();
             }
         }
     }

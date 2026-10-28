@@ -3,7 +3,8 @@ using UnityEngine;
 
 public enum SkillNodeSize { Small, Big }
 
-// Passive nodes are ranked stat upgrades (effects come later). A Spell node is
+// Passive nodes are ranked stat upgrades (statsPerRank, summed into the player's
+// CharacterStats by WeaponExperience). A Spell node is
 // learned once (maxRank 1) and unlocks an active skill: an IActiveSkill on the
 // player whose NodeId matches, cast from the action slot of a hand holding this
 // tree's weapon (see ActiveSkillSlots).
@@ -25,6 +26,8 @@ public class SkillNode
     public Vector2 position;
     [Tooltip("Drawn inside the node box (e.g. a spell's icon). Optional.")]
     public Sprite icon;
+    [Tooltip("Passive: attributes/armor gained per rank bought.")]
+    public StatBlock statsPerRank;
 }
 
 // A weapon's skill tree (Axe, Sword, ...). Pure data: WeaponExperience tracks the

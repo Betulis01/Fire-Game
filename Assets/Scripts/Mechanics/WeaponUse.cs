@@ -35,6 +35,7 @@ public class WeaponUse : MonoBehaviour
     AttackLunge lunge;
     Hands hands;
     TargetPreview preview;
+    CharacterStats stats;          // the wielder's stats, snapshotted into each attack
     IStrikeModifier[] strikeModifiers;
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
@@ -89,6 +90,7 @@ public class WeaponUse : MonoBehaviour
         hands = GetComponent<Hands>();
         lunge = GetComponent<AttackLunge>();
         preview = GetComponent<TargetPreview>();
+        stats = GetComponent<CharacterStats>();
         strikeModifiers = GetComponents<IStrikeModifier>();
         if (cam == null) cam = Camera.main;
         if (animator == null) animator = GetComponent<PlayerAnimator>();
@@ -102,43 +104,47 @@ public class WeaponUse : MonoBehaviour
         return shape;
     }
 
-    // The melee strike to preview right now: the armed swing (along its latched aim
-    // once it has one), or, idle, the melee hand with the longer reach along the live
-    // aim -- each hand has its own button, so there's no single "next" hand. False
-    // when neither hand would swing a melee weapon.
-    public bool TryGetMeleePreview(out MeleeWeapon melee, out Tool tool, out StrikeShape shape, out Vector2 dir)
+    // Whether a swing is armed (charging or waiting on its contact frame) -- a
+    // preview then shows only that swing (TryGetArmedMeleePreview).
+    public bool IsSwingArmed => pending.armed;
+
+    // The armed swing's strike, along its latched aim once it has one. False when
+    // nothing is armed or the armed swing isn't melee (a bow shot).
+    public bool TryGetArmedMeleePreview(out MeleeWeapon melee, out Tool tool, out StrikeShape shape, out Vector2 dir)
+    {
+        melee = null;
+        tool = null;
+        shape = default;
+        dir = Vector2.zero;
+        if (!pending.armed || pending.melee == null) return false;
+
+        melee = pending.melee;
+        tool = pending.tool;
+        shape = GetStrike(tool, pending.heavy);
+        dir = pending.aimed ? pending.dir : AimDirection(Origin);
+        return true;
+    }
+
+    // The strike `side`'s next light swing would make along the live aim. Each hand
+    // has its own button, so an idle preview asks both. False when that hand doesn't
+    // hold a melee weapon (fists count).
+    public bool TryGetHandMeleePreview(HandSide side, out MeleeWeapon melee, out Tool tool, out StrikeShape shape, out Vector2 dir)
     {
         melee = null;
         tool = null;
         shape = default;
         dir = Vector2.zero;
 
-        if (pending.armed)
+        GameObject item = hands.ActiveItem(side);
+        if (item == null || !item.TryGetComponent(out tool) || !item.TryGetComponent(out melee))
         {
-            if (pending.melee == null) return false;
-            melee = pending.melee;
-            tool = pending.tool;
-            shape = GetStrike(tool, pending.heavy);
-            dir = pending.aimed ? pending.dir : AimDirection(Origin);
-            return true;
+            melee = null;
+            tool = null;
+            return false;
         }
-
-        ConsiderMelee(HandSide.Right, ref melee, ref tool, ref shape);
-        ConsiderMelee(HandSide.Left, ref melee, ref tool, ref shape);
-        if (melee == null) return false;
+        shape = GetStrike(tool, false);
         dir = AimDirection(Origin);
         return true;
-    }
-
-    void ConsiderMelee(HandSide side, ref MeleeWeapon melee, ref Tool tool, ref StrikeShape shape)
-    {
-        GameObject item = hands.ActiveItem(side);
-        if (item == null || !item.TryGetComponent(out Tool t) || !item.TryGetComponent(out MeleeWeapon m)) return;
-        StrikeShape s = GetStrike(t, false);
-        if (melee != null && s.range <= shape.range) return;
-        melee = m;
-        tool = t;
-        shape = s;
     }
 
     void Update()
@@ -275,7 +281,7 @@ public class WeaponUse : MonoBehaviour
         Vector2 dir = pending.aimed ? pending.dir : AimDirection(origin);
         if (!pending.aimed && animator != null) animator.RetargetAttack(pending.side, dir);
 
-        AttackData attack = pending.tool.GetAttack(pending.heavy);
+        AttackData attack = pending.tool.GetAttack(pending.heavy, stats);
 
         if (pending.melee != null)
         {

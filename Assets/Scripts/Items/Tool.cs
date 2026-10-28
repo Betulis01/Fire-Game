@@ -7,7 +7,13 @@ public class Tool : MonoBehaviour
 {
 
     public ToolKind kind = ToolKind.Fist;   // gates what this tool can damage
-    public float damage = 1f;
+
+    [Header("Weapon Damage")]
+    [Tooltip("Base damage range, rolled per target hit. Scaled by the wielder's Attack " +
+             "Power and the ability (light = 100%, heavy = the heavy coefficient) against " +
+             "characters; resources (trees, ore) take the raw roll.")]
+    public float minDamage = 4f;
+    public float maxDamage = 6f;
 
     [Tooltip("Melee: the strike cone's radius -- the exact max reach from the wielder's " +
              "aim origin. Ranged: the base (uncharged) shot distance.")]
@@ -22,7 +28,10 @@ public class Tool : MonoBehaviour
     [Min(1)] public int maxTargets = 2;
 
     [Tooltip("Damage multiplier for secondary targets (1 = same as the primary).")]
-    [Min(0f)] public float secondaryDamageMultiplier = 1f;
+    [Min(0f)] public float secondaryDamageMultiplier = StatFormulas.DefaultSecondaryDamage;
+
+    [Tooltip("Crit chance multiplier for secondary targets (1 = same as the primary).")]
+    [Min(0f)] public float secondaryCritFactor = StatFormulas.DefaultSecondaryCritFactor;
 
     [Tooltip("Shove dealt to a hit target, away from the attacker (needs a Knockback " +
              "component on the target).")]
@@ -74,11 +83,20 @@ public class Tool : MonoBehaviour
         _ => null,
     };
 
-    // The hit-affecting stats bundled for a swing, from either the light (top-level)
-    // fields or the heavy profile.
-    public AttackData GetAttack(bool isHeavy) => isHeavy
-        ? new AttackData(heavy.damage, kind, heavy.targetKnockback, heavy.selfKnockback)
-        : new AttackData(damage, kind, targetKnockback, selfKnockback);
+    // The attack recipe for a swing/shot: this weapon's damage range, the ability's
+    // scaling (light = 100% weapon damage, heavy = the heavy profile's coefficient and
+    // flat bonus) and the wielder's combat stats (none = no AP, no crits).
+    public AttackData GetAttack(bool isHeavy, CharacterStats wielder)
+    {
+        float ap = wielder != null ? wielder.AttackPower : 0f;
+        float critChance = wielder != null ? wielder.CritChance : 0f;
+        float critMultiplier = wielder != null ? wielder.CritMultiplier : 1f;
+        return isHeavy
+            ? new AttackData(minDamage, maxDamage, heavy.damageCoefficient, heavy.flatBonus,
+                             ap, critChance, critMultiplier, kind, heavy.targetKnockback, heavy.selfKnockback)
+            : new AttackData(minDamage, maxDamage, 1f, 0f,
+                             ap, critChance, critMultiplier, kind, targetKnockback, selfKnockback);
+    }
 
     // The strike cone for a swing, before the wielder's IStrikeModifiers. A heavy
     // swing uses the heavy profile's arc/cap where set (0 = same as light).
@@ -86,7 +104,7 @@ public class Tool : MonoBehaviour
     {
         float arc = isHeavy && heavy.arcAngle > 0f ? heavy.arcAngle : arcAngle;
         int cap = isHeavy && heavy.maxTargets > 0 ? heavy.maxTargets : maxTargets;
-        return new StrikeShape(range, arc, cap, secondaryDamageMultiplier);
+        return new StrikeShape(range, arc, cap, secondaryDamageMultiplier, secondaryCritFactor);
     }
 
     // Lunge params for the resolved swing, from either the light (top-level) fields
@@ -120,14 +138,18 @@ public class Tool : MonoBehaviour
     }
 }
 
-// Damage/knockback/effects/lunge for a charged (heavy) release. Mirrors Tool's
-// light-attack fields (which stay top-level/flat to avoid re-entering existing
-// weapon data) so a weapon's heavy attack can be tuned fully independently. The
-// strike cone shares the light range; arc and cap override it only when set.
+// Damage scaling/knockback/effects/lunge for a charged (heavy) release. Mirrors
+// Tool's light-attack fields (which stay top-level/flat to avoid re-entering
+// existing weapon data) so a weapon's heavy attack can be tuned fully
+// independently. It shares the weapon's damage roll, scaled by damageCoefficient;
+// the strike cone shares the light range; arc and cap override it only when set.
 [System.Serializable]
 public class AttackProfile
 {
-    public float damage;
+    [Tooltip("Heavy damage as a multiple of weapon damage (1.4 = 140%). 0 = deals no damage.")]
+    public float damageCoefficient;
+    [Tooltip("Flat damage added after the coefficient, so the heavy still bites with a weak weapon.")]
+    public float flatBonus;
     public float targetKnockback;
     public float selfKnockback;
     [Tooltip("Strike cone angle for the heavy swing. 0 = same as the light swing.")]

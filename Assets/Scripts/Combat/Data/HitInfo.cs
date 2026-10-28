@@ -9,7 +9,9 @@ public readonly struct HitInfo
 {
     public readonly GameObject attacker;
     public readonly GameObject victim;        // null on the attacker-side notification
-    public readonly float damage;
+    public readonly float damage;             // resolved for this victim (DamageCalculator), before blocking
+    public readonly bool isCrit;
+    public readonly bool isPrimary;           // the swing's primary target (single-target procs key off this)
     public readonly ToolKind kind;
     public readonly Vector2 point;            // contact point on the victim, world space
     public readonly Vector2 direction;        // unit vector, attacker -> victim
@@ -17,11 +19,13 @@ public readonly struct HitInfo
     public readonly float selfKnockback;      // recoil for the attacker
 
     public HitInfo(GameObject attacker, GameObject victim, in AttackData attack,
-                   Vector2 point, Vector2 direction)
+                   Vector2 point, Vector2 direction, float damage = 0f, bool isCrit = false, bool isPrimary = true)
     {
         this.attacker = attacker;
         this.victim = victim;
-        damage = attack.damage;
+        this.damage = damage;
+        this.isCrit = isCrit;
+        this.isPrimary = isPrimary;
         kind = attack.kind;
         this.point = point;
         this.direction = direction;

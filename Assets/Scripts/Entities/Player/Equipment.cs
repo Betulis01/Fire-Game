@@ -5,15 +5,17 @@ using UnityEngine;
 // and the slots: equipping takes an Equippable out of a hand, unequipping puts it
 // back into a free hand (or drops it at the player's feet when both are full).
 // A worn item is kept as an inactive child of the player, so it's the same object
-// the whole way -- world, hand, worn, and back. PaperDoll draws what's worn.
+// the whole way -- world, hand, worn, and back. PaperDoll draws what's worn. As an
+// IStatSource the worn items' stats count toward the wearer's CharacterStats.
 [RequireComponent(typeof(Hands))]
-public class Equipment : MonoBehaviour
+public class Equipment : MonoBehaviour, IStatSource
 {
     readonly GameObject[] worn = new GameObject[Enum.GetValues(typeof(EquipSlot)).Length];
     Hands hands;
 
     // raised after any equip/unequip so the UI and PaperDoll can redraw
     public event Action Changed;
+    public event Action StatsChanged;
 
     void Awake() => hands = GetComponent<Hands>();
 
@@ -51,7 +53,7 @@ public class Equipment : MonoBehaviour
 
         if (previous != null) ReturnToHands(previous, side);
 
-        Changed?.Invoke();
+        RaiseChanged();
         return true;
     }
 
@@ -63,7 +65,7 @@ public class Equipment : MonoBehaviour
 
         worn[(int)slot] = null;
         ReturnToHands(item, preferred);
-        Changed?.Invoke();
+        RaiseChanged();
         return true;
     }
 
@@ -77,6 +79,18 @@ public class Equipment : MonoBehaviour
         item.transform.SetParent(null);
         item.transform.position = transform.position;
         item.GetComponent<WorldItem>().SetHeld(false);
+    }
+
+    public void AddStats(ref StatBlock total)
+    {
+        foreach (GameObject item in worn)
+            if (item != null && item.TryGetComponent(out Equippable e)) total += e.stats;
+    }
+
+    void RaiseChanged()
+    {
+        Changed?.Invoke();
+        StatsChanged?.Invoke();
     }
 
     static HandSide Other(HandSide s) => s == HandSide.Left ? HandSide.Right : HandSide.Left;

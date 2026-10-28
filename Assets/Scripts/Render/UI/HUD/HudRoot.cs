@@ -19,6 +19,7 @@ public class HudRoot : MonoBehaviour
     public Equipment Equipment { get; private set; }
     public CraftingController Crafting { get; private set; }
     public ActiveSkillSlots Skills { get; private set; }
+    public CharacterStats Stats { get; private set; }
 
     CanvasGroup group;
 
@@ -42,6 +43,7 @@ public class HudRoot : MonoBehaviour
         Equipment = Player.GetComponent<Equipment>();
         Crafting = Player.GetComponent<CraftingController>();
         Skills = Player.GetComponent<ActiveSkillSlots>();
+        Stats = Player.GetComponent<CharacterStats>();
     }
 
     void Update()

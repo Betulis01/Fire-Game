@@ -20,6 +20,10 @@ public class Hurtbox : MonoBehaviour
     // Highlight art.
     public TargetHighlight Highlight { get; private set; }
 
+    // The entity's stats; null for non-characters (trees, ore), which hits treat as
+    // resources (DamageCalculator).
+    public CharacterStats Stats { get; private set; }
+
     // hurt collider -> its Hurtbox, so targeting resolves an overlap without a
     // GetComponentInParent per collider (and ignores non-hurt colliders on the layer)
     static readonly Dictionary<Collider2D, Hurtbox> byCollider = new();
@@ -38,6 +42,7 @@ public class Hurtbox : MonoBehaviour
 
         reactors = owner.GetComponents<IHitReactor>();
         damageFilter = owner.GetComponent<ToolDamageFilter>();
+        Stats = owner.GetComponent<CharacterStats>();
         Highlight = TargetHighlight.Attach(owner);
         byCollider[hurtCollider] = this;
     }

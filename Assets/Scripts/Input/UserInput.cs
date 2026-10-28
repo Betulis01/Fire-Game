@@ -41,6 +41,8 @@ public class UserInput : MonoBehaviour
     InputAction switchHandAction;
     InputAction handScrollAction;
     InputAction menuAction;
+    InputAction zoomInAction;       // Page Up
+    InputAction zoomOutAction;      // Page Down
     InputAction pauseAction;
     // Debug map
     InputAction toggleInvincibilityAction;
@@ -84,6 +86,8 @@ public class UserInput : MonoBehaviour
         switchHandAction = playerMap.FindAction("SwitchHand", true);
         handScrollAction = playerMap.FindAction("HandScroll", true);
         menuAction = playerMap.FindAction("Menu", true);
+        zoomInAction = playerMap.FindAction("ZoomIn", true);
+        zoomOutAction = playerMap.FindAction("ZoomOut", true);
 
         globalMap = actions.FindActionMap("Global", throwIfNotFound: true);
         pauseAction = globalMap.FindAction("Pause", true);
@@ -175,6 +179,8 @@ public class UserInput : MonoBehaviour
     }
     public bool SwitchHand => switchHandAction != null && switchHandAction.WasPressedThisFrame();
     public bool Menu => menuAction != null && menuAction.WasPressedThisFrame();
+    public bool ZoomIn => zoomInAction != null && zoomInAction.WasPressedThisFrame();
+    public bool ZoomOut => zoomOutAction != null && zoomOutAction.WasPressedThisFrame();
 
     // Scroll wheel this frame as a step: +1 (up), -1 (down) or 0.
     public int HandScrollStep

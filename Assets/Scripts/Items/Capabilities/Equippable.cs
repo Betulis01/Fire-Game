@@ -16,4 +16,7 @@ public class Equippable : MonoBehaviour
 
     [Tooltip("The layer's sprites indexed by body frame. Filled automatically.")]
     public Sprite[] frames;
+
+    [Tooltip("Attributes/armor the wearer gains while this is worn (Equipment -> CharacterStats).")]
+    public StatBlock stats;
 }

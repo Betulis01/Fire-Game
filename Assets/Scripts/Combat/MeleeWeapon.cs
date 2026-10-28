@@ -37,17 +37,18 @@ public class MeleeWeapon : MonoBehaviour
         preferredBias = preferredBias,
     };
 
-    // Land a swing: the primary takes `attack`, each secondary the same scaled by
-    // shape.secondaryDamage. The attacker's reactors hear about it once, at the
-    // primary's contact point. Returns how many targets were hit.
+    // Land a swing: each target resolves its own damage from `attack`; the
+    // secondaries take the shape's secondary damage and crit penalties. The
+    // attacker's reactors hear about it once, at the primary's contact point.
+    // Returns how many targets were hit.
     public int Strike(in AttackData attack, in TargetQuery query)
     {
         MeleeTargeting.Select(query, targets);
         if (targets.Count == 0) return 0;
 
-        AttackData secondary = attack.WithDamage(attack.damage * query.shape.secondaryDamage);
         for (int i = 0; i < targets.Count; i++)
-            HitResolution.Deliver(targets[i].hurtbox, query.owner, i == 0 ? attack : secondary, targets[i].point);
+            HitResolution.Deliver(targets[i].hurtbox, query.owner, attack, targets[i].point,
+                                  i == 0, query.shape.secondaryDamage, query.shape.secondaryCritFactor);
 
         HitResolution.NotifyAttacker(query.owner, attack, targets[0].point);
         return targets.Count;

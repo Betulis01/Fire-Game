@@ -7,8 +7,10 @@ using UnityEngine;
 // the striking tool's kind -- so an axe chopping a tree counts, while an axe
 // glancing off stone (ToolDamageFilter) or a blocked 0-damage hit doesn't.
 // Each weapon level grants skill points, spent on that weapon's SkillTree nodes.
-// Read by the HUD (SkillsTabUI / SkillTreeUI).
-public class WeaponExperience : MonoBehaviour, IDamageDealtReactor
+// Read by the HUD (SkillsTabUI / SkillTreeUI). As an IStatSource it adds every
+// bought passive rank's statsPerRank to the player's CharacterStats -- learned
+// passives apply always, whichever weapon is in hand.
+public class WeaponExperience : MonoBehaviour, IDamageDealtReactor, IStatSource
 {
     [Serializable]
     public struct XpRule
@@ -43,6 +45,7 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor
     readonly Dictionary<ToolKind, Progress> progress = new();
 
     public event Action Changed;
+    public event Action StatsChanged;
 
     public void OnDealtDamage(Health victim, in DamageInfo info)
     {
@@ -109,7 +112,21 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor
         p.ranks[nodeId] = Rank(kind, nodeId) + 1;
         p.spent++;
         Changed?.Invoke();
+        StatsChanged?.Invoke();
         return true;
+    }
+
+    public void AddStats(ref StatBlock total)
+    {
+        foreach (SkillTree tree in trees)
+        {
+            if (tree == null) continue;
+            foreach (SkillNode node in tree.nodes)
+            {
+                int rank = node.kind == SkillNodeKind.Passive ? Rank(tree.weapon, node.id) : 0;
+                if (rank > 0) total += node.statsPerRank * rank;
+            }
+        }
     }
 
     // Weapons start at level 0: the first point comes with the first weapon level.

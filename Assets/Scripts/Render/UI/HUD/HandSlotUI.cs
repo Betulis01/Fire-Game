@@ -5,6 +5,7 @@ using UnityEngine.UI;
 // One hand frame on the hand bar: the held item's icon plus its stack count. The
 // selected hand (Tab / scroll) uses the taller frame; the rect's pivot sits at the
 // bottom, so it grows upward and the mouse hint anchored to its top rides along.
+// Hovering a held item shows its tooltip (ItemHoverTooltip on the same object).
 public class HandSlotUI : MonoBehaviour
 {
     [SerializeField] Image frame;
@@ -23,9 +24,10 @@ public class HandSlotUI : MonoBehaviour
         Rect.sizeDelta = frame.sprite.rect.size;
     }
 
-    public void Set(Sprite sprite, int count)
+    public void Set(GameObject item, int count)
     {
-        UiPixel.FitIntegerScale(icon, sprite, iconBox);
+        if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(item);
+        UiPixel.FitIntegerScale(icon, UiPixel.IconOf(item), iconBox);
         countText.text = count > 1 ? count.ToString() : "";
     }
 }

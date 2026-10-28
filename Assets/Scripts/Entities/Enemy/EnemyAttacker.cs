@@ -33,6 +33,7 @@ public class EnemyAttacker : MonoBehaviour
     Tool tool;
     MeleeWeapon melee;
     EnemyBrain brain;
+    CharacterStats stats;    // this enemy's stats, snapshotted into each swing
 
     bool armed;
     bool wasAttacking;
@@ -67,6 +68,7 @@ public class EnemyAttacker : MonoBehaviour
         tool = weapon.GetComponent<Tool>();
         melee = weapon.GetComponent<MeleeWeapon>();
         brain = GetComponent<EnemyBrain>();
+        stats = GetComponent<CharacterStats>();
         if (animator == null) animator = GetComponent<EnemyAnimator>();
     }
 
@@ -113,7 +115,7 @@ public class EnemyAttacker : MonoBehaviour
         GameObject preferred = swingTarget != null ? swingTarget.gameObject : null;
         TargetQuery query = melee.Query(gameObject, Origin, aimDir, tool.GetStrike(false), tool.kind,
                                         TargetScoring.Distance, preferred, float.PositiveInfinity);
-        melee.Strike(tool.GetAttack(false), query);
+        melee.Strike(tool.GetAttack(false, stats), query);
         armed = false;
     }
 }
