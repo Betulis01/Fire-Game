@@ -164,6 +164,7 @@ MonoBehaviour:
   secondaryCritFactor: 0.5
   targetKnockback: 1.5
   selfKnockback: 0.25
+  impactHold: 0.08
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
   swingEffectAngleOffset: 0
   lungeSpeed: 0.25

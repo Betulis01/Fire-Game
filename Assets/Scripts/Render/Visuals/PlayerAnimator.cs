@@ -67,6 +67,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     float attackFailsafe;
     int attackLoops = 1;  // plays of the clip before the attack ends (PlayCast spins loop it)
     bool casting;         // the latched state is a spell (PlayCast), not a weapon swing
+    float holdUntil = -1f; // impact hold (HoldAttack): the clip stays frozen until then
 
     // Hit reaction: holds until hitUntil, then locomotion resumes.
     float hitUntil;
@@ -101,6 +102,13 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     {
         Vector2 move = UserInput.Instance.Move;
         bool moving = move.sqrMagnitude > moveDeadzone * moveDeadzone;
+
+        // An impact hold runs out: the swing carries on through its follow-through.
+        if (holdUntil >= 0f && Time.time >= holdUntil)
+        {
+            holdUntil = -1f;
+            animator.speed = 1f;
+        }
 
         // normalizedTime passes 1 when a non-looping clip ends, so the swing never
         // sits frozen on its last frame.
@@ -252,6 +260,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
         ApplyFlip(flip);       // now, so Hands.Anchor agrees with the suffix this frame
         currentState = null;   // force the next Play to switch
         animator.speed = 1f;   // in case a prior charge left it paused
+        holdUntil = -1f;
     }
 
     // Play a spell's clip `loops` times in a row (its state's clip must loop), latched
@@ -280,6 +289,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
         ApplyFlip(mirrored);
         currentState = null;
         animator.speed = 1f;
+        holdUntil = -1f;
         return true;
     }
 
@@ -317,4 +327,14 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     // no-op outside an attack so a stray call can't freeze locomotion.
     public void PauseAttack() { if (attacking) animator.speed = 0f; }
     public void ResumeAttack() { animator.speed = 1f; }
+
+    // Impact hold: freeze the swing on its current (contact) frame for `seconds`, as if
+    // the weapon bit into what it hit, then let it play on. Game time, so a global
+    // HitStop on the same hit extends it rather than eating it.
+    public void HoldAttack(float seconds)
+    {
+        if (!attacking || seconds <= 0f) return;
+        animator.speed = 0f;
+        holdUntil = Time.time + seconds;
+    }
 }

@@ -128,7 +128,7 @@ public static class MeleeTargeting
         foreach (Collider2D col in overlap)
         {
             // only a hurt region counts (not an entity's blocker on the same layer)
-            if (!Hurtbox.TryGet(col, out Hurtbox hb) || hb.Owner == q.owner) continue;
+            if (!Hurtbox.TryGet(col, out Hurtbox hb) || hb.Owner == q.owner || !hb.CanBeHit) continue;
             if (hb.Health == null || hb.Health.IsDead || Contains(hb.Health)) continue;
             if (!InCone(col, q, half, out Vector2 point, out float angle, out float distance)) continue;
 

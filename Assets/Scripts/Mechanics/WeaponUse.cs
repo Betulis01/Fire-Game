@@ -291,7 +291,9 @@ public class WeaponUse : MonoBehaviour
             TargetQuery query = pending.melee.Query(gameObject, origin, dir, GetStrike(pending.tool, pending.heavy),
                                                     pending.tool.kind, TargetScoring.AimAngle,
                                                     committed, float.PositiveInfinity);
-            pending.melee.Strike(attack, query);
+            // a connecting swing sticks on its contact frame for a beat (Tool.impactHold)
+            if (pending.melee.Strike(attack, query) > 0 && animator != null)
+                animator.HoldAttack(pending.tool.impactHold);
         }
         else if (pending.ranged != null)
         {

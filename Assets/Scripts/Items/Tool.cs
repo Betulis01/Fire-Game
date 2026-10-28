@@ -49,6 +49,10 @@ public class Tool : MonoBehaviour
              "(+X). Art pointing right = 0, up = -90.")]
     public float swingEffectAngleOffset;
 
+    [Tooltip("Seconds the swing stays frozen on its contact frame when it connects -- " +
+             "the axe biting into a trunk, the pickaxe ringing off stone. 0 = no hold.")]
+    [Min(0f)] public float impactHold = 0f;
+
     [Header("Lunge (fires on windup)")]
     [Tooltip("Forward push speed fired the instant the swing starts (windup), not on " +
              "hit. 0 disables the lunge for this tool.")]

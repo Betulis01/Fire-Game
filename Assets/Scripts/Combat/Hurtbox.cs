@@ -30,6 +30,12 @@ public class Hurtbox : MonoBehaviour
 
     IHitReactor[] reactors;        // cached effect handlers on the owner
     ToolDamageFilter damageFilter; // null = damageable by any tool
+    WorldItem worldItem;           // set when the entity is a carriable item (a log)
+
+    // Whether attacks can land on this entity right now. An item someone is holding
+    // isn't in the world as a target -- swings, spins and arrows pass it by until
+    // it's dropped (worn items are inactive, so they never get here).
+    public bool CanBeHit => worldItem == null || !worldItem.IsHeld;
 
     void Awake()
     {
@@ -43,6 +49,7 @@ public class Hurtbox : MonoBehaviour
         reactors = owner.GetComponents<IHitReactor>();
         damageFilter = owner.GetComponent<ToolDamageFilter>();
         Stats = owner.GetComponent<CharacterStats>();
+        worldItem = owner.GetComponent<WorldItem>();
         Highlight = TargetHighlight.Attach(owner);
         byCollider[hurtCollider] = this;
     }

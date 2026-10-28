@@ -14,7 +14,7 @@ public static class HitResolution
         hit = default;
 
         Hurtbox hb = col.GetComponentInParent<Hurtbox>();
-        if (hb == null || hb.Health == null || hb.Owner == owner) return false;
+        if (hb == null || hb.Health == null || hb.Owner == owner || !hb.CanBeHit) return false;
 
         hit = Deliver(hb, owner, attack, hb.HurtCollider.ClosestPoint(center));
         return true;
