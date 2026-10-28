@@ -146,6 +146,7 @@ def main():
     add("slot_64", frame(64, 64, BORDER, FILL), (655, 114))
     add("slot_64x46", frame(64, 46, BORDER, FILL))
     add("node_small", frame(64, 32, BORDER, FILL))
+    add("tooltip_frame", frame(126, 77, BORDER, FILL), (162, 444))   # 9-sliced: sized to its text
     add("ui_pixel", solid(4, 4, WHITE))
     add("icon_spell_whirlwind", whirlwind_icon())
 

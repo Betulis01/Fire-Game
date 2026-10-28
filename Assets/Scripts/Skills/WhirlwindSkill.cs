@@ -2,10 +2,12 @@ using UnityEngine;
 
 // Axe spell: Whirlwind. The player spins with the axe held out, playing the
 // "whirlwind" clip `spins` times in a row; each turn of the clip fires its
-// OnWhirlwindHit Animation Event, which strikes everything within `radius` of the
-// player with the axe's light attack (scaled by damageMultiplier). Hits run through
-// the normal pipeline (Hurtbox -> Health, ToolDamageFilter, knockback away from the
-// player), so they also earn axe XP. The player can keep moving while spinning.
+// OnWhirlwindHit Animation Event, which strikes a full 360-degree cone of `radius`
+// around the player with the axe's light attack (scaled by damageMultiplier) -- the
+// nearest `maxTargets` (enemies before resources), so it can't scale infinitely
+// either. Hits run through the normal pipeline (Hurtbox -> Health, ToolDamageFilter,
+// knockback away from the player), so they also earn axe XP. The player can keep
+// moving while spinning.
 // A left-hand cast plays the clip mirrored (a clockwise spin), the same way
 // attacks mirror, so the axe always sits on the anchor the clip swings.
 // Unlocked by the Axe tree's Spell node `nodeId`; cast from the action slot.
@@ -23,6 +25,8 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
     [SerializeField] int spins = 5;
     [Tooltip("Strike radius around the player, per turn.")]
     [SerializeField] float radius = 1f;   // hand orbit (0.25) + axe length (0.5) + a hurtbox's worth
+    [Tooltip("Most entities each turn can hit, nearest first.")]
+    [SerializeField, Min(1)] int maxTargets = 4;
     [SerializeField] float damageMultiplier = 1f;
     [Tooltip("Seconds from cast until it can be cast again.")]
     [SerializeField] float cooldown = 8f;
@@ -33,6 +37,7 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
     Hands hands;
     PlayerAnimator animator;
     WeaponUse weaponUse;
+    CharacterStats stats;
 
     Tool tool;            // the axe that's spinning; null when not casting
     int strikesLeft;
@@ -49,6 +54,7 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
         hands = GetComponent<Hands>();
         animator = GetComponent<PlayerAnimator>();
         weaponUse = GetComponent<WeaponUse>();
+        stats = GetComponent<CharacterStats>();
     }
 
     public bool TryActivate(GameObject user, HandSide side)
@@ -57,7 +63,7 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
 
         GameObject item = hands.ActiveItem(side);
         if (item == null || !item.TryGetComponent(out Tool axe) || axe.kind != Weapon) return false;
-        if (!item.TryGetComponent(out Hitbox _)) return false;
+        if (!item.TryGetComponent(out MeleeWeapon _)) return false;
 
         if (!animator.PlayCast(state, spins, mirrored: side == HandSide.Left)) return false;
 
@@ -73,16 +79,17 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
         if (tool == null || strikesLeft <= 0) return;
 
         // the axe left the hand mid-spin (dropped, swapped): nothing to strike with
-        if (!tool.TryGetComponent(out Hitbox hitbox) || !IsHeld(tool.gameObject))
+        if (!tool.TryGetComponent(out MeleeWeapon melee) || !IsHeld(tool.gameObject))
         {
             tool = null;
             return;
         }
 
-        AttackData light = tool.GetAttack(false);
-        // no recoil: the spin hits from every side at once
-        AttackData attack = new(light.damage * damageMultiplier, light.kind, light.targetKnockback, 0f);
-        hitbox.Strike(attack, gameObject, Centre, radius);
+        // the axe's light attack at damageMultiplier (the skill's scaling); no recoil:
+        // the spin hits from every side at once
+        AttackData attack = tool.GetAttack(false, stats).Scaled(damageMultiplier).WithoutRecoil();
+        StrikeShape spin = new(radius, 360f, maxTargets, tool.secondaryDamageMultiplier);
+        melee.Strike(attack, melee.Query(gameObject, Centre, Vector2.right, spin, tool.kind, TargetScoring.Distance));
 
         if (--strikesLeft <= 0) tool = null;
     }

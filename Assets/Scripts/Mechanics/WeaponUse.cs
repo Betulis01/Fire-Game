@@ -7,11 +7,15 @@ using UnityEngine;
 // right), and the charge follows the button that started it. A hand swings
 // whatever is "in" it -- a held weapon, or its default fists when empty
 // (Hands.ActiveItem hides that distinction). Each is a GameObject with a Tool
-// (stats) plus either a Hitbox (melee strike region) or a RangedWeapon (fires a
+// (stats) plus either a MeleeWeapon (aimed strike cone) or a RangedWeapon (fires a
 // projectile); a hand holding neither (e.g. wood) can't swing. The swing plays
 // an attack animation; the hit/shot lands when that clip's Animation Event
 // calls OnAttackHit. Swing rate is gated by the attack clip itself finishing
 // (animator.IsAttacking), not a weapon stat.
+//
+// A melee swing hits the targets MeleeTargeting picks in the cone (primary closest
+// to the aim, then capped secondaries), committing to the primary TargetPreview has
+// highlighted. Every IStrikeModifier on the player (skill tree, ...) shapes the cone.
 [RequireComponent(typeof(Hands))]
 public class WeaponUse : MonoBehaviour
 {
@@ -30,15 +34,18 @@ public class WeaponUse : MonoBehaviour
 
     AttackLunge lunge;
     Hands hands;
+    TargetPreview preview;
+    CharacterStats stats;          // the wielder's stats, snapshotted into each attack
+    IStrikeModifier[] strikeModifiers;
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
     // swing supersedes an earlier one that hasn't landed yet. Exactly one of
-    // hitbox/ranged is set, depending on which the held item offered. `heavy` is
+    // melee/ranged is set, depending on which the held item offered. `heavy` is
     // resolved once the charge decides (see charging below), not at arm time.
     // `dir` is latched at the swing frame (aimed = true) so the swing effect, lunge,
     // clip facing and the hit all share one direction.
-    struct Swing { public Tool tool; public HandSide side; public Hitbox hitbox; public RangedWeapon ranged; public float range; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; }
+    struct Swing { public Tool tool; public HandSide side; public MeleeWeapon melee; public RangedWeapon ranged; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; }
     Swing pending;
 
     // Charging: the button was pressed and the swing is waiting on release to find out
@@ -82,8 +89,62 @@ public class WeaponUse : MonoBehaviour
     {
         hands = GetComponent<Hands>();
         lunge = GetComponent<AttackLunge>();
+        preview = GetComponent<TargetPreview>();
+        stats = GetComponent<CharacterStats>();
+        strikeModifiers = GetComponents<IStrikeModifier>();
         if (cam == null) cam = Camera.main;
         if (animator == null) animator = GetComponent<PlayerAnimator>();
+    }
+
+    // The strike cone a swing of `tool` would have, after the player's modifiers.
+    public StrikeShape GetStrike(Tool tool, bool heavy)
+    {
+        StrikeShape shape = tool.GetStrike(heavy);
+        foreach (IStrikeModifier m in strikeModifiers) m.ModifyStrike(tool.kind, ref shape);
+        return shape;
+    }
+
+    // Whether a swing is armed (charging or waiting on its contact frame) -- a
+    // preview then shows only that swing (TryGetArmedMeleePreview).
+    public bool IsSwingArmed => pending.armed;
+
+    // The armed swing's strike, along its latched aim once it has one. False when
+    // nothing is armed or the armed swing isn't melee (a bow shot).
+    public bool TryGetArmedMeleePreview(out MeleeWeapon melee, out Tool tool, out StrikeShape shape, out Vector2 dir)
+    {
+        melee = null;
+        tool = null;
+        shape = default;
+        dir = Vector2.zero;
+        if (!pending.armed || pending.melee == null) return false;
+
+        melee = pending.melee;
+        tool = pending.tool;
+        shape = GetStrike(tool, pending.heavy);
+        dir = pending.aimed ? pending.dir : AimDirection(Origin);
+        return true;
+    }
+
+    // The strike `side`'s next light swing would make along the live aim. Each hand
+    // has its own button, so an idle preview asks both. False when that hand doesn't
+    // hold a melee weapon (fists count).
+    public bool TryGetHandMeleePreview(HandSide side, out MeleeWeapon melee, out Tool tool, out StrikeShape shape, out Vector2 dir)
+    {
+        melee = null;
+        tool = null;
+        shape = default;
+        dir = Vector2.zero;
+
+        GameObject item = hands.ActiveItem(side);
+        if (item == null || !item.TryGetComponent(out tool) || !item.TryGetComponent(out melee))
+        {
+            melee = null;
+            tool = null;
+            return false;
+        }
+        shape = GetStrike(tool, false);
+        dir = AimDirection(Origin);
+        return true;
     }
 
     void Update()
@@ -125,19 +186,19 @@ public class WeaponUse : MonoBehaviour
         if (animator != null && animator.IsAttacking) return;
 
         // Swing whatever the hand offers (held weapon or default fists). It must be a
-        // weapon: a Tool for stats plus either a Hitbox (melee) or a RangedWeapon
-        // (fires a projectile). Holding a non-weapon (e.g. wood) yields no swing.
+        // weapon: a Tool for stats plus either a MeleeWeapon or a RangedWeapon (fires
+        // a projectile). Holding a non-weapon (e.g. wood) yields no swing.
         GameObject weapon = hands.ActiveItem(side);
         if (weapon == null || !weapon.TryGetComponent(out Tool tool)) return;
-        weapon.TryGetComponent(out Hitbox hitbox);
+        weapon.TryGetComponent(out MeleeWeapon melee);
         weapon.TryGetComponent(out RangedWeapon ranged);
-        if (hitbox == null && ranged == null) return;
+        if (melee == null && ranged == null) return;
 
         hitLanded = false;
 
         // Arm the strike/shot; it lands when the clip's Animation Event fires. Whether
         // this resolves light or heavy is decided later (OnAttackChargeReady / Update).
-        pending = new Swing { tool = tool, side = side, hitbox = hitbox, ranged = ranged, range = tool.range, armed = true, heavy = false };
+        pending = new Swing { tool = tool, side = side, melee = melee, ranged = ranged, armed = true, heavy = false };
         charging = true;
         chargePaused = false;
         chargeStart = Time.time;
@@ -188,9 +249,11 @@ public class WeaponUse : MonoBehaviour
         if (animator != null) animator.RetargetAttack(pending.side, dir);
 
         // Left-hand swings sweep the opposite way (mirrorSweep) for directional art;
-        // the effect follows the swing origin so it moves with the player.
+        // the effect follows the swing origin so it moves with the player, and is
+        // fitted to the strike cone's rim.
         pending.tool.SpawnSwingEffect(Origin, dir, pending.side == HandSide.Left,
-                                      aimOrigin != null ? aimOrigin : transform, pending.heavy);
+                                      aimOrigin != null ? aimOrigin : transform, pending.heavy,
+                                      GetStrike(pending.tool, pending.heavy).range);
 
         // The held item's own sprite loops its swing frames until the attack ends
         // or it leaves the hand (dropped/swapped mid-swing).
@@ -218,11 +281,19 @@ public class WeaponUse : MonoBehaviour
         Vector2 dir = pending.aimed ? pending.dir : AimDirection(origin);
         if (!pending.aimed && animator != null) animator.RetargetAttack(pending.side, dir);
 
-        AttackData attack = pending.tool.GetAttack(pending.heavy);
+        AttackData attack = pending.tool.GetAttack(pending.heavy, stats);
 
-        if (pending.hitbox != null)
+        if (pending.melee != null)
         {
-            pending.hitbox.Strike(attack, gameObject, origin + dir * pending.range);
+            // Commit to the highlighted primary if it's still in the cone; otherwise
+            // the closest to the aim wins.
+            GameObject committed = preview != null ? preview.Primary : null;
+            TargetQuery query = pending.melee.Query(gameObject, origin, dir, GetStrike(pending.tool, pending.heavy),
+                                                    pending.tool.kind, TargetScoring.AimAngle,
+                                                    committed, float.PositiveInfinity);
+            // a connecting swing sticks on its contact frame for a beat (Tool.impactHold)
+            if (pending.melee.Strike(attack, query) > 0 && animator != null)
+                animator.HoldAttack(pending.tool.impactHold);
         }
         else if (pending.ranged != null)
         {

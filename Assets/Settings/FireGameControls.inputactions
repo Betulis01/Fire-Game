@@ -113,6 +113,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ZoomIn",
+                    "type": "Button",
+                    "id": "dcc31169-0ec3-48db-b985-501a4992ddd6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ZoomOut",
+                    "type": "Button",
+                    "id": "482dca58-b3bc-4a0e-830a-27ff2a7786e0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -306,7 +324,7 @@
                 {
                     "name": "",
                     "id": "0a1f2b30-0003-4000-8000-000000000012",
-                    "path": "<Gamepad>/dpad/down",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -416,7 +434,7 @@
                 {
                     "name": "",
                     "id": "b7114525-de90-444f-b7c6-e5d076526cbc",
-                    "path": "<Gamepad>/select",
+                    "path": "<DualShockGamepad>/touchpadButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -432,6 +450,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "HandScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "24602e9f-5166-4121-93bc-e3fb01a01cd1",
+                    "path": "<Keyboard>/pageUp",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ZoomIn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae5ed4a5-1a31-4282-8f04-760365455a5f",
+                    "path": "<Keyboard>/pageDown",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ZoomOut",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

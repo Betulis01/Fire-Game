@@ -828,7 +828,7 @@ MonoBehaviour:
   maxShadows: 3
   smoothing: 10
   sortingLayer: Background
-  sortingOrder: 2
+  sortingOrder: 3
 --- !u!1001 &678126110226952817
 PrefabInstance:
   m_ObjectHideFlags: 0

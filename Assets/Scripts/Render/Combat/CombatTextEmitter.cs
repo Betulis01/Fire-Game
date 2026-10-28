@@ -37,6 +37,13 @@ public class CombatTextEmitter : MonoBehaviour
     {
         Vector3 spawnPos = info.point.HasValue ? (Vector3)info.point.Value + offset : transform.position + offset;
 
+        // a crit is its own moment: shown at once, never merged into a pending total
+        if (info.isCrit)
+        {
+            CombatText.Spawn(spawnPos, info.amount, StyleFor(info.type), crit: true);
+            return;
+        }
+
         float accumulated = (pending.TryGetValue(info.type, out var bucket) ? bucket.amount : 0f) + info.amount;
         if (accumulated < 1f)
         {

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 // Central input hub. Lives on the "Input Manager" GameObject and is the single
 // source of truth for keybindings: all bindings come from the FireGameControls
@@ -10,17 +11,39 @@ using UnityEngine.InputSystem;
 //   Vector2 move = UserInput.Instance.Move;
 // Runs early (-100) so its per-frame state (pointer-over-UI latch, consumed
 // presses) is settled before any gameplay script reads it.
+//
+// Mouse & keyboard and gamepad are never mixed: Mode follows whichever was used
+// last (a real gamepad press or stick push, or a mouse move/click/key press). With
+// a gamepad the cursor is hidden and ignored -- aim is the right stick, else the
+// move direction, else the last aim, never wherever the cursor happens to rest --
+// and with mouse & keyboard the aim stick is ignored, so a drifting stick can't
+// steal the aim.
 [DefaultExecutionOrder(-100)]
 public class UserInput : MonoBehaviour
 {
+    public enum InputMode { MouseKeyboard, Gamepad }
+
     public static UserInput Instance { get; private set; }
 
     [Tooltip("FireGameControls input actions asset. Assign in the Inspector.")]
     [SerializeField] InputActionAsset actions;
 
     [Tooltip("Below this magnitude the gamepad aim stick is treated as idle, so " +
-             "aiming falls back to the mouse pointer.")]
+             "aiming keeps following the move direction / last aim.")]
     [SerializeField] float aimStickDeadzone = 0.35f;
+
+    [Tooltip("A gamepad stick or trigger must pass this to switch into gamepad mode " +
+             "(higher than the aim deadzone, so stick drift never switches).")]
+    [SerializeField] float gamepadWakeThreshold = 0.5f;
+
+    [Tooltip("Mouse movement (pixels in one frame) that switches back to mouse & keyboard.")]
+    [SerializeField] float mouseWakeDistance = 4f;
+
+    public InputMode Mode { get; private set; } = InputMode.MouseKeyboard;
+    public bool UsingGamepad => Mode == InputMode.Gamepad;
+    public event System.Action<InputMode> ModeChanged;
+
+    Vector2 gamepadAim = Vector2.right;   // last stick (or move) direction in gamepad mode
 
     // Action maps. The Player map is gated by game state (SetGameplayInputEnabled);
     // Global (pause) and Debug stay live in every state.
@@ -41,6 +64,8 @@ public class UserInput : MonoBehaviour
     InputAction switchHandAction;
     InputAction handScrollAction;
     InputAction menuAction;
+    InputAction zoomInAction;       // Page Up
+    InputAction zoomOutAction;      // Page Down
     InputAction pauseAction;
     // Debug map
     InputAction toggleInvincibilityAction;
@@ -84,6 +109,8 @@ public class UserInput : MonoBehaviour
         switchHandAction = playerMap.FindAction("SwitchHand", true);
         handScrollAction = playerMap.FindAction("HandScroll", true);
         menuAction = playerMap.FindAction("Menu", true);
+        zoomInAction = playerMap.FindAction("ZoomIn", true);
+        zoomOutAction = playerMap.FindAction("ZoomOut", true);
 
         globalMap = actions.FindActionMap("Global", throwIfNotFound: true);
         pauseAction = globalMap.FindAction("Pause", true);
@@ -106,6 +133,7 @@ public class UserInput : MonoBehaviour
     void OnDisable()
     {
         if (actions != null) actions.Disable();
+        Cursor.visible = true;
     }
 
     // Gameplay input (the Player map) exists only while actually playing. Called by
@@ -119,7 +147,11 @@ public class UserInput : MonoBehaviour
 
     void Update()
     {
-        pointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
+        UpdateMode();
+        if (UsingGamepad) UpdateGamepadAim();
+
+        // a hidden cursor (gamepad mode) is over nothing
+        pointerOverUI = !UsingGamepad && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 
         for (int i = 0; i < 2; i++)
         {
@@ -134,6 +166,64 @@ public class UserInput : MonoBehaviour
             if (use.WasPressedThisFrame())
                 suppressed[i] = pointerOverUI && use.activeControl?.device is Mouse;
         }
+    }
+
+    // Switch to whichever device family was actually used this frame. Reads the
+    // devices directly (not the actions), so it also works while the Player map is
+    // off (main menu, pause).
+    void UpdateMode()
+    {
+        if (Mode == InputMode.MouseKeyboard && GamepadUsed()) SetMode(InputMode.Gamepad);
+        else if (Mode == InputMode.Gamepad && MouseKeyboardUsed()) SetMode(InputMode.MouseKeyboard);
+    }
+
+    void SetMode(InputMode mode)
+    {
+        Mode = mode;
+        Cursor.visible = mode == InputMode.MouseKeyboard;
+        ModeChanged?.Invoke(mode);
+    }
+
+    bool GamepadUsed()
+    {
+        Gamepad pad = Gamepad.current;
+        if (pad == null || !pad.wasUpdatedThisFrame) return false;
+
+        float wake = gamepadWakeThreshold * gamepadWakeThreshold;
+        if (pad.leftStick.ReadValue().sqrMagnitude > wake || pad.rightStick.ReadValue().sqrMagnitude > wake) return true;
+        if (pad.leftTrigger.ReadValue() > gamepadWakeThreshold || pad.rightTrigger.ReadValue() > gamepadWakeThreshold) return true;
+
+        if (pad != buttonsPad)
+        {
+            buttonsPad = pad;
+            padButtons = new[]
+            {
+                pad.buttonSouth, pad.buttonEast, pad.buttonWest, pad.buttonNorth,
+                pad.leftShoulder, pad.rightShoulder, pad.startButton, pad.selectButton,
+                pad.leftStickButton, pad.rightStickButton,
+                pad.dpad.up, pad.dpad.down, pad.dpad.left, pad.dpad.right,
+            };
+        }
+        foreach (ButtonControl button in padButtons)
+            if (button.wasPressedThisFrame) return true;
+        return false;
+    }
+
+    Gamepad buttonsPad;          // the pad padButtons was built for
+    ButtonControl[] padButtons;
+
+    bool MouseKeyboardUsed()
+    {
+        Mouse mouse = Mouse.current;
+        if (mouse != null)
+        {
+            if (mouse.delta.ReadValue().sqrMagnitude > mouseWakeDistance * mouseWakeDistance) return true;
+            if (mouse.leftButton.wasPressedThisFrame || mouse.rightButton.wasPressedThisFrame
+                || mouse.middleButton.wasPressedThisFrame) return true;
+            if (mouse.scroll.ReadValue().sqrMagnitude > 0.01f) return true;
+        }
+        Keyboard keyboard = Keyboard.current;
+        return keyboard != null && keyboard.anyKey.wasPressedThisFrame;
     }
 
     InputAction UseAction(HandSide side) => side == HandSide.Left ? useLeftAction : useRightAction;
@@ -175,6 +265,8 @@ public class UserInput : MonoBehaviour
     }
     public bool SwitchHand => switchHandAction != null && switchHandAction.WasPressedThisFrame();
     public bool Menu => menuAction != null && menuAction.WasPressedThisFrame();
+    public bool ZoomIn => zoomInAction != null && zoomInAction.WasPressedThisFrame();
+    public bool ZoomOut => zoomOutAction != null && zoomOutAction.WasPressedThisFrame();
 
     // Scroll wheel this frame as a step: +1 (up), -1 (down) or 0.
     public int HandScrollStep
@@ -205,14 +297,13 @@ public class UserInput : MonoBehaviour
         return cam.ScreenToWorldPoint(PointerScreen);
     }
 
-    // Aim direction from a world-space origin. Uses the gamepad right stick when it
-    // is deflected past the deadzone; otherwise aims from the origin toward the
-    // mouse cursor. Always returns a unit vector (falls back to Vector2.right).
+    // Aim direction from a world-space origin. Gamepad mode: the right stick while
+    // it's past the deadzone, else the move direction, else the last of those (see
+    // UpdateGamepadAim) -- never the hidden cursor. Mouse mode: from the origin
+    // toward the cursor; the stick is ignored. Always a unit vector.
     public Vector2 AimDirection(Vector2 origin, Camera cam)
     {
-        Vector2 stick = aimAction != null ? aimAction.ReadValue<Vector2>() : Vector2.zero;
-        if (stick.sqrMagnitude >= aimStickDeadzone * aimStickDeadzone)
-            return stick.normalized;
+        if (UsingGamepad) return gamepadAim;
 
         if (cam != null)
         {
@@ -223,6 +314,19 @@ public class UserInput : MonoBehaviour
         return Vector2.right;
     }
 
+    // Once per frame, so every reader sees the same gamepad aim.
+    void UpdateGamepadAim()
+    {
+        Vector2 stick = aimAction != null ? aimAction.ReadValue<Vector2>() : Vector2.zero;
+        if (stick.sqrMagnitude >= aimStickDeadzone * aimStickDeadzone)
+        {
+            gamepadAim = stick.normalized;
+            return;
+        }
+        Vector2 move = Move;
+        if (move.sqrMagnitude >= aimStickDeadzone * aimStickDeadzone) gamepadAim = move.normalized;
+    }
+
     // A point along the aim direction from origin: at the pointer's distance for
     // mouse (clamped to maxDistance) or at maxDistance for gamepad. Used to place
     // ghosts (drop preview, build placement) under the cursor within a range.
@@ -230,7 +334,7 @@ public class UserInput : MonoBehaviour
     {
         Vector2 aim = AimDirection(origin, cam);
         float dist = maxDistance;
-        if (cam != null)
+        if (!UsingGamepad && cam != null)
             dist = Mathf.Min((((Vector2)cam.ScreenToWorldPoint(PointerScreen)) - origin).magnitude, maxDistance);
         return origin + aim * dist;
     }

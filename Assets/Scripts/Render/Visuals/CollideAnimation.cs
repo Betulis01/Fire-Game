@@ -5,7 +5,7 @@ using UnityEngine;
 // false once the last one leaves. The animator plays the non-looping "collide" clip
 // while true -- holding on its last frame if the touch outlasts the clip -- and
 // snaps back to idle (stopping the clip) the instant it goes false. Unlike
-// HitAnimation (a combat hit via Hitbox/Hurtbox/IHitReactor), this reacts to a
+// HitAnimation (a combat hit via MeleeWeapon/Hurtbox/IHitReactor), this reacts to a
 // plain physical overlap, so it lives on its own trigger collider instead.
 public class CollideAnimation : MonoBehaviour
 {

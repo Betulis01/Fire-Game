@@ -73,9 +73,9 @@ public class SpriteShadow : MonoBehaviour
     [SerializeField] float smoothing = 10f;
 
     [SerializeField] string sortingLayer = "Background";
-    [Tooltip("Above the ground tilemap (0) and the snow trail (1). The strongest shadow " +
-             "sorts here, the next one above it, and so on.")]
-    [SerializeField] int sortingOrder = 2;
+    [Tooltip("Above the ground tilemap (0), the snow trail (1) and ground splatters (2). " +
+             "The strongest shadow sorts here, the next one above it, and so on.")]
+    [SerializeField] int sortingOrder = 3;
 
     const float Invisible = 0.005f;   // alpha below which a shadow is hidden (and a fading one freed)
     const float DefaultPixelsPerUnit = 32f;
@@ -117,7 +117,10 @@ public class SpriteShadow : MonoBehaviour
         {
             if (TryGetComponent(out SpriteRenderer body)) sources.Add(body);
             foreach (SpriteLayerFollower f in GetComponentsInChildren<SpriteLayerFollower>(true))
-                if (!f.shadowLayer) sources.Add(f.GetComponent<SpriteRenderer>());
+            {
+                SpriteRenderer sr = f.GetComponent<SpriteRenderer>();
+                if (!f.shadowLayer && !TargetHighlight.IsHighlight(sr)) sources.Add(sr);   // a target outline casts nothing
+            }
         }
         offsets = new Vector3[sources.Count];
 

@@ -8023,6 +8023,1497 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     uvTransform: {x: 191, y: 225}
+  - name: Small bag_Frame_0
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 357
+      y: 239
+      width: 3
+      height: 4
+    spriteID: 07ccf974838048543b348f9a496608d4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 357, y: 239}
+  - name: Small bag_Frame_1
+    originalName: 
+    pivot: {x: 0.75, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 220
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 44536b774d3d1b14da5fb34c80441201
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 220, y: 225}
+  - name: Small bag_Frame_2
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 506
+      y: 44
+      width: 2
+      height: 4
+    spriteID: a1aa26fb4eeb60b4bb4f4f0f992f552b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 506, y: 44}
+  - name: Small bag_Frame_3
+    originalName: 
+    pivot: {x: 3, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 506
+      y: 64
+      width: 2
+      height: 4
+    spriteID: dce85576c9a950a4db47cdc17217b099
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 506, y: 64}
+  - name: Small bag_Frame_4
+    originalName: 
+    pivot: {x: 3, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 412
+      y: 239
+      width: 2
+      height: 4
+    spriteID: ff57d3caed5503248bf820a1f711567a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 412, y: 239}
+  - name: Small bag_Frame_5
+    originalName: 
+    pivot: {x: 3, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 422
+      y: 239
+      width: 2
+      height: 4
+    spriteID: 7eb1f3a31e47fec4b9d90e3c260dcd38
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 422, y: 239}
+  - name: Small bag_Frame_6
+    originalName: 
+    pivot: {x: 3, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 432
+      y: 239
+      width: 2
+      height: 4
+    spriteID: f76af43b9eedb5542a9a2ee0f27155ee
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 432, y: 239}
+  - name: Small bag_Frame_7
+    originalName: 
+    pivot: {x: 5, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 507
+      y: 4
+      width: 1
+      height: 4
+    spriteID: d499a04ee734fd74c8f7ff1c2b495f7d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 507, y: 4}
+  - name: Small bag_Frame_8
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 442
+      y: 239
+      width: 2
+      height: 4
+    spriteID: 254f85baa05ab4d40b2197888186ef29
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 442, y: 239}
+  - name: Small bag_Frame_9
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 452
+      y: 239
+      width: 2
+      height: 4
+    spriteID: 00cd8b51ea8991d4e9c71dc2b8f2ccfa
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 452, y: 239}
+  - name: Small bag_Frame_10
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 462
+      y: 239
+      width: 2
+      height: 4
+    spriteID: 53839cfd32603cb4588eca78982c5111
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 462, y: 239}
+  - name: Small bag_Frame_11
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 472
+      y: 239
+      width: 2
+      height: 4
+    spriteID: fb4acc6b3cccf7d4ba9c8a03922c800c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 472, y: 239}
+  - name: Small bag_Frame_12
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 482
+      y: 239
+      width: 2
+      height: 4
+    spriteID: 1061da493bdb4764aae97c8ff379cd83
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 482, y: 239}
+  - name: Small bag_Frame_13
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 492
+      y: 239
+      width: 2
+      height: 4
+    spriteID: 68ff206651555ac45b3fcc1ca76e4ddc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 492, y: 239}
+  - name: Small bag_Frame_14
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 232
+      y: 225
+      width: 4
+      height: 6
+    spriteID: d52cf87de568f4448a82a0f5ed75a997
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 232, y: 225}
+  - name: Small bag_Frame_15
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 244
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 587594e560cbc774fa423aa6ada39b6f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 244, y: 225}
+  - name: Small bag_Frame_16
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 256
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 3977ff8d61be55a4f8ff298684a0efcc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 256, y: 225}
+  - name: Small bag_Frame_17
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 268
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 3704531af7c01624b82de4de92a9d0e8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 268, y: 225}
+  - name: Small bag_Frame_18
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 280
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 378fd9a37959a254b87fa6cc0149be56
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 280, y: 225}
+  - name: Small bag_Frame_19
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 292
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 1cc9c40d6c42afa43ab3f5021ee00e6d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 292, y: 225}
+  - name: Small bag_Frame_20
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 304
+      y: 225
+      width: 4
+      height: 6
+    spriteID: c8adf06dd4c6b024daa9437981b9efd8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 304, y: 225}
+  - name: Small bag_Frame_21
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 316
+      y: 225
+      width: 4
+      height: 6
+    spriteID: e6b3f08bcbe14a149b3ba5bc85313c97
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 316, y: 225}
+  - name: Small bag_Frame_22
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 328
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 60d3597fdfcf6a049a40ef1d1863c0f9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 328, y: 225}
+  - name: Small bag_Frame_23
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 340
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 28024a5b1fdf9e84383cba1bd3dbc4f7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 340, y: 225}
+  - name: Small bag_Frame_24
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 352
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 8bb1d0f395604f841a2410e1e8a81a2f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 352, y: 225}
+  - name: Small bag_Frame_25
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 364
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 8fbbfd44b27ed184cbd62b05db275a87
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 364, y: 225}
+  - name: Small bag_Frame_49
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 368
+      y: 239
+      width: 3
+      height: 4
+    spriteID: 9e6e6d1ec0b0c6043b529a356724ed25
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 368, y: 239}
+  - name: Small bag_Frame_50
+    originalName: 
+    pivot: {x: 1.75, y: -0.32000008}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 163
+      y: 239
+      width: 4
+      height: 5
+    spriteID: 9d07b5eb22498de48b1a22fde6e5dfa5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 163, y: 239}
+  - name: Small bag_Frame_51
+    originalName: 
+    pivot: {x: 1.6666667, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 379
+      y: 239
+      width: 3
+      height: 4
+    spriteID: c7fad84da15fff64a9278f6126c936f8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 379, y: 239}
+  - name: Small bag_Frame_52
+    originalName: 
+    pivot: {x: 1.5, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 211
+      y: 239
+      width: 4
+      height: 4
+    spriteID: 3c9a67e51e4da9a479ee66487fe5c460
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 211, y: 239}
+  - name: Small bag_Frame_53
+    originalName: 
+    pivot: {x: 2, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 390
+      y: 239
+      width: 3
+      height: 4
+    spriteID: 312f81098be691349bf3b1012550ca80
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 390, y: 239}
+  - name: Small bag_Frame_54
+    originalName: 
+    pivot: {x: 2.5, y: -0.8666668}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 61
+      y: 505
+      width: 2
+      height: 3
+    spriteID: 1c5f2d2e443b6854eb0a388ae67b48fc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 61, y: 505}
+  - name: Small bag_Frame_55
+    originalName: 
+    pivot: {x: 1.75, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 223
+      y: 239
+      width: 4
+      height: 4
+    spriteID: c0bd9e4518b14894a86f0ab3c7e15c5b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 223, y: 239}
+  - name: Small bag_Frame_56
+    originalName: 
+    pivot: {x: 1.75, y: -0.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 235
+      y: 239
+      width: 4
+      height: 4
+    spriteID: 070ada23f11c66c4a99a1d305904481a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 235, y: 239}
+  - name: Small bag_Frame_57
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 376
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 1b8de8f1fad47be4caa8b735534b6988
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 376, y: 225}
+  - name: Small bag_Frame_58
+    originalName: 
+    pivot: {x: 0, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 388
+      y: 225
+      width: 4
+      height: 6
+    spriteID: e4574278da4528841b3464a69987d677
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 388, y: 225}
+  - name: Small bag_Frame_59
+    originalName: 
+    pivot: {x: 0, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 400
+      y: 225
+      width: 4
+      height: 6
+    spriteID: f6ecb07cffca06d419d84cc19075481e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 400, y: 225}
+  - name: Small bag_Frame_60
+    originalName: 
+    pivot: {x: 0, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 502
+      y: 163
+      width: 5
+      height: 6
+    spriteID: dd04fb0c71a21204396f58367e6a6938
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 502, y: 163}
+  - name: Small bag_Frame_61
+    originalName: 
+    pivot: {x: 0, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 412
+      y: 225
+      width: 4
+      height: 6
+    spriteID: f00b986b92384a841bfdee4a240fe082
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 412, y: 225}
+  - name: Small bag_Frame_62
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 424
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 3d2423108b650fa46a0b2d434d314ad7
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 424, y: 225}
+  - name: Small bag_Frame_63
+    originalName: 
+    pivot: {x: 0.5, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 436
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 918ec9020568194429c328881bf80295
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 436, y: 225}
+  - name: Small bag_Frame_64
+    originalName: 
+    pivot: {x: 0.5, y: -0.4333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 448
+      y: 225
+      width: 4
+      height: 6
+    spriteID: b2a3b9866c143614a955ca6589465951
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 448, y: 225}
+  - name: Small bag_Frame_65
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 247
+      y: 239
+      width: 3
+      height: 5
+    spriteID: a3f48150303356b4abc4f54a1125927e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 247, y: 239}
+  - name: Small bag_Frame_66
+    originalName: 
+    pivot: {x: 2.3333335, y: -1.1200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 258
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 796d1ce1d3f8db9468326fb6a77e031b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 258, y: 239}
+  - name: Small bag_Frame_67
+    originalName: 
+    pivot: {x: 2.6666667, y: -1.6500001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 401
+      y: 239
+      width: 3
+      height: 4
+    spriteID: fd40ab1866bf813408487fbd74e3f3f1
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 401, y: 239}
+  - name: Small bag_Frame_68
+    originalName: 
+    pivot: {x: 2.3333335, y: -1.1200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 269
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 9b15bb73232352e49aecc338948fc69e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 269, y: 239}
+  - name: Small bag_Frame_69
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 280
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 2d4055dfe28cfbd449a31c13a5cb1000
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 280, y: 239}
+  - name: Small bag_Frame_70
+    originalName: 
+    pivot: {x: 1.75, y: -0.7200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 175
+      y: 239
+      width: 4
+      height: 5
+    spriteID: cff1a6046697ed64eb8dee35e56c9510
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 175, y: 239}
+  - name: Small bag_Frame_71
+    originalName: 
+    pivot: {x: 1.75, y: -0.5200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 187
+      y: 239
+      width: 4
+      height: 5
+    spriteID: 744c2be2c6e1a8d40a2c9fdf2800b08f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 187, y: 239}
+  - name: Small bag_Frame_72
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 291
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 451f1f06122ee4440ab8468ee7fb2389
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 291, y: 239}
+  - name: Small bag_Frame_73
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 302
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 601b831a6f891f5498d41ba1cd19246a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 302, y: 239}
+  - name: Small bag_Frame_74
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 313
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 685fe06135c236b48af2e031099966ad
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 313, y: 239}
+  - name: Small bag_Frame_75
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 324
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 0767213440d93e246b355b09d002db33
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 324, y: 239}
+  - name: Small bag_Frame_76
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.9200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 335
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 0fb6f735fca1bba4a8773d182f445e7b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 335, y: 239}
+  - name: Small bag_Frame_77
+    originalName: 
+    pivot: {x: 2.3333335, y: -0.7200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 346
+      y: 239
+      width: 3
+      height: 5
+    spriteID: 078cd349218ad9c40be94aa736e37c58
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 346, y: 239}
+  - name: Small bag_Frame_78
+    originalName: 
+    pivot: {x: 0.25, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 460
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 75704995011c6064db1b226fa8f43c27
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 460, y: 225}
+  - name: Small bag_Frame_79
+    originalName: 
+    pivot: {x: 0.5, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 472
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 1c0cec3e991553d46b62b61e4b5a42eb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 472, y: 225}
+  - name: Small bag_Frame_80
+    originalName: 
+    pivot: {x: 0.5, y: -0.4333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 484
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 9764cd44b6f03014fb0ec6180825ae3c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 484, y: 225}
+  - name: Small bag_Frame_81
+    originalName: 
+    pivot: {x: 0.5, y: -0.6000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 496
+      y: 225
+      width: 4
+      height: 6
+    spriteID: 72631ddaf88af5744b3d20e60ffa3f7e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 496, y: 225}
+  - name: Small bag_Frame_82
+    originalName: 
+    pivot: {x: 0.25, y: -0.4333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 79
+      y: 239
+      width: 4
+      height: 6
+    spriteID: b82b22ee2cd77a3479eff009b337c3d4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 79, y: 239}
+  - name: Small bag_Frame_83
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 91
+      y: 239
+      width: 4
+      height: 6
+    spriteID: 81621c666396b9d4e9861c66376c9994
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 91, y: 239}
+  - name: Small bag_Frame_84
+    originalName: 
+    pivot: {x: 0, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 103
+      y: 239
+      width: 4
+      height: 6
+    spriteID: e131b25013bb9e84fbfbac8288498f1b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 103, y: 239}
+  - name: Small bag_Frame_85
+    originalName: 
+    pivot: {x: 0, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 115
+      y: 239
+      width: 4
+      height: 6
+    spriteID: e2fab6f473a9bfd47bed894576203e3a
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 115, y: 239}
+  - name: Small bag_Frame_86
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 127
+      y: 239
+      width: 4
+      height: 6
+    spriteID: 57895d31a52e155469e56b109759c294
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 127, y: 239}
+  - name: Small bag_Frame_87
+    originalName: 
+    pivot: {x: 0.5, y: -0.10000007}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 139
+      y: 239
+      width: 4
+      height: 6
+    spriteID: ff1fc0182de9a9f4b8918ad88a6bbccb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 139, y: 239}
+  - name: Small bag_Frame_88
+    originalName: 
+    pivot: {x: 3, y: -0.9000001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 502
+      y: 239
+      width: 2
+      height: 4
+    spriteID: b514f181d633ea54d80c802c53fc4ee0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 502, y: 239}
+  - name: Small bag_Frame_89
+    originalName: 
+    pivot: {x: 1.75, y: -0.7200001}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 199
+      y: 239
+      width: 4
+      height: 5
+    spriteID: d339f45a5eac9864e849cf0c23b3d694
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 199, y: 239}
+  - name: Small bag_Frame_90
+    originalName: 
+    pivot: {x: 0.6, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 501
+      y: 24
+      width: 5
+      height: 6
+    spriteID: f75610317fd5a6b4b8ff4fc13cd9ec87
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 501, y: 24}
+  - name: Small bag_Frame_91
+    originalName: 
+    pivot: {x: 0.25, y: -0.26666674}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 151
+      y: 239
+      width: 4
+      height: 6
+    spriteID: 26def637f982b7543b8f1946f0e69823
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 151, y: 239}
+  - name: Small bag_Frame_92
+    originalName: 
+    pivot: {x: -0.2, y: -0.4333334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 207
+      y: 225
+      width: 5
+      height: 6
+    spriteID: 36a6a6a3d7ef3744ca4b5a7faea35d50
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 207, y: 225}
+  - name: Small bag_Frame_93
+    originalName: 
+    pivot: {x: 1, y: -5.6000004}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 44
+      y: 507
+      width: 1
+      height: 1
+    spriteID: abfaed70c8ac01d4592dc19921360155
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 44, y: 507}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
@@ -10710,6 +12201,677 @@ ScriptedImporter:
     parentIndex: 5
   - layerIndex: 11
     uuid:
+      value0: 4234312512
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 0
+    name: Bag
+    layerFlags: 3
+    layerType: 1
+    blendMode: 0
+    cells: []
+    linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
+    parentIndex: 5
+  - layerIndex: 12
+    uuid:
+      value0: 3858000510
+      value1: 0
+      value2: 0
+      value3: 0
+    guid: 0
+    name: Small bag
+    layerFlags: 3
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: Small bag_Frame_0
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 26
+        width: 3
+        height: 4
+      spriteId: 07ccf974838048543b348f9a496608d4
+    - name: Small bag_Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 29
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 44536b774d3d1b14da5fb34c80441201
+    - name: Small bag_Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: a1aa26fb4eeb60b4bb4f4f0f992f552b
+    - name: Small bag_Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 25
+        width: 2
+        height: 4
+      spriteId: dce85576c9a950a4db47cdc17217b099
+    - name: Small bag_Frame_4
+      frameIndex: 4
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 25
+        width: 2
+        height: 4
+      spriteId: ff57d3caed5503248bf820a1f711567a
+    - name: Small bag_Frame_5
+      frameIndex: 5
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 25
+        width: 2
+        height: 4
+      spriteId: 7eb1f3a31e47fec4b9d90e3c260dcd38
+    - name: Small bag_Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 25
+        width: 2
+        height: 4
+      spriteId: f76af43b9eedb5542a9a2ee0f27155ee
+    - name: Small bag_Frame_7
+      frameIndex: 7
+      additiveSortOrder: 0
+      cellRect:
+        x: 27
+        y: 26
+        width: 1
+        height: 4
+      spriteId: d499a04ee734fd74c8f7ff1c2b495f7d
+    - name: Small bag_Frame_8
+      frameIndex: 8
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: 254f85baa05ab4d40b2197888186ef29
+    - name: Small bag_Frame_9
+      frameIndex: 9
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: 00cd8b51ea8991d4e9c71dc2b8f2ccfa
+    - name: Small bag_Frame_10
+      frameIndex: 10
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: 53839cfd32603cb4588eca78982c5111
+    - name: Small bag_Frame_11
+      frameIndex: 11
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: fb4acc6b3cccf7d4ba9c8a03922c800c
+    - name: Small bag_Frame_12
+      frameIndex: 12
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: 1061da493bdb4764aae97c8ff379cd83
+    - name: Small bag_Frame_13
+      frameIndex: 13
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: 68ff206651555ac45b3fcc1ca76e4ddc
+    - name: Small bag_Frame_14
+      frameIndex: 14
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: d52cf87de568f4448a82a0f5ed75a997
+    - name: Small bag_Frame_15
+      frameIndex: 15
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 587594e560cbc774fa423aa6ada39b6f
+    - name: Small bag_Frame_16
+      frameIndex: 16
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 3977ff8d61be55a4f8ff298684a0efcc
+    - name: Small bag_Frame_17
+      frameIndex: 17
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 3704531af7c01624b82de4de92a9d0e8
+    - name: Small bag_Frame_18
+      frameIndex: 18
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 378fd9a37959a254b87fa6cc0149be56
+    - name: Small bag_Frame_19
+      frameIndex: 19
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 1cc9c40d6c42afa43ab3f5021ee00e6d
+    - name: Small bag_Frame_20
+      frameIndex: 20
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: c8adf06dd4c6b024daa9437981b9efd8
+    - name: Small bag_Frame_21
+      frameIndex: 21
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: e6b3f08bcbe14a149b3ba5bc85313c97
+    - name: Small bag_Frame_22
+      frameIndex: 22
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 60d3597fdfcf6a049a40ef1d1863c0f9
+    - name: Small bag_Frame_23
+      frameIndex: 23
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 28024a5b1fdf9e84383cba1bd3dbc4f7
+    - name: Small bag_Frame_24
+      frameIndex: 24
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 8bb1d0f395604f841a2410e1e8a81a2f
+    - name: Small bag_Frame_25
+      frameIndex: 25
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 8fbbfd44b27ed184cbd62b05db275a87
+    - name: Small bag_Frame_49
+      frameIndex: 49
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 25
+        width: 3
+        height: 4
+      spriteId: 9e6e6d1ec0b0c6043b529a356724ed25
+    - name: Small bag_Frame_50
+      frameIndex: 50
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 24
+        width: 4
+        height: 5
+      spriteId: 9d07b5eb22498de48b1a22fde6e5dfa5
+    - name: Small bag_Frame_51
+      frameIndex: 51
+      additiveSortOrder: 0
+      cellRect:
+        x: 27
+        y: 25
+        width: 3
+        height: 4
+      spriteId: c7fad84da15fff64a9278f6126c936f8
+    - name: Small bag_Frame_52
+      frameIndex: 52
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 4
+        height: 4
+      spriteId: 3c9a67e51e4da9a479ee66487fe5c460
+    - name: Small bag_Frame_53
+      frameIndex: 53
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 25
+        width: 3
+        height: 4
+      spriteId: 312f81098be691349bf3b1012550ca80
+    - name: Small bag_Frame_54
+      frameIndex: 54
+      additiveSortOrder: 0
+      cellRect:
+        x: 27
+        y: 25
+        width: 2
+        height: 3
+      spriteId: 1c5f2d2e443b6854eb0a388ae67b48fc
+    - name: Small bag_Frame_55
+      frameIndex: 55
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 25
+        width: 4
+        height: 4
+      spriteId: c0bd9e4518b14894a86f0ab3c7e15c5b
+    - name: Small bag_Frame_56
+      frameIndex: 56
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 25
+        width: 4
+        height: 4
+      spriteId: 070ada23f11c66c4a99a1d305904481a
+    - name: Small bag_Frame_57
+      frameIndex: 57
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 1b8de8f1fad47be4caa8b735534b6988
+    - name: Small bag_Frame_58
+      frameIndex: 58
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 23
+        width: 4
+        height: 6
+      spriteId: e4574278da4528841b3464a69987d677
+    - name: Small bag_Frame_59
+      frameIndex: 59
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 23
+        width: 4
+        height: 6
+      spriteId: f6ecb07cffca06d419d84cc19075481e
+    - name: Small bag_Frame_60
+      frameIndex: 60
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 24
+        width: 5
+        height: 6
+      spriteId: dd04fb0c71a21204396f58367e6a6938
+    - name: Small bag_Frame_61
+      frameIndex: 61
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 23
+        width: 4
+        height: 6
+      spriteId: f00b986b92384a841bfdee4a240fe082
+    - name: Small bag_Frame_62
+      frameIndex: 62
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 3d2423108b650fa46a0b2d434d314ad7
+    - name: Small bag_Frame_63
+      frameIndex: 63
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 918ec9020568194429c328881bf80295
+    - name: Small bag_Frame_64
+      frameIndex: 64
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 25
+        width: 4
+        height: 6
+      spriteId: b2a3b9866c143614a955ca6589465951
+    - name: Small bag_Frame_65
+      frameIndex: 65
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: a3f48150303356b4abc4f54a1125927e
+    - name: Small bag_Frame_66
+      frameIndex: 66
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 28
+        width: 3
+        height: 5
+      spriteId: 796d1ce1d3f8db9468326fb6a77e031b
+    - name: Small bag_Frame_67
+      frameIndex: 67
+      additiveSortOrder: 0
+      cellRect:
+        x: 24
+        y: 29
+        width: 3
+        height: 4
+      spriteId: fd40ab1866bf813408487fbd74e3f3f1
+    - name: Small bag_Frame_68
+      frameIndex: 68
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 28
+        width: 3
+        height: 5
+      spriteId: 9b15bb73232352e49aecc338948fc69e
+    - name: Small bag_Frame_69
+      frameIndex: 69
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: 2d4055dfe28cfbd449a31c13a5cb1000
+    - name: Small bag_Frame_70
+      frameIndex: 70
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 26
+        width: 4
+        height: 5
+      spriteId: cff1a6046697ed64eb8dee35e56c9510
+    - name: Small bag_Frame_71
+      frameIndex: 71
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 25
+        width: 4
+        height: 5
+      spriteId: 744c2be2c6e1a8d40a2c9fdf2800b08f
+    - name: Small bag_Frame_72
+      frameIndex: 72
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: 451f1f06122ee4440ab8468ee7fb2389
+    - name: Small bag_Frame_73
+      frameIndex: 73
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: 601b831a6f891f5498d41ba1cd19246a
+    - name: Small bag_Frame_74
+      frameIndex: 74
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: 685fe06135c236b48af2e031099966ad
+    - name: Small bag_Frame_75
+      frameIndex: 75
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: 0767213440d93e246b355b09d002db33
+    - name: Small bag_Frame_76
+      frameIndex: 76
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 27
+        width: 3
+        height: 5
+      spriteId: 0fb6f735fca1bba4a8773d182f445e7b
+    - name: Small bag_Frame_77
+      frameIndex: 77
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 26
+        width: 3
+        height: 5
+      spriteId: 078cd349218ad9c40be94aa736e37c58
+    - name: Small bag_Frame_78
+      frameIndex: 78
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 75704995011c6064db1b226fa8f43c27
+    - name: Small bag_Frame_79
+      frameIndex: 79
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 23
+        width: 4
+        height: 6
+      spriteId: 1c0cec3e991553d46b62b61e4b5a42eb
+    - name: Small bag_Frame_80
+      frameIndex: 80
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 25
+        width: 4
+        height: 6
+      spriteId: 9764cd44b6f03014fb0ec6180825ae3c
+    - name: Small bag_Frame_81
+      frameIndex: 81
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 26
+        width: 4
+        height: 6
+      spriteId: 72631ddaf88af5744b3d20e60ffa3f7e
+    - name: Small bag_Frame_82
+      frameIndex: 82
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 25
+        width: 4
+        height: 6
+      spriteId: b82b22ee2cd77a3479eff009b337c3d4
+    - name: Small bag_Frame_83
+      frameIndex: 83
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 81621c666396b9d4e9861c66376c9994
+    - name: Small bag_Frame_84
+      frameIndex: 84
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 24
+        width: 4
+        height: 6
+      spriteId: e131b25013bb9e84fbfbac8288498f1b
+    - name: Small bag_Frame_85
+      frameIndex: 85
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 24
+        width: 4
+        height: 6
+      spriteId: e2fab6f473a9bfd47bed894576203e3a
+    - name: Small bag_Frame_86
+      frameIndex: 86
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 57895d31a52e155469e56b109759c294
+    - name: Small bag_Frame_87
+      frameIndex: 87
+      additiveSortOrder: 0
+      cellRect:
+        x: 30
+        y: 23
+        width: 4
+        height: 6
+      spriteId: ff1fc0182de9a9f4b8918ad88a6bbccb
+    - name: Small bag_Frame_88
+      frameIndex: 88
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 26
+        width: 2
+        height: 4
+      spriteId: b514f181d633ea54d80c802c53fc4ee0
+    - name: Small bag_Frame_89
+      frameIndex: 89
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 26
+        width: 4
+        height: 5
+      spriteId: d339f45a5eac9864e849cf0c23b3d694
+    - name: Small bag_Frame_90
+      frameIndex: 90
+      additiveSortOrder: 0
+      cellRect:
+        x: 29
+        y: 24
+        width: 5
+        height: 6
+      spriteId: f75610317fd5a6b4b8ff4fc13cd9ec87
+    - name: Small bag_Frame_91
+      frameIndex: 91
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 24
+        width: 4
+        height: 6
+      spriteId: 26def637f982b7543b8f1946f0e69823
+    - name: Small bag_Frame_92
+      frameIndex: 92
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 25
+        width: 5
+        height: 6
+      spriteId: 36a6a6a3d7ef3744ca4b5a7faea35d50
+    - name: Small bag_Frame_93
+      frameIndex: 93
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 28
+        width: 1
+        height: 1
+      spriteId: abfaed70c8ac01d4592dc19921360155
+    linkedCells: []
+    tileCells: []
+    tileSetIndex: 0
+    parentIndex: 11
+  - layerIndex: 13
+    uuid:
       value0: 68076052
       value1: 0
       value2: 0
@@ -10724,7 +12886,7 @@ ScriptedImporter:
     tileCells: []
     tileSetIndex: 0
     parentIndex: 5
-  - layerIndex: 12
+  - layerIndex: 14
     uuid:
       value0: 1405457557
       value1: 0
@@ -11585,7 +13747,7 @@ ScriptedImporter:
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
-    parentIndex: 11
+    parentIndex: 13
   tileSets: []
   platformSettings:
   - name: DefaultTexturePlatform

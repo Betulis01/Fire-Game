@@ -17,7 +17,7 @@ public class Flammable : MonoBehaviour, IHitReactor
     public float tickInterval = 3f;
 
     [Tooltip("Damage dealt per tick.")]
-    public float tickDamage = 2f;
+    public float tickDamage = 10f;
 
     [Tooltip("Looping fire VFX shown on the target while burning. Parented to this entity.")]
     public GameObject fireEffectPrefab;

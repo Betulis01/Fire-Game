@@ -70,8 +70,8 @@ public class HandBarUI : MonoBehaviour
     void Redraw()
     {
         if (hands == null) return;
-        leftHand.Set(UiPixel.IconOf(hands.Held(HandSide.Left)), hands.Count(HandSide.Left));
-        rightHand.Set(UiPixel.IconOf(hands.Held(HandSide.Right)), hands.Count(HandSide.Right));
+        leftHand.Set(hands.Held(HandSide.Left), hands.Count(HandSide.Left));
+        rightHand.Set(hands.Held(HandSide.Right), hands.Count(HandSide.Right));
         RedrawSkills();
     }
 

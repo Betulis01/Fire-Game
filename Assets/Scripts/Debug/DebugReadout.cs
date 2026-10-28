@@ -39,7 +39,19 @@ public class DebugReadout : MonoBehaviour
         }
 
         if (body != null)
+        {
             sb.AppendLine($"Body temp: {body.Temp:0.0}   Warmth: {body.Warmth:0.0}");
+            if (body.TryGetComponent(out CombatState combat))
+                sb.AppendLine($"In combat: {combat.InCombat}");   // gates the aim indicator
+            if (body.TryGetComponent(out CharacterStats stats))
+            {
+                StatBlock a = stats.Attributes;
+                sb.AppendLine($"STR {a.strength:0}  AGI {a.agility:0}  INT {a.intelligence:0}  STA {a.stamina:0}");
+                sb.AppendLine($"AP {stats.AttackPower:0}  Crit {stats.CritChance:0.##}% x{stats.CritMultiplier:0.##}  " +
+                              $"SP {stats.SpellPower:0}  Armor {stats.Armor:0} ({StatFormulas.DamageReduction(stats.Armor) * 100f:0.#}%)  " +
+                              $"Max HP {stats.MaxHealth:0}");
+            }
+        }
 
         Vector3 playerPos = body != null ? body.transform.position : transform.position;
 

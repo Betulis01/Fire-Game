@@ -25,6 +25,13 @@ MonoBehaviour:
     size: 0
     position: {x: 0, y: 0}
     icon: {fileID: 0}
+    statsPerRank:
+      strength: 0
+      agility: 0
+      intelligence: 0
+      stamina: 0
+      armor: 0
+      maxHealth: 0
   - id: axe_b
     displayName: Axe Skill B
     description: 
@@ -34,6 +41,13 @@ MonoBehaviour:
     size: 0
     position: {x: 72, y: 0}
     icon: {fileID: 0}
+    statsPerRank:
+      strength: 0
+      agility: 0
+      intelligence: 0
+      stamina: 0
+      armor: 0
+      maxHealth: 0
   - id: axe_whirlwind
     displayName: Whirlwind
     description: Spin with your axe held out, striking everything around you on every
@@ -46,3 +60,10 @@ MonoBehaviour:
     size: 1
     position: {x: 38, y: 87}
     icon: {fileID: 21300000, guid: b5c59c9ad07a4e94ab9e9c6f4a2d5cd4, type: 3}
+    statsPerRank:
+      strength: 0
+      agility: 0
+      intelligence: 0
+      stamina: 0
+      armor: 0
+      maxHealth: 0

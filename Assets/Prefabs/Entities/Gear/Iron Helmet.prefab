@@ -251,6 +251,13 @@ MonoBehaviour:
   - {fileID: -6122977321987671896, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   - {fileID: 3214879818864793632, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
   - {fileID: 8556608881277008726, guid: 332edefdd70e4fe4a9454bfb41b591e2, type: 3}
+  stats:
+    strength: 1
+    agility: 1
+    intelligence: 0
+    stamina: 1
+    armor: 30
+    maxHealth: 0
 --- !u!114 &3061794294526079226
 MonoBehaviour:
   m_ObjectHideFlags: 0

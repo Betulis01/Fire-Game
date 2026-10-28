@@ -16,9 +16,8 @@ public class Ingredient
 
 // One conversion: gather `ingredients` and, if `requiredStation` is satisfied, get
 // `output`. requiredStation = None means it crafts bare-handed/anywhere.
-// Ingredients span at most two distinct item types: Instant recipes draw them from
-// the player's two hands, Placeable recipes draw them from items dropped on the
-// ghost, and there are only two hands' worth of distinct stacks to match against.
+// Instant recipes draw their ingredients from the player's hands and worn bag;
+// Placeable recipes from items fed to the placed ghost.
 [System.Serializable]
 public class Recipe
 {

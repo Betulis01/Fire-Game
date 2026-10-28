@@ -26,10 +26,10 @@ public class CombatText : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 
-    public static void Spawn(Vector3 worldPos, float amount, PopupStyle style, bool heal = false)
+    public static void Spawn(Vector3 worldPos, float amount, PopupStyle style, bool heal = false, bool crit = false)
     {
         if (Instance == null || Instance.popupPrefab == null) return;
-        Instance.SpawnInternal(worldPos, amount, style, heal);
+        Instance.Take(worldPos).Play(amount, style, heal, Instance, crit);
     }
 
     // Free-form text instead of a number (e.g. "+2" XP).
@@ -38,9 +38,6 @@ public class CombatText : MonoBehaviour
         if (Instance == null || Instance.popupPrefab == null) return;
         Instance.Take(worldPos).Play(text, style, false, Instance);
     }
-
-    void SpawnInternal(Vector3 worldPos, float amount, PopupStyle style, bool heal) =>
-        Take(worldPos).Play(amount, style, heal, this);
 
     DamagePopup Take(Vector3 worldPos)
     {

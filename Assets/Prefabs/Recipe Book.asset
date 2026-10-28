@@ -88,3 +88,10 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: e668e816d1bca744493436401afff2a4, type: 2}
     requiredStation: 2
     kind: 0
+  - displayName: Small Bag
+    ingredients:
+    - item: {fileID: 11400000, guid: 1b275f88133126d46ae1b36dbf54b173, type: 2}
+      amount: 4
+    output: {fileID: 11400000, guid: 26fc2384706f41eabded4149722f3017, type: 2}
+    requiredStation: 2
+    kind: 0

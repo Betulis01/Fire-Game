@@ -13,7 +13,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class OccluderFade : MonoBehaviour
 {
-    [Tooltip("Renderers to fade. Defaults to every SpriteRenderer under the parent prop.")]
+    [Tooltip("Renderers to fade. Defaults to every SpriteRenderer under the parent prop, " +
+             "except a hittable prop's Highlight layer (TargetHighlight fades that).")]
     [SerializeField] SpriteRenderer[] renderers;
 
     [Tooltip("Renderer whose sort order decides in front / behind. Defaults to the first renderer.")]
@@ -35,8 +36,12 @@ public class OccluderFade : MonoBehaviour
     {
         if (renderers == null || renderers.Length == 0)
         {
+            // A hittable prop's Highlight layer belongs to TargetHighlight, which fades
+            // it with the body itself
             Transform prop = transform.parent != null ? transform.parent : transform;
-            renderers = prop.GetComponentsInChildren<SpriteRenderer>(true);
+            bool hittable = prop.GetComponentInChildren<Hurtbox>(true) != null;
+            renderers = System.Array.FindAll(prop.GetComponentsInChildren<SpriteRenderer>(true),
+                                             sr => !hittable || !TargetHighlight.IsHighlight(sr));
         }
         if (sortReference == null && renderers.Length > 0) sortReference = renderers[0];
 

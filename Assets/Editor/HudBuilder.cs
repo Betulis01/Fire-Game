@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -25,6 +26,7 @@ static class HudBuilder
     const string PrefabPath = "Assets/Prefabs/UI/HUD.prefab";
     const string PlayerPrefabPath = "Assets/Prefabs/Entities/Player/Player.prefab";
     const string AxeTreePath = "Assets/Prefabs/Skills/Axe Skill Tree.asset";
+    const string BagIconPath = "Assets/Sprites/Gear/Small_bag_icon.aseprite";
 
     // Tiny5 is drawn on a 128-unit grid at 1024 UPM: 8pt = one font pixel per
     // reference pixel. Text sizes stay whole multiples of 8 so every font pixel is
@@ -45,6 +47,7 @@ static class HudBuilder
 
     static readonly Color White = new(241f / 255f, 246f / 255f, 240f / 255f);
     static readonly Color Black = Color.black;
+    static readonly Color Light = new(190f / 255f, 204f / 255f, 222f / 255f);   // mockup's light blue-grey
 
     static TMP_FontAsset font;
 
@@ -155,6 +158,7 @@ static class HudBuilder
         {
             if (!player.TryGetComponent(out PlayerExperience _)) player.AddComponent<PlayerExperience>();
             if (!player.TryGetComponent(out ActiveSkillSlots _)) player.AddComponent<ActiveSkillSlots>();
+            if (!player.TryGetComponent(out Inventory _)) player.AddComponent<Inventory>();
             if (!player.TryGetComponent(out WeaponExperience wx)) wx = player.AddComponent<WeaponExperience>();
             Wire(wx, ("trees", new Object[] { axeTree }));
             if (!player.TryGetComponent(out WhirlwindSkill whirlwind)) whirlwind = player.AddComponent<WhirlwindSkill>();
@@ -173,13 +177,40 @@ static class HudBuilder
         Stretch((RectTransform)root.transform);
         HudRoot hud = root.AddComponent<HudRoot>();
 
+        ItemTooltip tooltip = BuildTooltip(root.transform);
+        Image dragIcon = CenteredIcon(root.transform);   // a dragged bag slot's icon
+        dragIcon.name = "Drag Icon";
         BuildStats(root.transform, hud);
-        BuildMenu(root.transform, hud);
-        BuildHandBar(root.transform, hud);
+        BuildMenu(root.transform, hud, tooltip, dragIcon);
+        BuildHandBar(root.transform, hud, tooltip);
+        tooltip.transform.SetAsLastSibling();   // drawn over everything
+        dragIcon.transform.SetAsLastSibling();  // ...except the item being dragged
         return root;
     }
 
     // --- top-left stats (mockup 87,21 .. 389,47) ---
+
+    // --- item tooltip: hovering a hand or an equipment slot (not in the mockup's
+    // layout; its frame is the mockup's spare box at 162,444, 9-sliced to fit) ---
+
+    static ItemTooltip BuildTooltip(Transform parent)
+    {
+        RectTransform area = Child("Tooltip", parent);
+        Stretch(area);
+        CanvasGroup group = area.gameObject.AddComponent<CanvasGroup>();
+        group.blocksRaycasts = false;   // would steal the hover it's showing for
+        group.interactable = false;
+
+        Image frame = Img("Frame", area, S("tooltip_frame"), 0, 0);
+        frame.type = Image.Type.Sliced;
+        TMP_Text name = Text("Name", frame.transform, "", 0, 0, 400, Small, White);
+        TMP_Text line = Text("Line", frame.transform, "", 0, 0, 400, Small, Light);
+        line.gameObject.SetActive(false);
+
+        ItemTooltip ui = area.gameObject.AddComponent<ItemTooltip>();
+        Wire(ui, ("panel", frame.rectTransform), ("nameText", name), ("lineTemplate", line));
+        return ui;
+    }
 
     static void BuildStats(Transform parent, HudRoot hud)
     {
@@ -204,7 +235,7 @@ static class HudBuilder
 
     // --- F menu: tabs at mockup y=49, pages at 87,84 (+ the warmth bar's shift) ---
 
-    static void BuildMenu(Transform parent, HudRoot hud)
+    static void BuildMenu(Transform parent, HudRoot hud, ItemTooltip tooltip, Image dragIcon)
     {
         RectTransform menu = Child("Menu", parent);
         Stretch(menu);
@@ -212,49 +243,120 @@ static class HudBuilder
         Stretch(panel);
 
         int y = 49 + WarmthShift;
-        TabButtonUI playerTab = Tab("Player Tab", panel, "tab", 87, y, S("icon_tab_player"), 25, 7);
-        TabButtonUI craftTab = Tab("Crafting Tab", panel, "tab", 154, y, S("icon_tab_crafting"), 30, 7);
-        TabButtonUI skillsTab = Tab("Skills Tab", panel, "tab", 220, y, S("icon_tab_skills"), 20, 4);
+        // the bag tab comes first (the menu opens on it); its icon is the bag item's
+        // own icon at 2x, not a cut from the mockup
+        TabButtonUI bagTab = Tab("Bag Tab", panel, "tab", 87, y, BagIcon(), 25, 4, scale: 2);
+        TabButtonUI playerTab = Tab("Player Tab", panel, "tab", 154, y, S("icon_tab_player"), 25, 7);
+        TabButtonUI craftTab = Tab("Crafting Tab", panel, "tab", 221, y, S("icon_tab_crafting"), 30, 7);
+        TabButtonUI skillsTab = Tab("Skills Tab", panel, "tab", 287, y, S("icon_tab_skills"), 20, 4);
 
+        RectTransform bagPage = Page("Bag Page", panel);
         RectTransform playerPage = Page("Player Page", panel);
         RectTransform craftPage = Page("Crafting Page", panel);
         RectTransform skillsPage = Page("Skills Page", panel);
-        BuildPlayerPage(playerPage, hud);
+        BuildBagPage(bagPage, hud, tooltip, dragIcon);
+        BuildPlayerPage(playerPage, hud, tooltip);
         BuildCraftingPage(craftPage, hud);
         BuildSkillsPage(skillsPage, hud);
 
         HudMenu ui = menu.gameObject.AddComponent<HudMenu>();
         Wire(ui, ("panel", panel.gameObject),
-             ("tabs", new Object[] { playerTab, craftTab, skillsTab }),
-             ("pages", new Object[] { playerPage.gameObject, craftPage.gameObject, skillsPage.gameObject }));
+             ("tabs", new Object[] { bagTab, playerTab, craftTab, skillsTab }),
+             ("pages", new Object[] { bagPage.gameObject, playerPage.gameObject, craftPage.gameObject, skillsPage.gameObject }));
     }
 
     static RectTransform Page(string name, Transform parent) => Box(name, parent, 87, 84 + WarmthShift, 0, 0);
 
-    // mockup Player page at 87,84: head/chest/legs column, ring/amulet beside it
-    static void BuildPlayerPage(RectTransform page, HudRoot hud)
+    // Bag page (not in the mockup): the worn bag's slots, 3 to a row on the crafting
+    // grid's spacing; empty while no bag is worn.
+    const int BagColumns = 3;
+    const int BagSlots = 6;
+
+    static void BuildBagPage(RectTransform page, HudRoot hud, ItemTooltip tooltip, Image dragIcon)
     {
-        EquipSlotUI head = EquipBox("Head", page, EquipSlot.Head, "slot_64", 0, 0, "equip_ph_head", 13, 12);
-        EquipSlotUI chest = EquipBox("Chest", page, EquipSlot.Chest, "slot_64", 0, 67, "equip_ph_chest", 10, 12);
-        EquipSlotUI legs = EquipBox("Legs", page, EquipSlot.Legs, "slot_64", 0, 133, "equip_ph_legs", 22, 14);
-        EquipSlotUI ring = EquipBox("Ring", page, EquipSlot.Ring, "slot_64x46", 66, 53, "equip_ph_ring", 16, 5);
-        EquipSlotUI amulet = EquipBox("Amulet", page, EquipSlot.Amulet, "slot_64x46", 66, 101, "equip_ph_amulet", 20, 6);
+        RectTransform grid = Box("Grid", page, 0, 0, 0, 0);
+        var slots = new Object[BagSlots];
+        for (int i = 0; i < BagSlots; i++)
+            slots[i] = BagSlot("Slot " + (i + 1), grid, i % BagColumns * 67, i / BagColumns * 66, tooltip);
+
+        BagTabUI ui = page.gameObject.AddComponent<BagTabUI>();
+        Wire(ui, ("root", hud), ("slots", slots), ("grid", grid.gameObject), ("dragIcon", dragIcon));
+    }
+
+    static BagSlotUI BagSlot(string name, Transform parent, int x, int y, ItemTooltip tooltip)
+    {
+        Image box = Img(name, parent, S("slot_64"), x, y);
+        box.raycastTarget = true;
+        NoNavigation(box.gameObject.AddComponent<Button>());
+        Wire(box.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
+        Image icon = CenteredIcon(box.transform);
+        TMP_Text count = CountText(box.transform);
+
+        BagSlotUI ui = box.gameObject.AddComponent<BagSlotUI>();
+        Wire(ui, ("icon", icon), ("countText", count));
+        return ui;
+    }
+
+    // mockup Player page at 87,84: head/chest/legs column, ring/amulet beside it
+    static void BuildPlayerPage(RectTransform page, HudRoot hud, ItemTooltip tooltip)
+    {
+        EquipSlotUI head = EquipBox("Head", page, EquipSlot.Head, "slot_64", 0, 0, S("equip_ph_head"), 13, 12, tooltip);
+        EquipSlotUI chest = EquipBox("Chest", page, EquipSlot.Chest, "slot_64", 0, 67, S("equip_ph_chest"), 10, 12, tooltip);
+        EquipSlotUI legs = EquipBox("Legs", page, EquipSlot.Legs, "slot_64", 0, 133, S("equip_ph_legs"), 22, 14, tooltip);
+        EquipSlotUI ring = EquipBox("Ring", page, EquipSlot.Ring, "slot_64x46", 66, 53, S("equip_ph_ring"), 16, 5, tooltip);
+        EquipSlotUI amulet = EquipBox("Amulet", page, EquipSlot.Amulet, "slot_64x46", 66, 101, S("equip_ph_amulet"), 20, 6, tooltip);
+
+        // bag box above the ring (not in the mockup); until a silhouette is drawn its
+        // placeholder is the bag icon at 3x, faded
+        EquipSlotUI bag = EquipBox("Bag", page, EquipSlot.Bag, "slot_64x46", 66, 5, BagIcon(), 21, 5, tooltip, phScale: 3);
+        bag.transform.Find("Placeholder").GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.25f);
 
         EquipmentTabUI ui = page.gameObject.AddComponent<EquipmentTabUI>();
-        Wire(ui, ("root", hud), ("slots", new Object[] { head, chest, legs, ring, amulet }));
+        Wire(ui, ("root", hud), ("slots", new Object[] { head, chest, legs, ring, amulet, bag }));
+
+        BuildStatsList(page, hud);
+    }
+
+    // Character stats beside the equipment (not in the mockup): one Small row per
+    // CharacterStatsUI.Row, label left / value right-aligned, starting 16px right of
+    // the ring/amulet column (66 + 64). Attributes first, then a gap, then the
+    // combat stats they turn into.
+    const int StatsX = 146;
+    const int StatsWidth = 190;
+    const int StatRowStep = 20;
+    const int StatGroupGap = 10;
+
+    static void BuildStatsList(RectTransform page, HudRoot hud)
+    {
+        string[] labels = CharacterStatsUI.Labels;
+        var values = new Object[labels.Length];
+        int y = 0;
+        for (int i = 0; i < labels.Length; i++)
+        {
+            if (i == (int)CharacterStatsUI.Row.AttackPower) y += StatGroupGap;
+            Text(labels[i] + " Label", page, labels[i], StatsX, y - CapTop(Small), StatsWidth, Small, White, outline: true);
+            values[i] = Text(labels[i] + " Value", page, "0", StatsX, y - CapTop(Small), StatsWidth, Small, White,
+                             outline: true, align: TextAlignmentOptions.TopRight);
+            y += StatRowStep;
+        }
+
+        CharacterStatsUI ui = page.gameObject.AddComponent<CharacterStatsUI>();
+        Wire(ui, ("root", hud), ("values", values));
     }
 
     static EquipSlotUI EquipBox(string name, Transform parent, EquipSlot slot, string frame, int x, int y,
-                                string placeholder, int phX, int phY)
+                                Sprite placeholder, int phX, int phY, ItemTooltip tooltip, int phScale = 1)
     {
         Image box = Img(name, parent, S(frame), x, y);
         box.raycastTarget = true;
         Button button = box.gameObject.AddComponent<Button>();
         NoNavigation(button);
 
-        Image ph = Img("Placeholder", box.transform, S(placeholder), phX, phY);
+        Image ph = Img("Placeholder", box.transform, placeholder, phX, phY);
+        ph.rectTransform.sizeDelta *= phScale;
         Image icon = CenteredIcon(box.transform);
 
+        Wire(box.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
         EquipSlotUI ui = box.gameObject.AddComponent<EquipSlotUI>();
         Wire(ui, ("slot", slot), ("placeholder", ph), ("icon", icon));
         return ui;
@@ -354,15 +456,15 @@ static class HudBuilder
 
     // --- hand bar (mockup 706..1136 x 943..1077), anchored bottom-centre ---
 
-    static void BuildHandBar(Transform parent, HudRoot hud)
+    static void BuildHandBar(Transform parent, HudRoot hud, ItemTooltip tooltip)
     {
         RectTransform bar = Child("Hand Bar", parent);
         Stretch(bar);
 
-        HandSlotUI left = HandSlot("Left Hand", bar, 736, 1052, "hint_mouse_lmb", -12, 3);
+        HandSlotUI left = HandSlot("Left Hand", HandSide.Left, bar, 736, 1052, "hint_mouse_lmb", -12, 3, tooltip);
         ActionSlotUI action1 = ActionSlot("Action 1", bar, 848, "key_1");
         ActionSlotUI action2 = ActionSlot("Action 2", bar, 944, "key_2");
-        HandSlotUI right = HandSlot("Right Hand", bar, 1040, 1052, "hint_mouse_rmb", -5, 4);
+        HandSlotUI right = HandSlot("Right Hand", HandSide.Right, bar, 1040, 1052, "hint_mouse_rmb", -5, 4, tooltip);
 
         Image scroll = Bottom("Scroll Hint", bar, S("hint_scroll"), 715, 1037);
 
@@ -379,16 +481,14 @@ static class HudBuilder
              ("rightAction", action2), ("scrollHint", scroll.rectTransform), ("dropHint", drop));
     }
 
-    static HandSlotUI HandSlot(string name, Transform parent, int x, int bottom, string mouse, int hintX, int hintGap)
+    static HandSlotUI HandSlot(string name, HandSide side, Transform parent, int x, int bottom, string mouse, int hintX,
+                               int hintGap, ItemTooltip tooltip)
     {
         Image frame = Bottom(name, parent, S("hand_frame"), x, bottom);
+        frame.raycastTarget = true;   // receives the hover for the item tooltip, and dropped bag slots
+        Wire(frame.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
         Image icon = CenteredIcon(frame.transform);
-        TMP_Text count = Text("Count", frame.transform, "", 0, 0, 0, Big, White, outline: true,
-                              align: TextAlignmentOptions.BottomRight);
-        RectTransform countRt = count.rectTransform;
-        countRt.anchorMin = countRt.anchorMax = countRt.pivot = new Vector2(1, 0);
-        countRt.sizeDelta = new Vector2(60, 30);
-        countRt.anchoredPosition = new Vector2(-4, 4);
+        TMP_Text count = CountText(frame.transform);
 
         // mouse hint rides on the frame's top edge
         Image hint = Img("Mouse Hint", frame.transform, S(mouse), 0, 0);
@@ -398,9 +498,21 @@ static class HudBuilder
         hrt.anchoredPosition = new Vector2(hintX, hintGap);
 
         HandSlotUI ui = frame.gameObject.AddComponent<HandSlotUI>();
-        Wire(ui, ("frame", frame), ("normalSprite", S("hand_frame")), ("selectedSprite", S("hand_frame_selected")),
-             ("icon", icon), ("countText", count));
+        Wire(ui, ("side", side), ("frame", frame), ("normalSprite", S("hand_frame")),
+             ("selectedSprite", S("hand_frame_selected")), ("icon", icon), ("countText", count));
         return ui;
+    }
+
+    // A stack count in the box's bottom-right corner (hand frames, bag slots).
+    static TMP_Text CountText(Transform box)
+    {
+        TMP_Text count = Text("Count", box, "", 0, 0, 0, Big, White, outline: true,
+                              align: TextAlignmentOptions.BottomRight);
+        RectTransform rt = count.rectTransform;
+        rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(1, 0);
+        rt.sizeDelta = new Vector2(60, 30);
+        rt.anchoredPosition = new Vector2(-4, 4);
+        return count;
     }
 
     static ActionSlotUI ActionSlot(string name, Transform parent, int x, string key)
@@ -461,6 +573,14 @@ static class HudBuilder
     {
         var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(SpriteDir + name + ".png");
         if (sprite == null) Debug.LogError($"[HudBuilder] Missing sprite {name} (run Tools/gen_hud_sprites.py)");
+        return sprite;
+    }
+
+    // The Small Bag item's icon (the first sprite of its Aseprite file).
+    static Sprite BagIcon()
+    {
+        Sprite sprite = AssetDatabase.LoadAllAssetsAtPath(BagIconPath).OfType<Sprite>().FirstOrDefault();
+        if (sprite == null) Debug.LogError($"[HudBuilder] Missing sprite in {BagIconPath} (let Unity import it)");
         return sprite;
     }
 
@@ -547,10 +667,11 @@ static class HudBuilder
         return t;
     }
 
-    static TabButtonUI Tab(string name, Transform parent, string kind, int x, int y, Sprite icon, int iconX, int iconY)
+    static TabButtonUI Tab(string name, Transform parent, string kind, int x, int y, Sprite icon, int iconX, int iconY,
+                           int scale = 1)
     {
         TabButtonUI tab = TabBase(name, parent, kind, x, y);
-        Img("Icon", tab.transform, icon, iconX, iconY);
+        Img("Icon", tab.transform, icon, iconX, iconY).rectTransform.sizeDelta *= scale;
         return tab;
     }
 

@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e334e2e90d1b48eabfbc3d96d0b6852d, type: 3}
   m_Name: Blood
   m_EditorClassIdentifier: Assembly-CSharp::HitEffect
-  effectPrefab: {fileID: 7824789142328981932, guid: 364b740c694e8bc46a0b21020d50499f, type: 3}
+  effectPrefab: {fileID: 4323000000000000001, guid: 9a4d2f6e1c8b4705b3e9f0a2d6c4b871, type: 3}
+  alignToHit: 1
+  drawnAngle: 45
+  atSpriteCentre: 1
+  sortWithBody: 1
   sfx: {fileID: 0}

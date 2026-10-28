@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Held defensive item -- deliberately no Tool/Hitbox (ToolKind has no Shield entry:
+// Held defensive item -- deliberately no Tool/MeleeWeapon (ToolKind has no Shield entry:
 // defensive, not a damage kind). Unlike other held items, which sort front/back by
 // which hand holds them, a shield's draw order depends on which way the player is
 // facing instead: the SE pose renders in front of the body, the NE pose behind it,

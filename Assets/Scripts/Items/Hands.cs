@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum HandSide { Left, Right }
 
-// The player's "inventory" is literally two hands. Each hand holds (or not) an
+// The player's two hands (a worn bag adds an Inventory on top). Each hand holds (or not) an
 // actual item GameObject parented to a body transform, plus a stack count. Picking
 // up re-parents a WorldItem onto a hand; a matching Stackable item merges into the
 // hand's count instead. Stacking lives only here — world items are always single.
@@ -12,7 +12,7 @@ public class Hands : MonoBehaviour
     public Transform leftHand;    // empty child transforms on the player body
     public Transform rightHand;
 
-    [Tooltip("Default bare-hands weapon (a Fists prefab with Tool + Hitbox). One is " +
+    [Tooltip("Default bare-hands weapon (a Fists prefab with Tool + MeleeWeapon). One is " +
              "spawned into each hand and shown whenever that hand holds no real item.")]
     public GameObject fistsPrefab;
 
@@ -121,6 +121,44 @@ public class Hands : MonoBehaviour
 
         Set(side, worldItem);
         SetCount(side, 1);
+        Changed?.Invoke();
+        return true;
+    }
+
+    // Hold a whole stack (one object + its count, e.g. out of the bag): into an empty
+    // hand, or merged onto a matching stack up to maxStack. `leftover` is what didn't
+    // fit; the incoming object is destroyed only when all of it was absorbed by a
+    // merge, otherwise the caller keeps it (with `leftover` as its count).
+    public bool TryHoldStack(GameObject item, int count, HandSide side, out int leftover)
+    {
+        leftover = count;
+        if (item == null || count <= 0) return false;
+
+        GameObject current = Held(side);
+        if (current == null)
+        {
+            item.SetActive(true);
+            Attach(item, Anchor(side));
+            item.GetComponent<WorldItem>().SetHeld(true);
+
+            Set(side, item);
+            SetCount(side, count);
+            leftover = 0;
+            Changed?.Invoke();
+            return true;
+        }
+
+        Stackable stack = current.GetComponent<Stackable>();
+        WorldItem held = current.GetComponent<WorldItem>();
+        WorldItem incoming = item.GetComponent<WorldItem>();
+        if (stack == null || incoming == null || held.item != incoming.item) return false;
+
+        int take = Mathf.Min(count, stack.maxStack - Count(side));
+        if (take <= 0) return false;
+
+        SetCount(side, Count(side) + take);
+        leftover = count - take;
+        if (leftover == 0) Destroy(item);
         Changed?.Invoke();
         return true;
     }

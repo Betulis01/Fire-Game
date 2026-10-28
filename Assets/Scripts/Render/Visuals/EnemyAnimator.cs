@@ -26,12 +26,13 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
     [Tooltip("How long the hit clip holds before locomotion resumes.")]
     [SerializeField] float hitDuration = 0.2f;
 
-    // The skeleton's art is layered (Body, Head, Ground Shadow) per Skeleton.aseprite's Individual
-    // Layers import -- unlike the player's single flattened sprite, flipping needs to
-    // apply to every art layer's renderer, not just one on this GameObject. Named
-    // lookup (not GetComponentsInChildren) so this can't also pick up unrelated child
-    // renderers -- e.g. the nested HealthBar, which must never mirror.
-    static readonly string[] layerNames = { "Body", "Head", "Ground Shadow" };
+    // The skeleton's art is layered (Body, Head, Ground Shadow, Highlight) per
+    // Skeleton.aseprite's Individual Layers import -- unlike the player's single
+    // flattened sprite, flipping needs to apply to every art layer's renderer, not
+    // just one on this GameObject. Named lookup (not GetComponentsInChildren) so this
+    // can't also pick up unrelated child renderers -- e.g. the nested HealthBar, which
+    // must never mirror.
+    static readonly string[] layerNames = { "Body", "Head", "Ground Shadow", TargetHighlight.LayerName };
     SpriteRenderer[] renderers;
     EnemyBrain brain;
     Vector2 facing = Vector2.down;

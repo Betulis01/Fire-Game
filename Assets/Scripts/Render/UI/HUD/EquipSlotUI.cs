@@ -3,7 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // One equipment box on the Player tab. Shows what's worn in `slot`, or a faint
-// silhouette of the slot (head, chest, ring, ...) while it's empty.
+// silhouette of the slot (head, chest, ring, ...) while it's empty. Hovering a worn
+// item shows its tooltip (ItemHoverTooltip on the same object).
 [RequireComponent(typeof(Button))]
 public class EquipSlotUI : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class EquipSlotUI : MonoBehaviour
 
     void Awake() => GetComponent<Button>().onClick.AddListener(() => Clicked?.Invoke(slot));
 
+    // Can run before Awake (EquipmentTabUI refreshes from its own OnEnable).
     public void Set(GameObject worn)
     {
+        if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(worn);
         Sprite sprite = UiPixel.IconOf(worn);
         UiPixel.FitIntegerScale(icon, sprite, iconBox);
         placeholder.enabled = sprite == null;

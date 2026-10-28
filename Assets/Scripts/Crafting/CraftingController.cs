@@ -4,7 +4,9 @@ using UnityEngine;
 // Player-side crafting driven by the HUD menu's Crafting tab (CraftingTabUI). The
 // tab only needs to know what's craftable (HasIngredients/StationSatisfied); clicking
 // a blueprint calls TryCraft here, which either hands the player an Instant output or
-// spawns a PlacementGhost for a Placeable one. Recipes live in a central RecipeBook.
+// spawns a PlacementGhost for a Placeable one. Instant recipes take their ingredients
+// from the hands and the worn bag (Inventory) together, and put the output in a free
+// hand, else in the bag. Recipes live in a central RecipeBook.
 [RequireComponent(typeof(Hands))]
 public class CraftingController : MonoBehaviour
 {
@@ -16,11 +18,13 @@ public class CraftingController : MonoBehaviour
     public InteractPrompt buildPromptPrefab;
 
     Hands hands;
+    Inventory inventory;           // the bag: ingredients too, and the output's fallback
     PlayerInteractor interactor;   // selected hand: where crafted output prefers to go
 
     void Awake()
     {
         hands = GetComponent<Hands>();
+        inventory = GetComponent<Inventory>();
         interactor = GetComponent<PlayerInteractor>();
     }
 
@@ -38,9 +42,9 @@ public class CraftingController : MonoBehaviour
     public bool StationSatisfied(Recipe recipe, StationType stations) =>
         recipe.requiredStation == StationType.None || (stations & recipe.requiredStation) != StationType.None;
 
-    // Whether the player currently holds enough of every ingredient (Instant
-    // recipes draw straight from hands; Placeable ones are fed after placement so
-    // this always reads true for them).
+    // Whether the player carries enough of every ingredient, in the hands and the
+    // bag together (Instant recipes draw from both; Placeable ones are fed after
+    // placement so this always reads true for them).
     public bool HasIngredients(Recipe recipe) =>
         recipe.kind == RecipeKind.Placeable || TryMatchIngredients(recipe, out _);
 
@@ -57,86 +61,120 @@ public class CraftingController : MonoBehaviour
             return true;
         }
 
-        if (!TryMatchIngredients(recipe, out List<(HandSide side, int amount)> draws)) return false;
+        if (!TryMatchIngredients(recipe, out List<Draw> draws)) return false;
 
         HandSide? outputHand = ChooseOutputHand(draws);
-        if (outputHand == null) return false;
+        bool intoBag = outputHand == null && BagHasRoom(draws, recipe.output);
+        if (outputHand == null && !intoBag) return false;
 
-        foreach ((HandSide side, int amount) in draws)
-            hands.Consume(side, amount);
+        foreach (Draw d in draws)
+        {
+            if (d.fromBag) inventory.Consume(d.slot, d.amount);
+            else hands.Consume(d.side, d.amount);
+        }
 
-        hands.TryHold(Instantiate(recipe.output.prefab), outputHand.Value);
+        GameObject output = Instantiate(recipe.output.prefab);
+        if (intoBag) inventory.TryAdd(output.GetComponent<WorldItem>());
+        else hands.TryHold(output, outputHand.Value);
         return true;
     }
 
-    // Group the recipe's ingredients by item and assign each distinct item to a
-    // distinct hand holding at least its amount. `draws` lists the matched hand and
-    // the amount to consume per item. Since there are only two hands, a recipe can
-    // use at most two distinct item types.
-    bool TryMatchIngredients(Recipe recipe, out List<(HandSide side, int amount)> draws)
+    // Where an ingredient is drawn from: a hand, or a bag slot.
+    struct Draw
     {
-        draws = new List<(HandSide, int)>();
+        public bool fromBag;
+        public HandSide side;
+        public int slot;
+        public int amount;
+    }
+
+    // Find every ingredient in the hands first, then the bag, splitting an amount
+    // across as many stacks as it takes. What's left of each stack is tracked, so two
+    // ingredients of the same item never count one stack twice.
+    bool TryMatchIngredients(Recipe recipe, out List<Draw> draws)
+    {
+        draws = new List<Draw>();
         if (recipe.ingredients == null || recipe.ingredients.Length == 0) return false;
 
-        List<HandSide> available = new() { HandSide.Left, HandSide.Right };
+        int[] handLeft = { hands.Count(HandSide.Left), hands.Count(HandSide.Right) };
+        int capacity = inventory != null ? inventory.Capacity : 0;
+        int[] slotLeft = new int[capacity];
+        for (int i = 0; i < capacity; i++) slotLeft[i] = inventory.Count(i);
 
         foreach (Ingredient ingredient in recipe.ingredients)
         {
             if (ingredient.item == null) return false;
             int remaining = ingredient.amount;
-            List<HandSide> matched = new();
 
-            foreach (HandSide side in available)
+            foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
             {
-                if (ItemIn(side) != ingredient.item) continue;
-
-                int take = Mathf.Min(remaining, hands.Count(side));
-                if (take <= 0) continue;
-
-                matched.Add(side);
-                draws.Add((side, take));
-                remaining -= take;
                 if (remaining == 0) break;
+                if (ItemIn(hands.Held(side)) != ingredient.item) continue;
+                int take = Mathf.Min(remaining, handLeft[(int)side]);
+                if (take <= 0) continue;
+                handLeft[(int)side] -= take;
+                remaining -= take;
+                draws.Add(new Draw { side = side, amount = take });
             }
 
-            if (remaining > 0) return false;   // not enough of an ingredient across hands
-            foreach (HandSide side in matched) available.Remove(side);
+            for (int i = 0; i < capacity && remaining > 0; i++)
+            {
+                if (ItemIn(inventory.Item(i)) != ingredient.item) continue;
+                int take = Mathf.Min(remaining, slotLeft[i]);
+                if (take <= 0) continue;
+                slotLeft[i] -= take;
+                remaining -= take;
+                draws.Add(new Draw { fromBag = true, slot = i, amount = take });
+            }
+
+            if (remaining > 0) return false;   // not enough of it in hands and bag together
         }
 
         return true;
     }
 
     // A hand that will be empty for the output: the selected hand if it will be
-    // free, else an input hand whose stack empties after consuming its amount, else
-    // a hand not used as input that's already empty. Null means there's nowhere to
-    // put the result.
-    HandSide? ChooseOutputHand(List<(HandSide side, int amount)> draws)
+    // free, else the other one. Null means both stay full (the output then goes
+    // into the bag, if it has room).
+    HandSide? ChooseOutputHand(List<Draw> draws)
     {
-        if (interactor != null && WillBeFree(interactor.ActiveHand, draws)) return interactor.ActiveHand;
-
-        foreach ((HandSide side, int amount) in draws)
-            if (hands.Count(side) <= amount) return side;
-
-        List<HandSide> drawHands = draws.ConvertAll(d => d.side);
-        foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
-            if (!drawHands.Contains(side) && !hands.IsHolding(side)) return side;
-
+        HandSide active = interactor != null ? interactor.ActiveHand : HandSide.Left;
+        foreach (HandSide side in new[] { active, active == HandSide.Left ? HandSide.Right : HandSide.Left })
+            if (WillBeFree(side, draws)) return side;
         return null;
     }
 
-    bool WillBeFree(HandSide side, List<(HandSide side, int amount)> draws)
+    bool WillBeFree(HandSide side, List<Draw> draws)
     {
-        foreach ((HandSide s, int amount) in draws)
-            if (s == side) return hands.Count(side) <= amount;
-        return !hands.IsHolding(side);
+        int drawn = 0;
+        foreach (Draw d in draws)
+            if (!d.fromBag && d.side == side) drawn += d.amount;
+        return !hands.IsHolding(side) || hands.Count(side) <= drawn;
     }
 
-    ItemDefinition ItemIn(HandSide side)
+    // Room in the bag for one output: an empty slot (or one the recipe empties), or a
+    // matching stack that isn't full.
+    bool BagHasRoom(List<Draw> draws, ItemDefinition output)
     {
-        GameObject held = hands.Held(side);
-        if (held == null) return null;
+        if (inventory == null) return false;
+        int maxStack = output.prefab.TryGetComponent(out Stackable s) ? s.maxStack : 1;
 
-        WorldItem worldItem = held.GetComponent<WorldItem>();
+        for (int i = 0; i < inventory.Capacity; i++)
+        {
+            int count = inventory.Count(i);
+            foreach (Draw d in draws)
+                if (d.fromBag && d.slot == i) count -= d.amount;
+
+            if (count <= 0) return true;
+            if (ItemIn(inventory.Item(i)) == output && count < maxStack) return true;
+        }
+        return false;
+    }
+
+    static ItemDefinition ItemIn(GameObject item)
+    {
+        if (item == null) return null;
+        WorldItem worldItem = item.GetComponent<WorldItem>();
         return worldItem != null ? worldItem.item : null;
     }
 }
