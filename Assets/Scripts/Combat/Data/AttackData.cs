@@ -1,5 +1,6 @@
-// The parameters of one swing, sourced from the weapon's Tool. Collapses what used
-// to be a clump of arguments threaded weapon -> WeaponUse -> Hitbox into one value.
+// What one swing does to each target it hits, sourced from the weapon's Tool.
+// Collapses what used to be a clump of arguments threaded weapon -> WeaponUse ->
+// MeleeWeapon into one value. Where/whom it hits is the swing's StrikeShape.
 public readonly struct AttackData
 {
     public readonly float damage;
@@ -14,4 +15,7 @@ public readonly struct AttackData
         this.targetKnockback = targetKnockback;
         this.selfKnockback = selfKnockback;
     }
+
+    // Same attack dealing a different damage (e.g. a cleave's secondaries).
+    public AttackData WithDamage(float newDamage) => new(newDamage, kind, targetKnockback, selfKnockback);
 }

@@ -43,6 +43,13 @@ public class Highlightable : MonoBehaviour
 
     public void Set(bool on)
     {
+        // A hittable entity shares this overlay with melee targeting; TargetHighlight
+        // owns the renderer and decides which wins.
+        if (TryGetComponent(out TargetHighlight shared))
+        {
+            shared.SetInteract(on);
+            return;
+        }
         if (overlay != null) overlay.enabled = on;
     }
 }

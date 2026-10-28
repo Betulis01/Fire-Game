@@ -117,7 +117,10 @@ public class SpriteShadow : MonoBehaviour
         {
             if (TryGetComponent(out SpriteRenderer body)) sources.Add(body);
             foreach (SpriteLayerFollower f in GetComponentsInChildren<SpriteLayerFollower>(true))
-                if (!f.shadowLayer) sources.Add(f.GetComponent<SpriteRenderer>());
+            {
+                SpriteRenderer sr = f.GetComponent<SpriteRenderer>();
+                if (!f.shadowLayer && !TargetHighlight.IsHighlight(sr)) sources.Add(sr);   // a target outline casts nothing
+            }
         }
         offsets = new Vector3[sources.Count];
 

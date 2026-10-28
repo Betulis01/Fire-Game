@@ -287,6 +287,8 @@ GameObject:
   - component: {fileID: 8118181947786773592}
   - component: {fileID: 2241230547770339701}
   - component: {fileID: 7316274018855209441}
+  - component: {fileID: 7318264051932774410}
+  - component: {fileID: 7318264051932774411}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1651,3 +1653,31 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.0842069
+--- !u!114 &7318264051932774410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7885bf090c4afb9f878628a0d2bfe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetPreview
+  primaryColor: {r: 1, g: 0.55, b: 0, a: 1}
+  secondaryColor: {r: 1, g: 0, b: 0, a: 0.5}
+  stickyDegrees: 5
+--- !u!114 &7318264051932774411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143ad2c0e2b049c0ac7b919950d3ec38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatState
+  leaveDelay: 5

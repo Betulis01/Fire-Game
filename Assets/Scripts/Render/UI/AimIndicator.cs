@@ -3,8 +3,9 @@ using UnityEngine;
 // A world-space arrow that orbits the player on the circle of the next attack's
 // reach, pointing where the player is aiming. It reads the same aim source as a real
 // swing (UserInput.AimDirection from the swing origin) and asks WeaponUse which hand
-// that swing would use, so it lands exactly on where an attack would. Hidden when
-// that hand can't attack (e.g. it holds wood) or the game isn't actually playing.
+// that swing would use, so it lands exactly on where an attack would. Shown only in
+// combat (the player's CombatState); hidden when that hand can't attack (e.g. it
+// holds wood) or the game isn't actually playing.
 public class AimIndicator : MonoBehaviour
 {
     [Tooltip("Hands to read held weapons (and their Tool.range) from.")]
@@ -24,12 +25,17 @@ public class AimIndicator : MonoBehaviour
     public float spriteAngleOffset = 0f;
 
     WeaponUse weaponUse;   // resolves which hand the next attack would use
+    CombatState combat;    // the arrow is a combat aid; null = always eligible
 
     void Awake()
     {
         if (cam == null) cam = Camera.main;
         if (arrow == null) arrow = GetComponent<SpriteRenderer>();
-        if (hands != null) weaponUse = hands.GetComponent<WeaponUse>();
+        if (hands != null)
+        {
+            weaponUse = hands.GetComponent<WeaponUse>();
+            combat = hands.GetComponent<CombatState>();
+        }
 
         // Detach from the player so we escape its SortingGroup; otherwise the group
         // forces us to sort with the player and our own Sorting Layer is ignored. We
@@ -39,11 +45,12 @@ public class AimIndicator : MonoBehaviour
 
     void LateUpdate()
     {
-        // Visible only when holding a real weapon and actively playing.
+        // Visible only in combat, holding a real weapon, and actively playing.
         bool armed = TryActiveRange(out float range);
         bool playing = GameStateManager.Instance == null
                        || GameStateManager.Instance.State == GameState.Playing;
-        if (!armed || !playing)
+        bool fighting = combat == null || combat.InCombat;
+        if (!armed || !playing || !fighting)
         {
             if (arrow != null && arrow.enabled) arrow.enabled = false;
             return;
@@ -65,12 +72,12 @@ public class AimIndicator : MonoBehaviour
 
     // Reach of the hand that's swinging right now (WeaponUse's pending swing), or
     // the larger reach of the two hands when idle -- each hand has its own button,
-    // so there's no single "next" hand. Measured to the FURTHEST point of the strike: Tool.range (strike center
-    // distance) + Hitbox.radius (how far the strike circle extends past it) for
-    // melee, or RangedWeapon.GetRange (live charge fraction lerped toward
-    // chargedRange) for a bow. ActiveItem is the held item or the default fists
-    // when empty, so bare hands count (fists are a Tool). Returns false when that
-    // hand can't swing (it holds a non-tool, e.g. wood).
+    // so there's no single "next" hand. Measured to the FURTHEST point of the strike:
+    // the strike cone's range (after the player's IStrikeModifiers) for melee, or
+    // RangedWeapon.GetRange (live charge fraction lerped toward chargedRange) for a
+    // bow. ActiveItem is the held item or the default fists when empty, so bare hands
+    // count (fists are a Tool). Returns false when that hand can't swing (it holds a
+    // non-tool, e.g. wood).
     bool TryActiveRange(out float range)
     {
         range = 0f;
@@ -88,12 +95,8 @@ public class AimIndicator : MonoBehaviour
         GameObject item = hands.ActiveItem(side);
         if (item != null && item.TryGetComponent(out Tool tool))
         {
-            float reach = tool.range;
-            if (item.TryGetComponent(out Hitbox hitbox))
-            {
-                reach += hitbox.radius;
-            }
-            else if (item.TryGetComponent(out RangedWeapon ranged))
+            float reach = weaponUse != null ? weaponUse.GetStrike(tool, false).range : tool.range;
+            if (item.TryGetComponent(out RangedWeapon ranged))
             {
                 float chargeFraction = weaponUse != null ? weaponUse.ChargeProgress : 0f;
                 reach = ranged.GetRange(chargeFraction, tool.range);

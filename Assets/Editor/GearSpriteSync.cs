@@ -62,7 +62,7 @@ class GearSpriteSync : AssetPostprocessor
             }
 
             foreach (SpriteLayerFollower f in root.GetComponentsInChildren<SpriteLayerFollower>(true))
-                if (!string.IsNullOrEmpty(f.layerName))
+                if (!string.IsNullOrEmpty(f.layerName) && FollowsPaperDoll(f))
                     changed |= SyncFrames(f, f.layerName, layers, path);
 
             if (changed)
@@ -139,6 +139,17 @@ class GearSpriteSync : AssetPostprocessor
 
     static IEnumerable<AnimatorState> AllStates(AnimatorStateMachine sm) =>
         sm.states.Select(s => s.state).Concat(sm.stateMachines.SelectMany(c => AllStates(c.stateMachine)));
+
+    // Whether a follower layers over paper-doll art. Followers on other files' art
+    // (e.g. a layered prop's Snow / Highlight, kept by LayeredPropSetup) belong to
+    // that file; a source with no sprite yet is assumed to be the paper doll.
+    static bool FollowsPaperDoll(SpriteLayerFollower f)
+    {
+        var source = new SerializedObject(f).FindProperty("source").objectReferenceValue as SpriteRenderer;
+        if (source == null && f.transform.parent != null) source = f.transform.parent.GetComponent<SpriteRenderer>();
+        if (source == null || source.sprite == null) return true;
+        return AssetDatabase.GetAssetPath(source.sprite) == PaperDollPath;
+    }
 
     // Write `frames` on a component via SerializedObject; true if anything changed.
     static bool SyncFrames(Component c, string layerName, Dictionary<string, Sprite[]> layers, string path)

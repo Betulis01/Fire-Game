@@ -4,10 +4,9 @@ using UnityEngine.Rendering;
 
 // Throwaway combat-visualization overlay. Press C to toggle wireframes for:
 //   - every Hurtbox collider (green)
-//   - every Hitbox's reach (yellow) and current strike circle (red) -- for a
-//     player's WeaponUse this follows the mouse live; for an EnemyAttacker it
-//     follows its last swing direction and also shows attackRange (orange); a
-//     world-lying weapon with no wielder just shows its own hitbox footprint
+//   - every melee strike cone (red) and full reach circle (yellow) -- the
+//     player's follows the mouse live; each enemy's aims at its aggro target (or
+//     its armed swing's latched aim) and also shows attackRange (orange)
 //   - every EnemyBrain's detection radius (cyan) -- otherwise only an
 //     Editor-only OnDrawGizmosSelected, invisible here without this
 //   - every other Collider2D in the scene (cyan) -- blockers, interaction
@@ -60,42 +59,29 @@ public class CombatDebug : MonoBehaviour
             DrawCollider(col, HurtColor);
         }
 
-        // A weapon's reach + strike circle. Wielder determines how the aim direction
-        // is resolved: a player's WeaponUse follows the mouse live; an EnemyAttacker
-        // follows its last swing direction and also shows its attackRange (the
-        // distance at which it starts swinging); a weapon lying in the world has no
-        // wielder, so just show its own hitbox footprint with no reach ring.
-        foreach (Hitbox hit in FindObjectsByType<Hitbox>(FindObjectsSortMode.None))
+        // The player's strike: the same cone TargetPreview highlights with (the armed
+        // swing, or the longer-reaching melee hand), following the mouse live.
+        foreach (WeaponUse user in FindObjectsByType<WeaponUse>(FindObjectsSortMode.None))
         {
-            Tool tool = hit.GetComponent<Tool>();
-            if (tool == null) continue;
+            if (!user.TryGetMeleePreview(out _, out _, out StrikeShape shape, out Vector2 aimDir)) continue;
+            DrawCircle(user.Origin, shape.range, RangeColor);                       // reach
+            DrawCone(user.Origin, aimDir, shape.range, shape.arcAngle, HitColor);   // where a swing lands now
+        }
 
-            WeaponUse user = hit.GetComponentInParent<WeaponUse>();
-            EnemyAttacker enemy = user == null ? hit.GetComponentInParent<EnemyAttacker>() : null;
+        // Each enemy's strike cone, aimed where its next (or armed) swing goes, plus
+        // its attackRange (the distance at which it starts swinging). Its weapon is a
+        // prefab reference rather than a scene object, so it's read off the attacker.
+        foreach (EnemyAttacker enemy in FindObjectsByType<EnemyAttacker>(FindObjectsSortMode.None))
+        {
+            if (!enemy.isActiveAndEnabled) continue;   // dead: no more swings
+            Vector2 origin = enemy.Origin;
+            Vector2 aimDir = enemy.PreviewAimDir;
+            if (aimDir.sqrMagnitude < 1e-6f) aimDir = new Vector2(1f, -1f).normalized;   // never aimed yet: default facing
+            StrikeShape shape = enemy.Strike;
 
-            Vector2 origin;
-            Vector2 aimDir;
-
-            if (user != null)
-            {
-                origin = user.Origin;                    // same origin the real swing uses
-                aimDir = AimDir(origin, camera);          // follows the mouse live
-            }
-            else if (enemy != null)
-            {
-                origin = enemy.Origin;
-                aimDir = enemy.AimDir;
-                DrawCircle(origin, enemy.attackRange, EnemyRangeColor);   // distance it starts swinging at
-            }
-            else
-            {
-                DrawCircle(hit.transform.position, hit.radius, HitColor);   // orphaned/world weapon: footprint only
-                continue;
-            }
-
-            Vector2 center = origin + aimDir * tool.range;
-            DrawCircle(origin, tool.range, RangeColor);                // reach
-            DrawCircle(center, hit.radius, HitColor);                  // where a swing lands now
+            DrawCircle(origin, enemy.attackRange, EnemyRangeColor);
+            DrawCircle(origin, shape.range, RangeColor);
+            DrawCone(origin, aimDir, shape.range, shape.arcAngle, HitColor);
         }
 
         // Enemy detection radius -- normally only an OnDrawGizmosSelected wire sphere
@@ -114,12 +100,6 @@ public class CombatDebug : MonoBehaviour
 
         GL.End();
         GL.PopMatrix();
-    }
-
-    Vector2 AimDir(Vector2 from, Camera camera)
-    {
-        if (camera == null) return Vector2.right;
-        return UserInput.Instance.AimDirection(from, camera);
     }
 
     void DrawCollider(Collider2D col, Color color)
@@ -161,6 +141,28 @@ public class CombatDebug : MonoBehaviour
                 center.x + Mathf.Cos(a0) * radius, center.y + Mathf.Sin(a0) * radius,
                 center.x + Mathf.Cos(a1) * radius, center.y + Mathf.Sin(a1) * radius);
         }
+    }
+
+    // A strike cone: its two edges and the rim arc between them (no edges for a full circle).
+    void DrawCone(Vector2 apex, Vector2 dir, float radius, float arcAngle, Color color, int segments = 16)
+    {
+        if (dir.sqrMagnitude < 1e-6f) return;
+        GL.Color(color);
+
+        float half = Mathf.Min(arcAngle, 360f) * 0.5f * Mathf.Deg2Rad;
+        float aim = Mathf.Atan2(dir.y, dir.x);
+        float step = half * 2f / segments;
+        Vector2 Rim(float a) => apex + new Vector2(Mathf.Cos(a), Mathf.Sin(a)) * radius;
+
+        Vector2 prev = Rim(aim - half);
+        if (arcAngle < 360f) Line(apex.x, apex.y, prev.x, prev.y);
+        for (int i = 1; i <= segments; i++)
+        {
+            Vector2 p = Rim(aim - half + step * i);
+            Line(prev.x, prev.y, p.x, p.y);
+            prev = p;
+        }
+        if (arcAngle < 360f) Line(prev.x, prev.y, apex.x, apex.y);
     }
 
     void Line(float x0, float y0, float x1, float y1)

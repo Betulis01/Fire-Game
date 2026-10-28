@@ -1,11 +1,12 @@
 using UnityEngine;
 
-// Shared "does this collider count as a valid hit" check, used by every hit
-// detector (Hitbox's one-shot overlap, Projectile's per-frame trigger). Keeping it
-// in one place means melee and ranged attacks can't drift apart on what a hit is:
-// skip the attacker, require a Hurtbox with Health.
+// Shared hit delivery, used by every hit detector (MeleeWeapon's targeted strike,
+// Projectile's per-frame trigger). Keeping it in one place means melee and ranged
+// attacks can't drift apart on what a hit is: skip the attacker, require a Hurtbox
+// with Health, aim the hit attacker -> victim.
 public static class HitResolution
 {
+    // Projectile path: does this touched collider count as a hit? Delivers it if so.
     public static bool TryHit(Collider2D col, GameObject owner, in AttackData attack,
                                Vector2 center, out HitInfo hit)
     {
@@ -14,14 +15,20 @@ public static class HitResolution
         Hurtbox hb = col.GetComponentInParent<Hurtbox>();
         if (hb == null || hb.Health == null || hb.Owner == owner) return false;
 
-        Vector2 attackerPos = owner != null ? (Vector2)owner.transform.position : center;
+        hit = Deliver(hb, owner, attack, hb.HurtCollider.ClosestPoint(center));
+        return true;
+    }
+
+    // Hand a landed hit to the victim's reactors, at `point` (where contact happened).
+    public static HitInfo Deliver(Hurtbox hb, GameObject owner, in AttackData attack, Vector2 point)
+    {
+        Vector2 attackerPos = owner != null ? (Vector2)owner.transform.position : point;
         Vector2 toTarget = (Vector2)hb.Owner.transform.position - attackerPos;
         Vector2 dir = toTarget.sqrMagnitude > 1e-6f ? toTarget.normalized : Vector2.zero;
-        Vector2 point = hb.HurtCollider.ClosestPoint(center);
 
-        hit = new HitInfo(owner, hb.Owner, attack, point, dir);
+        HitInfo hit = new HitInfo(owner, hb.Owner, attack, point, dir);
         hb.TakeHit(hit);
-        return true;
+        return hit;
     }
 
     // Notify the attacker's reactors (e.g. AttackRecoil) once per connecting hit, at

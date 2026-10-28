@@ -22,8 +22,25 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     Transform player;
     bool lookedForPlayer;
     EnemyAnimator anim;
+    Health health;
 
-    void Awake() => anim = GetComponent<EnemyAnimator>();
+    void Awake()
+    {
+        anim = GetComponent<EnemyAnimator>();
+        health = GetComponent<Health>();
+    }
+
+    // Still alive, thinking and chasing `target` (its CombatState polls this).
+    public bool IsEngagedWith(Transform target) =>
+        isActiveAndEnabled && CurrentState == State.Combat && aggroTarget == target
+        && (health == null || !health.IsDead);
+
+    void Aggro(Transform target)
+    {
+        aggroTarget = target;
+        CurrentState = State.Combat;
+        if (target.TryGetComponent(out CombatState combat)) combat.Engage(this);
+    }
 
     void Update()
     {
@@ -51,10 +68,7 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
         if (player == null) return;
 
         if (Vector2.Distance(transform.position, player.position) <= detectionRadius)
-        {
-            aggroTarget = player;
-            CurrentState = State.Combat;
-        }
+            Aggro(player);
     }
 
     void OnDrawGizmosSelected()
@@ -66,7 +80,6 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     public void OnHit(in HitInfo hit)
     {
         if (hit.attacker == null) return;
-        aggroTarget = hit.attacker.transform;
-        CurrentState = State.Combat;
+        Aggro(hit.attacker.transform);
     }
 }

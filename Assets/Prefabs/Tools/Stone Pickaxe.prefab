@@ -156,7 +156,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 4
   damage: 1
-  range: 0.5
+  range: 1.1
+  arcAngle: 70
+  maxTargets: 2
+  secondaryDamageMultiplier: 1
   targetKnockback: 1.5
   selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: c4f10a2dc8c8b42419e1a78f5c039208, type: 3}
@@ -231,9 +234,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19cfe1a3838229f4cb5bc91abcc98f10, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Hitbox
-  radius: 0.6
-  hurtboxLayers:
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeWeapon
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 1536
+  priorityLayers:
     serializedVersion: 2
     m_Bits: 512
 --- !u!114 &5902727336176480353

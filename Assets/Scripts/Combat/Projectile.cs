@@ -1,8 +1,8 @@
 using UnityEngine;
 
 // A fired arrow: travels in a straight line and delivers its hit the moment it
-// touches a Hurtbox, via the same HitResolution rules a Hitbox uses (skip the
-// owner, respect ToolDamageFilter). Unlike Hitbox this isn't a one-shot poll — it
+// touches a Hurtbox, via the same HitResolution rules a melee strike uses (skip the
+// owner, respect ToolDamageFilter). Unlike a melee strike this isn't a one-shot poll — it
 // keeps moving and checking every frame until it lands or runs out of range. Speed
 // eases down to 0 over the final third of that range rather than cutting off at
 // full speed, so it reads as losing momentum rather than vanishing mid-flight.

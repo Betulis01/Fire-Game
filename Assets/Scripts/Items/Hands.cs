@@ -12,7 +12,7 @@ public class Hands : MonoBehaviour
     public Transform leftHand;    // empty child transforms on the player body
     public Transform rightHand;
 
-    [Tooltip("Default bare-hands weapon (a Fists prefab with Tool + Hitbox). One is " +
+    [Tooltip("Default bare-hands weapon (a Fists prefab with Tool + MeleeWeapon). One is " +
              "spawned into each hand and shown whenever that hand holds no real item.")]
     public GameObject fistsPrefab;
 

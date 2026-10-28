@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// The player's Health. Being a Health subclass means a Hurtbox/Hitbox can damage
+// The player's Health. Being a Health subclass means a melee strike or projectile can damage
 // the player exactly like any other entity. Drains health while freezing (warmth == 0)
 // and ends the game on death.
 [RequireComponent(typeof(PlayerTemperature))]

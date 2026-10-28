@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Attacker-side reactor: a tiny camera shake whenever this entity lands a hit. Lives
-// on the attacker (the player); Hitbox notifies it through IAttackReactor, so it
+// on the attacker (the player); HitResolution notifies it through IAttackReactor, so it
 // needs no wiring into the hit pipeline. Scaled by the attack's targetKnockback rather
 // than damage, since knockback is the designer-tuned "how much oomph" value and stays
 // sane even if damage numbers grow much larger later.

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6445713059805398691}
   - component: {fileID: 5928835595148644809}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: HurtboxArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
