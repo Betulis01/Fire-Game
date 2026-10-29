@@ -14,8 +14,13 @@ public class StationProcessPanel : MonoBehaviour
     public Image inputIcon;
     public TMP_Text queueCount;
 
+    [Tooltip("Room for the item icon, in reference pixels: the input field's inside " +
+             "(21 art pixels) at the panel's x3. Icons draw at a whole-number scale in it.")]
+    public Vector2 iconBox = new(63f, 63f);
+
     Fuel fuel;
     ItemProcessor processor;
+    Sprite shownIcon;
 
     public void Bind(Fuel fuel, ItemProcessor processor)
     {
@@ -29,10 +34,10 @@ public class StationProcessPanel : MonoBehaviour
         if (processRing != null) processRing.Set(processor != null ? processor.Progress : 0f);
 
         Sprite icon = processor != null ? processor.CurrentIcon : null;
-        if (inputIcon != null)
+        if (inputIcon != null && (icon != shownIcon || inputIcon.enabled != (icon != null)))
         {
-            inputIcon.sprite = icon;
-            inputIcon.enabled = icon != null;
+            shownIcon = icon;
+            UiPixel.FitIntegerScale(inputIcon, icon, iconBox);
         }
 
         if (queueCount != null)
