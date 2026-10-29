@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // A place the player can deposit items into by standing in its trigger zone
-// holding an accepted item and pressing the drop key (or releasing the drop ghost
-// over it). PlayerInteractor drives all receivers uniformly via the static
+// holding an accepted item and tapping Q, by throwing a carried item into the zone
+// (ThrownItem), or by dragging a bag stack onto it. PlayerInteractor drives all receivers uniformly via the static
 // registry, so deposit targets don't need to be Interactables. FuelReceiver (feed
 // a fire) and BuildRequirement (supply a structure) are the concrete kinds.
 public abstract class ItemReceiver : MonoBehaviour

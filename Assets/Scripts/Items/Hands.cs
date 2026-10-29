@@ -3,60 +3,110 @@ using UnityEngine;
 
 public enum HandSide { Left, Right }
 
-// The player's two hands (a worn bag adds an Inventory on top). Each hand holds (or not) an
-// actual item GameObject parented to a body transform, plus a stack count. Picking
-// up re-parents a WorldItem onto a hand; a matching Stackable item merges into the
-// hand's count instead. Stacking lives only here — world items are always single.
+// The player's two hands. They carry Big items (logs, stone: ItemSize.Big), one per
+// hand -- each an actual item GameObject parented to a body transform. Small items
+// and gear go in the bag (Inventory) instead.
+//
+// While both hands are empty the player is armed: the Loadout's active set is drawn
+// on the hand anchors (Main Hand on the left, Off Hand on the right) and that's what
+// each hand swings, or its default fists when that loadout slot is empty (a
+// two-handed tool in the Main Hand leaves the Off Hand with nothing). Carrying
+// anything stows the whole loadout -- inactive, so a torch goes dark -- and the hands
+// can't attack (ItemUser turns a left click into putting the load down).
+[RequireComponent(typeof(Loadout))]
 public class Hands : MonoBehaviour
 {
     public Transform leftHand;    // empty child transforms on the player body
     public Transform rightHand;
 
     [Tooltip("Default bare-hands weapon (a Fists prefab with Tool + MeleeWeapon). One is " +
-             "spawned into each hand and shown whenever that hand holds no real item.")]
+             "spawned into each hand and shown whenever that hand is armed with an empty " +
+             "loadout slot.")]
     public GameObject fistsPrefab;
 
     [Tooltip("Source of the west-facing mirror flip. Falls back to a PlayerAnimator " +
              "on this GameObject.")]
     [SerializeField] PlayerAnimator playerAnimator;
 
+    [Tooltip("How far the two halves of a load put down at once scatter around the spot.")]
+    [SerializeField] float dropScatter = 0.15f;
+
     GameObject leftItem;
     GameObject rightItem;
-    int leftCount;
-    int rightCount;
+    HandSide lastFilled;
 
     GameObject leftFists;
     GameObject rightFists;
+    Loadout loadout;
 
     public Camera cam;
 
-    // raised after any pick-up/drop so the UI can redraw
+    // raised after any pick-up/drop, and when the drawn loadout changes, so the UI
+    // can redraw
     public event Action Changed;
 
     void Awake()
     {
         if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
+        loadout = GetComponent<Loadout>();
         leftFists = SpawnFists(leftHand);
         rightFists = SpawnFists(rightHand);
-        RefreshFists();
     }
+
+    void OnEnable()
+    {
+        loadout.Changed += OnLoadoutChanged;
+        Refresh();
+    }
+
+    void OnDisable() => loadout.Changed -= OnLoadoutChanged;
+
+    void OnLoadoutChanged()
+    {
+        Refresh();
+        Changed?.Invoke();
+    }
+
+    public bool IsCarrying => leftItem != null || rightItem != null;
 
     public bool IsHolding(HandSide side) => Held(side) != null;
 
+    // The carried (Big) item in a hand; never a loadout item.
     public GameObject Held(HandSide side) => side == HandSide.Left ? leftItem : rightItem;
 
-    public int Count(HandSide side) => side == HandSide.Left ? leftCount : rightCount;
+    // The hand Q drops or deposits from: the one filled last, else the other.
+    public bool TryGetLastFilled(out HandSide side)
+    {
+        side = IsHolding(lastFilled) ? lastFilled : Other(lastFilled);
+        return IsHolding(side);
+    }
 
-    // The thing a hand swings: the real held item, or its default fists when empty.
-    // Combat (WeaponUse) reads this so it never has to special-case being unarmed.
-    public GameObject ActiveItem(HandSide side) =>
-        Held(side) != null ? Held(side) : (side == HandSide.Left ? leftFists : rightFists);
+    // What hangs on a hand right now: the carried item, else the drawn loadout item.
+    public GameObject Shown(HandSide side)
+    {
+        if (IsCarrying) return Held(side);
+        return loadout.Drawn(side);
+    }
+
+    // The thing a hand swings: its drawn loadout item, or its default fists when that
+    // slot is empty; nothing while carrying, or for the Off Hand beside a two-handed
+    // tool. Combat (WeaponUse) reads this so it never has to special-case being unarmed.
+    public GameObject ActiveItem(HandSide side)
+    {
+        if (IsCarrying || !HasFreeOffHand(side)) return null;
+        GameObject drawn = loadout.Drawn(side);
+        if (drawn != null) return drawn;
+        return side == HandSide.Left ? leftFists : rightFists;
+    }
+
+    // false for the Off Hand while the Main Hand's tool needs both hands
+    bool HasFreeOffHand(HandSide side) => side == HandSide.Left || !loadout.MainIsTwoHanded(loadout.ActiveSet);
 
     // The physical transform a hand's item should render at right now. leftHand/
     // rightHand are fixed anchors, but which one visually reads as "left"/"right"
     // flips when the player mirrors to face west (PlayerAnimator.FlipX) -- so the
-    // anchor for a side swaps too, and any already-held item is re-parented onto
-    // it here rather than staying stuck on whichever anchor it was picked up on.
+    // anchor for a side swaps too, and the item shown on it is re-parented onto it
+    // here rather than staying stuck on whichever anchor it was attached to.
     // This holds mid-attack too: PlayerAnimator.PlayAttack flips the clip's _l/_r
     // suffix on the same mirror, so a west-facing left-hand swing plays the _r
     // clip, which animates rightHand -- exactly the anchor this swap puts the
@@ -65,7 +115,7 @@ public class Hands : MonoBehaviour
     {
         Transform anchor = (side == HandSide.Right) != FlipX ? rightHand : leftHand;
 
-        GameObject item = Held(side);
+        GameObject item = Shown(side);
         if (item != null && item.transform.parent != anchor) Attach(item, anchor, worldPositionStays: false);
         return anchor;
     }
@@ -91,199 +141,92 @@ public class Hands : MonoBehaviour
             sr.flipX = flip;
     }
 
-    // move a world item onto the given hand, or merge it into a matching stack
+    // Move a world item onto the given hand; false when that hand is already full.
     public bool TryHold(GameObject worldItem, HandSide side)
     {
-        if (worldItem == null) return false;
+        if (worldItem == null || IsHolding(side)) return false;
 
-        GameObject current = Held(side);
-        if (current != null)
-        {
-            // merge a single matching item into the hand's stack if there's room
-            Stackable stack = current.GetComponent<Stackable>();
-            WorldItem held = current.GetComponent<WorldItem>();
-            WorldItem incoming = worldItem.GetComponent<WorldItem>();
-
-            if (stack != null && incoming != null && held.item == incoming.item
-                && Count(side) < stack.maxStack)
-            {
-                SetCount(side, Count(side) + 1);
-                Destroy(worldItem);            // the world single is absorbed into the stacwk
-                Changed?.Invoke();
-                return true;
-            }
-
-            return false;                      // hand occupied and can't stack
-        }
+        bool wasCarrying = IsCarrying;
+        Set(side, worldItem);
+        lastFilled = side;
+        if (!wasCarrying) Refresh();   // stow the loadout off the anchors first
 
         Attach(worldItem, Anchor(side));
         worldItem.GetComponent<WorldItem>().SetHeld(true);
-
-        Set(side, worldItem);
-        SetCount(side, 1);
         Changed?.Invoke();
         return true;
     }
 
-    // Hold a whole stack (one object + its count, e.g. out of the bag): into an empty
-    // hand, or merged onto a matching stack up to maxStack. `leftover` is what didn't
-    // fit; the incoming object is destroyed only when all of it was absorbed by a
-    // merge, otherwise the caller keeps it (with `leftover` as its count).
-    public bool TryHoldStack(GameObject item, int count, HandSide side, out int leftover)
-    {
-        leftover = count;
-        if (item == null || count <= 0) return false;
+    // Into whichever hand is free (left first); false when both are full.
+    public bool TryHoldFree(GameObject worldItem) =>
+        TryHold(worldItem, HandSide.Left) || TryHold(worldItem, HandSide.Right);
 
-        GameObject current = Held(side);
-        if (current == null)
-        {
-            item.SetActive(true);
-            Attach(item, Anchor(side));
-            item.GetComponent<WorldItem>().SetHeld(true);
-
-            Set(side, item);
-            SetCount(side, count);
-            leftover = 0;
-            Changed?.Invoke();
-            return true;
-        }
-
-        Stackable stack = current.GetComponent<Stackable>();
-        WorldItem held = current.GetComponent<WorldItem>();
-        WorldItem incoming = item.GetComponent<WorldItem>();
-        if (stack == null || incoming == null || held.item != incoming.item) return false;
-
-        int take = Mathf.Min(count, stack.maxStack - Count(side));
-        if (take <= 0) return false;
-
-        SetCount(side, Count(side) + take);
-        leftover = count - take;
-        if (leftover == 0) Destroy(item);
-        Changed?.Invoke();
-        return true;
-    }
-
-    // swap the item in a hand for a new one (e.g. crafting wood -> torch).
-    // overwrites whatever's there, destroying the old item.
-    public void Replace(HandSide side, GameObject newItem)
-    {
-        GameObject old = Held(side);
-        if (old != null) Destroy(old);
-
-        Attach(newItem, Anchor(side));
-        newItem.GetComponent<WorldItem>().SetHeld(true);
-
-        Set(side, newItem);
-        SetCount(side, 1);
-        Changed?.Invoke();
-    }
-
-    // drop one item from the given hand at the player's feet. A stack releases a
-    // single world item and keeps the rest; the last one drops the held object.
+    // Drop a hand's item at the player's feet, a little toward the aim.
     public void Drop(HandSide side)
     {
         Vector2 aim = UserInput.Instance.AimDirection(transform.position, cam);
         DropAt(side, transform.position + (Vector3)(aim * 0.5f));
     }
 
-    // drop one item from the given hand at an explicit world position (e.g. a
-    // ghost-aimed drop). Same stack-split behaviour as Drop.
+    // Drop a hand's item at an explicit world position (e.g. a ghost-aimed drop).
     public void DropAt(HandSide side, Vector3 dropPos)
     {
         GameObject item = Held(side);
         if (item == null) return;
 
-        if (Count(side) > 1)
-        {
-            SetCount(side, Count(side) - 1);
-            GameObject prefab = item.GetComponent<WorldItem>().item.prefab;
-            GameObject one = Instantiate(prefab, dropPos, Quaternion.identity);
-            one.GetComponent<WorldItem>().SetHeld(false);
-            Changed?.Invoke();
-            return;
-        }
-
-        item.transform.SetParent(null);
-        item.transform.position = dropPos;
-        SetSpriteFlip(item, false);
-        item.GetComponent<WorldItem>().SetHeld(false);
-
+        Place(item, dropPos);
         Set(side, null);
-        SetCount(side, 0);
+        Refresh();
         Changed?.Invoke();
     }
 
-    // Drop the entire held stack of `side` at dropPos, then take `incoming` into
-    // that (now-empty) hand. Used to swap a picked-up world item for a full hand.
-    public bool SwapHold(GameObject incoming, HandSide side, Vector3 dropPos)
-    {
-        if (incoming == null) return false;
-        DropStack(side, dropPos);      // frees the hand
-        return TryHold(incoming, side);
-    }
-
-    // Release every item in a hand's stack into the world at pos, clearing the hand.
-    void DropStack(HandSide side, Vector3 pos)
-    {
-        GameObject item = Held(side);
-        if (item == null) return;
-        int count = Count(side);
-        WorldItem wi = item.GetComponent<WorldItem>();
-
-        // the held object itself becomes one world single
-        item.transform.SetParent(null);
-        item.transform.position = pos;
-        SetSpriteFlip(item, false);
-        wi.SetHeld(false);
-
-        // spawn the remaining stacked copies with a small offset so they don't
-        // perfectly overlap the swapped-in item's old spot
-        for (int i = 1; i < count; i++)
-        {
-            Vector3 p = pos + (Vector3)(UnityEngine.Random.insideUnitCircle * 0.15f);
-            GameObject one = Instantiate(wi.item.prefab, p, Quaternion.identity);
-            one.GetComponent<WorldItem>().SetHeld(false);
-        }
-
-        Set(side, null);
-        SetCount(side, 0);
-        Changed?.Invoke();
-    }
-
-    // Take a hand's item out without dropping it into the world (e.g. to wear it).
-    // The caller owns the returned object; it keeps WorldItem.IsHeld until the caller
-    // changes that. The whole stack goes with it.
+    // Take a hand's item out without putting it anywhere (a throw: ThrownItem takes
+    // it from here). It keeps WorldItem.IsHeld until the caller changes that.
     public GameObject Release(HandSide side)
     {
         GameObject item = Held(side);
         if (item == null) return null;
 
+        item.transform.SetParent(null, true);
+        SetSpriteFlip(item, false);
         Set(side, null);
-        SetCount(side, 0);
+        Refresh();
         Changed?.Invoke();
         return item;
     }
 
-    // remove `amount` from a hand's stack (e.g. a crafting input). Decrements the
-    // count, freeing the hand only when it hits zero.
-    public void Consume(HandSide side, int amount = 1)
+    // Put the whole load down around `pos` (a left click while carrying), which
+    // draws the loadout again.
+    public void DropLoad(Vector3 pos)
     {
-        if (Held(side) == null) return;
-
-        int remaining = Count(side) - amount;
-        if (remaining > 0)
+        if (!IsCarrying) return;
+        foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
         {
-            SetCount(side, remaining);
-            Changed?.Invoke();
+            GameObject item = Held(side);
+            if (item == null) continue;
+            Place(item, pos + (Vector3)(UnityEngine.Random.insideUnitCircle * dropScatter));
+            Set(side, null);
         }
-        else
-        {
-            Clear(side);   // destroys the held object and raises Changed
-        }
+        Refresh();
+        Changed?.Invoke();
     }
 
-    // destroy and remove the item in a hand without dropping it (e.g. an input
-    // consumed by crafting).
+    void Place(GameObject item, Vector3 pos)
+    {
+        item.transform.SetParent(null);
+        item.transform.position = pos;
+        SetSpriteFlip(item, false);
+        item.GetComponent<WorldItem>().SetHeld(false);
+    }
+
+    // Use up a hand's item (a crafting input, a log fed to the fire): destroyed, and
+    // the hand is free again. Hands hold one item each, so any amount takes it.
+    public void Consume(HandSide side, int amount = 1)
+    {
+        if (amount > 0) Clear(side);
+    }
+
+    // destroy and remove the item in a hand without dropping it
     public void Clear(HandSide side)
     {
         GameObject item = Held(side);
@@ -291,7 +234,7 @@ public class Hands : MonoBehaviour
 
         Destroy(item);
         Set(side, null);
-        SetCount(side, 0);
+        Refresh();
         Changed?.Invoke();
     }
 
@@ -299,7 +242,6 @@ public class Hands : MonoBehaviour
     {
         if (side == HandSide.Left) leftItem = item;
         else rightItem = item;
-        RefreshFists();
     }
 
     GameObject SpawnFists(Transform hand)
@@ -310,16 +252,34 @@ public class Hands : MonoBehaviour
         return f;
     }
 
-    // Fists are active only while their hand holds no real item.
-    void RefreshFists()
+    // Draw or stow the loadout. Armed: the active set's items hang on the anchors and
+    // fists fill an empty slot. Carrying: every loadout item is stowed (an inactive
+    // child of the player) and no fists show. The inactive set is always stowed.
+    void Refresh()
     {
-        if (leftFists != null) leftFists.SetActive(leftItem == null);
-        if (rightFists != null) rightFists.SetActive(rightItem == null);
+        bool carrying = IsCarrying;
+        for (int set = 0; set < Loadout.Sets; set++)
+            foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
+            {
+                GameObject item = loadout.Item(set, side);
+                if (item == null) continue;
+
+                if (!carrying && set == loadout.ActiveSet)
+                {
+                    item.SetActive(true);
+                    Attach(item, Anchor(side), worldPositionStays: false);
+                }
+                else
+                {
+                    item.SetActive(false);
+                    if (item.transform.parent != transform) item.transform.SetParent(transform, false);
+                }
+            }
+
+        if (leftFists != null) leftFists.SetActive(!carrying && loadout.Drawn(HandSide.Left) == null);
+        if (rightFists != null)
+            rightFists.SetActive(!carrying && loadout.Drawn(HandSide.Right) == null && HasFreeOffHand(HandSide.Right));
     }
 
-    void SetCount(HandSide side, int count)
-    {
-        if (side == HandSide.Left) leftCount = count;
-        else rightCount = count;
-    }
+    static HandSide Other(HandSide side) => side == HandSide.Left ? HandSide.Right : HandSide.Left;
 }

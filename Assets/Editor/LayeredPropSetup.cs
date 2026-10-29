@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 // Keeps props whose Aseprite art imports as Individual Layers (+ hidden layers) wired
 // up, so each art layer -- including the hidden "Highlight" the melee target outline
@@ -16,6 +17,11 @@ using UnityEngine;
 //     shows that layer's sprite for whatever frame the root is on, sorted by the
 //     layer's place in the Aseprite stack relative to the base (Highlight is drawn
 //     under the body, so it sorts behind it)
+//   - a SortingGroup on the root makes all the layers one unit that the root's YSort
+//     sorts by the prop's feet, so another object never slips in between a prop's
+//     body and its snow or highlight; inside it the layers keep the Aseprite order
+//   - variants: a RandomSprite picks among the base layer's untagged frames (a frame
+//     a tag covers is animation, not a variant), and every layer follows its frame
 // Keeping the root as the body means YSort, held-item sorting, OccluderFade,
 // SpriteShadow and Highlightable all keep working on one main renderer.
 //
@@ -53,6 +59,28 @@ static class LayeredPropSetup
             "Assets/Prefabs/Entities/Ground/Scots Pine.prefab"),
         new("Assets/Sprites/Ground/Tree/Grey Alder/Grey Alder.aseprite", "Root",
             "Assets/Prefabs/Entities/Ground/Grey Alder.prefab"),
+        new("Assets/Sprites/Ground/Stone/Stone.aseprite", "Stone",
+            "Assets/Prefabs/Entities/Ground/Stone.prefab"),
+        new("Assets/Sprites/Ground/Rock/Rock.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Ground/Rock.prefab"),
+        new("Assets/Sprites/Ground/Stick/Stick.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Ground/Stick.prefab"),
+        new("Assets/Sprites/Ground/Sap/Sap.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Ground/Sap.prefab"),
+        new("Assets/Sprites/Ground/Iron Stone/Iron Stone.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Ground/Iron Stone.prefab"),
+        new("Assets/Sprites/Ground/Iron Bar/Iron Bar.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Ground/Iron Bar.prefab"),
+        new("Assets/Sprites/Ground/Food/Meat/Polar Bear Meat/Polar Bear Meat.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Food/Polar Bear Meat/Polar Bear Meat.prefab"),
+        new("Assets/Sprites/Ground/Food/Meat/Polar Bear Meat/Polar Bear Meat Cooked.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Food/Polar Bear Meat/Polar Bear Meat Cooked.prefab"),
+        new("Assets/Sprites/Materials/Leather.aseprite", "Layer 1",
+            "Assets/Prefabs/Entities/Materials/Leather.prefab"),
+        new("Assets/Sprites/Ground/Food/Berries/Blue Berries.aseprite", "Bush",
+            "Assets/Prefabs/Entities/Food/Red Berries/Blue Berries.prefab"),
+        new("Assets/Sprites/Tools/Sap Torch/Sap Torch.aseprite", "Layer 1",
+            "Assets/Prefabs/Tools/Sap Torch.prefab"),
     };
 
     static readonly Regex LayerFrame = new(@"^(.+)_Frame_(\d+)$");
@@ -82,30 +110,31 @@ static class LayeredPropSetup
 
     static int SetUp(in Prop prop, bool verbose)
     {
-        Dictionary<string, Sprite[]> layers = IndexLayers(prop.aseprite);
+        ReadHeader(prop.aseprite, out List<string> stack, out var tags);   // stack: bottom to top
+        Dictionary<string, Sprite[]> layers = IndexLayers(prop.aseprite, stack);
         if (!layers.TryGetValue(prop.baseLayer, out Sprite[] baseFrames) || baseFrames.Length == 0 || baseFrames[0] == null)
         {
             if (verbose)
-                Debug.LogError($"[LayeredPropSetup] {prop.aseprite}: no '{prop.baseLayer}_Frame_0' sprite. Is the file " +
+                Debug.LogError($"[LayeredPropSetup] {prop.aseprite}: no '{prop.baseLayer}' sprite. Is the file " +
                                "imported as Individual Layers (with Import Hidden Layers for Highlight)?");
             return 0;
         }
 
-        ReadHeader(prop.aseprite, out List<string> stack, out var tags);   // stack: bottom to top
         int baseIndex = stack.IndexOf(prop.baseLayer);
 
         int changed = 0;
         foreach (string path in prop.prefabs)
         {
             if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) continue;
-            if (SetUpPrefab(path, prop, layers, stack, baseIndex)) changed++;
+            if (SetUpPrefab(path, prop, layers, stack, baseIndex, tags)) changed++;
             changed += SetUpClips(path, prop, baseFrames, tags, verbose);
         }
         return changed;
     }
 
     // Root shows the base layer; one follower child per other layer.
-    static bool SetUpPrefab(string path, in Prop prop, Dictionary<string, Sprite[]> layers, List<string> stack, int baseIndex)
+    static bool SetUpPrefab(string path, in Prop prop, Dictionary<string, Sprite[]> layers, List<string> stack, int baseIndex,
+                            Dictionary<string, (int from, int to)> tags)
     {
         GameObject root = PrefabUtility.LoadPrefabContents(path);
         bool dirty = false;
@@ -119,11 +148,46 @@ static class LayeredPropSetup
                 dirty = true;
             }
 
-            // A one-sprite RandomSprite pins the old merged frame; layered art has no
-            // per-variant root sprite to pick.
+            // Variants are the base layer's frames no tag covers. A RandomSprite picks
+            // among them (the other layers follow its frame); with only one there's
+            // nothing to pick, and a leftover RandomSprite would pin a stale sprite.
+            Sprite[] variantFrames = layers[prop.baseLayer]
+                .Where((s, frame) => s != null && !tags.Values.Any(t => frame >= t.from && frame <= t.to))
+                .ToArray();
             if (root.TryGetComponent(out RandomSprite random))
             {
-                Object.DestroyImmediate(random, true);
+                if (variantFrames.Length > 1) dirty |= SetList(new SerializedObject(random), "sprites", variantFrames);
+                else
+                {
+                    Object.DestroyImmediate(random, true);
+                    dirty = true;
+                }
+            }
+            else if (variantFrames.Length > 1)
+            {
+                dirty |= SetList(new SerializedObject(root.AddComponent<RandomSprite>()), "sprites", variantFrames);
+                dirty = true;
+            }
+
+            // All layers sort as one unit by the root's YSort.
+            if (!root.TryGetComponent(out SortingGroup group))
+            {
+                group = root.AddComponent<SortingGroup>();
+                dirty = true;
+            }
+            if (group.sortingLayerID != body.sortingLayerID)
+            {
+                group.sortingLayerID = body.sortingLayerID;
+                dirty = true;
+            }
+            if (body.sortingOrder != 0)   // inside the group: the layers' order is relative to it
+            {
+                body.sortingOrder = 0;
+                dirty = true;
+            }
+            if (!root.TryGetComponent(out YSort _))
+            {
+                root.AddComponent<YSort>();
                 dirty = true;
             }
 
@@ -213,6 +277,17 @@ static class LayeredPropSetup
         return dirty;
     }
 
+    static bool SetList(SerializedObject so, string field, Object[] values)
+    {
+        SerializedProperty list = so.FindProperty(field);
+        bool dirty = false;
+        if (list.arraySize != values.Length) { list.arraySize = values.Length; dirty = true; }
+        for (int i = 0; i < values.Length; i++)
+            dirty |= Set(list.GetArrayElementAtIndex(i), values[i]);
+        so.ApplyModifiedPropertiesWithoutUndo();
+        return dirty;
+    }
+
     static bool Set(SerializedProperty p, Object value)
     {
         if (p.objectReferenceValue == value) return false;
@@ -266,17 +341,19 @@ static class LayeredPropSetup
         return changed;
     }
 
-    // layer name -> sprites indexed by frame ("<Layer>_Frame_N").
-    static Dictionary<string, Sprite[]> IndexLayers(string aseprite)
+    // layer name -> sprites indexed by frame ("<Layer>_Frame_N"). A one-frame file's
+    // sprites are named after the layer alone ("Layer 1"): that's frame 0.
+    static Dictionary<string, Sprite[]> IndexLayers(string aseprite, List<string> layerNames)
     {
         var byLayer = new Dictionary<string, Dictionary<int, Sprite>>();
         foreach (Sprite s in AssetDatabase.LoadAllAssetsAtPath(aseprite).OfType<Sprite>())
         {
             Match m = LayerFrame.Match(s.name);
-            if (!m.Success) continue;
-            if (!byLayer.TryGetValue(m.Groups[1].Value, out var frames))
-                byLayer[m.Groups[1].Value] = frames = new Dictionary<int, Sprite>();
-            frames[int.Parse(m.Groups[2].Value)] = s;
+            string layer = m.Success ? m.Groups[1].Value : layerNames.Contains(s.name) ? s.name : null;
+            if (layer == null) continue;
+            if (!byLayer.TryGetValue(layer, out var frames))
+                byLayer[layer] = frames = new Dictionary<int, Sprite>();
+            frames[m.Success ? int.Parse(m.Groups[2].Value) : 0] = s;
         }
 
         var result = new Dictionary<string, Sprite[]>();

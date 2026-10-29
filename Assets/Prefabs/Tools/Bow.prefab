@@ -154,6 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 2
+  twoHanded: 1
   minDamage: 8
   maxDamage: 12
   range: 3

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 105}
   - component: {fileID: 106}
   - component: {fileID: 3132939801273732151}
+  - component: {fileID: 5932958169598408393}
   m_Layer: 0
   m_Name: Iron Bar
   m_TagString: Untagged
@@ -170,6 +171,19 @@ MonoBehaviour:
   overlay: {fileID: 3859581828170778110}
   baseRenderer: {fileID: 102}
   variants: []
+--- !u!210 &5932958169598408393
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &110
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,7 +262,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5823703222937775728}
   - component: {fileID: 3859581828170778110}
-  - component: {fileID: 1602014594951802896}
+  - component: {fileID: 8747536220736606563}
   m_Layer: 6
   m_Name: Highlight
   m_TagString: Untagged
@@ -297,7 +311,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -328,9 +342,9 @@ SpriteRenderer:
   m_Size: {x: 0.4375, y: 0.375}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &1602014594951802896
+--- !u!114 &8747536220736606563
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -339,11 +353,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6230574726718233047}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Script: {fileID: 11500000, guid: df9b61c86bce96740a200fdcc2f8511d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
-  elevationTier: 0
-  dynamic: 0
-  precision: 100
-  tierBand: 5000
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteLayerFollower
+  source: {fileID: 102}
+  layerName: Highlight
+  frames:
+  - {fileID: 1199168485327513743, guid: e8b0b33b7110c0b46a9bd3fb78e8da5b, type: 3}
+  orderOffset: -1
+  shadowLayer: 0

@@ -100,7 +100,7 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
         : (Vector2)transform.position;
 
     bool IsHeld(GameObject item) =>
-        hands.Held(HandSide.Left) == item || hands.Held(HandSide.Right) == item;
+        hands.ActiveItem(HandSide.Left) == item || hands.ActiveItem(HandSide.Right) == item;
 
     void OnDrawGizmosSelected()
     {

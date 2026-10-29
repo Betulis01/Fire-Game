@@ -106,6 +106,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Quickslot",
+                    "type": "Button",
+                    "id": "d112345d-e042-4a03-8160-c3dad30cba71",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "HandScroll",
                     "type": "Value",
                     "id": "7f9114db-0f73-4966-b16d-e168541ebe7b",
@@ -450,6 +459,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "HandScroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13cb4969-835e-4187-89f5-fdd27d3b6ee9",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Quickslot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8dda335-6252-4c7c-9067-7c358e9ed66d",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Quickslot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

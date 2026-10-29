@@ -70,7 +70,7 @@ public class HeldItemSorter : MonoBehaviour
 
     void Apply(HandSide side, bool se)
     {
-        GameObject item = hands.Held(side);
+        GameObject item = hands.Shown(side);
         if (item == null) return;
 
         if (item.TryGetComponent(out Shield shield))

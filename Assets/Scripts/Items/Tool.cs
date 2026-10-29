@@ -8,6 +8,9 @@ public class Tool : MonoBehaviour
 
     public ToolKind kind = ToolKind.Fist;   // gates what this tool can damage
 
+    [Tooltip("Needs both hands (the bow, the pickaxe): it fills a loadout set's Main and Off Hand.")]
+    public bool twoHanded;
+
     [Header("Weapon Damage")]
     [Tooltip("Base damage range, rolled per target hit. Scaled by the wielder's Attack " +
              "Power and the ability (light = 100%, heavy = the heavy coefficient) against " +

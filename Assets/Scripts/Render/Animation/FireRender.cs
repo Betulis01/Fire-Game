@@ -21,6 +21,10 @@ public class FireRender : MonoBehaviour
     int currentStage = -1;       // track to avoid setting every frame
     bool isOut;
 
+    // Deactivating resets the Animator to its defaults (a torch stowed while carrying,
+    // or put in the bag), so resend the stage once it's back.
+    void OnEnable() => currentStage = -1;
+
     void Start()
     {
         if (fuel == null) fuel = GetComponent<Fuel>();

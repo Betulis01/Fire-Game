@@ -102,7 +102,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 639270840538810342
+  platformSettingsDirtyTick: 639289108159723964
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -265,7 +265,7 @@ ScriptedImporter:
       y: 70
       width: 12
       height: 7
-    spriteID: 24dc0fbe8f77b374684b0b3d5bd5ceb8
+    spriteID: be0a7d10ce01e6c4d9965df3cb4f9e9c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -286,7 +286,7 @@ ScriptedImporter:
       y: 85
       width: 12
       height: 7
-    spriteID: fe5b3c262a3dbc44db70ec0c723e6159
+    spriteID: 74fceab933080b945919e70c11720275
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -307,7 +307,7 @@ ScriptedImporter:
       y: 100
       width: 12
       height: 7
-    spriteID: 85f405fb25df1204db263929c92e3fe5
+    spriteID: 6bdec1b8ad114df4997e86ffd459e298
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -328,7 +328,7 @@ ScriptedImporter:
       y: 115
       width: 12
       height: 7
-    spriteID: 29ddfe5cf4843f147a9ac0cff8e9827b
+    spriteID: 530ce0e8463fe544cbc1e6e362656003
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -349,7 +349,7 @@ ScriptedImporter:
       y: 25
       width: 12
       height: 7
-    spriteID: 7c06052c1b646624481c8244b7f5652e
+    spriteID: ade5a776112b6114fabcfdabda6b1f8e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -370,7 +370,7 @@ ScriptedImporter:
       y: 40
       width: 12
       height: 7
-    spriteID: c8c91e65479de3546b88f0d77ebcf46d
+    spriteID: 99f20222faa6562418b9a44d2ef11254
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -391,7 +391,7 @@ ScriptedImporter:
       y: 55
       width: 7
       height: 5
-    spriteID: 0663c6f79da0f324db52088ffee0d5b8
+    spriteID: 2f9c7fcfaf507f84cb6833e698937cb3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -412,7 +412,7 @@ ScriptedImporter:
       y: 68
       width: 7
       height: 5
-    spriteID: 7cf366c9086c5d644b1aacaf8f570f48
+    spriteID: b10b42370719cc240bfcb33bb333f0d6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -433,7 +433,7 @@ ScriptedImporter:
       y: 81
       width: 7
       height: 5
-    spriteID: b74138a0cc4e768448176da4db1adf67
+    spriteID: 50c7ea94c515ce147a934ea1baac4a0a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -454,7 +454,7 @@ ScriptedImporter:
       y: 94
       width: 7
       height: 5
-    spriteID: b710e7c54f7896241ba526d1ed6a833d
+    spriteID: 5c3ca177a7e11dc43a93f7c6e0dcd65c
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -475,7 +475,7 @@ ScriptedImporter:
       y: 107
       width: 7
       height: 5
-    spriteID: b171d2d9fb7216e41a56a8ae2297cd63
+    spriteID: 4bfcff84b3e320249a443a3c22ebd8c6
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -496,7 +496,7 @@ ScriptedImporter:
       y: 22
       width: 7
       height: 5
-    spriteID: 72d4b37f54f1a0e4bb7cc4a224d2c3e2
+    spriteID: 86ebdca9e455b1c4cab1f94a6149d7bb
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -516,7 +516,7 @@ ScriptedImporter:
       value3: 0
     guid: 0
     name: Highlight
-    layerFlags: 2
+    layerFlags: 3
     layerType: 0
     blendMode: 0
     cells:
@@ -528,7 +528,7 @@ ScriptedImporter:
         y: 1
         width: 12
         height: 7
-      spriteId: 24dc0fbe8f77b374684b0b3d5bd5ceb8
+      spriteId: be0a7d10ce01e6c4d9965df3cb4f9e9c
     - name: Highlight_Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -537,7 +537,7 @@ ScriptedImporter:
         y: 1
         width: 12
         height: 7
-      spriteId: fe5b3c262a3dbc44db70ec0c723e6159
+      spriteId: 74fceab933080b945919e70c11720275
     - name: Highlight_Frame_2
       frameIndex: 2
       additiveSortOrder: 0
@@ -546,7 +546,7 @@ ScriptedImporter:
         y: 1
         width: 12
         height: 7
-      spriteId: 85f405fb25df1204db263929c92e3fe5
+      spriteId: 6bdec1b8ad114df4997e86ffd459e298
     - name: Highlight_Frame_3
       frameIndex: 3
       additiveSortOrder: 0
@@ -555,7 +555,7 @@ ScriptedImporter:
         y: 1
         width: 12
         height: 7
-      spriteId: 29ddfe5cf4843f147a9ac0cff8e9827b
+      spriteId: 530ce0e8463fe544cbc1e6e362656003
     - name: Highlight_Frame_4
       frameIndex: 4
       additiveSortOrder: 0
@@ -564,7 +564,7 @@ ScriptedImporter:
         y: 1
         width: 12
         height: 7
-      spriteId: 7c06052c1b646624481c8244b7f5652e
+      spriteId: ade5a776112b6114fabcfdabda6b1f8e
     - name: Highlight_Frame_5
       frameIndex: 5
       additiveSortOrder: 0
@@ -573,7 +573,7 @@ ScriptedImporter:
         y: 1
         width: 12
         height: 7
-      spriteId: c8c91e65479de3546b88f0d77ebcf46d
+      spriteId: 99f20222faa6562418b9a44d2ef11254
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -668,7 +668,7 @@ ScriptedImporter:
         y: 3
         width: 7
         height: 5
-      spriteId: 0663c6f79da0f324db52088ffee0d5b8
+      spriteId: 2f9c7fcfaf507f84cb6833e698937cb3
     - name: Snow_Frame_1
       frameIndex: 1
       additiveSortOrder: 0
@@ -677,7 +677,7 @@ ScriptedImporter:
         y: 3
         width: 7
         height: 5
-      spriteId: 7cf366c9086c5d644b1aacaf8f570f48
+      spriteId: b10b42370719cc240bfcb33bb333f0d6
     - name: Snow_Frame_2
       frameIndex: 2
       additiveSortOrder: 0
@@ -686,7 +686,7 @@ ScriptedImporter:
         y: 2
         width: 7
         height: 5
-      spriteId: b74138a0cc4e768448176da4db1adf67
+      spriteId: 50c7ea94c515ce147a934ea1baac4a0a
     - name: Snow_Frame_3
       frameIndex: 3
       additiveSortOrder: 0
@@ -695,7 +695,7 @@ ScriptedImporter:
         y: 3
         width: 7
         height: 5
-      spriteId: b710e7c54f7896241ba526d1ed6a833d
+      spriteId: 5c3ca177a7e11dc43a93f7c6e0dcd65c
     - name: Snow_Frame_4
       frameIndex: 4
       additiveSortOrder: 0
@@ -704,7 +704,7 @@ ScriptedImporter:
         y: 3
         width: 7
         height: 5
-      spriteId: b171d2d9fb7216e41a56a8ae2297cd63
+      spriteId: 4bfcff84b3e320249a443a3c22ebd8c6
     - name: Snow_Frame_5
       frameIndex: 5
       additiveSortOrder: 0
@@ -713,7 +713,7 @@ ScriptedImporter:
         y: 2
         width: 7
         height: 5
-      spriteId: 72d4b37f54f1a0e4bb7cc4a224d2c3e2
+      spriteId: 86ebdca9e455b1c4cab1f94a6149d7bb
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

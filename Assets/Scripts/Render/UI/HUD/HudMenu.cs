@@ -1,16 +1,17 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-// The F menu under the player stats: Bag, Player (equipment), Crafting and Skills
-// tabs. F toggles it -- or, while a placement ghost is following the cursor, cancels
-// that instead. Esc closes it through GameStateManager (TryClose), so Esc never
-// both closes the menu and pauses. Always opens on the first tab (Bag).
+// The F menu under the player stats: Player (equipment, loadouts and the bag),
+// Crafting and Skills tabs. F toggles it -- or, while a placement ghost is following
+// the cursor, cancels that instead. Esc closes it through GameStateManager
+// (TryClose), so Esc never both closes the menu and pauses. Always opens on the
+// first tab (Player).
 public class HudMenu : MonoBehaviour
 {
     public static HudMenu Instance { get; private set; }
 
     [SerializeField] GameObject panel;          // tabs + pages; hidden while closed
-    [SerializeField] TabButtonUI[] tabs;        // Bag, Player, Crafting, Skills
+    [SerializeField] TabButtonUI[] tabs;        // Player, Crafting, Skills
     [SerializeField] GameObject[] pages;        // same order as tabs
 
     int current;

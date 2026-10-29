@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8593171030624907872}
   - component: {fileID: 8693834751611191176}
   - component: {fileID: 3061794294526079226}
+  - component: {fileID: 8187691989591652348}
   m_Layer: 0
   m_Name: Leather
   m_TagString: Untagged
@@ -169,9 +170,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
   overlay: {fileID: 2575391272193312028}
   baseRenderer: {fileID: 2359512405827567220}
-  variants:
-  - baseSprite: {fileID: -2714201535309727308, guid: 2f6b9c1e62a9bb748940751c810d6880, type: 3}
-    highlight: {fileID: -5546784732301400750, guid: 2f6b9c1e62a9bb748940751c810d6880, type: 3}
+  variants: []
+--- !u!210 &8187691989591652348
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449804582166282785}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &5604226559562421786
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,7 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9004263886709653970}
   - component: {fileID: 2575391272193312028}
-  - component: {fileID: 4615840753829175543}
+  - component: {fileID: 7947408780531152792}
   m_Layer: 6
   m_Name: Highlight
   m_TagString: Untagged
@@ -231,7 +243,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -264,7 +276,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &4615840753829175543
+--- !u!114 &7947408780531152792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,14 +285,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5604226559562421786}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Script: {fileID: 11500000, guid: df9b61c86bce96740a200fdcc2f8511d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
-  elevationTier: 0
-  dynamic: 0
-  precision: 100
-  tierBand: 5000
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteLayerFollower
+  source: {fileID: 2359512405827567220}
+  layerName: Highlight
+  frames:
+  - {fileID: -5546784732301400750, guid: 2f6b9c1e62a9bb748940751c810d6880, type: 3}
+  orderOffset: 1
+  shadowLayer: 0
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

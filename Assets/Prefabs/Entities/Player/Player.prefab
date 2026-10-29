@@ -291,6 +291,8 @@ GameObject:
   - component: {fileID: 7318264051932774411}
   - component: {fileID: 643457729075251484}
   - component: {fileID: 4317000000000000001}
+  - component: {fileID: 4326000000000000001}
+  - component: {fileID: 4327000000000000001}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -497,6 +499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 3
+  carrySpeedMultiplier: 0.75
   coldTemp: -10
   warmTemp: 0
   speedFloor: 0.4
@@ -529,6 +532,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor
   promptPrefab: {fileID: 3129362597859867209, guid: 46003f2325796f74eaf1932cdffc45a9, type: 3}
+  aimReach: 2
+  stickyMargin: 0.15
+  missingGearBias: 0.5
+  droppedPenalty: 0.5
+  holdTime: 0.35
+  holdHintColor: {r: 0.74509805, g: 0.8, b: 0.87058824, a: 1}
+  throwHoldTime: 0.2
+  throwRange: 3
+  throwDuration: 0.35
+  throwArc: 0.4
   maxDropDistance: 1
 --- !u!114 &4097018392639219819
 MonoBehaviour:
@@ -546,6 +559,7 @@ MonoBehaviour:
   rightHand: {fileID: 7425280944624778310}
   fistsPrefab: {fileID: 7700000000000000100, guid: a1f15700b8c34d6e9f0a1b2c3d4e5f60, type: 3}
   playerAnimator: {fileID: 0}
+  dropScatter: 0.15
   cam: {fileID: 0}
 --- !u!114 &8152583108512338998
 MonoBehaviour:
@@ -591,6 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61fc8f1b887e19649be161e883316476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemUser
+  comboWindow: 0.6
 --- !u!114 &4627091580194470113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,6 +822,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5426a126a1d641ca9ffd09ec157b6833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Equipment
+  startingGear:
+  - {fileID: 449804582166282785, guid: 8b4b4e7aaca042a2aa63a2e2160c4e07, type: 3}
 --- !u!114 &7310000000000000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1022,6 +1039,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   pickupRadius: 0.15
   spillScatter: 0.3
+--- !u!114 &4326000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575ed1705dfc4c11af193c4129384f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Loadout
+  swapTime: 0.3
+--- !u!114 &4327000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 675f1d59613d474291a0f93f0eabac82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Quickslot
+  eatCooldown: 0.5
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0

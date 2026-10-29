@@ -56,15 +56,21 @@ public class YSort : MonoBehaviour
         if (dynamic) Apply();
     }
 
-    void Apply()
+    void Apply() => ApplyAt(anchor.position.y);
+
+    // Sort as if the anchor stood at world height `anchorY` -- for something lifted
+    // off its spot on the ground (a thrown item mid-arc sorts by where it is over).
+    public void ApplyAt(float anchorY)
     {
-        int order = elevationTier * tierBand - Mathf.RoundToInt(anchor.position.y * precision);
+        int order = elevationTier * tierBand - Mathf.RoundToInt(anchorY * precision);
 
         if (group != null) group.sortingOrder = order;
         else if (sr != null) sr.sortingOrder = order;
     }
 
     // Called by the height system when an entity changes elevation.
+    public float AnchorOffsetY => anchor != null ? anchor.position.y - transform.position.y : 0f;
+
     public void SetTier(int tier)
     {
         elevationTier = tier;

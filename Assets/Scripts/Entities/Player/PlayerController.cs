@@ -11,8 +11,12 @@ public class PlayerController : MonoBehaviour
     AttackLunge lunge;
     WeaponUse weaponUse;
     PlayerBuffs buffs;
+    Hands hands;
 
     public float speed = 4f;
+
+    [Tooltip("Speed fraction while the hands carry something (logs, stone).")]
+    [Range(0f, 1f)] public float carrySpeedMultiplier = 0.75f;
 
     [Header("Temperature affects speed")]
     public float coldTemp = -10f;            // felt <= this -> slowest
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         weaponUse = GetComponent<WeaponUse>();
         buffs = GetComponent<PlayerBuffs>();
+        hands = GetComponent<Hands>();
     }
 
     void Update()
@@ -62,7 +67,8 @@ public class PlayerController : MonoBehaviour
         bool inputLocked = weaponUse != null && weaponUse.MovementLocked;
         Vector2 input = inputLocked ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
         float buffMultiplier = buffs != null ? buffs.SpeedMultiplier : 1f;
-        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier * buffMultiplier;
+        float carryMultiplier = hands != null && hands.IsCarrying ? carrySpeedMultiplier : 1f;
+        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier * buffMultiplier * carryMultiplier;
 
         if (input.sqrMagnitude > 0.0001f)
         {

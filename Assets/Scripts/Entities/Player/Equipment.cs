@@ -1,84 +1,74 @@
 using System;
 using UnityEngine;
 
-// What the player is wearing, one item per EquipSlot. Items move between the hands
-// and the slots: equipping takes an Equippable out of a hand, unequipping puts it
-// back into a free hand (or drops it at the player's feet when both are full).
+// What the player is wearing, one item per EquipSlot. Gear is worn out of the bag
+// (Inventory.UseSlot / EquipToBody) or straight off the ground with a Hold E
+// (Inventory.TryEquipFromWorld), and taking it off puts it back into the bag -- never
+// onto the ground; with no room in the bag it stays on. A bag is never taken off,
+// only swapped by wearing another one (the contents carry over). The player starts
+// wearing startingGear (the Pouch).
 // A worn item is kept as an inactive child of the player, so it's the same object
-// the whole way -- world, hand, worn, and back. PaperDoll draws what's worn. As an
+// the whole way -- world, bag, worn, and back. PaperDoll draws what's worn. As an
 // IStatSource the worn items' stats count toward the wearer's CharacterStats.
-[RequireComponent(typeof(Hands))]
 public class Equipment : MonoBehaviour, IStatSource
 {
+    [Tooltip("Gear prefabs spawned and worn at the start (the 2-slot Pouch).")]
+    [SerializeField] GameObject[] startingGear;
+
     readonly GameObject[] worn = new GameObject[Enum.GetValues(typeof(EquipSlot)).Length];
-    Hands hands;
+    Inventory inventory;
 
     // raised after any equip/unequip so the UI and PaperDoll can redraw
     public event Action Changed;
     public event Action StatsChanged;
 
-    void Awake() => hands = GetComponent<Hands>();
+    void Awake() => inventory = GetComponent<Inventory>();
+
+    void Start()
+    {
+        if (startingGear == null) return;
+        foreach (GameObject prefab in startingGear)
+        {
+            if (prefab == null || !prefab.TryGetComponent(out Equippable e) || Worn(e.slot) != null) continue;
+            Wear(Instantiate(prefab));
+        }
+    }
 
     public GameObject Worn(EquipSlot slot) => worn[(int)slot];
     public Equippable WornEquippable(EquipSlot slot) => Worn(slot) != null ? Worn(slot).GetComponent<Equippable>() : null;
 
-    // The hand holding something that fits `slot`, checking `preferred` first.
-    public bool TryFindInHands(EquipSlot slot, HandSide preferred, out HandSide side)
+    // Whether `item` is gear whose slot is free (E focus prefers such gear).
+    public bool CanWearInEmptySlot(GameObject item) =>
+        item != null && item.TryGetComponent(out Equippable e) && Worn(e.slot) == null;
+
+    // Wear an Equippable in its slot. Returns what was worn there before (or null); the
+    // caller decides where that goes. A bag swap resizes the Inventory on Changed.
+    public GameObject Wear(GameObject item)
     {
-        foreach (HandSide s in new[] { preferred, Other(preferred) })
-        {
-            GameObject held = hands.Held(s);
-            if (held != null && held.TryGetComponent(out Equippable e) && e.slot == slot)
-            {
-                side = s;
-                return true;
-            }
-        }
-        side = preferred;
-        return false;
-    }
+        if (item == null || !item.TryGetComponent(out Equippable e)) return null;
 
-    // Wear the fitting item from the hands (preferred hand first). Anything already
-    // worn in that slot goes back into the hand the new item came from -- a swap.
-    public bool TryEquipFromHands(EquipSlot slot, HandSide preferred)
-    {
-        if (!TryFindInHands(slot, preferred, out HandSide side)) return false;
-
-        GameObject item = hands.Release(side);
-        GameObject previous = worn[(int)slot];
-
-        worn[(int)slot] = item;
+        GameObject previous = worn[(int)e.slot];
+        worn[(int)e.slot] = item;
         item.transform.SetParent(transform, false);
+        item.GetComponent<WorldItem>().SetHeld(true);
         item.SetActive(false);   // stays "held" (pickup collider off) while worn
 
-        if (previous != null) ReturnToHands(previous, side);
-
         RaiseChanged();
-        return true;
+        return previous;
     }
 
-    // Take the item off: into `preferred` if empty, else the other hand, else drop.
-    public bool Unequip(EquipSlot slot, HandSide preferred)
+    // Take the item off into the bag. False with no room there, and always for the
+    // bag itself (swap it for another instead).
+    public bool Unequip(EquipSlot slot)
     {
         GameObject item = worn[(int)slot];
-        if (item == null) return false;
+        if (item == null || slot == EquipSlot.Bag || inventory == null) return false;
+        if (!inventory.HasEmptySlot) return false;
 
         worn[(int)slot] = null;
-        ReturnToHands(item, preferred);
+        inventory.TryAdd(item.GetComponent<WorldItem>());
         RaiseChanged();
         return true;
-    }
-
-    void ReturnToHands(GameObject item, HandSide preferred)
-    {
-        item.SetActive(true);
-        foreach (HandSide s in new[] { preferred, Other(preferred) })
-            if (!hands.IsHolding(s) && hands.TryHold(item, s)) return;
-
-        // Both hands full: drop it where the player stands.
-        item.transform.SetParent(null);
-        item.transform.position = transform.position;
-        item.GetComponent<WorldItem>().SetHeld(false);
     }
 
     public void AddStats(ref StatBlock total)
@@ -92,6 +82,4 @@ public class Equipment : MonoBehaviour, IStatSource
         Changed?.Invoke();
         StatsChanged?.Invoke();
     }
-
-    static HandSide Other(HandSide s) => s == HandSide.Left ? HandSide.Right : HandSide.Left;
 }

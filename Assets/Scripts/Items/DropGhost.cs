@@ -1,8 +1,9 @@
 using UnityEngine;
 
-// A transparent preview of an item about to be dropped. PlayerInteractor spawns
-// one while the drop key is held, moves it to the aimed position each frame, and
-// dismisses it on release (after resolving into a real drop or a fuel feed).
+// A transparent preview of where a carried item is about to be thrown.
+// PlayerInteractor spawns one once Q has been held past its tap time, moves it to the
+// aimed landing spot each frame, and dismisses it on release (after launching the
+// throw, ThrownItem).
 // Purely visual: all behaviours and colliders on the clone are disabled, mirroring
 // PlacementGhost, but this one is driven externally rather than reading input.
 public class DropGhost : MonoBehaviour

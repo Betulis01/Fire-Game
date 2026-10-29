@@ -7,6 +7,10 @@ using UnityEngine;
 // Targeting wins; with neither, the layer is hidden. Highlightable routes through
 // SetInteract when this is present, so the two never fight over the renderer.
 //
+// A pickup item's Highlight layer shows in PickupColor (green) for both -- the E focus
+// (PlayerInteractor attaches this to any pickup with Highlight art) and, for a
+// hittable one like a log, a melee target -- so the two never read as two highlights.
+//
 // Hidden = renderer off AND fully transparent, so an animation that keys the layer's
 // renderer back on still shows nothing. While shown it re-applies every LateUpdate
 // (after the Animator, SpriteLayerFollower and OccluderFade), multiplying in the
@@ -18,6 +22,9 @@ public class TargetHighlight : MonoBehaviour
 {
     public const string LayerName = "Highlight";
 
+    // A pickup item's highlight colour; PlayerInteractor sets it from its inspector.
+    public static Color PickupColor = new(0.3f, 0.9f, 0.3f, 1f);
+
     [Tooltip("Highlight renderers. Defaults to every child SpriteRenderer named \"Highlight\".")]
     [SerializeField] SpriteRenderer[] renderers;
 
@@ -26,6 +33,7 @@ public class TargetHighlight : MonoBehaviour
     Color tint;
     bool targeted;
     bool interact;
+    bool pickup;
 
     public static bool IsHighlight(SpriteRenderer sr) => sr != null && sr.gameObject.name == LayerName;
 
@@ -44,6 +52,7 @@ public class TargetHighlight : MonoBehaviour
         if (renderers == null || renderers.Length == 0)
             renderers = System.Array.FindAll(GetComponentsInChildren<SpriteRenderer>(true), IsHighlight);
 
+        pickup = TryGetComponent(out Pickupable _);
         bodies = new SpriteRenderer[renderers.Length];
         authored = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
@@ -92,7 +101,7 @@ public class TargetHighlight : MonoBehaviour
             SpriteRenderer sr = renderers[i];
             if (sr == null) continue;
 
-            Color c = !on ? Color.clear : targeted ? tint : authored[i];
+            Color c = !on ? Color.clear : pickup ? PickupColor : targeted ? tint : authored[i];
             if (on && bodies[i] != null) c.a *= bodies[i].color.a;
             sr.color = c;
             sr.enabled = on;

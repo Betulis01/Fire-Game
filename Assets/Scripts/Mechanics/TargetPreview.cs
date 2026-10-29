@@ -5,8 +5,8 @@ using UnityEngine;
 // same MeleeTargeting query a swing strikes with and highlights the result: the
 // primary in primaryColor, secondaries in secondaryColor. While a swing is armed
 // it previews that swing. Idle, each hand has its own button, so it previews the
-// selected hand (PlayerInteractor.ActiveHand) -- or the other hand when only that
-// one would actually damage something (axe + pickaxe facing a tree shows the axe).
+// Main Hand -- or the Off Hand when only that one would actually damage something
+// (axe + pickaxe facing a tree shows the axe).
 //
 // The primary is sticky: a rival must sit stickyDegrees closer to the aim to take
 // over, so near-equal targets don't flicker under mouse jitter. WeaponUse commits a
@@ -28,7 +28,6 @@ public class TargetPreview : MonoBehaviour
     public GameObject Primary { get; private set; }
 
     WeaponUse weaponUse;
-    PlayerInteractor interactor;
     readonly List<StrikeTarget> targets = new();
     readonly List<StrikeTarget> otherHand = new();
     List<TargetHighlight> shown = new();
@@ -37,7 +36,6 @@ public class TargetPreview : MonoBehaviour
     void Awake()
     {
         weaponUse = GetComponent<WeaponUse>();
-        interactor = GetComponent<PlayerInteractor>();
     }
 
     void OnDisable()
@@ -61,7 +59,7 @@ public class TargetPreview : MonoBehaviour
             }
             else
             {
-                HandSide first = interactor != null ? interactor.ActiveHand : HandSide.Left;
+                HandSide first = HandSide.Left;
                 PreviewHand(first, targets);
                 if (!Damages(targets))
                 {

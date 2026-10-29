@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 5500000000000000301}
   - component: {fileID: 5500000000000000302}
   - component: {fileID: 8928725790111416875}
+  - component: {fileID: 1903988441506698890}
   m_Layer: 6
   m_Name: Iron Ore
   m_TagString: Untagged
@@ -495,6 +496,19 @@ MonoBehaviour:
     chance: 0.5
   scatterRadius: 1
   maxDrops: 4
+--- !u!210 &1903988441506698890
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &7390303684534494413
 GameObject:
   m_ObjectHideFlags: 0

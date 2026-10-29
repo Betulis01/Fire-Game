@@ -1,19 +1,16 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
-// Bag tab: one BagSlotUI per slot of the worn bag (the rest hidden; all of them
-// without a bag). Clicking a slot swaps it with the selected hand. A dragged slot shows
-// its icon under the cursor; released over the world it goes where the Q drop ghost
-// would -- the aimed point, at most the interactor's drop distance away -- into a
-// fire or station there, else onto the ground (Inventory.DropAt).
+// The bag at the bottom of the Player tab: one BagSlotUI per slot of the worn bag (the
+// rest hidden). Clicking a slot uses it (Inventory.UseSlot: wield, wear or eat). A
+// dragged slot shows its icon under the cursor (DragIconUI); dropped on a loadout or
+// armour box it equips there, and released over the world it goes to the aimed
+// point, at most the interactor's drop distance away -- into a fire or station there,
+// else onto the ground (Inventory.DropAt).
 public class BagTabUI : MonoBehaviour
 {
     [SerializeField] HudRoot root;
     [SerializeField] BagSlotUI[] slots;
-    [SerializeField] GameObject grid;           // the slots; hidden without a bag
-    [SerializeField] Image dragIcon;            // top of the HUD, follows the cursor
-    [SerializeField] Vector2 dragIconBox = new(56f, 56f);
+    [SerializeField] GameObject grid;           // the slots
 
     public Inventory Inventory { get; private set; }
 
@@ -24,7 +21,6 @@ public class BagTabUI : MonoBehaviour
             slots[i].Bind(this, i);
             slots[i].Clicked += OnClickSlot;
         }
-        HideDragIcon();
     }
 
     void OnEnable()
@@ -52,35 +48,11 @@ public class BagTabUI : MonoBehaviour
 
     void OnClickSlot(int index)
     {
-        if (Inventory == null) return;
-        HandSide active = root.Interactor != null ? root.Interactor.ActiveHand : HandSide.Left;
-        Inventory.SwapWithHand(index, active);
+        if (Inventory != null) Inventory.UseSlot(index);
     }
 
     public void DropInWorld(int index)
     {
-        if (Inventory == null || root.Hands == null) return;
-        float range = root.Interactor != null ? root.Interactor.maxDropDistance : 1.5f;
-        Vector3 pos = UserInput.Instance.AimPoint(root.Player.transform.position, root.Hands.cam, range);
-        Inventory.DropAt(index, pos);
-    }
-
-    public void ShowDragIcon(Sprite sprite, PointerEventData e)
-    {
-        UiPixel.FitIntegerScale(dragIcon, sprite, dragIconBox);
-        dragIcon.transform.SetAsLastSibling();
-        MoveDragIcon(e);
-    }
-
-    public void MoveDragIcon(PointerEventData e)
-    {
-        var parent = (RectTransform)dragIcon.transform.parent;
-        if (RectTransformUtility.ScreenPointToWorldPointInRectangle(parent, e.position, e.pressEventCamera, out Vector3 world))
-            dragIcon.transform.position = world;
-    }
-
-    public void HideDragIcon()
-    {
-        if (dragIcon != null) dragIcon.enabled = false;
+        if (Inventory != null) Inventory.DropAt(index, Inventory.WorldDropPoint());
     }
 }

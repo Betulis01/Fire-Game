@@ -73,7 +73,7 @@ ScriptedImporter:
     applyGammaDecoding: 0
   previousAsepriteImporterSettings:
     fileImportMode: 1
-    importHiddenLayers: 0
+    importHiddenLayers: 1
     layerImportMode: 0
     defaultPivotSpace: 0
     defaultPivotAlignment: 7
@@ -88,7 +88,7 @@ ScriptedImporter:
     generateSpriteAtlas: 1
   asepriteImporterSettings:
     fileImportMode: 1
-    importHiddenLayers: 0
+    importHiddenLayers: 1
     layerImportMode: 0
     defaultPivotSpace: 0
     defaultPivotAlignment: 7

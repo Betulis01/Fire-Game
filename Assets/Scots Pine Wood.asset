@@ -15,3 +15,4 @@ MonoBehaviour:
   id: Wood
   displayName: Wood
   prefab: {fileID: 4257288121414011606, guid: 2b25a5f193ee9cb4db5ed8914ed19272, type: 3}
+  size: 1

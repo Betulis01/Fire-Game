@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
 
-// The two action slots between the hands: slot 1 is the left hand's weapon skill,
-// slot 2 the right hand's. A slot shows the learned spell (IActiveSkill on the
+// The two action slots on the action bar: slot 1 is the Main Hand's weapon skill,
+// slot 2 the Off Hand's. A slot shows the learned spell (IActiveSkill on the
 // player, unlocked by its Spell node in WeaponExperience) for the kind of weapon
-// that hand holds, so it follows pick-ups/drops and learning for free. Keys 1 / 2
-// fire them.
+// drawn in that hand (none while carrying), so it follows loadout swaps and learning
+// for free. Keys 1 / 2 fire them.
 [RequireComponent(typeof(Hands))]
 public class ActiveSkillSlots : MonoBehaviour
 {
     Hands hands;
+    Loadout loadout;
     WeaponExperience weaponXp;
     IActiveSkill[] skills;
 
@@ -19,6 +20,7 @@ public class ActiveSkillSlots : MonoBehaviour
     void Awake()
     {
         hands = GetComponent<Hands>();
+        loadout = GetComponent<Loadout>();
         weaponXp = GetComponent<WeaponExperience>();
         skills = GetComponents<IActiveSkill>();
     }
@@ -49,6 +51,7 @@ public class ActiveSkillSlots : MonoBehaviour
 
     void Update()
     {
+        if (loadout != null && loadout.IsSwapping) return;   // the swap's beat
         if (UserInput.Instance.SkillPressed(HandSide.Left)) SkillFor(HandSide.Left)?.TryActivate(gameObject, HandSide.Left);
         if (UserInput.Instance.SkillPressed(HandSide.Right)) SkillFor(HandSide.Right)?.TryActivate(gameObject, HandSide.Right);
     }

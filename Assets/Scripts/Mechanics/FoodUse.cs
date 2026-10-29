@@ -1,27 +1,23 @@
 using UnityEngine;
 
-// Eating capability: if the given hand holds an Edible item, applies its
-// effects and consumes one. Called by ItemUser before it falls back to
-// WeaponUse, so the Use button eats food instead of swinging whatever's in
-// that hand.
-[RequireComponent(typeof(Hands))]
+// Eating capability: applies an Edible item's effects. Food lives in the bag, so
+// clicking a food stack on the Player tab eats one (Inventory.UseSlot), which then
+// takes that one off the stack.
 public class FoodUse : MonoBehaviour
 {
-    Hands hands;
     Health health;
     PlayerBuffs buffs;
 
     void Awake()
     {
-        hands = GetComponent<Hands>();
         health = GetComponent<Health>();
         buffs = GetComponent<PlayerBuffs>();
     }
 
-    public bool TryEat(HandSide side)
+    // Eat `item` if it's Edible; true when it was (the caller uses one up).
+    public bool TryEat(GameObject item)
     {
-        GameObject held = hands.Held(side);
-        if (held == null || !held.TryGetComponent(out Edible edible)) return false;
+        if (item == null || !item.TryGetComponent(out Edible edible)) return false;
 
         if (edible.heal > 0f) health.Heal(edible.heal);
         if (edible.damage > 0f) health.TakeDamage(edible.damage, DamageType.Poison);
@@ -35,7 +31,6 @@ public class FoodUse : MonoBehaviour
                 buffs.ApplySpeedBuff(edible.speedMultiplier, edible.buffDuration);
         }
 
-        hands.Consume(side, 1);
         return true;
     }
 }

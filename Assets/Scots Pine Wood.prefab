@@ -107,12 +107,12 @@ MonoBehaviour:
   source: {fileID: 1532337356063315248}
   layerName: Snow
   frames:
-  - {fileID: 4638508549055312982, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: 1189573997356719679, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: -6746166016793623662, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: 2675537750465162055, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: -9015557651698018349, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: 4823654925055033822, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: 1296447164280159236, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -8886205766067676166, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -8312198917391171747, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -1534044972276972382, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -8232574067450744122, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -3839986323423248631, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
   orderOffset: 1
   shadowLayer: 0
 --- !u!1 &4257288121414011606
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 5500000000000000002}
   - component: {fileID: 6168115021343026273}
   - component: {fileID: 4893751357336791858}
+  - component: {fileID: 7693175759820758224}
   m_Layer: 6
   m_Name: Scots Pine Wood
   m_TagString: Untagged
@@ -382,6 +383,19 @@ MonoBehaviour:
   overlay: {fileID: 559130140106766625}
   baseRenderer: {fileID: 1532337356063315248}
   variants: []
+--- !u!210 &7693175759820758224
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257288121414011606}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &4320884447366764477
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,12 +581,12 @@ MonoBehaviour:
   source: {fileID: 1532337356063315248}
   layerName: Highlight
   frames:
-  - {fileID: -5994632212103581901, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: 6380049367184088230, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: -5172529314229600603, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: 6150065459615190270, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: -1716199131513210684, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
-  - {fileID: 3806446190118517012, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: 1540942932006748272, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -4935336357931305725, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: 6185262760452888319, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -5135649935465901017, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: 3647753119589034522, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
+  - {fileID: -7933983544433236766, guid: edf1279c47e4cbe488a6c813904a1ade, type: 3}
   orderOffset: -1
   shadowLayer: 0
 --- !u!1 &7700000000000000001

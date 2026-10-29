@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -6103808911901661895}
   - component: {fileID: 2673417013368493321}
   - component: {fileID: 8200000000000000001}
+  - component: {fileID: 7082673568830129954}
   m_Layer: 0
   m_Name: Iron Stone
   m_TagString: Untagged
@@ -90,15 +91,15 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 5904652907286953493, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.1875, y: 0.125}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!114 &-8642488831044804333
 MonoBehaviour:
@@ -187,13 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
   overlay: {fileID: 7444706320891628669}
   baseRenderer: {fileID: 2359512405827567220}
-  variants:
-  - baseSprite: {fileID: 5904652907286953493, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
-    highlight: {fileID: 6183204441734312406, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
-  - baseSprite: {fileID: 8896563822009242231, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
-    highlight: {fileID: -3090606122134186610, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
-  - baseSprite: {fileID: -5440970462001614294, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
-    highlight: {fileID: 3109673454196416530, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
+  variants: []
 --- !u!114 &8200000000000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +203,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Smeltable
   output: {fileID: 11400000, guid: 4a2f95d8c1e64b73f0c8b3a6d92e5c19, type: 2}
   smeltTime: 20
+--- !u!210 &7082673568830129954
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 449804582166282785}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &7249448362315245348
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,7 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 314114279404071290}
   - component: {fileID: 7444706320891628669}
-  - component: {fileID: 6553846721438042307}
+  - component: {fileID: 473101801809113626}
   m_Layer: 6
   m_Name: Highlight
   m_TagString: Untagged
@@ -267,7 +275,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -300,7 +308,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &6553846721438042307
+--- !u!114 &473101801809113626
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,14 +317,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7249448362315245348}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Script: {fileID: 11500000, guid: df9b61c86bce96740a200fdcc2f8511d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
-  elevationTier: 0
-  dynamic: 0
-  precision: 100
-  tierBand: 5000
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteLayerFollower
+  source: {fileID: 2359512405827567220}
+  layerName: Highlight
+  frames:
+  - {fileID: 6183204441734312406, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
+  - {fileID: -3090606122134186610, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
+  - {fileID: 3109673454196416530, guid: 432fac1040c948345a9ffff7420adccb, type: 3}
+  orderOffset: -1
+  shadowLayer: 0
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

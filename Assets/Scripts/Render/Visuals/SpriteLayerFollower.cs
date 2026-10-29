@@ -60,13 +60,15 @@ public class SpriteLayerFollower : MonoBehaviour
         sr.sortingOrder = source.sortingOrder + orderOffset;
     }
 
+    // The frame number in a "<Layer>_Frame_N" sprite's name; a sprite without one (a
+    // one-frame Aseprite file names its sprites after the layer alone) is frame 0.
     public static int FrameOf(Sprite s)
     {
         if (s == null) return -1;
         if (!frameOf.TryGetValue(s, out int frame))
         {
             Match m = FrameSuffix.Match(s.name);
-            frame = m.Success ? int.Parse(m.Groups[1].Value) : -1;
+            frame = m.Success ? int.Parse(m.Groups[1].Value) : 0;
             frameOf[s] = frame;
         }
         return frame;

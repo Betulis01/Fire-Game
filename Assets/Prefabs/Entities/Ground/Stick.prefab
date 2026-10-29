@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7671393458321787399}
   - component: {fileID: -4694611106841365476}
   - component: {fileID: 9119990662281480309}
+  - component: {fileID: 8942339796760777497}
   m_Layer: 0
   m_Name: Stick
   m_TagString: Wood
@@ -90,7 +91,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6649601456117818246, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
+  m_Sprite: {fileID: -5410405088185575880, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -202,13 +203,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
   overlay: {fileID: 7367408663695003123}
   baseRenderer: {fileID: 8582470894063893756}
-  variants:
-  - baseSprite: {fileID: -5410405088185575880, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
-    highlight: {fileID: -3457086385931119487, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
-  - baseSprite: {fileID: 3243626006450812000, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
-    highlight: {fileID: 5045634288106495571, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
-  - baseSprite: {fileID: -6649601456117818246, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
-    highlight: {fileID: -5521741160911428837, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
+  variants: []
+--- !u!210 &8942339796760777497
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197461963866386601}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &7453128252536858004
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5094497091756231413}
   - component: {fileID: 7367408663695003123}
-  - component: {fileID: 7355014880433725061}
+  - component: {fileID: 6692708034597094616}
   m_Layer: 6
   m_Name: Highlight
   m_TagString: Untagged
@@ -268,7 +276,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -301,7 +309,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &7355014880433725061
+--- !u!114 &6692708034597094616
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,14 +318,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7453128252536858004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Script: {fileID: 11500000, guid: df9b61c86bce96740a200fdcc2f8511d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
-  elevationTier: 0
-  dynamic: 0
-  precision: 100
-  tierBand: 5000
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteLayerFollower
+  source: {fileID: 8582470894063893756}
+  layerName: Highlight
+  frames:
+  - {fileID: 2879480114570499958, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
+  - {fileID: -9054443050874852129, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
+  - {fileID: 6417524452912114389, guid: d5e141f822f13694cb7527f3e3f5a5bd, type: 3}
+  orderOffset: -1
+  shadowLayer: 0
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

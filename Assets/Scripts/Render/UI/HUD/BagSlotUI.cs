@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// One slot on the Bag tab: the stack's icon and count. Click it to swap with the
-// selected hand (BagTabUI); drag it onto another slot, a hand, an open station menu
-// or the world. Hovering shows the item's tooltip (ItemHoverTooltip on this object).
+// One bag slot on the Player tab: the stack's icon and count. Click it to use it
+// (BagTabUI); drag it onto another slot, a loadout or armour box, an open station
+// menu or the world. A loadout item dragged onto it goes into the bag here (swapping
+// with a tool or weapon already in the slot). Hovering shows the item's tooltip (ItemHoverTooltip on this object).
 [RequireComponent(typeof(Button))]
 public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
@@ -46,19 +47,19 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         dragging = true;
         BagDrag.Begin(tab.Inventory, index);
-        tab.ShowDragIcon(icon.sprite, e);
+        if (DragIconUI.Instance != null) DragIconUI.Instance.Show(icon.sprite, e);
     }
 
     public void OnDrag(PointerEventData e)
     {
-        if (dragging) tab.MoveDragIcon(e);
+        if (dragging && DragIconUI.Instance != null) DragIconUI.Instance.Move(e);
     }
 
     public void OnEndDrag(PointerEventData e)
     {
         if (!dragging) return;
         dragging = false;
-        tab.HideDragIcon();
+        if (DragIconUI.Instance != null) DragIconUI.Instance.Hide();
 
         // unclaimed and released over no UI: into the world under the cursor
         bool claimed = BagDrag.End();
@@ -68,6 +69,8 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnDrop(PointerEventData e)
     {
         if (BagDrag.Claim(out Inventory inv, out int from)) inv.Move(from, index);
+        else if (tab != null && tab.Inventory != null && BagDrag.ClaimLoadout(out _, out int set, out HandSide side))
+            tab.Inventory.UnequipLoadoutTo(set, side, index);
     }
 
     // the menu closing mid-drag
@@ -76,6 +79,6 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (!dragging) return;
         dragging = false;
         BagDrag.End();
-        if (tab != null) tab.HideDragIcon();
+        if (DragIconUI.Instance != null) DragIconUI.Instance.Hide();
     }
 }

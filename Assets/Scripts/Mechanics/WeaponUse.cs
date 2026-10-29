@@ -3,8 +3,10 @@ using UnityEngine;
 // Weapon-swing capability: arms and resolves a melee/ranged attack for a given
 // hand. ItemUser decides whether a Use press reaches this (vs FoodUse); once it
 // does, this owns everything about the swing itself -- charging, animation
-// events, landing the hit. Each hand has its own Use button (LMB = left, RMB =
-// right), and the charge follows the button that started it. A hand swings
+// events, landing the hit. Each hand has its own Use button (LMB = Main Hand, RMB =
+// Off Hand), and the charge follows the button that started it -- which isn't always
+// the swinging hand's own: a dual-wield combo swings the Off Hand from LMB
+// (ItemUser). No swing starts during a loadout swap's beat (Loadout.IsSwapping). A hand swings
 // whatever is "in" it -- a held weapon, or its default fists when empty
 // (Hands.ActiveItem hides that distinction). Each is a GameObject with a Tool
 // (stats) plus either a MeleeWeapon (aimed strike cone) or a RangedWeapon (fires a
@@ -34,6 +36,7 @@ public class WeaponUse : MonoBehaviour
 
     AttackLunge lunge;
     Hands hands;
+    Loadout loadout;
     TargetPreview preview;
     CharacterStats stats;          // the wielder's stats, snapshotted into each attack
     IStrikeModifier[] strikeModifiers;
@@ -45,7 +48,7 @@ public class WeaponUse : MonoBehaviour
     // resolved once the charge decides (see charging below), not at arm time.
     // `dir` is latched at the swing frame (aimed = true) so the swing effect, lunge,
     // clip facing and the hit all share one direction.
-    struct Swing { public Tool tool; public HandSide side; public MeleeWeapon melee; public RangedWeapon ranged; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; }
+    struct Swing { public Tool tool; public HandSide side; public HandSide button; public MeleeWeapon melee; public RangedWeapon ranged; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; }
     Swing pending;
 
     // Charging: the button was pressed and the swing is waiting on release to find out
@@ -88,6 +91,7 @@ public class WeaponUse : MonoBehaviour
     void Awake()
     {
         hands = GetComponent<Hands>();
+        loadout = GetComponent<Loadout>();
         lunge = GetComponent<AttackLunge>();
         preview = GetComponent<TargetPreview>();
         stats = GetComponent<CharacterStats>();
@@ -165,7 +169,7 @@ public class WeaponUse : MonoBehaviour
 
         CameraZoom.Instance?.SetZoomed(Time.time - chargeStart >= pending.tool.chargeTime);
 
-        if (UserInput.Instance.UseReleased(pending.side))
+        if (UserInput.Instance.UseReleased(pending.button))
         {
             float elapsed = Time.time - chargeStart;
             float fraction = Mathf.Clamp01(elapsed / Mathf.Max(0.0001f, pending.tool.chargeTime));
@@ -181,24 +185,34 @@ public class WeaponUse : MonoBehaviour
         return pending.armed;
     }
 
-    public void TryUse(HandSide side)
+    // Whether `side`'s swing is armed or its attack clip is still playing (the action
+    // bar shows that hand as recovering).
+    public bool IsBusy(HandSide side) =>
+        pending.side == side && (pending.armed || (animator != null && animator.IsAttacking && !animator.IsCasting));
+
+    public bool TryUse(HandSide side) => TryUse(side, side);
+
+    // Swing `side`'s item, charged by the `button` that was pressed. True when a swing
+    // started.
+    public bool TryUse(HandSide side, HandSide button)
     {
-        if (animator != null && animator.IsAttacking) return;
+        if (animator != null && animator.IsAttacking) return false;
+        if (loadout != null && loadout.IsSwapping) return false;
 
         // Swing whatever the hand offers (held weapon or default fists). It must be a
         // weapon: a Tool for stats plus either a MeleeWeapon or a RangedWeapon (fires
         // a projectile). Holding a non-weapon (e.g. wood) yields no swing.
         GameObject weapon = hands.ActiveItem(side);
-        if (weapon == null || !weapon.TryGetComponent(out Tool tool)) return;
+        if (weapon == null || !weapon.TryGetComponent(out Tool tool)) return false;
         weapon.TryGetComponent(out MeleeWeapon melee);
         weapon.TryGetComponent(out RangedWeapon ranged);
-        if (melee == null && ranged == null) return;
+        if (melee == null && ranged == null) return false;
 
         hitLanded = false;
 
         // Arm the strike/shot; it lands when the clip's Animation Event fires. Whether
         // this resolves light or heavy is decided later (OnAttackChargeReady / Update).
-        pending = new Swing { tool = tool, side = side, melee = melee, ranged = ranged, armed = true, heavy = false };
+        pending = new Swing { tool = tool, side = side, button = button, melee = melee, ranged = ranged, armed = true, heavy = false };
         charging = true;
         chargePaused = false;
         chargeStart = Time.time;
@@ -206,6 +220,7 @@ public class WeaponUse : MonoBehaviour
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
         // always faces the direction the hit will actually land in.
         if (animator != null) animator.PlayAttack(side, ChargeFailsafeCeiling, AimDirection(Origin), tool.AttackStyle);
+        return true;
     }
 
     // Called by an Animation Event on each *_attack clip, at the "charge hold" frame --
@@ -216,7 +231,7 @@ public class WeaponUse : MonoBehaviour
     // animation gets here, or still resolve light after it, if chargeTime says so.
     public void OnAttackChargeReady()
     {
-        if (!charging || !UserInput.Instance.UseHeld(pending.side)) return;
+        if (!charging || !UserInput.Instance.UseHeld(pending.button)) return;
         chargePaused = true;
         if (animator != null) animator.PauseAttack();
     }

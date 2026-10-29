@@ -45,7 +45,7 @@ public abstract class StationInteractable : Interactable
     // Subclasses instantiate their content into contentRoot here.
     protected abstract void PopulateMenu(Transform content);
 
-    public override bool Interact(PlayerController player, HandSide hand)
+    public override bool Interact(PlayerController player)
     {
         if (IsOpen) Close();
         else Open();

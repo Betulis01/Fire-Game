@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6010499868463245548}
   - component: {fileID: 3538652826149076817}
-  - component: {fileID: 3590530556285215130}
+  - component: {fileID: 1482961467733502716}
   m_Layer: 6
   m_Name: Highlight
   m_TagString: Untagged
@@ -59,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
---- !u!114 &3590530556285215130
+--- !u!114 &1482961467733502716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,14 +101,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5246381643405433085}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4ab0033255cf3b42ba00be35c4c8307, type: 3}
+  m_Script: {fileID: 11500000, guid: df9b61c86bce96740a200fdcc2f8511d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::YSort
-  anchor: {fileID: 0}
-  elevationTier: 0
-  dynamic: 0
-  precision: 100
-  tierBand: 5000
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteLayerFollower
+  source: {fileID: 8582470894063893756}
+  layerName: Highlight
+  frames:
+  - {fileID: 1660230146579937111, guid: 4fcc755acbeb0e7459996e2f781a1ad9, type: 3}
+  orderOffset: -1
+  shadowLayer: 0
 --- !u!1 &6197461963866386601
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,6 +127,7 @@ GameObject:
   - component: {fileID: 6846531309664383173}
   - component: {fileID: -1338625431841748856}
   - component: {fileID: 7001351802072832}
+  - component: {fileID: 716035085376913611}
   m_Layer: 0
   m_Name: Polar Bear Meat
   m_TagString: Wood
@@ -280,9 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
   overlay: {fileID: 3538652826149076817}
   baseRenderer: {fileID: 8582470894063893756}
-  variants:
-  - baseSprite: {fileID: 4807892594039788482, guid: 4fcc755acbeb0e7459996e2f781a1ad9, type: 3}
-    highlight: {fileID: 1660230146579937111, guid: 4fcc755acbeb0e7459996e2f781a1ad9, type: 3}
+  variants: []
 --- !u!114 &-1338625431841748856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +314,19 @@ MonoBehaviour:
   healthChange: 0
   speedMultiplier: 0.9
   buffDuration: 30
+--- !u!210 &716035085376913611
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6197461963866386601}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

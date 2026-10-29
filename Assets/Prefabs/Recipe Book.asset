@@ -56,7 +56,7 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
       amount: 1
-    - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
+    - item: {fileID: 11400000, guid: 9c976f63b6df498bb1ad5edb91ddddfb, type: 2}
       amount: 2
     output: {fileID: 11400000, guid: e9dab3c8a32303b47be7250002c5cee3, type: 2}
     requiredStation: 2
@@ -65,7 +65,7 @@ MonoBehaviour:
     ingredients:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
       amount: 1
-    - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
+    - item: {fileID: 11400000, guid: 9c976f63b6df498bb1ad5edb91ddddfb, type: 2}
       amount: 2
     output: {fileID: 11400000, guid: 9482ec1a836f3d645925e84bd5277848, type: 2}
     requiredStation: 2

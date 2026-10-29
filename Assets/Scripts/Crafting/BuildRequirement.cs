@@ -70,7 +70,8 @@ public class BuildRequirement : ItemReceiver
     int NextNeededIndex(ItemDefinition item)
     {
         for (int i = 0; i < recipe.ingredients.Length; i++)
-            if (recipe.ingredients[i].item == item && deposited[i] < recipe.ingredients[i].amount)
+            if (recipe.ingredients[i].item != null && recipe.ingredients[i].item.Matches(item)
+                && deposited[i] < recipe.ingredients[i].amount)
                 return i;
         return -1;
     }

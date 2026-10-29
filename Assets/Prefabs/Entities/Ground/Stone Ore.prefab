@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5500000000000000302}
   - component: {fileID: 8928725790111416875}
   - component: {fileID: 1339684049749266016}
+  - component: {fileID: 4402082830886564785}
   m_Layer: 6
   m_Name: Stone Ore
   m_TagString: Untagged
@@ -133,6 +134,7 @@ Transform:
   - {fileID: 488576010765090680}
   - {fileID: 5577783511872278363}
   - {fileID: 5493844073033615500}
+  - {fileID: 1594572189058561974}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8104532885296342811
@@ -184,7 +186,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2272635788859531012, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  m_Sprite: {fileID: -3371642760877099002, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -349,8 +351,11 @@ MonoBehaviour:
   - prefab: {fileID: 449804582166282785, guid: 8727597e14924e74591132fff310bd59, type: 3}
     count: 1
     chance: 0.5
+  - prefab: {fileID: 449804582166282785, guid: ae049fed87a041b0a9166efed231fe7f, type: 3}
+    count: 1
+    chance: 0.5
   scatterRadius: 1
-  maxDrops: 4
+  maxDrops: 6
 --- !u!114 &1339684049749266016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,6 +380,19 @@ MonoBehaviour:
   smoothing: 10
   sortingLayer: Background
   sortingOrder: 3
+--- !u!210 &4402082830886564785
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &5294110519510996685
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,6 +503,120 @@ PolygonCollider2D:
       - {x: 0.50265, y: 0.5513358}
       - {x: 0.4098903, y: 0.6876883}
   m_UseDelaunayMesh: 1
+--- !u!1 &5454926610901568795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1594572189058561974}
+  - component: {fileID: 8376014006896736789}
+  - component: {fileID: 7245804846424833790}
+  m_Layer: 6
+  m_Name: Shadow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1594572189058561974
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454926610901568795}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2061018066649538231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8376014006896736789
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454926610901568795}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &7245804846424833790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454926610901568795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9b61c86bce96740a200fdcc2f8511d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpriteLayerFollower
+  source: {fileID: 8104532885296342811}
+  layerName: Shadow
+  frames:
+  - {fileID: -2426558388323861919, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 4803635628859422265, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 7356565119359489616, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 1614308862048096610, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 2839616891745014562, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  orderOffset: -2
+  shadowLayer: 0
 --- !u!1 &6362672459052025086
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,11 +724,11 @@ MonoBehaviour:
   source: {fileID: 8104532885296342811}
   layerName: Snow
   frames:
-  - {fileID: -4556717645137835490, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: -509067795719143159, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: 4575677167902572090, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: -1868866316142415043, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: 1310614399048405987, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: -249748388200128143, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: -1314150973216793409, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 9104113396503047692, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: -1847456331326092741, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 7738908779754201862, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
   orderOffset: 1
   shadowLayer: 0
 --- !u!1 &8477098359458516485
@@ -706,11 +838,11 @@ MonoBehaviour:
   source: {fileID: 8104532885296342811}
   layerName: Highlight
   frames:
-  - {fileID: -1902765530574384651, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: -8196371848322391380, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: -3895444524582003364, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: -1317762844634598458, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
-  - {fileID: -1032252522661904959, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 6558931075188899051, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: -371136242597236850, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: -9210399709944952377, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 1338620634083586362, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
+  - {fileID: 1601937775253799653, guid: c674dc6c9eb2b2f43815f3ec75fcc230, type: 3}
   orderOffset: -1
   shadowLayer: 0
 --- !u!1 &8871351829821241250

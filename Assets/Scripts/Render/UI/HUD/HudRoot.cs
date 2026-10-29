@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Root of the screen HUD (stats, hand bar, F menu). Finds the player once and hands
+// Root of the screen HUD (stats, action bar, F menu). Finds the player once and hands
 // its components to the HUD widgets, so none of them search the scene themselves.
 // Runs early so the widgets can read it from their own Awake/OnEnable. The whole
 // HUD is hidden outside play (main menu, game over, won) via its CanvasGroup;
@@ -17,7 +17,9 @@ public class HudRoot : MonoBehaviour
     public PlayerExperience Experience { get; private set; }
     public WeaponExperience WeaponExperience { get; private set; }
     public Equipment Equipment { get; private set; }
+    public Loadout Loadout { get; private set; }
     public Inventory Inventory { get; private set; }
+    public Quickslot Quickslot { get; private set; }
     public CraftingController Crafting { get; private set; }
     public ActiveSkillSlots Skills { get; private set; }
     public CharacterStats Stats { get; private set; }
@@ -42,7 +44,9 @@ public class HudRoot : MonoBehaviour
         Experience = Player.GetComponent<PlayerExperience>();
         WeaponExperience = Player.GetComponent<WeaponExperience>();
         Equipment = Player.GetComponent<Equipment>();
+        Loadout = Player.GetComponent<Loadout>();
         Inventory = Player.GetComponent<Inventory>();
+        Quickslot = Player.GetComponent<Quickslot>();
         Crafting = Player.GetComponent<CraftingController>();
         Skills = Player.GetComponent<ActiveSkillSlots>();
         Stats = Player.GetComponent<CharacterStats>();

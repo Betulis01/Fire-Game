@@ -2,10 +2,11 @@ using UnityEngine;
 
 // Keeps a light/VFX on the floor under the wielder instead of riding the item (e.g. a
 // torch's ground pool light, which would otherwise bob and tilt with the hand rig's
-// animated height/rotation). While its WorldItem ancestor is held, this is reparented
-// onto the wielder (Hands root) and pinned to its position + floorOffset; when the
-// item is dropped it goes back under its original parent at its authored local
-// position. World rotation is always identity. If the item is destroyed while the
+// animated height/rotation). While its WorldItem ancestor is held and showing (drawn
+// in a hand), this is reparented onto the wielder (Hands root) and pinned to its
+// position + floorOffset; when the item is dropped -- or put away: stowed while
+// carrying, into the bag, which keep it "held" but inactive -- it goes back under its
+// original parent at its authored local position, and so goes dark with it. World rotation is always identity. If the item is destroyed while the
 // light is parented to the wielder (consumed, crafted away), the light goes with it.
 [DefaultExecutionOrder(100)] // after HeldItemRotationFilter's LateUpdate (default order 0)
 public class FloorAnchor : MonoBehaviour
@@ -39,7 +40,7 @@ public class FloorAnchor : MonoBehaviour
             return;
         }
 
-        if (!worldItem.IsHeld)
+        if (!worldItem.IsHeld || !home.gameObject.activeInHierarchy)
         {
             if (wielder != null)
             {

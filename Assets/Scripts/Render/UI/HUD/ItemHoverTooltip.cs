@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 // Shows the ItemTooltip for whatever item this UI box currently displays, while the
-// pointer is over it. The box (HandSlotUI, EquipSlotUI) calls SetItem whenever its
+// pointer is over it. The box (BagSlotUI, EquipSlotUI, LoadoutSlotUI) calls SetItem whenever its
 // content changes, so the tooltip follows an item swapped or removed under the
 // pointer. Needs a raycast-target Graphic on this object to receive the hover.
 public class ItemHoverTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler

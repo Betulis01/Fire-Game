@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: 5500000000000000302}
   - component: {fileID: 5697057381865754851}
   - component: {fileID: 351951462737786225}
+  - component: {fileID: 2992293261419526648}
   m_Layer: 6
   m_Name: Scots Pine
   m_TagString: Untagged
@@ -726,6 +727,19 @@ MonoBehaviour:
   smoothing: 10
   sortingLayer: Background
   sortingOrder: 3
+--- !u!210 &2992293261419526648
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &8939883893667941428
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-// Hover tooltip for an item (hand bar, equipment slots -- see ItemHoverTooltip):
+// Hover tooltip for an item (bag, loadout and equipment boxes -- see ItemHoverTooltip):
 // its name, the stats it gives while worn and, for a weapon, its damage. Drawn in
 // the 9-sliced tooltip_frame sized to its lines, following the pointer and kept on
 // screen. Lines are pooled clones of a template placed on whole pixels, so the

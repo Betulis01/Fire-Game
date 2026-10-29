@@ -24,7 +24,7 @@ public class HeldItemRotationFilter : MonoBehaviour
 
     void Apply(HandSide side, Transform hand)
     {
-        GameObject item = hands.Held(side);
+        GameObject item = hands.Shown(side);
         if (item == null) return;
 
         item.transform.localRotation = item.GetComponent<Tool>() != null

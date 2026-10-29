@@ -55,14 +55,15 @@ public class UserInput : MonoBehaviour
     InputAction moveAction;
     InputAction pointAction;
     InputAction aimAction;
-    InputAction useLeftAction;      // LMB: whatever the left hand does (swing, eat, block)
-    InputAction useRightAction;     // RMB: same for the right hand
+    InputAction useLeftAction;      // LMB: the Main Hand (swing, block), or put a load down
+    InputAction useRightAction;     // RMB: the Off Hand
     InputAction interactLeftAction;
     InputAction interactRightAction;
-    InputAction skill1Action;       // left hand's action slot
-    InputAction skill2Action;       // right hand's action slot
+    InputAction skill1Action;       // Main Hand weapon skill
+    InputAction skill2Action;       // Off Hand weapon skill
     InputAction switchHandAction;
     InputAction handScrollAction;
+    InputAction quickslotAction;    // R: eat the Quickslot's food
     InputAction menuAction;
     InputAction zoomInAction;       // Page Up
     InputAction zoomOutAction;      // Page Down
@@ -108,6 +109,7 @@ public class UserInput : MonoBehaviour
         skill2Action = playerMap.FindAction("Skill2", true);
         switchHandAction = playerMap.FindAction("SwitchHand", true);
         handScrollAction = playerMap.FindAction("HandScroll", true);
+        quickslotAction = playerMap.FindAction("Quickslot", true);
         menuAction = playerMap.FindAction("Menu", true);
         zoomInAction = playerMap.FindAction("ZoomIn", true);
         zoomOutAction = playerMap.FindAction("ZoomOut", true);
@@ -258,6 +260,9 @@ public class UserInput : MonoBehaviour
     public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
     public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();
     public bool InteractRight => interactRightAction != null && interactRightAction.WasPressedThisFrame();
+    public bool InteractRightHeld => interactRightAction != null && interactRightAction.IsPressed();
+    public bool InteractRightReleased => interactRightAction != null && interactRightAction.WasReleasedThisFrame();
+    public bool Quickslot => quickslotAction != null && quickslotAction.WasPressedThisFrame();
     public bool SkillPressed(HandSide side)
     {
         InputAction a = side == HandSide.Left ? skill1Action : skill2Action;
