@@ -43,7 +43,8 @@ public class SpriteShadow : MonoBehaviour
     [SerializeField] Material material;
 
     [Tooltip("Sprites the shadow copies (e.g. the skeleton's Body and Head). Empty = this " +
-             "object's SpriteRenderer plus its SpriteLayerFollowers (the player's paper doll).")]
+             "object's SpriteRenderer plus its SpriteLayerFollowers (the player's paper doll), " +
+             "or a prop's art layers (PropArt) but its Highlight and Shadow.")]
     [SerializeField] SpriteRenderer[] layers;
 
     [Tooltip("Shadow darkness at full light.")]
@@ -112,6 +113,12 @@ public class SpriteShadow : MonoBehaviour
         {
             foreach (SpriteRenderer layer in layers)
                 if (layer != null) sources.Add(layer);
+        }
+        else if (TryGetComponent(out PropArt art))
+        {
+            // importer art: every layer but the outline and the drawn ground shadow
+            foreach (SpriteRenderer sr in art.Renderers)
+                if (!TargetHighlight.IsHighlight(sr) && sr.gameObject.name != PropArt.ShadowLayer) sources.Add(sr);
         }
         else
         {

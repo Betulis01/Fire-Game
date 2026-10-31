@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Live soft-target preview for the player's melee swings. Every frame it runs the
-// same MeleeTargeting query a swing strikes with and highlights the result: the
+// same MeleeTargeting query a swing strikes with (including its lunge grace window,
+// WeaponUse.SelectWithLunge) and highlights the result: the
 // primary in primaryColor, secondaries in secondaryColor. While a swing is armed
 // it previews that swing. Idle, each hand has its own button, so it previews the
 // Main Hand -- or the Off Hand when only that one would actually damage something
@@ -83,9 +84,15 @@ public class TargetPreview : MonoBehaviour
             Select(melee, tool, shape, dir, into);
     }
 
-    void Select(MeleeWeapon melee, Tool tool, in StrikeShape shape, Vector2 dir, List<StrikeTarget> into) =>
-        MeleeTargeting.Select(melee.Query(gameObject, weaponUse.Origin, dir, shape, tool.kind,
-                                          TargetScoring.AimAngle, Primary, stickyDegrees), into);
+    // Through the lunge grace window, so a target the swing would step in to reach is
+    // highlighted, with the secondaries it would cleave from where the step lands. A
+    // swing that's stepping keeps its target highlighted however the step turns.
+    void Select(MeleeWeapon melee, Tool tool, in StrikeShape shape, Vector2 dir, List<StrikeTarget> into)
+    {
+        GameObject stepping = weaponUse.StepTarget;
+        weaponUse.SelectWithLunge(melee, tool, shape, dir, stepping != null ? stepping : Primary,
+                                  stepping != null ? float.PositiveInfinity : stickyDegrees, into);
+    }
 
     // Whether the swing would damage its primary (not just glance off it).
     static bool Damages(List<StrikeTarget> result) => result.Count > 0 && !result[0].glancing;

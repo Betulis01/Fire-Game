@@ -26,7 +26,8 @@ public class SkillTreeUI : MonoBehaviour
         lineTemplate.gameObject.SetActive(false);
     }
 
-    public void Show(SkillTree tree, WeaponExperience weaponProgress)
+    // `slots` (the player's) lets a learned spell node be dragged onto the action bar.
+    public void Show(SkillTree tree, WeaponExperience weaponProgress, ActiveSkillSlots slots = null)
     {
         Clear();
         progress = weaponProgress;
@@ -39,7 +40,7 @@ public class SkillTreeUI : MonoBehaviour
             SkillNodeUI template = node.size == SkillNodeSize.Big ? bigTemplate : smallTemplate;
             SkillNodeUI ui = Instantiate(template, transform);
             ui.gameObject.SetActive(true);
-            ui.Bind(node);
+            ui.Bind(node, slots != null ? slots.Find(weapon, node.id) : null);
             ui.Rect.anchoredPosition = new Vector2(node.position.x, -node.position.y);
             ui.Clicked += OnClickNode;
             nodes.Add(ui);

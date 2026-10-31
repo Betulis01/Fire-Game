@@ -116,6 +116,16 @@ static class HudBuilder
                 if (tree.nodes[i].id == "axe_c") tree.nodes[i] = WhirlwindNode();
             SkillNode spell = tree.Find("axe_whirlwind");
             if (spell != null && spell.icon == null) spell.icon = S("icon_spell_whirlwind");
+            // migrate: the second spell, Axe Throw, beside Whirlwind
+            if (tree.Find("axe_throw") == null)
+            {
+                if (spell != null) spell.position = WhirlwindNode().position;
+                tree.nodes = tree.nodes.Append(AxeThrowNode()).ToArray();
+            }
+            // migrate: spells are prefabs linked from their nodes
+            if (spell != null && spell.skill == null) spell.skill = SkillPrefab("Whirlwind");
+            SkillNode axeThrow = tree.Find("axe_throw");
+            if (axeThrow != null && axeThrow.skill == null) axeThrow.skill = SkillPrefab("Axe Throw");
             EditorUtility.SetDirty(tree);
             AssetDatabase.SaveAssetIfDirty(tree);
             return tree;
@@ -132,12 +142,14 @@ static class HudBuilder
             new SkillNode { id = "axe_a", displayName = "Axe Skill A", maxRank = 2, size = SkillNodeSize.Small, position = new Vector2(0, 0) },
             new SkillNode { id = "axe_b", displayName = "Axe Skill B", maxRank = 2, size = SkillNodeSize.Small, position = new Vector2(72, 0) },
             WhirlwindNode(),
+            AxeThrowNode(),
         };
         AssetDatabase.CreateAsset(tree, AxeTreePath);
         return tree;
     }
 
-    // The Axe tree's spell (big node): learned once, needs both small nodes maxed.
+    // The Axe tree's spells (big nodes), learned once, one under each small node:
+    // Whirlwind needs both small nodes maxed, Axe Throw the right one.
     static SkillNode WhirlwindNode() => new()
     {
         id = "axe_whirlwind",
@@ -146,10 +158,29 @@ static class HudBuilder
         kind = SkillNodeKind.Spell,
         maxRank = 1,
         size = SkillNodeSize.Big,
-        position = new Vector2(38, 87),
+        position = new Vector2(0, 87),
         parents = new[] { "axe_a", "axe_b" },
         icon = S("icon_spell_whirlwind"),
+        skill = SkillPrefab("Whirlwind"),
     };
+
+    static SkillNode AxeThrowNode() => new()
+    {
+        id = "axe_throw",
+        displayName = "Axe Throw",
+        description = "Hurl your axe at a target; it spins back to your hand.",
+        kind = SkillNodeKind.Spell,
+        maxRank = 1,
+        size = SkillNodeSize.Big,
+        position = new Vector2(72, 87),
+        parents = new[] { "axe_b" },
+        icon = S("icon_spell_axe_throw"),
+        skill = SkillPrefab("Axe Throw"),
+    };
+
+    // A spell's prefab in Prefabs/Skills (see ActiveSkill).
+    static ActiveSkill SkillPrefab(string name) =>
+        AssetDatabase.LoadAssetAtPath<ActiveSkill>("Assets/Prefabs/Skills/" + name + ".prefab");
 
     static void EnsurePlayerComponents(SkillTree axeTree)
     {
@@ -160,9 +191,7 @@ static class HudBuilder
             if (!player.TryGetComponent(out ActiveSkillSlots _)) player.AddComponent<ActiveSkillSlots>();
             if (!player.TryGetComponent(out Inventory _)) player.AddComponent<Inventory>();
             if (!player.TryGetComponent(out WeaponExperience wx)) wx = player.AddComponent<WeaponExperience>();
-            Wire(wx, ("trees", new Object[] { axeTree }));
-            if (!player.TryGetComponent(out WhirlwindSkill whirlwind)) whirlwind = player.AddComponent<WhirlwindSkill>();
-            Wire(whirlwind, ("icon", S("icon_spell_whirlwind")));
+            Wire(wx, ("trees", new Object[] { axeTree }));   // its spells come from the tree's nodes
             PrefabUtility.SaveAsPrefabAsset(player, PlayerPrefabPath);
         }
         finally
@@ -177,6 +206,7 @@ static class HudBuilder
         Stretch((RectTransform)root.transform);
         HudRoot hud = root.AddComponent<HudRoot>();
 
+        BuildNameplates(root.transform, hud);   // first: under the rest of the HUD
         ItemTooltip tooltip = BuildTooltip(root.transform);
         Image dragIcon = CenteredIcon(root.transform);   // a dragged bag slot's / loadout item's icon
         dragIcon.name = "Drag Icon";
@@ -187,6 +217,17 @@ static class HudBuilder
         tooltip.transform.SetAsLastSibling();   // drawn over everything
         dragIcon.transform.SetAsLastSibling();  // ...except the item being dragged
         return root;
+    }
+
+    // --- enemy health plates (not in the mockup): the player's health bar art, small,
+    // placed over each enemy at runtime (NameplatesUI builds the plates) ---
+
+    static void BuildNameplates(Transform parent, HudRoot hud)
+    {
+        RectTransform layer = Child("Nameplates", parent);
+        Stretch(layer);
+        NameplatesUI ui = layer.gameObject.AddComponent<NameplatesUI>();
+        Wire(ui, ("root", hud), ("frameSprite", S("bar_health_frame")), ("fillSprite", S("bar_health_fill")));
     }
 
     // --- top-left stats (mockup 87,21 .. 389,47) ---
@@ -605,11 +646,10 @@ static class HudBuilder
         Vector2 size = hint.rect.size;
         Img("Key Hint", frame.transform, hint, (ActionSlotWidth - (int)size.x) / 2, -(int)size.y - 4);
 
-        if (tooltip != null)
-        {
-            frame.raycastTarget = true;   // receives the hover for the item tooltip
-            Wire(frame.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
-        }
+        // every slot is a drop target (items on the hands, spells on the skills), and
+        // a hand slot's frame also receives the hover for its item tooltip
+        frame.raycastTarget = true;
+        if (tooltip != null) Wire(frame.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
 
         ActionSlotUI ui = frame.gameObject.AddComponent<ActionSlotUI>();
         Wire(ui, ("icon", icon), ("cooldown", cooldown));

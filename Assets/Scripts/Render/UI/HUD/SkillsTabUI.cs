@@ -63,7 +63,7 @@ public class SkillsTabUI : MonoBehaviour
             weaponIcon.sprite = skillTree.icon;
             weaponIcon.SetNativeSize();
         }
-        tree.Show(skillTree, progress);
+        tree.Show(skillTree, progress, root != null ? root.Skills : null);
         Refresh();
     }
 

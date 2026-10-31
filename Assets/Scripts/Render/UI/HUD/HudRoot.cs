@@ -23,6 +23,7 @@ public class HudRoot : MonoBehaviour
     public CraftingController Crafting { get; private set; }
     public ActiveSkillSlots Skills { get; private set; }
     public CharacterStats Stats { get; private set; }
+    public TargetPreview Preview { get; private set; }
 
     CanvasGroup group;
 
@@ -50,6 +51,7 @@ public class HudRoot : MonoBehaviour
         Crafting = Player.GetComponent<CraftingController>();
         Skills = Player.GetComponent<ActiveSkillSlots>();
         Stats = Player.GetComponent<CharacterStats>();
+        Preview = Player.GetComponent<TargetPreview>();
     }
 
     void Update()

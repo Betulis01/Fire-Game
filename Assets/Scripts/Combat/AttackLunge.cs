@@ -3,13 +3,17 @@ using UnityEngine;
 // One-shot forward push for an attack's windup, structurally parallel to Knockback
 // (same Velocity/SelfMove fold-in contract) but purpose-built for a single eased
 // impulse instead of a linearly-decaying reactive shove. Begin() fires the lunge;
-// its speed eases along `curve` from 1 down to 0 over `duration`. If the swing goes
-// on to connect (IAttackReactor.OnDealtHit, same notification AttackRecoil/HitStopOnHit
-// use), whatever velocity is left over is smoothed down to zero over `smoothTime`
-// (SmoothDamp) instead of being cut off dead — a hand-off back to normal movement. A
-// whiffed swing gets no such hand-off: velocity cuts to zero the frame `duration`
-// elapses. A mover that owns rb.MovePosition (e.g. PlayerController) sets
+// its speed eases along `curve` from 1 down to 0 over `duration`. When `duration`
+// elapses before the swing connects (IAttackReactor.OnDealtHit, same notification
+// AttackRecoil/HitStopOnHit use) -- the usual case, the push runs during the windup --
+// whatever velocity the curve left is smoothed down to zero over `smoothTime`
+// (SmoothDamp) instead of being cut off dead. One that already connected cuts to
+// zero that frame. A mover that owns rb.MovePosition (e.g. PlayerController) sets
 // SelfMove = false and folds Velocity into its own move, same as Knockback.
+//
+// BeginStep() is the measured variant (WeaponUse's lunge grace window): it travels
+// exactly a given offset along a sine ease-out, then stops dead -- no smoothing tail,
+// so the swing lands right where the step was aimed.
 [RequireComponent(typeof(Rigidbody2D))]
 public class AttackLunge : MonoBehaviour, IAttackReactor
 {
@@ -19,7 +23,8 @@ public class AttackLunge : MonoBehaviour, IAttackReactor
              "zero, instead of cutting it off dead that frame.")]
     public float smoothTime = 0.1f;
 
-    public bool IsLunging => t < duration || easingOut;
+    public bool IsLunging => stepping || t < duration || easingOut;
+    public bool IsStepping => stepping;
     public Vector2 Velocity => velocity;
 
     Rigidbody2D rb;
@@ -32,6 +37,11 @@ public class AttackLunge : MonoBehaviour, IAttackReactor
     bool easingOut;
     Vector3 smoothVel;
     bool connected;
+
+    bool stepping;
+    Vector2 stepOffset;
+    float stepDuration;
+    float stepT;
 
     void Awake() => rb = GetComponent<Rigidbody2D>();
 
@@ -48,15 +58,55 @@ public class AttackLunge : MonoBehaviour, IAttackReactor
         t = 0f;
         easingOut = false;
         connected = false;
+        stepping = false;
         return true;
     }
 
-    // Notified once per connecting swing (see HitResolution.NotifyAttacker) — marks
-    // this lunge as eligible for the smooth hand-off instead of a hard stop.
+    // Travel exactly `offset` over `duration` seconds, fast start, gentle stop, then
+    // stop dead. Replaces any push in progress. Returns whether a step started.
+    public bool BeginStep(Vector2 offset, float duration)
+    {
+        if (offset.sqrMagnitude < 1e-8f) return false;
+        stepOffset = offset;
+        stepDuration = Mathf.Max(duration, Time.fixedDeltaTime);
+        stepT = 0f;
+        stepping = true;
+        t = this.duration = 0f;
+        easingOut = false;
+        velocity = Vector2.zero;
+        return true;
+    }
+
+    // Notified once per connecting swing (see HitResolution.NotifyAttacker) -- a lunge
+    // still running then cuts off dead when it ends instead of smoothing out.
     public void OnDealtHit(in HitInfo hit) => connected = true;
+
+    // How far along the step's offset (0..1) it is at time `at`: sine ease-out.
+    float StepProgress(float at) => Mathf.Sin(Mathf.Clamp01(at / stepDuration) * Mathf.PI * 0.5f);
 
     void FixedUpdate()
     {
+        if (stepping)
+        {
+            // The last stretch was handed out last frame (read by the mover this frame
+            // or last, depending on order): now stop dead.
+            if (stepT >= stepDuration)
+            {
+                velocity = Vector2.zero;
+                stepping = false;
+                return;
+            }
+
+            // Velocity for exactly this frame's slice of the curve, so the slices sum
+            // to the offset however few physics frames the step spans.
+            float dt = Time.fixedDeltaTime;
+            float next = Mathf.Min(stepT + dt, stepDuration);
+            velocity = stepOffset * ((StepProgress(next) - StepProgress(stepT)) / dt);
+            stepT = next;
+            if (SelfMove) rb.MovePosition(rb.position + velocity * dt);
+            return;
+        }
+
         if (easingOut)
         {
             velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref smoothVel, smoothTime);
@@ -76,7 +126,7 @@ public class AttackLunge : MonoBehaviour, IAttackReactor
             }
             else
             {
-                // Whiffed: no hit to smooth into, cut the push off dead.
+                // Already connected: cut the push off dead.
                 velocity = Vector2.zero;
             }
             return;

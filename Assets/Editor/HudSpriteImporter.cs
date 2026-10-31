@@ -10,11 +10,11 @@ class HudSpriteImporter : AssetPostprocessor
 
     // Frames that may be stretched (Image.Type.Sliced) get their border width as a
     // 9-slice border, so the edges stay exactly 2px at any size.
-    static readonly string[] SlicedFrames = { "subtab_selected", "subtab_unselected", "tooltip_frame" };
+    static readonly string[] SlicedFrames = { "subtab_selected", "subtab_unselected", "tooltip_frame", "bar_health_frame" };
     const int FrameBorder = 2;
 
     // bump to reimport everything in Folder after changing the rules below
-    public override uint GetVersion() => 2;
+    public override uint GetVersion() => 3;
 
     void OnPreprocessTexture()
     {

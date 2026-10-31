@@ -10,13 +10,10 @@ using UnityEngine;
 // moving while spinning.
 // A left-hand cast plays the clip mirrored (a clockwise spin), the same way
 // attacks mirror, so the axe always sits on the anchor the clip swings.
-// Unlocked by the Axe tree's Spell node `nodeId`; cast from the action slot.
-[RequireComponent(typeof(Hands), typeof(PlayerAnimator))]
-public class WhirlwindSkill : MonoBehaviour, IActiveSkill
+// Lives in Prefabs/Skills/Whirlwind.prefab (see ActiveSkill).
+public class WhirlwindSkill : ActiveSkill
 {
-    [SerializeField] string nodeId = "axe_whirlwind";
-    [SerializeField] string displayName = "Whirlwind";
-    [SerializeField] Sprite icon;
+    public const string HitEvent = "OnWhirlwindHit";
 
     [Header("Spin")]
     [Tooltip("Animator state played; its clip is one full turn with an OnWhirlwindHit event.")]
@@ -31,33 +28,13 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
     [Tooltip("Seconds from cast until it can be cast again.")]
     [SerializeField] float cooldown = 8f;
 
-    [Tooltip("Strike centre. Falls back to WeaponUse.Origin (the body's centre).")]
-    [SerializeField] Transform origin;
-
-    Hands hands;
-    PlayerAnimator animator;
-    WeaponUse weaponUse;
-    CharacterStats stats;
-
     Tool tool;            // the axe that's spinning; null when not casting
     int strikesLeft;
     float readyAt;
 
-    public ToolKind Weapon => ToolKind.Axe;
-    public string NodeId => nodeId;
-    public Sprite Icon => icon;
-    public string DisplayName => displayName;
-    public float Cooldown01 => cooldown > 0f ? Mathf.Clamp01((readyAt - Time.time) / cooldown) : 0f;
+    public override float Cooldown01 => cooldown > 0f ? Mathf.Clamp01((readyAt - Time.time) / cooldown) : 0f;
 
-    void Awake()
-    {
-        hands = GetComponent<Hands>();
-        animator = GetComponent<PlayerAnimator>();
-        weaponUse = GetComponent<WeaponUse>();
-        stats = GetComponent<CharacterStats>();
-    }
-
-    public bool TryActivate(GameObject user, HandSide side)
+    public override bool TryActivate(GameObject caster, HandSide side)
     {
         if (Time.time < readyAt || animator.IsAttacking) return false;
 
@@ -73,10 +50,10 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
         return true;
     }
 
-    // Animation Event on the whirlwind clip, once per turn.
-    public void OnWhirlwindHit()
+    // The whirlwind clip's event, once per turn.
+    public override void OnAnimationEvent(string function)
     {
-        if (tool == null || strikesLeft <= 0) return;
+        if (function != HitEvent || tool == null || strikesLeft <= 0) return;
 
         // the axe left the hand mid-spin (dropped, swapped): nothing to strike with
         if (!tool.TryGetComponent(out MeleeWeapon melee) || !IsHeld(tool.gameObject))
@@ -89,22 +66,14 @@ public class WhirlwindSkill : MonoBehaviour, IActiveSkill
         // the spin hits from every side at once
         AttackData attack = tool.GetAttack(false, stats).Scaled(damageMultiplier).WithoutRecoil();
         StrikeShape spin = new(radius, 360f, maxTargets, tool.secondaryDamageMultiplier);
-        melee.Strike(attack, melee.Query(gameObject, Centre, Vector2.right, spin, tool.kind, TargetScoring.Distance));
+        melee.Strike(attack, melee.Query(user, Origin, Vector2.right, spin, tool.kind, TargetScoring.Distance));
 
         if (--strikesLeft <= 0) tool = null;
     }
 
-    Vector2 Centre =>
-        origin != null ? (Vector2)origin.position
-        : weaponUse != null ? weaponUse.Origin
-        : (Vector2)transform.position;
-
-    bool IsHeld(GameObject item) =>
-        hands.ActiveItem(HandSide.Left) == item || hands.ActiveItem(HandSide.Right) == item;
-
     void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(0.66f, 0.42f, 0.95f);
-        Gizmos.DrawWireSphere(origin != null ? origin.position : transform.position, radius);
+        Gizmos.DrawWireSphere(user != null ? (Vector3)Origin : transform.position, radius);
     }
 }

@@ -43,10 +43,6 @@ The player is always in one of two states:
 - **Second weapon:** an off-hand parry.
 - **Empty off hand:** a shove or kick. Today it's the fist punch.
 
-### Breaking stone into rocks
-
-- **Hitting a Stone (the Big item) breaks it into Rocks.** Give the Stone prefab Health, a Hurtbox that a pickaxe can damage (`ToolDamageFilter`), and `DropOnDeath` with a few Rocks, like logs already work with an axe. That gives Rock a second source besides Stone Ore.
-
 ### Phase 8: Hauling as progression
 
 Hauling then grows over a run instead of staying a flat cost.
@@ -269,6 +265,12 @@ The old setup was clunky in five ways, all fixed by Phases 1–7:
 - **Carry indicator:** the action bar's hand slots dim to show the stowed loadout.
 - **Iron Stone:** Small.
 - **Crafting with Big items:** the tool recipes moved to Rock (Small).
+
+### Breaking stone into rocks
+
+- **A Stone on the ground breaks into 3 Rocks under a pickaxe,** the way a log breaks into Sticks under an axe. Rock now has a second source besides Stone Ore.
+- **Stone.prefab** got what the logs have: Health 25, a `HurtboxArea` (ResourceHurtbox), `ToolDamageFilter` (Pickaxe), `DropOnDeath` (Rock ×3), `EntityDeath`, `CombatTextEmitter`, plus an Animator (`Animation/Stone`, copied from the log's) with `HitAnimation` and a `BumpArea` with `CollideAnimation`.
+- **Art:** props now use the Aseprite importer's own art (`PropArt`): the `hit` state plays `Stone.aseprite`'s `hit` tag clip, which the importer keeps in sync with the file on every save.
 
 ### Terrain groundwork
 

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 // Bottom action bar: every action the player can take, left to right --
 //   [1 Skill][2 Skill][LMB Main Hand][RMB Off Hand][R Quickslot]  [..][..]  (scroll)
 //                                                                 [..][..]
-// Skills are the drawn weapons' spells (ActiveSkillSlots). The hand slots show the
+// Skills are the spells dragged onto the two skill slots (ActiveSkillSlots). The hand slots show the
 // active loadout set's items -- dimmed while the hands carry something (the set
 // that gets drawn when the load comes off), the Off Hand ghosting a two-handed Main
 // Hand -- with a cooldown for the swap's beat (Loadout.SwapProgress01) and a full
@@ -46,6 +46,8 @@ public class ActionBarUI : MonoBehaviour
 
         if (hands != null) hands.Changed += Redraw;
         if (skills != null) skills.Changed += RedrawSkills;
+        leftAction.BindSkillSlot(skills, 0);
+        rightAction.BindSkillSlot(skills, 1);
         mainHand.BindLoadout(loadout);
         offHand.BindLoadout(loadout);
         Redraw();
@@ -98,7 +100,7 @@ public class ActionBarUI : MonoBehaviour
 
     void RedrawSkills()
     {
-        leftAction.SetSkill(skills != null ? skills.SkillFor(HandSide.Left) : null);
-        rightAction.SetSkill(skills != null ? skills.SkillFor(HandSide.Right) : null);
+        leftAction.SetSkill(skills != null ? skills.Skill(0) : null);
+        rightAction.SetSkill(skills != null ? skills.Skill(1) : null);
     }
 }

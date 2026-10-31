@@ -26,6 +26,11 @@ public class Tool : MonoBehaviour
     [Tooltip("Full opening angle of the strike cone, in degrees, centred on the aim.")]
     [Range(1f, 360f)] public float arcAngle = 90f;
 
+    [Tooltip("Grace distance past `range`: a target this much further out is still " +
+             "highlighted, and the swing steps the wielder in during its windup so the hit " +
+             "lands at the tip of the reach (player swings only). 0 = no step.")]
+    [Min(0f)] public float lungeBuffer = 0.4f;
+
     [Tooltip("Most entities one swing can hit: the primary plus secondaries. Skill-tree " +
              "passives (IStrikeModifier) can raise it.")]
     [Min(1)] public int maxTargets = 2;

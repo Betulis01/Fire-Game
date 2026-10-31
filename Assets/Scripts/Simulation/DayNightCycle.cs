@@ -122,7 +122,31 @@ public class DayNightCycle : MonoBehaviour
     // dusk, night). Interpolates linearly between adjacent phases and treats the day
     // as periodic, so the night->dawn segment wraps correctly across midnight. This
     // is how Environment turns phases into temperature/light without re-stating the times.
-    public float SampleByPhase(float[] values)
+    // `curves` (optional, parallel too) reshapes each segment's blend: curve i maps
+    // the time through phase i -> i+1 (x, 0..1) to how far the value has moved (y, 0..1),
+    // so a phase can hold and then turn quickly instead of drifting the whole way.
+    // A missing or empty curve is linear.
+    public float SampleByPhase(float[] values, AnimationCurve[] curves = null)
+    {
+        if (!Segment(out int i, out float t)) return values[0];
+        return Mathf.Lerp(values[i], values[(i + 1) % values.Length], Shape(curves, i, t));
+    }
+
+    // The same, for per-phase colours (Environment's global light tint).
+    public Color SampleByPhase(Color[] values, AnimationCurve[] curves = null)
+    {
+        if (!Segment(out int i, out float t)) return values[0];
+        return Color.Lerp(values[i], values[(i + 1) % values.Length], Shape(curves, i, t));
+    }
+
+    static float Shape(AnimationCurve[] curves, int i, float t) =>
+        curves != null && i < curves.Length && curves[i] != null && curves[i].length > 0
+            ? curves[i].Evaluate(t)
+            : t;
+
+    // The schedule segment the current hour falls in (phase i -> i+1) and how far
+    // into it, 0..1. False only when every segment is degenerate.
+    bool Segment(out int index, out float t)
     {
         RefreshSchedule();
         int n = phaseHours.Length;
@@ -137,10 +161,16 @@ public class DayNightCycle : MonoBehaviour
 
             float into = Mathf.Repeat(Hour - h0, 24f); // how far we are into it
             if (into < span)
-                return Mathf.Lerp(values[i], values[(i + 1) % n], into / span);
+            {
+                index = i;
+                t = into / span;
+                return true;
+            }
         }
 
-        return values[0];
+        index = 0;
+        t = 0f;
+        return false;
     }
 
     void RefreshSchedule()

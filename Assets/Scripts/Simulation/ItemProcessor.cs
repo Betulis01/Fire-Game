@@ -74,7 +74,8 @@ public abstract class ItemProcessor : MonoBehaviour
         if (job == null) return false;
 
         // (true): an item fed from the bag is inactive
-        SpriteRenderer sr = item.GetComponentInChildren<SpriteRenderer>(true);
+        SpriteRenderer sr = PropArt.BodyOf(item.gameObject);
+        if (sr == null) sr = item.GetComponentInChildren<SpriteRenderer>(true);
         job.icon = sr != null ? sr.sprite : null;
         queue.Add(job);
         return true;

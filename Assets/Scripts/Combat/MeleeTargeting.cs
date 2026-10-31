@@ -18,6 +18,11 @@ public struct TargetQuery
     public LayerMask priorityLayers;  // hurtbox layers that outrank the rest (enemies over resources)
     public TargetScoring scoring;
 
+    // Grace past shape.range the wielder can step in to connect (Tool.lungeBuffer, the
+    // player's swings). Candidates out to range + lungeBuffer count, but one already in
+    // reach outranks one that needs the step. 0 = strictly within reach.
+    public float lungeBuffer;
+
     // A target to favor as primary: its score is lowered by preferredBias (degrees for
     // AimAngle, world units for Distance). float.PositiveInfinity forces it whenever
     // it's in the cone (AI aggro target, the player's committed target); a small bias
@@ -40,10 +45,12 @@ public struct StrikeTarget
 
 // Picks who a melee swing hits: every Hurtbox whose hurt collider reaches into the
 // aimed cone is a candidate, ranked by tier (damageable on a priority layer >
-// damageable > can't be damaged), then by the query's scoring. The best is the
-// primary; up to maxTargets - 1 secondaries follow, the damageable candidates
-// nearest the primary. A glancing primary is struck alone. Static and allocation-free
-// (shared buffers; main thread only), so the player's per-frame preview can call it.
+// damageable > can't be damaged), then in reach before needing a step (see
+// TargetQuery.lungeBuffer), then by the query's scoring. The best is the primary; up
+// to maxTargets - 1 secondaries follow, the damageable in-reach candidates nearest
+// the primary. A glancing primary is struck alone. SelectWithLunge also says how far
+// to step for a primary past reach. Static and allocation-free (shared buffers; main
+// thread only), so the player's per-frame preview can call it.
 public static class MeleeTargeting
 {
     const int TierPriority = 0, TierDamageable = 1, TierGlancing = 2;
@@ -55,6 +62,7 @@ public static class MeleeTargeting
         public float score;
         public float distance;
         public int tier;
+        public bool inReach;   // within shape.range, no step needed
     }
 
     static readonly List<Collider2D> overlap = new();
@@ -92,7 +100,7 @@ public static class MeleeTargeting
             for (int i = 0; i < candidates.Count; i++)
             {
                 Candidate c = candidates[i];
-                if (c.tier == TierGlancing) continue;
+                if (c.tier == TierGlancing || !c.inReach) continue;
                 float d = radial ? c.distance : ((Vector2)c.hurtbox.Owner.transform.position - at).sqrMagnitude;
                 if (best < 0 || c.tier < candidates[best].tier || (c.tier == candidates[best].tier && d < bestDist))
                 {
@@ -106,10 +114,48 @@ public static class MeleeTargeting
         }
     }
 
-    // a outranks b: tier, then score, then distance.
+    // Select with the query's lunge buffer, returning the step that brings a primary past
+    // reach into it: toward its contact point, `margin` inside the reach. `results` are
+    // then what the swing would hit from where the step lands (the cone recast there, so
+    // the primary's neighbours are cleaved too). Zero when the primary is already in
+    // reach, can't be damaged (no pull onto it: the swing glances as without a buffer),
+    // or there is none.
+    public static Vector2 SelectWithLunge(in TargetQuery q, float margin, List<StrikeTarget> results)
+    {
+        Select(q, results);
+        if (q.lungeBuffer <= 0f || results.Count == 0) return Vector2.zero;
+
+        TargetQuery near = q;
+        near.lungeBuffer = 0f;
+        StrikeTarget p = results[0];
+        if (p.glancing)
+        {
+            Select(near, results);
+            return Vector2.zero;
+        }
+
+        Vector2 to = p.point - q.origin;
+        float distance = to.magnitude;
+        if (distance <= q.shape.range) return Vector2.zero;
+
+        Vector2 step = to / distance * Mathf.Min(distance, distance - q.shape.range + margin);
+        near.origin += step;
+        near.preferred = p.hurtbox.Owner;
+        near.preferredBias = float.PositiveInfinity;
+        Select(near, results);
+        if (results.Count == 0 || results[0].hurtbox != p.hurtbox)
+        {
+            results.Clear();
+            results.Add(p);
+        }
+        return step;
+    }
+
+    // a outranks b: tier, then in reach, then score, then distance.
     static bool Ranks(in Candidate a, in Candidate b)
     {
         if (a.tier != b.tier) return a.tier < b.tier;
+        if (a.inReach != b.inReach) return a.inReach;
         if (a.score != b.score) return a.score < b.score;
         return a.distance < b.distance;
     }
@@ -122,7 +168,8 @@ public static class MeleeTargeting
         ContactFilter2D filter = new ContactFilter2D { useTriggers = true };
         filter.SetLayerMask(q.targetLayers);
         overlap.Clear();
-        Physics2D.OverlapCircle(q.origin, q.shape.range, filter, overlap);
+        float reach = q.shape.range + Mathf.Max(0f, q.lungeBuffer);
+        Physics2D.OverlapCircle(q.origin, reach, filter, overlap);
 
         float half = q.shape.arcAngle * 0.5f;
         foreach (Collider2D col in overlap)
@@ -130,7 +177,7 @@ public static class MeleeTargeting
             // only a hurt region counts (not an entity's blocker on the same layer)
             if (!Hurtbox.TryGet(col, out Hurtbox hb) || hb.Owner == q.owner || !hb.CanBeHit) continue;
             if (hb.Health == null || hb.Health.IsDead || Contains(hb.Health)) continue;
-            if (!InCone(col, q, half, out Vector2 point, out float angle, out float distance)) continue;
+            if (!InCone(col, q, reach, half, out Vector2 point, out float angle, out float distance)) continue;
 
             int tier = !hb.Accepts(q.kind) ? TierGlancing
                      : (q.priorityLayers & (1 << col.gameObject.layer)) != 0 ? TierPriority
@@ -139,7 +186,8 @@ public static class MeleeTargeting
             float score = q.scoring == TargetScoring.AimAngle ? angle : distance;
             if (q.preferred != null && hb.Owner == q.preferred) score -= q.preferredBias;
 
-            candidates.Add(new Candidate { hurtbox = hb, point = point, score = score, distance = distance, tier = tier });
+            candidates.Add(new Candidate { hurtbox = hb, point = point, score = score, distance = distance, tier = tier,
+                                           inReach = distance <= q.shape.range });
         }
     }
 
@@ -154,13 +202,12 @@ public static class MeleeTargeting
     // Whether any part of `col` lies in the cone, tested against the collider's shape
     // rather than its pivot (a tree's hurtbox is a tall polygon). Two probes: the
     // collider's nearest point to the apex, and its nearest point to the aim line;
-    // whichever sits closer to the aim (and still within reach) is the contact point.
-    static bool InCone(Collider2D col, in TargetQuery q, float half,
+    // whichever sits closer to the aim (and still within `range`) is the contact point.
+    static bool InCone(Collider2D col, in TargetQuery q, float range, float half,
                        out Vector2 point, out float angle, out float distance)
     {
         Vector2 o = q.origin;
         Vector2 dir = q.direction;
-        float range = q.shape.range;
 
         point = col.ClosestPoint(o);
         Vector2 to = point - o;

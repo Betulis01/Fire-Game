@@ -28,7 +28,8 @@ public class ItemDefinition : ScriptableObject
     {
         if (icon != null) return icon;
         if (prefab == null) return null;
-        SpriteRenderer sr = prefab.GetComponent<SpriteRenderer>();
+        SpriteRenderer sr = PropArt.BodyOf(prefab);
+        if (sr == null) sr = prefab.GetComponent<SpriteRenderer>();
         return sr != null ? sr.sprite : null;
     }
 }

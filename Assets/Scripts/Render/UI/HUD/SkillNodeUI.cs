@@ -1,13 +1,15 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 // One node box in a skill tree: its icon (if the node has one, e.g. a spell) and
 // "rank/max" in the corner. Dims while locked (a parent isn't maxed yet); a spell's
-// icon stays faded until it's learned. Clicking spends a skill point on it.
+// icon stays faded until it's learned. Clicking spends a skill point on it. A
+// learned spell drags onto an action bar skill slot (ActionSlotUI) to put it there.
 [RequireComponent(typeof(Button), typeof(CanvasGroup))]
-public class SkillNodeUI : MonoBehaviour
+public class SkillNodeUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] TMP_Text rankText;
     [SerializeField] Image icon;
@@ -20,19 +22,50 @@ public class SkillNodeUI : MonoBehaviour
 
     public event Action<SkillNodeUI> Clicked;
 
+    IActiveSkill spell;   // the player's skill for a Spell node; null otherwise
+    bool learned;
+    bool dragging;
+
     void Awake() => GetComponent<Button>().onClick.AddListener(() => Clicked?.Invoke(this));
 
-    public void Bind(SkillNode node)
+    public void Bind(SkillNode node, IActiveSkill nodeSpell = null)
     {
         Node = node;
+        spell = node.kind == SkillNodeKind.Spell ? nodeSpell : null;
         if (icon != null) UiPixel.FitIntegerScale(icon, node.icon, iconBox);
     }
 
     public void Set(int rank, bool unlocked)
     {
+        learned = rank > 0;
         rankText.text = rank + "/" + Node.maxRank;
         GetComponent<CanvasGroup>().alpha = unlocked ? 1f : lockedAlpha;
         if (icon != null && icon.enabled)
-            icon.color = new Color(1f, 1f, 1f, rank > 0 ? 1f : unlearnedIconAlpha);
+            icon.color = new Color(1f, 1f, 1f, learned ? 1f : unlearnedIconAlpha);
+    }
+
+    public void OnBeginDrag(PointerEventData e)
+    {
+        if (spell == null || !learned)
+        {
+            e.pointerDrag = null;
+            return;
+        }
+        dragging = true;
+        BagDrag.BeginSkill(spell, -1);
+        if (DragIconUI.Instance != null) DragIconUI.Instance.Show(spell.Icon != null ? spell.Icon : Node.icon, e);
+    }
+
+    public void OnDrag(PointerEventData e)
+    {
+        if (dragging && DragIconUI.Instance != null) DragIconUI.Instance.Move(e);
+    }
+
+    public void OnEndDrag(PointerEventData e)
+    {
+        if (!dragging) return;
+        dragging = false;
+        if (DragIconUI.Instance != null) DragIconUI.Instance.Hide();
+        BagDrag.End();   // unclaimed: the tree keeps it, nothing changes
     }
 }

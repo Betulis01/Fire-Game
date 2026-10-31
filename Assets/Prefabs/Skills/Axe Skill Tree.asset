@@ -32,6 +32,7 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+    skill: {fileID: 0}
   - id: axe_b
     displayName: Axe Skill B
     description: 
@@ -48,6 +49,7 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+    skill: {fileID: 0}
   - id: axe_whirlwind
     displayName: Whirlwind
     description: Spin with your axe held out, striking everything around you on every
@@ -58,7 +60,7 @@ MonoBehaviour:
     - axe_a
     - axe_b
     size: 1
-    position: {x: 38, y: 87}
+    position: {x: 0, y: 87}
     icon: {fileID: 21300000, guid: b5c59c9ad07a4e94ab9e9c6f4a2d5cd4, type: 3}
     statsPerRank:
       strength: 0
@@ -67,3 +69,22 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+    skill: {fileID: 7300000000000000003, guid: 81029ea45da3411fb7ec8a199e35b799, type: 3}
+  - id: axe_throw
+    displayName: Axe Throw
+    description: Hurl your axe at a target; it spins back to your hand.
+    kind: 1
+    maxRank: 1
+    parents:
+    - axe_b
+    size: 1
+    position: {x: 72, y: 87}
+    icon: {fileID: 21300000, guid: a669d32b47f44e1bb6340f87a5c4b791, type: 3}
+    statsPerRank:
+      strength: 0
+      agility: 0
+      intelligence: 0
+      stamina: 0
+      armor: 0
+      maxHealth: 0
+    skill: {fileID: 7200000000000000003, guid: f2a169556fe04d1da1b272bde24d2752, type: 3}

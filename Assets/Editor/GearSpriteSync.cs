@@ -141,7 +141,7 @@ class GearSpriteSync : AssetPostprocessor
         sm.states.Select(s => s.state).Concat(sm.stateMachines.SelectMany(c => AllStates(c.stateMachine)));
 
     // Whether a follower layers over paper-doll art. Followers on other files' art
-    // (e.g. a layered prop's Snow / Highlight, kept by LayeredPropSetup) belong to
+    // (e.g. the Sap Torch's Highlight) belong to
     // that file; a source with no sprite yet is assumed to be the paper doll.
     static bool FollowsPaperDoll(SpriteLayerFollower f)
     {

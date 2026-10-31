@@ -74,6 +74,8 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor, IStatSource
         return total;
     }
 
+    public IReadOnlyList<SkillTree> Trees => trees;
+
     public int Rank(ToolKind kind, string nodeId) =>
         Get(kind).ranks.TryGetValue(nodeId, out int r) ? r : 0;
 

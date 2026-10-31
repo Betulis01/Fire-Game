@@ -52,7 +52,7 @@ static class WhirlwindClipBaker
 
         AnimationUtility.SetAnimationEvents(clip, new[]
         {
-            new AnimationEvent { time = HitTime, functionName = nameof(WhirlwindSkill.OnWhirlwindHit) },
+            new AnimationEvent { time = HitTime, functionName = WhirlwindSkill.HitEvent },
         });
 
         AnimationClipSettings settings = AnimationUtility.GetAnimationClipSettings(clip);

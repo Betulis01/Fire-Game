@@ -1,9 +1,9 @@
 using UnityEngine;
 
-// An active weapon skill (spell), fired from a hand's action slot (keys 1 / 2).
+// An active weapon skill (spell), fired from an action bar skill slot (keys 1 / 2).
 // Lives as a component on the player and is unlocked by the Spell node `NodeId` in
-// the `Weapon` kind's skill tree; while a hand holds a weapon of that kind, its
-// action slot shows the skill (see ActiveSkillSlots).
+// the `Weapon` kind's skill tree; once learned it's dragged onto a slot, and casts
+// with a drawn hand holding a weapon of that kind (see ActiveSkillSlots).
 public interface IActiveSkill
 {
     ToolKind Weapon { get; }

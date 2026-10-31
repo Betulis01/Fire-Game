@@ -5,9 +5,9 @@ public enum SkillNodeSize { Small, Big }
 
 // Passive nodes are ranked stat upgrades (statsPerRank, summed into the player's
 // CharacterStats by WeaponExperience). A Spell node is
-// learned once (maxRank 1) and unlocks an active skill: an IActiveSkill on the
-// player whose NodeId matches, cast from the action slot of a hand holding this
-// tree's weapon (see ActiveSkillSlots).
+// learned once (maxRank 1) and unlocks an active skill: its `skill` prefab
+// (ActiveSkill), which the player carries from the start, dragged onto an action bar
+// skill slot and cast with a hand holding this tree's weapon (see ActiveSkillSlots).
 public enum SkillNodeKind { Passive, Spell }
 
 // One node in a weapon's skill tree. Ranks are bought with that weapon's skill
@@ -28,6 +28,9 @@ public class SkillNode
     public Sprite icon;
     [Tooltip("Passive: attributes/armor gained per rank bought.")]
     public StatBlock statsPerRank;
+    [Tooltip("Spell: the skill's prefab (Prefabs/Skills) -- its behaviour, tuning and visuals. " +
+             "The node gives it its name and icon.")]
+    public ActiveSkill skill;
 }
 
 // A weapon's skill tree (Axe, Sword, ...). Pure data: WeaponExperience tracks the

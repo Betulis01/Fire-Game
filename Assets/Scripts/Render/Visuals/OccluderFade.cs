@@ -43,7 +43,11 @@ public class OccluderFade : MonoBehaviour
             renderers = System.Array.FindAll(prop.GetComponentsInChildren<SpriteRenderer>(true),
                                              sr => !hittable || !TargetHighlight.IsHighlight(sr));
         }
-        if (sortReference == null && renderers.Length > 0) sortReference = renderers[0];
+        if (sortReference == null)
+        {
+            PropArt art = GetComponentInParent<PropArt>();
+            sortReference = art != null ? art.Body : renderers.Length > 0 ? renderers[0] : null;
+        }
 
         enabled = false;
     }

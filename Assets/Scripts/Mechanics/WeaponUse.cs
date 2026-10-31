@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Weapon-swing capability: arms and resolves a melee/ranged attack for a given
@@ -18,6 +19,11 @@ using UnityEngine;
 // A melee swing hits the targets MeleeTargeting picks in the cone (primary closest
 // to the aim, then capped secondaries), committing to the primary TargetPreview has
 // highlighted. Every IStrikeModifier on the player (skill tree, ...) shapes the cone.
+//
+// Lunge grace window: a damageable primary past the cone's reach but within the
+// tool's lungeBuffer is still picked (and highlighted). At the swing frame the player
+// steps toward it (AttackLunge.BeginStep, timed to arrive by the contact frame), so
+// the cone, cast from where the step lands, catches it at the tip of the reach.
 [RequireComponent(typeof(Hands))]
 public class WeaponUse : MonoBehaviour
 {
@@ -40,6 +46,7 @@ public class WeaponUse : MonoBehaviour
     TargetPreview preview;
     CharacterStats stats;          // the wielder's stats, snapshotted into each attack
     IStrikeModifier[] strikeModifiers;
+    ActiveSkillSlots skills;       // a hand a spell has out of action (its axe thrown) can't swing
 
     // The swing whose contact frame we're waiting on. Only one at a time: the
     // player's single Animator layer can play just one attack clip, so a later
@@ -47,9 +54,22 @@ public class WeaponUse : MonoBehaviour
     // melee/ranged is set, depending on which the held item offered. `heavy` is
     // resolved once the charge decides (see charging below), not at arm time.
     // `dir` is latched at the swing frame (aimed = true) so the swing effect, lunge,
-    // clip facing and the hit all share one direction.
-    struct Swing { public Tool tool; public HandSide side; public HandSide button; public MeleeWeapon melee; public RangedWeapon ranged; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; }
+    // clip facing and the hit all share one direction. `stepTarget` is the target the
+    // swing stepped in to reach (lunge grace window), which the hit commits to.
+    struct Swing { public Tool tool; public HandSide side; public HandSide button; public MeleeWeapon melee; public RangedWeapon ranged; public bool armed; public bool heavy; public float chargeFraction; public Vector2 dir; public bool aimed; public GameObject stepTarget; }
     Swing pending;
+
+    // How far inside the reach a grace-window step lands the target, so the last sliver
+    // of the step (or a frame of the target drifting) can't leave it just out of reach.
+    public const float LungeMargin = 0.05f;
+
+    // Step duration when the clip's time to its contact frame can't be read.
+    const float FallbackStepSeconds = 0.08f;
+
+    readonly List<StrikeTarget> stepTargets = new();
+
+    // The armed swing's grace-window target, while it steps in and until it lands.
+    public GameObject StepTarget => pending.armed ? pending.stepTarget : null;
 
     // Charging: the button was pressed and the swing is waiting on release to find out
     // whether it resolves light or heavy -- that's decided purely by elapsed hold time
@@ -67,8 +87,10 @@ public class WeaponUse : MonoBehaviour
     // recovery. Unlocks by itself when the clip ends (IsAttacking goes false).
     bool hitLanded;
     // A spell cast (PlayerAnimator.IsCasting) isn't a swing: a stale hitLanded from the
-    // previous swing mustn't plant the player for a whole Whirlwind.
-    public bool MovementLocked => hitLanded && animator != null && animator.IsAttacking && !animator.IsCasting;
+    // previous swing mustn't plant the player for a whole Whirlwind. A grace-window step
+    // also locks it, so walking can't overshoot into the target or cancel the step.
+    public bool MovementLocked => (hitLanded && animator != null && animator.IsAttacking && !animator.IsCasting)
+                                  || (lunge != null && lunge.IsStepping);
 
     // 0 at press, 1 once held for the current weapon's chargeTime (and beyond, since
     // holding is uncapped). 0 whenever not charging.
@@ -96,6 +118,7 @@ public class WeaponUse : MonoBehaviour
         preview = GetComponent<TargetPreview>();
         stats = GetComponent<CharacterStats>();
         strikeModifiers = GetComponents<IStrikeModifier>();
+        skills = GetComponent<ActiveSkillSlots>();
         if (cam == null) cam = Camera.main;
         if (animator == null) animator = GetComponent<PlayerAnimator>();
     }
@@ -106,6 +129,18 @@ public class WeaponUse : MonoBehaviour
         StrikeShape shape = tool.GetStrike(heavy);
         foreach (IStrikeModifier m in strikeModifiers) m.ModifyStrike(tool.kind, ref shape);
         return shape;
+    }
+
+    // The targets a swing of `tool` along `dir` would hit, through the lunge grace
+    // window (MeleeTargeting.SelectWithLunge with the tool's lungeBuffer), into `into`.
+    // Returns the step the swing takes to reach its primary: zero when it's in reach.
+    public Vector2 SelectWithLunge(MeleeWeapon melee, Tool tool, in StrikeShape shape, Vector2 dir,
+                                   GameObject preferred, float preferredBias, List<StrikeTarget> into)
+    {
+        TargetQuery query = melee.Query(gameObject, Origin, dir, shape, tool.kind, TargetScoring.AimAngle,
+                                        preferred, preferredBias);
+        query.lungeBuffer = tool.lungeBuffer;
+        return MeleeTargeting.SelectWithLunge(query, LungeMargin, into);
     }
 
     // Whether a swing is armed (charging or waiting on its contact frame) -- a
@@ -139,7 +174,7 @@ public class WeaponUse : MonoBehaviour
         shape = default;
         dir = Vector2.zero;
 
-        GameObject item = hands.ActiveItem(side);
+        GameObject item = IsLocked(side) ? null : hands.ActiveItem(side);
         if (item == null || !item.TryGetComponent(out tool) || !item.TryGetComponent(out melee))
         {
             melee = null;
@@ -187,8 +222,12 @@ public class WeaponUse : MonoBehaviour
 
     // Whether `side`'s swing is armed or its attack clip is still playing (the action
     // bar shows that hand as recovering).
+    // A locked hand (IHandLock) shows busy too.
     public bool IsBusy(HandSide side) =>
+        IsLocked(side) ||
         pending.side == side && (pending.armed || (animator != null && animator.IsAttacking && !animator.IsCasting));
+
+    bool IsLocked(HandSide side) => skills != null && skills.IsLocked(side);
 
     public bool TryUse(HandSide side) => TryUse(side, side);
 
@@ -198,6 +237,7 @@ public class WeaponUse : MonoBehaviour
     {
         if (animator != null && animator.IsAttacking) return false;
         if (loadout != null && loadout.IsSwapping) return false;
+        if (IsLocked(side)) return false;
 
         // Swing whatever the hand offers (held weapon or default fists). It must be a
         // weapon: a Tool for stats plus either a MeleeWeapon or a RangedWeapon (fires
@@ -231,7 +271,7 @@ public class WeaponUse : MonoBehaviour
     // animation gets here, or still resolve light after it, if chargeTime says so.
     public void OnAttackChargeReady()
     {
-        if (!charging || !UserInput.Instance.UseHeld(pending.button)) return;
+        if (!charging || !UserInput.Instance.UseHeld(pending.button) || Casting) return;
         chargePaused = true;
         if (animator != null) animator.PauseAttack();
     }
@@ -251,7 +291,7 @@ public class WeaponUse : MonoBehaviour
     // aimed where the strike will land; leaves the swing armed for the hit.
     public void OnAttackSwing()
     {
-        if (!pending.armed || pending.tool == null) return;
+        if (!pending.armed || pending.tool == null || Casting) return;
         Vector2 dir = AimDirection(Origin);
 
         // The swing commits to this direction: OnAttackHit lands along it rather than
@@ -279,8 +319,25 @@ public class WeaponUse : MonoBehaviour
             heldAnim.Play(() => animator != null && animator.IsAttacking && hands.ActiveItem(side) == item);
         }
 
-        // Push fires here, at the windup, not on the later hit frame.
+        // Push fires here, at the windup, not on the later hit frame. A primary in the
+        // lunge grace window gets a measured step instead, arriving by the contact frame
+        // (the tool's push would over- or undershoot it); a tool with a push still gets
+        // its swing reactors (shake, stop).
         (float lungeSpeed, float lungeDuration, AnimationCurve lungeCurve) = pending.tool.GetLunge(pending.heavy);
+        pending.stepTarget = null;
+        if (lunge != null && pending.melee != null)
+        {
+            GameObject highlighted = preview != null ? preview.Primary : null;
+            Vector2 step = SelectWithLunge(pending.melee, pending.tool, GetStrike(pending.tool, pending.heavy), dir,
+                                           highlighted, float.PositiveInfinity, stepTargets);
+            float seconds = animator != null ? animator.SecondsUntilEvent(nameof(OnAttackHit)) : -1f;
+            if (lunge.BeginStep(step, seconds > 0f ? seconds : FallbackStepSeconds))
+            {
+                pending.stepTarget = stepTargets[0].hurtbox.Owner;
+                if (lungeSpeed > 0f) HitResolution.NotifySwing(gameObject);
+                return;
+            }
+        }
         if (lunge != null && lunge.Begin(dir, lungeSpeed, lungeDuration, lungeCurve))
             HitResolution.NotifySwing(gameObject);
     }
@@ -290,7 +347,7 @@ public class WeaponUse : MonoBehaviour
     // with no swing event (nothing latched) aims here instead, re-aiming the clip once.
     public void OnAttackHit()
     {
-        if (!pending.armed) return;
+        if (!pending.armed || Casting) return;
 
         Vector2 origin = Origin;
         Vector2 dir = pending.aimed ? pending.dir : AimDirection(origin);
@@ -300,9 +357,10 @@ public class WeaponUse : MonoBehaviour
 
         if (pending.melee != null)
         {
-            // Commit to the highlighted primary if it's still in the cone; otherwise
-            // the closest to the aim wins.
-            GameObject committed = preview != null ? preview.Primary : null;
+            // Commit to the target the swing stepped in to reach, else the highlighted
+            // primary, if it's still in the cone; otherwise the closest to the aim wins.
+            GameObject committed = pending.stepTarget != null ? pending.stepTarget
+                                 : preview != null ? preview.Primary : null;
             TargetQuery query = pending.melee.Query(gameObject, origin, dir, GetStrike(pending.tool, pending.heavy),
                                                     pending.tool.kind, TargetScoring.AimAngle,
                                                     committed, float.PositiveInfinity);
@@ -323,6 +381,10 @@ public class WeaponUse : MonoBehaviour
         pending.armed = false;
         hitLanded = true;
     }
+
+    // A spell playing an attack clip (AxeThrowSkill's throw) fires the same Animation
+    // Events; they're the spell's, not a swing's.
+    bool Casting => animator != null && animator.IsCasting;
 
     // direction the swing aims: toward the mouse cursor, or the gamepad aim stick
     Vector2 AimDirection(Vector2 origin)

@@ -237,7 +237,9 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     // drive the hit (WeaponUse.OnAttackHit). Facing follows the aim so the windup
     // starts out agreeing with where the swing began aiming; RetargetAttack re-picks
     // it as the swing/hit events fire. `style` is the weapon's Tool.AttackStyle.
-    public void PlayAttack(HandSide side, float duration, Vector2 aimDir, string style = null)
+    // `cast` plays it for a spell instead (AxeThrowSkill's throw): latched like a cast
+    // (IsCasting), so it isn't a WeaponUse swing -- no re-aim, no movement lock.
+    public void PlayAttack(HandSide side, float duration, Vector2 aimDir, string style = null, bool cast = false)
     {
         string state = AttackState(side, aimDir, style, out bool flip);
 
@@ -255,7 +257,7 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
         attackStyle = style;
         attacking = true;
         attackLoops = 1;
-        casting = false;
+        casting = cast;
         attackFailsafe = Time.time + Mathf.Max(duration, 3f);
         ApplyFlip(flip);       // now, so Hands.Anchor agrees with the suffix this frame
         currentState = null;   // force the next Play to switch
@@ -327,6 +329,22 @@ public class PlayerAnimator : MonoBehaviour, IHitReactor
     // no-op outside an attack so a stray call can't freeze locomotion.
     public void PauseAttack() { if (attacking) animator.speed = 0f; }
     public void ResumeAttack() { animator.speed = 1f; }
+
+    // Seconds from now until the playing attack clip reaches its `function` Animation
+    // Event (e.g. WeaponUse.OnAttackHit), at normal speed. -1 when no attack is playing,
+    // or its clip has no such event still ahead.
+    public float SecondsUntilEvent(string function)
+    {
+        if (!attacking) return -1f;
+        AnimatorClipInfo[] clips = animator.GetCurrentAnimatorClipInfo(0);
+        if (clips.Length == 0 || clips[0].clip == null) return -1f;
+
+        AnimationClip clip = clips[0].clip;
+        float now = Mathf.Clamp01(animator.GetCurrentAnimatorStateInfo(0).normalizedTime) * clip.length;
+        foreach (AnimationEvent e in clip.events)
+            if (e.functionName == function && e.time >= now) return e.time - now;
+        return -1f;
+    }
 
     // Impact hold: freeze the swing on its current (contact) frame for `seconds`, as if
     // the weapon bit into what it hit, then let it play on. Game time, so a global

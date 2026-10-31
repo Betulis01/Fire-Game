@@ -9,10 +9,20 @@ using UnityEngine;
 // plain physical overlap, so it lives on its own trigger collider instead.
 public class CollideAnimation : MonoBehaviour
 {
+    [Tooltip("Animator to drive. Defaults to the prop's art (PropArt).")]
     [SerializeField] Animator animator;
     [SerializeField] LayerMask entityLayers;
 
     int overlapCount;   // multiple entities can overlap at once; only the last exit should stop it
+
+    void Awake()
+    {
+        if (animator == null)
+        {
+            PropArt art = GetComponentInParent<PropArt>();
+            if (art != null) animator = art.Animator;
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {

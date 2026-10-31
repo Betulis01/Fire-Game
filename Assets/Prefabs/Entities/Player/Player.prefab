@@ -284,7 +284,6 @@ GameObject:
   - component: {fileID: 8483483459779746828}
   - component: {fileID: 1327526121772987822}
   - component: {fileID: 5249907805609078014}
-  - component: {fileID: 8118181947786773592}
   - component: {fileID: 2241230547770339701}
   - component: {fileID: 7316274018855209441}
   - component: {fileID: 7318264051932774410}
@@ -504,7 +503,7 @@ MonoBehaviour:
   warmTemp: 0
   speedFloor: 0.4
   smoothTime: 0.5
-  stopSmoothTime: 0.15
+  stopSmoothTime: 0.05
 --- !u!114 &2244934674691583818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,11 +535,12 @@ MonoBehaviour:
   stickyMargin: 0.15
   missingGearBias: 0.5
   droppedPenalty: 0.5
+  pickupHighlightColor: {r: 0.3, g: 0.9, b: 0.3, a: 1}
   holdTime: 0.35
   holdHintColor: {r: 0.74509805, g: 0.8, b: 0.87058824, a: 1}
-  throwHoldTime: 0.2
-  throwRange: 3
-  throwDuration: 0.35
+  throwHoldTime: 0.15
+  throwRange: 2.5
+  throwDuration: 0.3
   throwArc: 0.4
   maxDropDistance: 1
 --- !u!114 &4097018392639219819
@@ -907,28 +907,6 @@ MonoBehaviour:
   startingPoints:
   - kind: 1
     points: 5
---- !u!114 &8118181947786773592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4381895908916503135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 106e6d688a3ea174fa2ca44c35b2828e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WhirlwindSkill
-  nodeId: axe_whirlwind
-  displayName: Whirlwind
-  icon: {fileID: 21300000, guid: b5c59c9ad07a4e94ab9e9c6f4a2d5cd4, type: 3}
-  state: whirlwind
-  spins: 5
-  radius: 1
-  maxTargets: 4
-  damageMultiplier: 1
-  cooldown: 8
-  origin: {fileID: 0}
 --- !u!114 &2241230547770339701
 MonoBehaviour:
   m_ObjectHideFlags: 0

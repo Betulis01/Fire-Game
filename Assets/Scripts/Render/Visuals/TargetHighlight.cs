@@ -53,12 +53,14 @@ public class TargetHighlight : MonoBehaviour
             renderers = System.Array.FindAll(GetComponentsInChildren<SpriteRenderer>(true), IsHighlight);
 
         pickup = TryGetComponent(out Pickupable _);
+        // importer art (PropArt): the layers are siblings, so the body is named, not the parent
+        SpriteRenderer propBody = TryGetComponent(out PropArt art) ? art.Body : null;
         bodies = new SpriteRenderer[renderers.Length];
         authored = new Color[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
         {
             Transform parent = renderers[i].transform.parent;
-            bodies[i] = parent != null ? parent.GetComponent<SpriteRenderer>() : null;
+            bodies[i] = parent != null && parent.TryGetComponent(out SpriteRenderer onParent) ? onParent : propBody;
             authored[i] = renderers[i].color;
         }
 
