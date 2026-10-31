@@ -207,6 +207,8 @@ static class HudBuilder
         HudRoot hud = root.AddComponent<HudRoot>();
 
         BuildNameplates(root.transform, hud);   // first: under the rest of the HUD
+        BuildCombatText(root.transform);        // over the plates
+        BuildPrompts(root.transform);           // interact prompts, over the numbers
         ItemTooltip tooltip = BuildTooltip(root.transform);
         Image dragIcon = CenteredIcon(root.transform);   // a dragged bag slot's / loadout item's icon
         dragIcon.name = "Drag Icon";
@@ -219,15 +221,36 @@ static class HudBuilder
         return root;
     }
 
-    // --- enemy health plates (not in the mockup): the player's health bar art, small,
-    // placed over each enemy at runtime (NameplatesUI builds the plates) ---
+    // --- enemy health plates (not in the mockup): the player's health bar look, small,
+    // placed over each enemy at runtime (NameplatesUI builds the plates, colours on it) ---
 
     static void BuildNameplates(Transform parent, HudRoot hud)
     {
         RectTransform layer = Child("Nameplates", parent);
         Stretch(layer);
         NameplatesUI ui = layer.gameObject.AddComponent<NameplatesUI>();
-        Wire(ui, ("root", hud), ("frameSprite", S("bar_health_frame")), ("fillSprite", S("bar_health_fill")));
+        Wire(ui, ("root", hud));
+    }
+
+    // --- floating combat numbers (not in the mockup): CombatText builds its popups ---
+
+    static void BuildCombatText(Transform parent)
+    {
+        RectTransform layer = Child("Combat Text", parent);
+        Stretch(layer);
+        CombatText ui = layer.gameObject.AddComponent<CombatText>();
+        Wire(ui, ("font", font), ("fontMaterial", font.material));
+    }
+
+    // --- interact prompts (not in the mockup): each InteractPrompt moves itself here
+    // and reads its look from the layer ---
+
+    static void BuildPrompts(Transform parent)
+    {
+        RectTransform layer = Child("Prompts", parent);
+        Stretch(layer);
+        PromptLayer ui = layer.gameObject.AddComponent<PromptLayer>();
+        Wire(ui, ("font", font), ("fontMaterial", font.material));
     }
 
     // --- top-left stats (mockup 87,21 .. 389,47) ---

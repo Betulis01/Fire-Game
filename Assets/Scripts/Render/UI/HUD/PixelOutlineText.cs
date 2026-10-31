@@ -1,10 +1,13 @@
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 
 // 1px black outline for pixel-font HUD text. The pixel font is a raster (bitmap)
 // TMP font, which can't use TMP's SDF outline, so this draws four black copies of
 // the label offset by one reference pixel (left/right/up/down), as siblings just
-// behind it. The copies follow the label's text, size, layout and visibility.
+// behind it. The copies follow the label's text, size, layout, alpha and visibility
+// (a pooled label that changes size or fades -- CombatText's popups -- keeps its
+// outline in step).
 // Copies are spawned at runtime only, so they never get saved into the prefab.
 [RequireComponent(typeof(TMP_Text))]
 public class PixelOutlineText : MonoBehaviour
@@ -12,10 +15,14 @@ public class PixelOutlineText : MonoBehaviour
     [SerializeField] Color outlineColor = Color.black;
 
     static readonly Vector2[] Offsets = { new(-1, 0), new(1, 0), new(0, 1), new(0, -1) };
+    // rich-text colour tags in the label would tint the copies; they're stripped
+    static readonly Regex ColorTags = new(@"</?color[^>]*>", RegexOptions.IgnoreCase);
 
     TMP_Text label;
     TMP_Text[] copies;
     string lastText;
+    float lastSize = -1f;
+    float lastAlpha = -1f;
 
     void OnEnable()
     {
@@ -64,6 +71,9 @@ public class PixelOutlineText : MonoBehaviour
     void Sync(bool force)
     {
         var src = (RectTransform)transform;
+        bool changed = force || label.text != lastText || !Mathf.Approximately(label.fontSize, lastSize);
+        bool faded = force || !Mathf.Approximately(label.alpha, lastAlpha);
+
         for (int i = 0; i < copies.Length; i++)
         {
             TMP_Text c = copies[i];
@@ -74,15 +84,17 @@ public class PixelOutlineText : MonoBehaviour
             rt.sizeDelta = src.sizeDelta;
             rt.anchoredPosition = src.anchoredPosition + Offsets[i];
 
-            if (!force && label.text == lastText) continue;
-            c.text = label.text;
+            if (faded) c.alpha = label.alpha;
+            if (!changed) continue;
+            c.text = ColorTags.Replace(label.text, "");
             c.fontSize = label.fontSize;
             c.alignment = label.alignment;
             c.textWrappingMode = label.textWrappingMode;
             c.overflowMode = label.overflowMode;
             c.characterSpacing = label.characterSpacing;
-            c.alpha = label.alpha;
         }
         lastText = label.text;
+        lastSize = label.fontSize;
+        lastAlpha = label.alpha;
     }
 }

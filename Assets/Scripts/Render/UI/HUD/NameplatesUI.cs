@@ -4,22 +4,27 @@ using UnityEngine;
 // Enemy health plates on the screen canvas: one pooled NameplateUI per registered
 // Nameplate, placed over its world anchor every frame. A plate shows while its
 // enemy is alive, on screen, and hurt or the player's soft target (TargetPreview).
-// Its size follows the camera's zoom -- `baseSize` at the zoom the scene starts at,
-// scaled by how far the camera has zoomed, clamped to minScale..maxScale -- and
-// position and size are whole reference pixels so the 2px frame stays crisp.
+// Its size is fixed on screen (`baseSize`, whatever the camera's zoom), and its
+// position is whole reference pixels, so the 2px frame stays crisp.
 // Sits under the rest of the HUD, so menus and tooltips draw over it.
 [RequireComponent(typeof(RectTransform))]
 public class NameplatesUI : MonoBehaviour
 {
     [SerializeField] HudRoot root;
-    [SerializeField] Sprite frameSprite;   // bar_health_frame, 9-sliced
-    [SerializeField] Sprite fillSprite;    // bar_health_fill
 
     [Header("Size")]
-    [Tooltip("Plate size in reference pixels at the camera's starting zoom.")]
+    [Tooltip("Plate size in reference pixels. Keep the width even, so the bottom-centre pivot lands on a whole pixel.")]
     [SerializeField] Vector2 baseSize = new(64f, 10f);
-    [SerializeField] float minScale = 0.6f;
-    [SerializeField] float maxScale = 1.4f;
+
+    [Header("Colours (apply live)")]
+    public Color frameColor = new(64f / 255f, 82f / 255f, 115f / 255f);     // the player bar's frame blue
+    [Tooltip("Behind the fill: the empty part of the bar. Transparent shows the world through it.")]
+    public Color backgroundColor = new(0f, 0f, 0f, 0f);
+    public Color fillColor = new(181f / 255f, 89f / 255f, 69f / 255f);      // the player bar's red
+    [Tooltip("The health just lost, holding then draining.")]
+    public Color chipColor = new(241f / 255f, 226f / 255f, 180f / 255f);
+    [Tooltip("Over the fill for a moment on each hit (its alpha fades out over flashTime).")]
+    public Color flashColor = Color.white;
 
     [Header("Hit animation")]
     [Tooltip("Seconds the white flash fades over.")]
@@ -33,7 +38,6 @@ public class NameplatesUI : MonoBehaviour
 
     RectTransform rect;
     Camera cam;
-    float homeSize;
 
     readonly Dictionary<Nameplate, NameplateUI> plates = new();
     readonly Stack<NameplateUI> pool = new();
@@ -43,12 +47,8 @@ public class NameplatesUI : MonoBehaviour
 
     void LateUpdate()
     {
-        if (cam == null)
-        {
-            cam = Camera.main;
-            if (cam == null) return;
-            homeSize = cam.orthographicSize;
-        }
+        if (cam == null) cam = Camera.main;
+        if (cam == null) return;
 
         // plates whose enemy was disabled or destroyed go back to the pool
         gone.Clear();
@@ -56,12 +56,7 @@ public class NameplatesUI : MonoBehaviour
             if (n == null || !Nameplate.All.Contains(n)) gone.Add(n);
         foreach (Nameplate n in gone) Release(n);
 
-        float scale = cam.orthographicSize > 0f
-            ? Mathf.Clamp(homeSize / cam.orthographicSize, minScale, maxScale)
-            : 1f;
-        // an even width, so the bottom-centre pivot lands on a whole pixel
-        Vector2 size = new(2f * Mathf.Round(baseSize.x * scale / 2f), Mathf.Round(baseSize.y * scale));
-        size.y = Mathf.Max(size.y, 2 * NameplateUI.Border + 1);   // always a row of fill
+        Vector2 size = new(Mathf.Round(baseSize.x), Mathf.Max(Mathf.Round(baseSize.y), 2 * NameplateUI.Border + 1));
         GameObject target = root != null && root.Preview != null ? root.Preview.Primary : null;
         float dt = Time.deltaTime;
 
@@ -101,7 +96,7 @@ public class NameplatesUI : MonoBehaviour
             var go = new GameObject("Nameplate", typeof(RectTransform));
             go.transform.SetParent(transform, false);
             plate = go.AddComponent<NameplateUI>();
-            plate.Build(this, frameSprite, fillSprite);
+            plate.Build(this);
         }
         plate.name = "Nameplate (" + n.name + ")";
         plate.Bind(n);
