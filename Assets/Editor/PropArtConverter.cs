@@ -55,6 +55,10 @@ static class PropArtConverter
         new(Prefabs + "Food/Polar Bear Meat/Polar Bear Meat Cooked.prefab",
             Sprites + "Ground/Food/Meat/Polar Bear Meat/Polar Bear Meat Cooked.aseprite", "Layer 1"),
         new(Prefabs + "Food/Red Berries/Blue Berries.prefab", Sprites + "Ground/Food/Berries/Blue Berries.aseprite", "Bush"),
+        // built with their Art by Tools/Items/Set Up Hemp (HempSetup), so the converter skips them
+        new(Prefabs + "Materials/Hemp.prefab", Sprites + "Materials/Hemp.aseprite", "Layer 1"),
+        new(Prefabs + "Materials/Burlap.prefab", Sprites + "Materials/Burlap.aseprite", "Layer 1"),
+        new(Prefabs + "Plants/Hemp Plant.prefab", Sprites + "Ground/Fauna/Hemp Plant.aseprite", "Stem"),
     };
 
     [MenuItem("Tools/Aseprite/Convert Props To Importer Art")]
@@ -69,6 +73,11 @@ static class PropArtConverter
 
     static bool Convert(in Prop prop)
     {
+        if (AssetDatabase.LoadAssetAtPath<GameObject>(prop.prefab) == null)
+        {
+            Debug.Log($"[PropArtConverter] {prop.prefab} doesn't exist yet; skipped.");
+            return false;
+        }
         if (!PrepareImport(prop.aseprite)) return false;
 
         var model = AssetDatabase.LoadAssetAtPath<GameObject>(prop.aseprite);
@@ -118,7 +127,7 @@ static class PropArtConverter
     }
 
     // Variants play from the whole-file clip, so a multi-frame file must generate clips.
-    static bool PrepareImport(string aseprite)
+    internal static bool PrepareImport(string aseprite)
     {
         if (AssetImporter.GetAtPath(aseprite) is not AsepriteImporter importer)
         {
@@ -173,7 +182,7 @@ static class PropArtConverter
 
     // Each state plays the importer clip of its name (the Aseprite tag). A state with a
     // clip but no such tag keeps its old clip and is reported.
-    static void LinkStates(AnimatorController controller, AnimationClip[] clips, string aseprite)
+    internal static void LinkStates(AnimatorController controller, AnimationClip[] clips, string aseprite)
     {
         var byName = new Dictionary<string, AnimationClip>(System.StringComparer.OrdinalIgnoreCase);
         foreach (AnimationClip clip in clips) byName[clip.name] = clip;

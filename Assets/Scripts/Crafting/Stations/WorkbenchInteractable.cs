@@ -1,7 +1,15 @@
 using UnityEngine;
 
-public class WorkbenchInteractable : StationInteractable
+// E at the workbench opens the F menu on Crafting -> Workbench (or closes it again).
+// Being near it is what unlocks the workbench recipes (Station, CraftingController).
+public class WorkbenchInteractable : Interactable
 {
-    // TODO: populate recipe grid filtered by StationType.Workbench
-    protected override void PopulateMenu(Transform content) { }
+    public override bool Interact(PlayerController player)
+    {
+        HudMenu menu = HudMenu.Instance;
+        if (menu == null) return false;
+        if (menu.IsOpen) menu.Close();
+        else menu.OpenCrafting(atWorkbench: true);
+        return true;
+    }
 }

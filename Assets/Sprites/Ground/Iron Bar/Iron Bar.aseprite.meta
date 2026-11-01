@@ -135,8 +135,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 15
+      x: 22
+      y: 4
       width: 6
       height: 4
     spriteID: f4c3a84b147b16041a2260a76e26e229
@@ -147,10 +147,10 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 15}
+    uvTransform: {x: 22, y: 4}
   - name: Highlight
     originalName: 
-    pivot: {x: 0.6363636, y: 0}
+    pivot: {x: 0.6, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -158,8 +158,8 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 11
-      height: 3
+      width: 10
+      height: 4
     spriteID: 69ed291e5a8ee0a4d90cc4f3bcaa3e5f
     spriteBone: []
     spriteOutline: []
@@ -188,10 +188,10 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
+        x: 2
         y: 0
-        width: 11
-        height: 3
+        width: 10
+        height: 4
       spriteId: 69ed291e5a8ee0a4d90cc4f3bcaa3e5f
     linkedCells: []
     tileCells: []
@@ -252,4 +252,4 @@ ScriptedImporter:
   secondarySpriteTextures: []
   spritePackingTag: 
   canvasSize: {x: 16, y: 16}
-  previousTextureSize: {x: 32, y: 32}
+  previousTextureSize: {x: 32, y: 16}

@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 // Crafting and Skills tabs. F toggles it -- or, while a placement ghost is following
 // the cursor, cancels that instead. Esc closes it through GameStateManager
 // (TryClose), so Esc never both closes the menu and pauses. Always opens on the
-// first tab (Player).
+// first tab (Player); the workbench opens it on Crafting -> Workbench (OpenCrafting).
 public class HudMenu : MonoBehaviour
 {
     public static HudMenu Instance { get; private set; }
@@ -13,6 +13,9 @@ public class HudMenu : MonoBehaviour
     [SerializeField] GameObject panel;          // tabs + pages; hidden while closed
     [SerializeField] TabButtonUI[] tabs;        // Player, Crafting, Skills
     [SerializeField] GameObject[] pages;        // same order as tabs
+    [SerializeField] CraftingTabUI crafting;    // the Crafting page's tab
+
+    const int CraftingTab = 1;
 
     int current;
 
@@ -49,6 +52,14 @@ public class HudMenu : MonoBehaviour
     {
         panel.SetActive(true);
         Select(0);
+    }
+
+    // Open on the Crafting tab, at the Hands or Workbench recipes.
+    public void OpenCrafting(bool atWorkbench)
+    {
+        panel.SetActive(true);
+        Select(CraftingTab);
+        if (crafting != null) crafting.SelectLocation(atWorkbench);
     }
 
     public void Close()

@@ -6,13 +6,15 @@ using UnityEngine.UI;
 
 // One bag slot on the Player tab: the stack's icon and count. Click it to use it
 // (BagTabUI); drag it onto another slot, a loadout or armour box, an open station
-// menu or the world. A loadout item dragged onto it goes into the bag here (swapping
-// with a tool or weapon already in the slot). Hovering shows the item's tooltip (ItemHoverTooltip on this object).
+// panel or the world. A loadout item dragged onto it goes into the bag here (swapping
+// with a tool or weapon already in the slot), and fuel dragged onto a torch here feeds
+// it (Inventory.TryFeed). Hovering shows the item's tooltip (ItemHoverTooltip on this object).
 [RequireComponent(typeof(Button))]
 public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     [SerializeField] Image icon;
     [SerializeField] TMP_Text countText;
+    [SerializeField] ItemMeterUI meter;   // the item's bar (a torch's fuel)
     [SerializeField] Vector2 iconBox = new(56f, 56f);
 
     BagTabUI tab;
@@ -33,6 +35,7 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void Set(GameObject item, int count)
     {
         if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(item);
+        if (meter != null) meter.Show(item);
         UiPixel.FitIntegerScale(icon, UiPixel.IconOf(item), iconBox);
         countText.text = count > 1 ? count.ToString() : "";
         hasItem = item != null;
@@ -68,7 +71,10 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrop(PointerEventData e)
     {
-        if (BagDrag.Claim(out Inventory inv, out int from)) inv.Move(from, index);
+        if (BagDrag.Claim(out Inventory inv, out int from))
+        {
+            if (!inv.TryFeed(from, inv.Item(index))) inv.Move(from, index);
+        }
         else if (tab != null && tab.Inventory != null && BagDrag.ClaimLoadout(out _, out int set, out HandSide side))
             tab.Inventory.UnequipLoadoutTo(set, side, index);
     }

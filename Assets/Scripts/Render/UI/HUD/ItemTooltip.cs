@@ -114,6 +114,7 @@ public class ItemTooltip : MonoBehaviour
             AddStat(lines, s.intelligence, "Intelligence");
             AddStat(lines, s.stamina, "Stamina");
             AddStat(lines, s.armor, "Armor");
+            AddStat(lines, s.coldResistance, "Cold Resistance");
             AddStat(lines, s.maxHealth, "Max Health");
         }
 

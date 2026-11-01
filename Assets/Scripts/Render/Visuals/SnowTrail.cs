@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 // Each stamp picks one of the variants at random (snow-trail, snow-trail2, ...), so
 // the trench's edge doesn't repeat; the canvas merge keeps the trench itself whole.
 // Stamps are laid along the whole path moved since the last one, so a fast move
-// (lunge, knockback) leaves no gaps. CanStamp is the hook for "only on snow tiles".
+// (lunge, knockback) leaves no gaps. CanStamp keeps the trench on snow (TerrainMap).
 // The variants mirror the .aseprite files in Sprites/Effects/Snow Walking
 // (SnowTrailImport rebuilds the list whenever one is added, changed or removed).
 public class SnowTrail : MonoBehaviour
@@ -81,8 +81,10 @@ public class SnowTrail : MonoBehaviour
         last += dir * (step * count);
     }
 
-    // Whether the ground at `worldPos` takes a trench (later: only snow tiles).
-    protected virtual bool CanStamp(Vector2 worldPos) => true;
+    // Whether the ground at `worldPos` takes a trench: only snow, down to the patch's
+    // pixel (TerrainMap); everywhere when the scene has no TerrainMap.
+    protected virtual bool CanStamp(Vector2 worldPos) =>
+        TerrainMap.Instance == null || TerrainMap.Instance.LeavesTrail(worldPos);
 }
 
 // A trail stamp's pixels, read once from its three layer sprites and shared by
@@ -115,37 +117,10 @@ public class SnowStamp
         return stamp;
     }
 
-    // The sprite's packed pixels. Imported Aseprite textures aren't CPU-readable, so
-    // unless they are, copy through a temporary RenderTexture (exact at 1:1 size).
+    // The sprite's packed pixels (SpritePixels), placed by its pivot.
     static Band Read(Sprite sprite, byte rank)
     {
-        Rect r = sprite.textureRect;
-        int w = Mathf.RoundToInt(r.width), h = Mathf.RoundToInt(r.height);
-        int x = Mathf.RoundToInt(r.x), y = Mathf.RoundToInt(r.y);
-        Texture2D source = sprite.texture;
-
-        Color32[] pixels;
-        if (source.isReadable)
-        {
-            Color[] c = source.GetPixels(x, y, w, h);
-            pixels = new Color32[c.Length];
-            for (int i = 0; i < c.Length; i++) pixels[i] = c[i];
-        }
-        else
-        {
-            RenderTexture rt = RenderTexture.GetTemporary(source.width, source.height, 0,
-                                                          RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
-            Graphics.Blit(source, rt);
-            RenderTexture previous = RenderTexture.active;
-            RenderTexture.active = rt;
-            var copy = new Texture2D(w, h, TextureFormat.RGBA32, false, false);
-            copy.ReadPixels(new Rect(x, y, w, h), 0, 0);
-            copy.Apply(false);
-            RenderTexture.active = previous;
-            RenderTexture.ReleaseTemporary(rt);
-            pixels = copy.GetPixels32();
-            UnityEngine.Object.Destroy(copy);
-        }
+        Color32[] pixels = SpritePixels.Read(sprite, out int w, out int h);
 
         // sprite.pivot is in sprite-rect pixels; textureRectOffset is where the packed
         // (trimmed) pixels start inside that rect

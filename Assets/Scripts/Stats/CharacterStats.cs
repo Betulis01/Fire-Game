@@ -8,6 +8,7 @@ using UnityEngine;
 //   Crit Chance  = base % + AGI x0.05 %
 //   Spell Power  = INT x2                   (no spell uses it yet)
 //   Max Health   = baseHealth + STA x10 + flat bonuses
+//   Armor, Cold Resistance: the flat totals (PlayerTemperature reads the latter)
 // It owns Health.maxHealth. Things without CharacterStats (trees, ore) aren't
 // characters: hits on them skip the stat pipeline (DamageCalculator).
 [RequireComponent(typeof(Health))]
@@ -31,6 +32,7 @@ public class CharacterStats : MonoBehaviour
     public float CritMultiplier => critMultiplier;
     public float SpellPower { get; private set; }
     public float Armor { get; private set; }
+    public float ColdResistance { get; private set; }
     public float MaxHealth { get; private set; }
 
     public event Action Changed;
@@ -67,6 +69,7 @@ public class CharacterStats : MonoBehaviour
         CritChance = baseCritChance + total.agility * StatFormulas.CritPercentPerAgility;
         SpellPower = total.intelligence * StatFormulas.SpellPowerPerIntelligence;
         Armor = Mathf.Max(0f, total.armor);
+        ColdResistance = Mathf.Max(0f, total.coldResistance);
         MaxHealth = Mathf.Max(1f, baseHealth + total.stamina * StatFormulas.HealthPerStamina + total.maxHealth);
 
         ApplyMaxHealth();

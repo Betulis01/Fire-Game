@@ -16,7 +16,8 @@ using UnityEngine;
 // tag with the state's name, each sprite track's key i is rewritten to the tag's
 // frame i (an extra hold key keeps its last frame), taken from the importer's own
 // clip for that tag:
-//   - single-layer files: the clip's root track <- the tag clip's only track
+//   - single-layer files: the clip's only sprite track (the root, or a child such as
+//     the wolf's Body) <- the tag clip's only track
 //   - layered files (the skeleton's Body / Head): each track <- the tag clip's track
 //     on the same layer path
 // The player's clips key the root while its file is layered, so they never match
@@ -67,7 +68,7 @@ class AsepriteTagClipSync : AssetPostprocessor
                 bool clipChanged = false;
                 foreach (EditorCurveBinding track in tracks)
                 {
-                    Sprite[] frames = FramesFor(track.path, tag);
+                    Sprite[] frames = FramesFor(track.path, tag, tracks.Length == 1);
                     if (frames == null || frames.Length == 0) continue;
 
                     ObjectReferenceKeyframe[] kf = AnimationUtility.GetObjectReferenceCurve(clip, track);
@@ -101,11 +102,12 @@ class AsepriteTagClipSync : AssetPostprocessor
     }
 
     // The tag clip's track for a hand-made clip's track path: the only track, for the
-    // root of a single-layer file; otherwise the track on the same layer path.
-    static Sprite[] FramesFor(string path, Dictionary<string, Sprite[]> tag)
+    // only sprite track of a clip from a single-layer file; otherwise the track on the
+    // same layer path.
+    static Sprite[] FramesFor(string path, Dictionary<string, Sprite[]> tag, bool onlyTrack)
     {
         if (tag.TryGetValue(path, out Sprite[] frames)) return frames;
-        if (path == "" && tag.Count == 1) return tag.Values.First();
+        if ((path == "" || onlyTrack) && tag.Count == 1) return tag.Values.First();
         return null;
     }
 

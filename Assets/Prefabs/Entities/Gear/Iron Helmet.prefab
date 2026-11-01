@@ -258,6 +258,7 @@ MonoBehaviour:
     stamina: 1
     armor: 30
     maxHealth: 0
+    coldResistance: 5
 --- !u!114 &3061794294526079226
 MonoBehaviour:
   m_ObjectHideFlags: 0

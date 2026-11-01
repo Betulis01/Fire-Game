@@ -1,7 +1,7 @@
 using UnityEngine;
 
-// The bag at the bottom of the Player tab: one BagSlotUI per slot of the worn bag (the
-// rest hidden). Clicking a slot uses it (Inventory.UseSlot: wield, wear or eat). A
+// The bag at the bottom of the Player and Crafting tabs (one of these on each page): one
+// BagSlotUI per slot of the worn bag (the rest hidden). Clicking a slot uses it (Inventory.UseSlot: wield, wear or eat). A
 // dragged slot shows its icon under the cursor (DragIconUI); dropped on a loadout or
 // armour box it equips there, and released over the world it goes to the aimed
 // point, at most the interactor's drop distance away -- into a fire or station there,

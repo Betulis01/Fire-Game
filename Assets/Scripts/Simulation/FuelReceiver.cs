@@ -3,6 +3,7 @@ using UnityEngine;
 // A fire the player can feed. Accepts held items with a Burnable of an allowed
 // fuel type and turns them into Fuel. Deposits are intentional (routed by
 // PlayerInteractor via ItemReceiver); there is no drop-to-consume physics.
+// A torch has one too, fed by dragging fuel from the bag onto it (Inventory.TryFeed).
 [RequireComponent(typeof(Fuel))]
 public class FuelReceiver : ItemReceiver
 {
@@ -10,11 +11,9 @@ public class FuelReceiver : ItemReceiver
 
     Fuel fuel;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        fuel = GetComponent<Fuel>();
-    }
+    // fetched on first use: a torch crafted straight into the bag was never active,
+    // so its Awake hasn't run
+    Fuel Fuel => fuel != null ? fuel : fuel = GetComponent<Fuel>();
 
     public override bool Accepts(WorldItem item)
     {
@@ -30,7 +29,7 @@ public class FuelReceiver : ItemReceiver
         Burnable burnable = item != null ? item.GetComponent<Burnable>() : null;
         if (!Accepts(item)) return false;
 
-        fuel.Add(burnable.fuelPerItem, burnable.burnRate);
+        Fuel.Add(burnable.fuelPerItem, burnable.burnRate, item.item);
         return true;
     }
 

@@ -210,6 +210,7 @@ static class HudBuilder
         BuildCombatText(root.transform);        // over the plates
         BuildPrompts(root.transform);           // interact prompts, over the numbers
         ItemTooltip tooltip = BuildTooltip(root.transform);
+        BuildStation(root.transform, hud, tooltip);      // the open station's panel, over the prompts
         Image dragIcon = CenteredIcon(root.transform);   // a dragged bag slot's / loadout item's icon
         dragIcon.name = "Drag Icon";
         dragIcon.gameObject.AddComponent<DragIconUI>();
@@ -251,6 +252,60 @@ static class HudBuilder
         Stretch(layer);
         PromptLayer ui = layer.gameObject.AddComponent<PromptLayer>();
         Wire(ui, ("font", font), ("fontMaterial", font.material));
+    }
+
+    // --- station panel (mockup 259,682 .. 438,807): fuel and input boxes with their
+    // bars, the T, and the output box. Placed over the open station at runtime
+    // (StationPanelUI), its pivot at the bottom centre. The mockup's input box and bar
+    // sit 1px lower than the fuel ones; here they share the row. ---
+
+    const int StationWidth = 180;
+    const int StationHeight = 126;
+
+    static void BuildStation(Transform parent, HudRoot hud, ItemTooltip tooltip)
+    {
+        RectTransform layer = Child("Station", parent);
+        Stretch(layer);
+        StationPanelUI ui = layer.gameObject.AddComponent<StationPanelUI>();
+
+        RectTransform panel = Child("Panel", layer);
+        panel.anchorMin = panel.anchorMax = new Vector2(0.5f, 0.5f);
+        panel.pivot = new Vector2(0.5f, 0f);
+        panel.sizeDelta = new Vector2(StationWidth, StationHeight);
+        Image catcher = panel.gameObject.AddComponent<Image>();   // takes bag drops between the boxes
+        catcher.color = Color.clear;
+
+        Img("Connector", panel, S("station_connector"), 72, 19);
+        StationSlotUI fuel = StationSlot("Fuel", panel, StationSlotUI.Kind.Fuel, 0, 0, ui, tooltip);
+        StationSlotUI input = StationSlot("Input", panel, StationSlotUI.Kind.Input, 116, 0, ui, tooltip);
+        StationSlotUI output = StationSlot("Output", panel, StationSlotUI.Kind.Output, 55, 80, ui, tooltip);
+        Image fuelFill = StationBar("Fuel Bar", panel, 9, 50);
+        Image progressFill = StationBar("Progress Bar", panel, 125, 50);
+
+        Wire(ui, ("root", hud), ("panel", panel), ("fuelSlot", fuel), ("inputSlot", input),
+             ("outputSlot", output), ("fuelFill", fuelFill), ("progressFill", progressFill));
+    }
+
+    static StationSlotUI StationSlot(string name, Transform parent, StationSlotUI.Kind kind, int x, int y,
+                                     StationPanelUI panel, ItemTooltip tooltip)
+    {
+        Image box = Img(name, parent, S("slot_64x46"), x, y);
+        box.raycastTarget = true;
+        Wire(box.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
+        Image icon = CenteredIcon(box.transform);
+        TMP_Text count = CountText(box.transform);
+
+        StationSlotUI ui = box.gameObject.AddComponent<StationSlotUI>();
+        Wire(ui, ("kind", kind), ("panel", panel), ("icon", icon), ("countText", count));
+        return ui;
+    }
+
+    // a bar's fill (returned) under its frame, frame at x,y
+    static Image StationBar(string name, Transform parent, int x, int y)
+    {
+        Image fill = Filled(name + " Fill", parent, S("bar_station_fill"), x + 1, y + 1);
+        Img(name + " Frame", parent, S("bar_station_frame"), x, y);
+        return fill;
     }
 
     // --- top-left stats (mockup 87,21 .. 389,47) ---
@@ -316,13 +371,14 @@ static class HudBuilder
         RectTransform craftPage = Page("Crafting Page", panel);
         RectTransform skillsPage = Page("Skills Page", panel);
         BuildPlayerPage(playerPage, hud, tooltip);
-        BuildCraftingPage(craftPage, hud);
+        CraftingTabUI crafting = BuildCraftingPage(craftPage, hud, tooltip);
         BuildSkillsPage(skillsPage, hud);
 
         HudMenu ui = menu.gameObject.AddComponent<HudMenu>();
         Wire(ui, ("panel", panel.gameObject),
              ("tabs", new Object[] { playerTab, craftTab, skillsTab }),
-             ("pages", new Object[] { playerPage.gameObject, craftPage.gameObject, skillsPage.gameObject }));
+             ("pages", new Object[] { playerPage.gameObject, craftPage.gameObject, skillsPage.gameObject }),
+             ("crafting", crafting));
     }
 
     static RectTransform Page(string name, Transform parent) => Box(name, parent, 87, 84 + WarmthShift, 0, 0);
@@ -354,9 +410,10 @@ static class HudBuilder
         Wire(box.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
         Image icon = CenteredIcon(box.transform);
         TMP_Text count = CountText(box.transform);
+        ItemMeterUI meter = ItemMeter(box);
 
         BagSlotUI ui = box.gameObject.AddComponent<BagSlotUI>();
-        Wire(ui, ("icon", icon), ("countText", count));
+        Wire(ui, ("icon", icon), ("countText", count), ("meter", meter));
         return ui;
     }
 
@@ -413,10 +470,11 @@ static class HudBuilder
         Image ph = Img("Placeholder", box.transform, hintSprite, (64 - (int)size.x) / 2, (64 - (int)size.y) / 2);
         ph.color = new Color(1f, 1f, 1f, 0.25f);
         Image icon = CenteredIcon(box.transform);
+        ItemMeterUI meter = ItemMeter(box);
 
         Wire(box.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
         LoadoutSlotUI ui = box.gameObject.AddComponent<LoadoutSlotUI>();
-        Wire(ui, ("set", set), ("side", side), ("placeholder", ph), ("icon", icon));
+        Wire(ui, ("set", set), ("side", side), ("placeholder", ph), ("icon", icon), ("meter", meter));
         return ui;
     }
 
@@ -458,15 +516,16 @@ static class HudBuilder
         Image ph = Img("Placeholder", box.transform, placeholder, phX, phY);
         ph.rectTransform.sizeDelta *= phScale;
         Image icon = CenteredIcon(box.transform);
+        ItemMeterUI meter = ItemMeter(box);
 
         Wire(box.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
         EquipSlotUI ui = box.gameObject.AddComponent<EquipSlotUI>();
-        Wire(ui, ("slot", slot), ("placeholder", ph), ("icon", icon));
+        Wire(ui, ("slot", slot), ("placeholder", ph), ("icon", icon), ("meter", meter));
         return ui;
     }
 
     // mockup Crafting page at 588,85 (shifted onto the Player page's origin)
-    static void BuildCraftingPage(RectTransform page, HudRoot hud)
+    static CraftingTabUI BuildCraftingPage(RectTransform page, HudRoot hud, ItemTooltip tooltip)
     {
         TabButtonUI hands = TextTab("Hands Tab", page, 0, 0, "Hands", out int handsWidth);
         TabButtonUI bench = TextTab("Workbench Tab", page, handsWidth + 3, 0, "Workbench", out _);
@@ -505,6 +564,10 @@ static class HudBuilder
         Wire(ui, ("root", hud), ("handsTab", hands), ("workbenchTab", bench), ("grid", grid),
              ("cellTemplate", cell), ("details", details.gameObject), ("nameText", name),
              ("ingredientList", list), ("rowTemplate", rowUi), ("rowHeight", (float)rowHeight));
+
+        // the bag under the grid, where the Player tab has it, to see the ingredients
+        BuildBag(page, hud, tooltip);
+        return ui;
     }
 
     // mockup Skills page at 1194,84 (shifted onto the Player page's origin)
@@ -676,6 +739,7 @@ static class HudBuilder
 
         ActionSlotUI ui = frame.gameObject.AddComponent<ActionSlotUI>();
         Wire(ui, ("icon", icon), ("cooldown", cooldown));
+        if (tooltip != null) Wire(ui, ("meter", ItemMeter(frame)));   // a hand slot's item bar, over the cooldown
         return ui;
     }
 
@@ -780,6 +844,24 @@ static class HudBuilder
         rt.pivot = Vector2.zero;
         rt.anchoredPosition = new Vector2(x - ActionBarCentre, 1080 - bottom);
         return img;
+    }
+
+    // An item box's meter bar (a torch's fuel; durability later): bottom-centred, 4px
+    // above the box's 2px bottom border, hidden until the item has a meter (ItemMeterUI).
+    static ItemMeterUI ItemMeter(Image box)
+    {
+        Vector2 size = box.sprite.rect.size;
+        Sprite frameSprite = S("bar_item_frame");
+        int w = (int)frameSprite.rect.width, h = (int)frameSprite.rect.height;
+        int x = ((int)size.x - w) / 2, y = (int)size.y - 2 - 4 - h;
+
+        Image fill = Filled("Meter Fill", box.transform, S("bar_item_fill"), x + 1, y + 1);
+        Image frame = Img("Meter Frame", box.transform, frameSprite, x, y);
+        fill.enabled = frame.enabled = false;
+
+        ItemMeterUI ui = fill.gameObject.AddComponent<ItemMeterUI>();
+        Wire(ui, ("fill", fill), ("frame", frame));
+        return ui;
     }
 
     static Image CenteredIcon(Transform parent)

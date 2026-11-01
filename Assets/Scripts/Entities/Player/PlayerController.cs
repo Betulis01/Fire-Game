@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     WeaponUse weaponUse;
     PlayerBuffs buffs;
     Hands hands;
+    GroundSensor ground;
 
     public float speed = 4f;
 
@@ -50,6 +51,7 @@ public class PlayerController : MonoBehaviour
         weaponUse = GetComponent<WeaponUse>();
         buffs = GetComponent<PlayerBuffs>();
         hands = GetComponent<Hands>();
+        ground = GroundSensor.On(gameObject);
     }
 
     void Update()
@@ -68,18 +70,27 @@ public class PlayerController : MonoBehaviour
         Vector2 input = inputLocked ? Vector2.zero : UserInput.Instance.Move;   // WASD/arrows or gamepad stick
         float buffMultiplier = buffs != null ? buffs.SpeedMultiplier : 1f;
         float carryMultiplier = hands != null && hands.IsCarrying ? carrySpeedMultiplier : 1f;
-        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier * buffMultiplier * carryMultiplier;
+        // the ground: snow slows, grass and stone don't (GroundSensor)
+        float groundMultiplier = ground.SpeedMultiplier;
+        Vector2 targetMoveVelocity = input.normalized * speed * speedMultiplier * buffMultiplier * carryMultiplier * groundMultiplier;
 
+        // ice: the velocity eases toward the input over its slip time instead of snapping
+        float slip = ground.SlipTime;
         if (input.sqrMagnitude > 0.0001f)
         {
-            // actively steering: instant response, no lag while held
-            moveVelocity = targetMoveVelocity;
-            moveSmoothVel = Vector3.zero;
+            if (slip > 0f)
+                moveVelocity = Vector3.SmoothDamp(moveVelocity, targetMoveVelocity, ref moveSmoothVel, slip);
+            else
+            {
+                // actively steering: instant response, no lag while held
+                moveVelocity = targetMoveVelocity;
+                moveSmoothVel = Vector3.zero;
+            }
         }
         else
         {
             // released: ease the last velocity down to zero instead of cutting dead
-            moveVelocity = Vector3.SmoothDamp(moveVelocity, Vector3.zero, ref moveSmoothVel, stopSmoothTime);
+            moveVelocity = Vector3.SmoothDamp(moveVelocity, Vector3.zero, ref moveSmoothVel, Mathf.Max(stopSmoothTime, slip));
         }
         Vector2 velocity = moveVelocity;
 

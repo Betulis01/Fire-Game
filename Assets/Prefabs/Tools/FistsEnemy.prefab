@@ -46,10 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 16
+  twoHanded: 0
   minDamage: 4
   maxDamage: 6
-  range: 0.4
+  range: 0.6
   arcAngle: 90
+  lungeBuffer: 0.4
   maxTargets: 2
   secondaryDamageMultiplier: 0.5
   secondaryCritFactor: 0.5
@@ -57,6 +59,7 @@ MonoBehaviour:
   selfKnockback: 0.25
   swingEffectPrefab: {fileID: 0}
   swingEffectAngleOffset: 0
+  impactHold: 0
   lungeSpeed: 0
   lungeDuration: 0.15
   lungeCurve:
@@ -88,6 +91,8 @@ MonoBehaviour:
     flatBonus: 0
     targetKnockback: 0
     selfKnockback: 0
+    arcAngle: 0
+    maxTargets: 0
     swingEffectPrefab: {fileID: 0}
     swingEffectAngleOffset: 0
     lungeSpeed: 0

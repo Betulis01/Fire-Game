@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bf6ebbe6714506b93f5ddd919ee3dc, type: 3}
+  m_Name: snow patch
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainTile
+  m_Sprite: {fileID: -317825125816557920, guid: a834eb424559fef4dab54de7d72a034d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: -2.09375
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_InstancedGameObject: {fileID: 0}
+  m_Flags: 3
+  m_ColliderType: 0
+  ground: 0
+  maskOrigin: {x: -44, y: 48}
+  maskSize: {x: 76, y: 39}
+  maskBits: 0000000000000000000000000000000000000000000000c00500000000000000007e0000000000000000fc2f00000000000000c0ff171800000000f051feffe11f0000000efeffffbfff070000c0f1ffffffffff2d0000fcffffffffffff0300c3ffffffffffff1f00fcfeffffffdfffff03e0ffffffffffe8ff3f00ffffffffff5ffcff03fcffffffffffe8ef7fc0ffffffffffdf7ffc07fcffffffffffffefff80feffffffffffffff2fc0ffffffffffffff7f04f8ffffffffffffff2f80ffffffffffffff7f02e1ffffffffffffff0300fcffffffffffff7f00c0ffffffffffffff070026fbffffffffff7f000000f4ffffffffff03000000feffefffff2f000000f0ff7ffcff7f00000090ffffefffff07000000fcffffffff2700000080ffffffff1f0000000060ffffffff0000000000c0ffffff070000000000f0ffff3f000000000000fe9fdf01000000000080ff0000000000000000f01f0000000000000000440000000000000000000000000000
+  pixelsPerUnit: 32

@@ -6,14 +6,14 @@ using UnityEngine;
 // worn or removed, a passive bought, a buff starting or ending.
 public class CharacterStatsUI : MonoBehaviour
 {
-    public enum Row { Strength, Agility, Intelligence, Stamina, AttackPower, CritChance, CritDamage, SpellPower, Armor, MaxHealth }
+    public enum Row { Strength, Agility, Intelligence, Stamina, AttackPower, CritChance, CritDamage, SpellPower, Armor, ColdResistance, MaxHealth }
 
     // Row labels, indexed by Row; HudBuilder lays the rows out from these, with a
     // gap before AttackPower (attributes above, what they turn into below).
     public static readonly string[] Labels =
     {
         "Strength", "Agility", "Intelligence", "Stamina",
-        "Attack Power", "Crit Chance", "Crit Damage", "Spell Power", "Armor", "Max Health",
+        "Attack Power", "Crit Chance", "Crit Damage", "Spell Power", "Armor", "Cold Resistance", "Max Health",
     };
 
     [SerializeField] HudRoot root;
@@ -48,6 +48,8 @@ public class CharacterStatsUI : MonoBehaviour
         Set(Row.CritDamage, (stats.CritMultiplier * 100f).ToString("0") + "%");
         Set(Row.SpellPower, stats.SpellPower.ToString("0"));
         Set(Row.Armor, $"{stats.Armor:0} ({StatFormulas.DamageReduction(stats.Armor) * 100f:0}%)");
+        Set(Row.ColdResistance,
+            $"{stats.ColdResistance:0} ({StatFormulas.ColdDrainReduction(stats.ColdResistance) * 100f:0}%)");
         Set(Row.MaxHealth, stats.MaxHealth.ToString("0"));
     }
 

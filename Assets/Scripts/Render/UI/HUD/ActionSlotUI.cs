@@ -11,12 +11,14 @@ using UnityEngine.UI;
 // attack recovery). Hovering a hand slot's item shows its tooltip (ItemHoverTooltip
 // on the same object, when there is one). A hand slot's item drags like a loadout box
 // on the Player tab (onto the other hand, a loadout box, a bag slot or the world), and
-// takes a bag slot or loadout item dropped on it into the active set's hand.
+// takes a bag slot or loadout item dropped on it into the active set's hand -- or, fuel
+// onto a held torch, feeds it (Inventory.TryFeed).
 public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] Image icon;
     [SerializeField] Image cooldown;   // Filled, vertical, from the top
     [SerializeField] Vector2 iconBox = new(56f, 56f);
+    [SerializeField] ItemMeterUI meter;   // the item's bar (a torch's fuel)
 
     [Tooltip("A loadout hand slot (Main / Off Hand) rather than a skill slot.")]
     [SerializeField] bool handSlot;
@@ -56,6 +58,7 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
     public void SetItem(GameObject item, float alpha = 1f)
     {
         if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(item);
+        if (meter != null) meter.Show(item);
         UiPixel.FitIntegerScale(icon, UiPixel.IconOf(item), iconBox);
         icon.color = new Color(1f, 1f, 1f, alpha);
         hasItem = item != null;
@@ -70,7 +73,10 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
             return;
         }
         if (loadout == null) return;
-        if (BagDrag.Claim(out Inventory inv, out int from)) inv.EquipToLoadout(from, loadout.ActiveSet, side);
+        if (BagDrag.Claim(out Inventory inv, out int from))
+        {
+            if (!inv.TryFeed(from, loadout.Drawn(side))) inv.EquipToLoadout(from, loadout.ActiveSet, side);
+        }
         else if (BagDrag.ClaimLoadout(out Loadout owner, out int fromSet, out HandSide fromSide))
             owner.TryMove(fromSet, fromSide, loadout.ActiveSet, side);
     }

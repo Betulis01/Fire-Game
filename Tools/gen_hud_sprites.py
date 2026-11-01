@@ -36,7 +36,7 @@ CLEAR = (0, 0, 0, 0)
 
 
 # frames whose mockup interior shows runtime content (bar fill, label text)
-FILLED_AT_RUNTIME = {"bar_xp_frame", "bar_health_frame", "subtab_selected"}
+FILLED_AT_RUNTIME = {"bar_xp_frame", "bar_health_frame", "subtab_selected", "bar_station_frame"}
 
 
 def read_aseprite(path):
@@ -147,6 +147,10 @@ def main():
     add("slot_64x46", frame(64, 46, BORDER, FILL))
     add("node_small", frame(64, 32, BORDER, FILL))
     add("tooltip_frame", frame(126, 77, BORDER, FILL), (162, 444))   # 9-sliced: sized to its text
+    add("bar_station_frame", frame(48, 8, BORDER, CLEAR, bw=1), (268, 732))   # station fuel / progress
+    add("bar_station_fill", solid(46, 6, FILL))
+    add("bar_item_frame", frame(44, 6, BORDER, CLEAR, bw=1))   # item meter (a torch's fuel) along an icon box's bottom
+    add("bar_item_fill", solid(42, 4, WHITE))                   # white: the meter tints it
     add("ui_pixel", solid(4, 4, WHITE))
     add("icon_spell_whirlwind", whirlwind_icon())
 
@@ -154,6 +158,7 @@ def main():
     add("hand_frame_selected", cut(mock, 736, 968, 96, 84), (736, 968))
     add("hand_frame", cut(mock, 1040, 988, 96, 64), (1040, 988))
     add("action_slot", cut(mock, 848, 988, 80, 64), (848, 988))
+    add("station_connector", cut(mock, 331, 701, 34, 53), (331, 701))   # station panel's T
 
     # tab icons: the fill-coloured glyph inside an unselected (solid) tab
     for name, (x, y) in {"icon_tab_player": (588, 50),

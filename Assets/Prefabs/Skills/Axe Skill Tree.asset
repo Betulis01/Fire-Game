@@ -32,6 +32,7 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+      coldResistance: 0
     skill: {fileID: 0}
   - id: axe_b
     displayName: Axe Skill B
@@ -49,6 +50,7 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+      coldResistance: 0
     skill: {fileID: 0}
   - id: axe_whirlwind
     displayName: Whirlwind
@@ -69,6 +71,7 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+      coldResistance: 0
     skill: {fileID: 7300000000000000003, guid: 81029ea45da3411fb7ec8a199e35b799, type: 3}
   - id: axe_throw
     displayName: Axe Throw
@@ -87,4 +90,5 @@ MonoBehaviour:
       stamina: 0
       armor: 0
       maxHealth: 0
+      coldResistance: 0
     skill: {fileID: 7200000000000000003, guid: f2a169556fe04d1da1b272bde24d2752, type: 3}

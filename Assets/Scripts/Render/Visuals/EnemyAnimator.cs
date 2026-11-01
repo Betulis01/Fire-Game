@@ -8,9 +8,12 @@ using UnityEngine;
 // The spawn pair plays once on Start, facing a random diagonal: the enemy rises out of
 // the ground unhittable (its hurt collider is off) while EnemyBrain and EnemyAttacker
 // hold still on IsSpawning; an enemy without spawn art starts right away.
-// The hit pair plays from OnHit (a landed hit) and never interrupts a swing. The die
+// The hit pair plays from OnHit (a landed hit) and never interrupts a swing; an enemy
+// without hit art (no such state, e.g. the wolf) just keeps moving and flashes. The die
 // pair plays once on Health.Died and then holds its last frame for good (an enemy
 // without die art -- no such state -- just keeps its current pose).
+// The attack and die states take their names from attackName / dieName, so an enemy's
+// states can keep its Aseprite tag names (the wolf's se_bite / se_death).
 // Attacks route through PlayAttack(duration, aimDir), the same latch-until-clip-done
 // scheme as PlayerAnimator.PlayAttack, just without a HandSide (the enemy swings one
 // weapon, not two hands) — see EnemyAttacker.
@@ -25,6 +28,12 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
 
     [Tooltip("How long the hit clip holds before locomotion resumes.")]
     [SerializeField] float hitDuration = 0.2f;
+
+    [Tooltip("Attack state name after the direction: se_<this> / ne_<this>.")]
+    [SerializeField] string attackName = "attack";
+
+    [Tooltip("Death state name after the direction: se_<this> / ne_<this>.")]
+    [SerializeField] string dieName = "die";
 
     // The skeleton's art is layered (Body, Head, Ground Shadow, Highlight) per
     // Skeleton.aseprite's Individual Layers import -- unlike the player's single
@@ -124,7 +133,9 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
             attacking = false;
         }
 
-        Play(Time.time < hitUntil ? $"{dir}_hit" : $"{dir}_{(moving ? "run" : "idle")}");
+        string hit = $"{dir}_hit";
+        bool hitPose = Time.time < hitUntil && animator.HasState(0, Animator.StringToHash(hit));
+        Play(hitPose ? hit : $"{dir}_{(moving ? "run" : "idle")}");
     }
 
     // Play the die clip for the current facing (west mirrors via the flipX already
@@ -132,7 +143,7 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
     void PlayDeath()
     {
         (string dir, _) = CardinalDir.Resolve(facing);
-        string state = $"{dir}_die";
+        string state = $"{dir}_{dieName}";
         if (!animator.HasState(0, Animator.StringToHash(state))) return;
 
         dead = true;
@@ -170,7 +181,7 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
     {
         facing = aimDir;
         (string dir, _) = CardinalDir.Resolve(facing);
-        string state = $"{dir}_attack";
+        string state = $"{dir}_{attackName}";
 
         // No clip for this direction yet (art pending) -- same guard as
         // PlayerAnimator.PlayAttack, and more important here: EnemyAttacker retries

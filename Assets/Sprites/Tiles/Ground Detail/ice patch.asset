@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bf6ebbe6714506b93f5ddd919ee3dc, type: 3}
+  m_Name: ice patch
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainTile
+  m_Sprite: {fileID: -317825125816557920, guid: 84c05300ea7fb664695fb8388d8e52f1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Transform:
+    e00: 1
+    e01: 0
+    e02: 0
+    e03: 0
+    e10: 0
+    e11: 1
+    e12: 0
+    e13: -2.09375
+    e20: 0
+    e21: 0
+    e22: 1
+    e23: 0
+    e30: 0
+    e31: 0
+    e32: 0
+    e33: 1
+  m_InstancedGameObject: {fileID: 0}
+  m_Flags: 3
+  m_ColliderType: 0
+  ground: 2
+  maskOrigin: {x: -44, y: 49}
+  maskSize: {x: 76, y: 38}
+  maskBits: 0000000000000000000000000000400000000000000000e00700000000000000c0ff0200000000000000fc7f0000000000001fe5ff0f4e00000000e0fffffff34f0000001cffffffffffdf0000c0ffffffffffff3f0000fcffffffffffff0100effffffffff9ff3f00fcffffffff0ffeff03e0ffffffffffc1ff3f00ffffffffff8ffefc03fcfffffffffffd077ec00fffffffffffffc00f28e0ffffffffff7ffe0200ffffffffffffff4700fcffffffffffffff00f8ffffffffffffff0700feffffffffffff3f00c0ffffffffffffff0700fcffffffffffff7f0000b2ffffffffffff07000040ffffffffff3f000000e0fffffeffff02000000ffffc7ffff07000000f0fffffeff7f00000000ffffffff7f02000000e0ffffffff0100000000f0ffffff0f0000000000fcffff7f000000000000ffffff010000000000e0fff901000000000000f80f0000000000000000ff0100000000000000400400000000000000000000000000
+  pixelsPerUnit: 32

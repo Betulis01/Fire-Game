@@ -220,7 +220,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 61
+      y: 80
       width: 18
       height: 8
     spriteID: 50d327b663db138488941ed52317f338
@@ -231,7 +231,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 61}
+    uvTransform: {x: 4, y: 80}
   - name: Berries_Frame_1
     originalName: 
     pivot: {x: 0.3888889, y: -0.42857146}
@@ -240,8 +240,8 @@ ScriptedImporter:
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
-      y: 109
+      x: 30
+      y: 39
       width: 18
       height: 7
     spriteID: e720d8f4f6c7a5d469741ad2faecfce4
@@ -252,7 +252,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 109}
+    uvTransform: {x: 30, y: 39}
   - name: Berries_Frame_2
     originalName: 
     pivot: {x: 0.3888889, y: -0.25}
@@ -262,7 +262,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 77
+      y: 96
       width: 18
       height: 8
     spriteID: 14caac0645cf51643a292b9d02c9bc0b
@@ -273,7 +273,7 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 77}
+    uvTransform: {x: 4, y: 96}
   - name: Berries_Frame_3
     originalName: 
     pivot: {x: 0.3888889, y: -0.25}
@@ -283,7 +283,7 @@ ScriptedImporter:
     rect:
       serializedVersion: 2
       x: 4
-      y: 93
+      y: 112
       width: 18
       height: 8
     spriteID: e2f802e0fa327dc46b01a381a06649b7
@@ -294,7 +294,91 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 93}
+    uvTransform: {x: 4, y: 112}
+  - name: Highlight_Frame_0
+    originalName: 
+    pivot: {x: 0.6428572, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 61
+      width: 14
+      height: 11
+    spriteID: 982ec4869b2c9d64baa83d383e44350b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 61}
+  - name: Highlight_Frame_1
+    originalName: 
+    pivot: {x: 0.6666667, y: -0.125}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 30
+      y: 71
+      width: 12
+      height: 8
+    spriteID: cb271e8017bc8e946b658dec5824d8e4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 30, y: 71}
+  - name: Highlight_Frame_2
+    originalName: 
+    pivot: {x: 0.6923077, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 30
+      y: 54
+      width: 13
+      height: 9
+    spriteID: 97bd2d6c8e906a541a46aeb8912b40d9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 30, y: 54}
+  - name: Highlight_Frame_3
+    originalName: 
+    pivot: {x: 0.6428572, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    customData: 
+    rect:
+      serializedVersion: 2
+      x: 30
+      y: 22
+      width: 14
+      height: 9
+    spriteID: de78c96c86605f04a9f28b7241b9ef0d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 30, y: 22}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
@@ -309,7 +393,43 @@ ScriptedImporter:
     layerFlags: 2
     layerType: 0
     blendMode: 0
-    cells: []
+    cells:
+    - name: Highlight_Frame_0
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 23
+        y: 0
+        width: 14
+        height: 11
+      spriteId: 982ec4869b2c9d64baa83d383e44350b
+    - name: Highlight_Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 24
+        y: 1
+        width: 12
+        height: 8
+      spriteId: cb271e8017bc8e946b658dec5824d8e4
+    - name: Highlight_Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 23
+        y: 0
+        width: 13
+        height: 9
+      spriteId: 97bd2d6c8e906a541a46aeb8912b40d9
+    - name: Highlight_Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 23
+        y: 0
+        width: 14
+        height: 9
+      spriteId: de78c96c86605f04a9f28b7241b9ef0d
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

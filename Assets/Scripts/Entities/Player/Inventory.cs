@@ -21,7 +21,7 @@ using UnityEngine;
 // Crafting draws ingredients from the bag as well as the hands (CraftingController).
 // The bag reaches the world through the HUD's Player tab: click a slot to use it
 // (wield, wear, eat), or drag it onto a loadout or armour box, another slot, an open
-// station menu or a spot in the world (BagSlotUI).
+// station panel or a spot in the world (BagSlotUI).
 [RequireComponent(typeof(Hands), typeof(Equipment), typeof(Loadout))]
 public class Inventory : MonoBehaviour
 {
@@ -335,7 +335,19 @@ public class Inventory : MonoBehaviour
         return fed;
     }
 
-    // Drop onto a station's menu: every receiver on it gets a go (fuel, then input).
+    // A bag stack dropped onto an item that burns it (sticks onto a torch, in the bag or
+    // a hand): true when `target` takes this kind of item -- the drop is handled, even if
+    // it's already full and nothing went in -- false to leave the drop to the caller.
+    public bool TryFeed(int slot, GameObject target)
+    {
+        if (!InRange(slot) || slots[slot].item == null || target == null || target == slots[slot].item) return false;
+        if (!target.TryGetComponent(out FuelReceiver receiver)) return false;
+        if (!receiver.Accepts(slots[slot].item.GetComponent<WorldItem>())) return false;
+        Deposit(slot, receiver);
+        return true;
+    }
+
+    // Drop onto a station's panel: every receiver on it gets a go (fuel, then input).
     public int DepositInto(int slot, GameObject station)
     {
         int fed = 0;

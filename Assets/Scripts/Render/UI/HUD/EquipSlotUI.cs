@@ -15,6 +15,7 @@ public class EquipSlotUI : MonoBehaviour, IDropHandler, IPointerClickHandler
     [SerializeField] Image placeholder;
     [SerializeField] Image icon;
     [SerializeField] Vector2 iconBox = new(56f, 56f);
+    [SerializeField] ItemMeterUI meter;   // the item's bar (durability later)
 
     public EquipSlot Slot => slot;
     public event Action<EquipSlot> Clicked;
@@ -25,6 +26,7 @@ public class EquipSlotUI : MonoBehaviour, IDropHandler, IPointerClickHandler
     public void Set(GameObject worn)
     {
         if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(worn);
+        if (meter != null) meter.Show(worn);
         Sprite sprite = UiPixel.IconOf(worn);
         UiPixel.FitIntegerScale(icon, sprite, iconBox);
         placeholder.enabled = sprite == null;

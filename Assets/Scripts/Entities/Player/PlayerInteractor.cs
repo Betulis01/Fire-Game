@@ -14,7 +14,9 @@ using UnityEngine;
 //
 // E: on gear, E acts on release -- a tap takes it (Inventory routing: into the bag),
 // holding it for holdTime equips it there and then (Inventory.TryEquipFromWorld),
-// with the prompt's bar filling meanwhile. Anything else acts on the press.
+// with the prompt's bar filling meanwhile. Anything else acts on the press. An item
+// taken with no room for it (a full bag, both hands full) is fumbled: it drops from the
+// player's middle to the ground beside them (Fumble).
 //
 // Q, on the item in the hand filled last (Hands.TryGetLastFilled): a tap deposits it
 // into a receiver zone the player stands in (a fire, a build site), else drops it at
@@ -57,10 +59,19 @@ public class PlayerInteractor : MonoBehaviour
     [Tooltip("Max distance from the player a bag item dragged into the world lands.")]
     public float maxDropDistance = 1.5f;
 
+    [Header("Full")]
+    [Tooltip("How far from the player a fumbled item (taken with no room for it) lands.")]
+    [SerializeField] float fumbleDistance = 0.4f;
+    [Tooltip("Seconds a fumbled item takes to fall from the player's middle to the ground.")]
+    [SerializeField] float fumbleDuration = 0.3f;
+    [Tooltip("Extra hop on top of the fall, in world units.")]
+    [SerializeField] float fumbleHop = 0.08f;
+
     readonly HashSet<Interactable> inRange = new HashSet<Interactable>();
     PlayerController player;
     Hands hands;
     Inventory inventory;
+    SpriteRenderer body;
     InteractPrompt prompt;
     DropGhost dropGhost;
     ItemReceiver currentReceiver;   // receiver whose deposit prompt is currently shown
@@ -82,6 +93,7 @@ public class PlayerInteractor : MonoBehaviour
         player = GetComponent<PlayerController>();
         hands = GetComponent<Hands>();
         inventory = GetComponent<Inventory>();
+        body = GetComponent<SpriteRenderer>();
         interactableLayer = LayerMask.NameToLayer("Interactable");
         if (promptPrefab != null)
             prompt = Instantiate(promptPrefab);
@@ -92,12 +104,12 @@ public class PlayerInteractor : MonoBehaviour
     {
         current = FindAimed();
 
-        // Close a station menu if the player moved focus away from it.
+        // Close a station's panel if the player moved focus away from it.
         if (current != prevCurrent && prevCurrent is StationInteractable prev)
             prev.Close();
         prevCurrent = current;
 
-        // Pause also closes any open station menu.
+        // Pause also closes any open station panel.
         if (UserInput.Instance.Pause && current is StationInteractable focused && focused.IsOpen)
             focused.Close();
 
@@ -114,8 +126,8 @@ public class PlayerInteractor : MonoBehaviour
 
         // A deposit target the player is standing in while holding an accepted item
         // (fire to feed, build site to supply). Drives the Q tap's deposit. Works
-        // regardless of any open station menu, so the player can feed a station while
-        // watching its gauges.
+        // regardless of any open station panel, so the player can feed a station while
+        // watching its bars.
         bool carrying = hands.TryGetLastFilled(out HandSide side);
         WorldItem held = carrying ? hands.Held(side).GetComponent<WorldItem>() : null;
         ItemReceiver inZone = ItemReceiver.FindInZone(transform.position, held);
@@ -217,6 +229,25 @@ public class PlayerInteractor : MonoBehaviour
         CancelQ();
     }
 
+    // An item taken with no room for it: it falls from the middle of the player sprite
+    // to the ground a step away, in a random direction, and lies there marked Dropped
+    // (so the bag leaves it alone until the player has stepped off it). Unparented
+    // first, so a bush's berries count as gone. False if it's already held.
+    public bool Fumble(WorldItem wi)
+    {
+        if (wi == null || wi.IsHeld) return false;
+        GameObject item = wi.gameObject;
+        item.transform.SetParent(null);
+        item.SetActive(true);
+        wi.SetHeld(true);   // pickup collider off in the air; landing puts it back in the world
+
+        Vector3 feet = transform.position;
+        float middle = body != null ? body.bounds.center.y - feet.y : 0f;
+        Vector3 land = feet + (Vector3)(Random.insideUnitCircle.normalized * fumbleDistance);
+        ThrownItem.Launch(item, feet, land, fumbleDuration, fumbleHop, middle, deposit: false);
+        return true;
+    }
+
     void Throw(HandSide side, Vector3 target)
     {
         GameObject item = hands.Release(side);
@@ -248,7 +279,8 @@ public class PlayerInteractor : MonoBehaviour
     // the Highlight layer of its own sprite instead, green (TargetHighlight).
     void UpdateHighlights(Interactable interactable, ItemReceiver receiver)
     {
-        TargetHighlight pickup = interactable is Pickupable ? TargetHighlight.Attach(interactable.gameObject) : null;
+        TargetHighlight pickup = interactable is Pickupable or Harvestable
+            ? TargetHighlight.Attach(interactable.gameObject) : null;
         if (pickup != litPickup)
         {
             if (litPickup != null) litPickup.SetInteract(false);   // null too once destroyed

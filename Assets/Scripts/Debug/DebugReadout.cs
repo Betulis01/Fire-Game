@@ -41,6 +41,8 @@ public class DebugReadout : MonoBehaviour
         if (body != null)
         {
             sb.AppendLine($"Body temp: {body.Temp:0.0}   Warmth: {body.Warmth:0.0}");
+            if (body.TryGetComponent(out GroundSensor ground))
+                sb.AppendLine($"Ground: {ground.Ground}  speed x{ground.SpeedMultiplier:0.00}  slip {ground.SlipTime:0.00}");
             if (body.TryGetComponent(out CombatState combat))
                 sb.AppendLine($"In combat: {combat.InCombat}");   // gates the aim indicator
             if (body.TryGetComponent(out CharacterStats stats))
@@ -49,6 +51,7 @@ public class DebugReadout : MonoBehaviour
                 sb.AppendLine($"STR {a.strength:0}  AGI {a.agility:0}  INT {a.intelligence:0}  STA {a.stamina:0}");
                 sb.AppendLine($"AP {stats.AttackPower:0}  Crit {stats.CritChance:0.##}% x{stats.CritMultiplier:0.##}  " +
                               $"SP {stats.SpellPower:0}  Armor {stats.Armor:0} ({StatFormulas.DamageReduction(stats.Armor) * 100f:0.#}%)  " +
+                              $"Cold {stats.ColdResistance:0} ({StatFormulas.ColdDrainReduction(stats.ColdResistance) * 100f:0.#}%)  " +
                               $"Max HP {stats.MaxHealth:0}");
             }
         }

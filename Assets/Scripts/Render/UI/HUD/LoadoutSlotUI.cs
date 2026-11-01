@@ -8,7 +8,8 @@ using UnityEngine.UI;
 // are dimmed. Hovering shows the item's tooltip (ItemHoverTooltip on the same
 // object). Drag the item onto another loadout box (either set) to swap the two, onto
 // a bag slot to put it away, or into the world to drop it there (like a bag slot); a
-// bag slot dragged onto this box equips that item here. A left or right click raises
+// bag slot dragged onto this box equips that item here -- or, fuel onto a torch, feeds
+// it (Inventory.TryFeed). A left or right click raises
 // Clicked (EquipmentTabUI puts the item back into the bag).
 [RequireComponent(typeof(Button))]
 public class LoadoutSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler,
@@ -19,6 +20,7 @@ public class LoadoutSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDr
     [SerializeField] Image placeholder;
     [SerializeField] Image icon;
     [SerializeField] Vector2 iconBox = new(56f, 56f);
+    [SerializeField] ItemMeterUI meter;   // the item's bar (a torch's fuel)
     [Tooltip("Alpha of the whole box while its set isn't the active one.")]
     [SerializeField, Range(0f, 1f)] float inactiveAlpha = 0.5f;
 
@@ -38,6 +40,7 @@ public class LoadoutSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDr
     public void Show(GameObject item, bool activeSet)
     {
         if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(item);
+        if (meter != null) meter.Show(item);
         Sprite sprite = UiPixel.IconOf(item);
         UiPixel.FitIntegerScale(icon, sprite, iconBox);
         placeholder.enabled = sprite == null;
@@ -56,7 +59,10 @@ public class LoadoutSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDr
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (BagDrag.Claim(out Inventory inv, out int from)) inv.EquipToLoadout(from, set, side);
+        if (BagDrag.Claim(out Inventory inv, out int from))
+        {
+            if (loadout == null || !inv.TryFeed(from, loadout.Item(set, side))) inv.EquipToLoadout(from, set, side);
+        }
         else if (BagDrag.ClaimLoadout(out Loadout owner, out int fromSet, out HandSide fromSide))
             owner.TryMove(fromSet, fromSide, set, side);
     }

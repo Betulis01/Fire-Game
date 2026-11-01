@@ -51,7 +51,7 @@ public class CraftingTabUI : MonoBehaviour
         RefreshAvailability();
     }
 
-    void SelectLocation(bool atWorkbench)
+    public void SelectLocation(bool atWorkbench)
     {
         workbench = atWorkbench;
         handsTab.SetSelected(!workbench);

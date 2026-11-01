@@ -134,6 +134,7 @@ MonoBehaviour:
   stageCount: 3
   outSprite: {fileID: 0}
   spriteRenderer: {fileID: 0}
+  hideWhenOut: 1
 --- !u!114 &9300000006
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -605,7 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a0851430a9a8743bf035cebe910997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMover
-  speed: 0.25
+  speed: 0.357
 --- !u!114 &23679449641487097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +621,8 @@ MonoBehaviour:
   animator: {fileID: 8983443673185354932}
   moveDeadzone: 0.05
   hitDuration: 0.2
+  attackName: attack
+  dieName: die
 --- !u!114 &4337393658908769224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,7 +672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttacker
   animator: {fileID: 23679449641487097}
   weapon: {fileID: 7700000000000000100, guid: 4e123dd5702eba3418af22c15bdc5e59, type: 3}
-  attackRange: 0.8
+  attackRange: 1.5
   attackCooldown: 3
   aimOrigin: {fileID: 5973297134273841705}
 --- !u!114 &6520143798241125390
@@ -837,6 +839,7 @@ MonoBehaviour:
     stamina: 0
     armor: 0
     maxHealth: 0
+    coldResistance: 0
   baseHealth: 50
   baseCritChance: 5
   critMultiplier: 1.5
@@ -856,6 +859,19 @@ MonoBehaviour:
   extraChance: 0.35
   throwDistance: 0.2
   scatterRadius: 0.15
+--- !u!114 &7400000000000000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988275448378025111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9c96eabe2643538201ff5dd445087a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Nameplate
+  offset: {x: 0, y: 1}
 --- !u!1 &6612907432158840101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,16 +1314,3 @@ Transform:
   - {fileID: 748306570817156157}
   m_Father: {fileID: 296123989904703912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7400000000000000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3988275448378025111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba9c96eabe2643538201ff5dd445087a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Nameplate
-  offset: {x: 0, y: 1}

@@ -9,6 +9,10 @@ using UnityEngine;
 // the fire becomes fuel, stone onto a build site counts as delivered -- otherwise it
 // lies where it fell, marked Dropped like any other drop. Added at runtime and
 // removed again on landing.
+//
+// A fumble (PlayerInteractor.Fumble: an item picked up with no room for it) flies
+// the same way, but starts startHeight above the ground -- the player's middle --
+// easing down to it, and never lands in a receiver.
 [RequireComponent(typeof(WorldItem))]
 public class ThrownItem : MonoBehaviour
 {
@@ -17,17 +21,23 @@ public class ThrownItem : MonoBehaviour
     float duration;
     float arcHeight;
     float elapsed;
+    float startHeight;
+    bool deposit;
     YSort ysort;
     float anchorOffset;
 
-    public static void Launch(GameObject item, Vector3 from, Vector3 to, float duration, float arcHeight)
+    // `from` and `to` are ground points; the item starts startHeight above `from`.
+    public static void Launch(GameObject item, Vector3 from, Vector3 to, float duration, float arcHeight,
+                              float startHeight = 0f, bool deposit = true)
     {
         ThrownItem t = item.AddComponent<ThrownItem>();
         t.from = from;
         t.to = to;
         t.duration = Mathf.Max(0.01f, duration);
         t.arcHeight = arcHeight;
-        item.transform.position = from;
+        t.startHeight = startHeight;
+        t.deposit = deposit;
+        item.transform.position = from + Vector3.up * startHeight;
         t.ysort = item.GetComponent<YSort>();
         if (t.ysort != null) t.anchorOffset = t.ysort.AnchorOffsetY;
     }
@@ -37,7 +47,7 @@ public class ThrownItem : MonoBehaviour
         elapsed += Time.deltaTime;
         float t = Mathf.Clamp01(elapsed / duration);
         Vector3 ground = Vector3.Lerp(from, to, t);
-        transform.position = ground + Vector3.up * (Mathf.Sin(t * Mathf.PI) * arcHeight);
+        transform.position = ground + Vector3.up * (startHeight * (1f - t) + Mathf.Sin(t * Mathf.PI) * arcHeight);
         if (ysort != null) ysort.ApplyAt(ground.y + anchorOffset);
         if (t >= 1f) Land();
     }
@@ -47,7 +57,7 @@ public class ThrownItem : MonoBehaviour
         transform.position = to;
         WorldItem wi = GetComponent<WorldItem>();
 
-        ItemReceiver receiver = ItemReceiver.FindInZone(to, wi);
+        ItemReceiver receiver = deposit ? ItemReceiver.FindInZone(to, wi) : null;
         if (receiver != null && receiver.Deposit(wi))
         {
             Destroy(gameObject);   // the receiver took its effect; the item is used up

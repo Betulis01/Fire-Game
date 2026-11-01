@@ -4,6 +4,9 @@ using UnityEngine;
 // Tracks the player's warmth as a persistent resource (0..maxWarmth).
 // Warmth rises near heat sources, drains in the cold.
 // Exposes Normalized (0..1) for bar rendering and IsFreezing for health drain.
+// Cold resistance (CharacterStats) slows the drain while there's warmth left -- once
+// it's gone the cold overflows into health at the full rate, resistance or not -- and
+// makes heat warm faster (StatFormulas.ColdDrainReduction / ColdWarmBonus).
 public class PlayerTemperature : MonoBehaviour
 {
     public float maxWarmth = 100f;
@@ -33,9 +36,14 @@ public class PlayerTemperature : MonoBehaviour
     // world ambient temperature lifted by nearby heat sources
     public float Temp => Environment.Instance.AmbientTemperature + Warmth;
 
+    CharacterStats stats;   // optional: cold resistance
+
+    float ColdResistance => stats != null ? stats.ColdResistance : 0f;
+
     void Awake()
     {
         currentWarmth = maxWarmth;
+        stats = GetComponent<CharacterStats>();
     }
 
     void Update()
@@ -45,11 +53,13 @@ public class PlayerTemperature : MonoBehaviour
 
         if (temp > comfortTemperature)
         {
-            currentWarmth = Mathf.Min(maxWarmth, currentWarmth + (temp - comfortTemperature) * warmRate * dt);
+            float gain = (temp - comfortTemperature) * warmRate * (1f + StatFormulas.ColdWarmBonus(ColdResistance)) * dt;
+            currentWarmth = Mathf.Min(maxWarmth, currentWarmth + gain);
         }
         else
         {
             float drain = (comfortTemperature - temp) * coldRate * dt;
+            if (currentWarmth > 0f) drain *= 1f - StatFormulas.ColdDrainReduction(ColdResistance);
             float newWarmth = currentWarmth - drain;
             if (newWarmth < 0f)
             {

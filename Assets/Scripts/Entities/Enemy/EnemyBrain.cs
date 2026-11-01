@@ -4,12 +4,19 @@ using UnityEngine;
 // whoever landed that hit (hit.attacker), not a hardcoded player reference. Hurtbox
 // fans hits to every IHitReactor on the owner (same mechanism Knockback uses), so
 // this just needs to implement IHitReactor to find out who attacked.
+// A Skittish animal (the boar) never hunts: it ignores the player, and a hit makes it
+// flee from the attacker (FleeBehavior) until it's safe, then it wanders again.
 public class EnemyBrain : MonoBehaviour, IHitReactor
 {
-    public enum State { Wander, Combat }
+    public enum State { Wander, Combat, Flee }
+    public enum Temperament { Hostile, Skittish }
+
+    [Tooltip("Hostile hunts the player (detection, hits); Skittish flees when struck.")]
+    public Temperament temperament = Temperament.Hostile;
 
     public WanderBehavior wander;
     public ChaseBehavior chase;
+    public FleeBehavior flee;
 
     [Tooltip("Distance to the player within which a wandering enemy aggros without needing to be hit first.")]
     public float detectionRadius = 6f;
@@ -17,6 +24,9 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     public State CurrentState { get; private set; } = State.Wander;
     public Vector2 MoveDirection { get; private set; }
     public Transform AggroTarget => aggroTarget;
+
+    // Speed on top of EnemyMover.speed: a fleeing animal bolts.
+    public float SpeedMultiplier => CurrentState == State.Flee && flee != null ? flee.speedMultiplier : 1f;
 
     Transform aggroTarget;
     Transform player;
@@ -51,9 +61,15 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
             return;
         }
 
-        if (CurrentState == State.Wander && aggroTarget == null) CheckDetection();
+        if (CurrentState == State.Flee && flee.Done) CurrentState = State.Wander;
+        if (CurrentState == State.Wander && aggroTarget == null && temperament == Temperament.Hostile) CheckDetection();
 
-        IEnemyMoveBehavior active = CurrentState == State.Wander ? wander : (IEnemyMoveBehavior)chase;
+        IEnemyMoveBehavior active = CurrentState switch
+        {
+            State.Combat => chase,
+            State.Flee => flee,
+            _ => wander,
+        };
         MoveDirection = active.GetMoveDirection(transform, aggroTarget);
     }
 
@@ -80,6 +96,14 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     public void OnHit(in HitInfo hit)
     {
         if (hit.attacker == null) return;
+        if (temperament == Temperament.Skittish)
+        {
+            // runs from whoever hit it last; never engages anyone in combat
+            if (flee == null) return;
+            flee.Begin(hit.attacker.transform);
+            CurrentState = State.Flee;
+            return;
+        }
         Aggro(hit.attacker.transform);
     }
 }

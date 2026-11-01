@@ -6,7 +6,8 @@ using UnityEngine;
 // constant rate. By default the component integrates itself through rb.MovePosition
 // (collision-aware, used by entities with no other mover). A script that owns
 // rb.MovePosition (e.g. PlayerController) sets SelfMove = false and folds Velocity
-// into its own move so there's only ever one MovePosition per step.
+// into its own move so there's only ever one MovePosition per step. On ice the decay
+// takes longer (GroundSensor.KnockbackSlide), so the shove slides further.
 [RequireComponent(typeof(Rigidbody2D))]
 public class Knockback : MonoBehaviour, IHitReactor
 {
@@ -20,10 +21,13 @@ public class Knockback : MonoBehaviour, IHitReactor
     public Vector2 Velocity => velocity;
 
     Rigidbody2D rb;
+    GroundSensor ground;
     Vector2 velocity;
     Vector3 smoothVel;
 
     void Awake() => rb = GetComponent<Rigidbody2D>();
+
+    void Start() => ground = GroundSensor.On(gameObject);
 
     // Push this entity along `dir` (need not be normalized) with the given force.
     public void Apply(Vector2 dir, float force)
@@ -42,6 +46,8 @@ public class Knockback : MonoBehaviour, IHitReactor
         if (SelfMove) rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
 
         // We own the decay regardless of who does the moving, so consumers only read.
-        velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref smoothVel, smoothTime);
+        // Ice stretches it, so a shove there carries much further (GroundSensor).
+        float slide = ground != null ? ground.KnockbackSlide : 1f;
+        velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref smoothVel, smoothTime * slide);
     }
 }
