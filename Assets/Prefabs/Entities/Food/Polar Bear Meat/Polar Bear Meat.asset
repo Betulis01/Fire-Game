@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Polar Bear Meat
   displayName: Polar Bear Meat
   prefab: {fileID: 6197461963866386601, guid: 0b53a9db63c1a854c9890db5e2244147, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: fe6129a2395e38b439dbd5068f652994, type: 2}

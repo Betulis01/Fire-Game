@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6593106120193128840}
   - component: {fileID: -2268743843223548929}
   - component: {fileID: -786881699886658447}
+  - component: {fileID: 3930939731358632385}
   m_Layer: 0
   m_Name: Iron Sword
   m_TagString: Untagged
@@ -155,10 +156,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 8
+  twoHanded: 0
   minDamage: 4
   maxDamage: 6
   range: 0.6
   arcAngle: 90
+  lungeBuffer: 0.4
   maxTargets: 2
   secondaryDamageMultiplier: 0.5
   secondaryCritFactor: 0.5
@@ -166,6 +169,7 @@ MonoBehaviour:
   selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 3f2a1901ee04a494281b6aa802136895, type: 3}
   swingEffectAngleOffset: 0
+  impactHold: 0
   lungeSpeed: 0.25
   lungeDuration: 0.15
   lungeCurve:
@@ -197,6 +201,8 @@ MonoBehaviour:
     flatBonus: 0
     targetKnockback: 4
     selfKnockback: 4
+    arcAngle: 0
+    maxTargets: 0
     swingEffectPrefab: {fileID: 7824789142328981932, guid: 3f2a1901ee04a494281b6aa802136895, type: 3}
     swingEffectAngleOffset: 0
     lungeSpeed: 2
@@ -261,6 +267,19 @@ MonoBehaviour:
   - {fileID: 3298667782626398811, guid: e8b5adfefa10cbb48aa9ca8ca188869e, type: 3}
   - {fileID: -5030411921556340242, guid: e8b5adfefa10cbb48aa9ca8ca188869e, type: 3}
   frameTime: 0.05
+--- !u!114 &3930939731358632385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462038774614361535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8e28ab876a5d64385854b52ac9d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolAudio
+  sounds: {fileID: 11400000, guid: d98e86a2977cd884b8061ee9c928f1ec, type: 2}
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

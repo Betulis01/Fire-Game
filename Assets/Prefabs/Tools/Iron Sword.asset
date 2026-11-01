@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Iron Sword
   displayName: Iron Sword
   prefab: {fileID: 3462038774614361535, guid: 8b5c0f54e32faf54fbd0b28ab3b948cd, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: f34b60d4c01efcd4b8e8a32e26988ece, type: 2}

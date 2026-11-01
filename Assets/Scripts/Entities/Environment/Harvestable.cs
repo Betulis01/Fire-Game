@@ -29,7 +29,11 @@ public class Harvestable : Interactable
     {
         if (grown) return;
         timer += Time.deltaTime;
-        if (timer >= regrowTime) SetGrown(true);
+        if (timer >= regrowTime)
+        {
+            SetGrown(true);
+            Regrown?.Invoke();
+        }
     }
 
     public override bool CanInteract(PlayerController player) => grown && item != null && item.prefab != null;
@@ -47,8 +51,14 @@ public class Harvestable : Interactable
         }
 
         SetGrown(false);
+        Harvested?.Invoke();
         return true;
     }
+
+    // For the audio layer: picked (the item went to the player or was fumbled), and
+    // grown back.
+    public event System.Action Harvested;
+    public event System.Action Regrown;
 
     void SetGrown(bool value)
     {

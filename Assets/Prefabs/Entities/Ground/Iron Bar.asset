@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Iron Bar
   displayName: Iron Bar
   prefab: {fileID: 100, guid: 6e1d83c2f4a94b59e7b2a0d5c318f6b8, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: e22c610272720a243a3c2da9ac7645de, type: 2}

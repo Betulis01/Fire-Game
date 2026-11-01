@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45919b55949ba040b68754e8916ef5a, type: 3}
+  m_Name: AmbienceSounds
+  m_EditorClassIdentifier: Assembly-CSharp::AmbienceSounds
+  windDay: {fileID: 11400000, guid: 1e442daeba037934482401d008ddda52, type: 2}
+  windNight: {fileID: 11400000, guid: f8b84552c8e906b4b978b9c211d398e6, type: 2}
+  gust:
+    sound: {fileID: 11400000, guid: 97302f5127ddee24fa04d6fa4282e720, type: 2}
+    interval: {x: 10, y: 30}
+  nightGustFactor: 0.6
+  forestCreak:
+    sound: {fileID: 11400000, guid: cd087ca73bbaa1143ac5442c3ac7f960, type: 2}
+    interval: {x: 8, y: 20}
+  dawnBirds:
+    sound: {fileID: 11400000, guid: 49dba9a6f6f6281409ffc26461d7daa2, type: 2}
+    interval: {x: 6, y: 15}
+  owl:
+    sound: {fileID: 11400000, guid: f5624d34e0d255648a7e742c7b467073, type: 2}
+    interval: {x: 20, y: 45}
+  howl:
+    sound: {fileID: 11400000, guid: b743eb05289a9614c8caf9100f2d430f, type: 2}
+    interval: {x: 25, y: 60}
+  duskSting: {fileID: 11400000, guid: 4a4bdf268662d124e978330d6204b1bc, type: 2}
+  nightSting: {fileID: 11400000, guid: 2c9b0d2e5d6cae7459665391f0f7c48f, type: 2}
+  dawnSting: {fileID: 11400000, guid: e44e48618c5cd074ca66b03d4dcdd7a0, type: 2}

@@ -362,6 +362,10 @@ GameObject:
   - component: {fileID: 4322000000000000001}
   - component: {fileID: 7400000000000000001}
   - component: {fileID: 3374307483067455654}
+  - component: {fileID: 2827271560927038908}
+  - component: {fileID: 8347032743472116867}
+  - component: {fileID: 551990092952817268}
+  - component: {fileID: 7358057894130099015}
   m_Layer: 9
   m_Name: Boar
   m_TagString: Untagged
@@ -824,6 +828,62 @@ MonoBehaviour:
   maxTime: 4
   speedMultiplier: 3.6
   weave: 0.35
+--- !u!114 &2827271560927038908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988275448378025111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6201498198a5014688f7489158300f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureAudio
+  voice: {fileID: 11400000, guid: 656d92c0a221ebe419425804e14054af, type: 2}
+--- !u!114 &8347032743472116867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988275448378025111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fa739d47c8e0e4faeeeaae420ec7c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepAudio
+  profile: {fileID: 11400000, guid: 6af1fee9516e138429d9efd365abae1b, type: 2}
+  eventTimeout: 0.5
+--- !u!114 &551990092952817268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988275448378025111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
+  surface: {fileID: 11400000, guid: be954c50420da6f40b7905862f5372d6, type: 2}
+--- !u!114 &7358057894130099015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988275448378025111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6de71fade9e4d5479e5fabeb32a890a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlammableAudio
+  ignite: {fileID: 11400000, guid: a8f64e2725669654e86bb3f684b66f73, type: 2}
+  burningLoop: {fileID: 11400000, guid: 0929296fa13892d4fa710ad2de4e05b1, type: 2}
+  tick: {fileID: 11400000, guid: 3db5b19494732d942a1e84da5fe385f3, type: 2}
+  extinguish: {fileID: 11400000, guid: eb51a349a9290be49a84913ca4dc9edd, type: 2}
 --- !u!1 &6612907432158840101
 GameObject:
   m_ObjectHideFlags: 0

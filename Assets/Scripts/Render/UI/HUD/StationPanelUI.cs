@@ -46,6 +46,7 @@ public class StationPanelUI : MonoBehaviour, IDropHandler
     public void Show(StationInteractable station)
     {
         if (Current != null && Current != station) Current.Closed();
+        if (Current != station) UiSfx.Play(UiSound.Open);
         Current = station;
         fuel = station.GetComponent<Fuel>();
         processor = station.GetComponent<ItemProcessor>();
@@ -56,6 +57,7 @@ public class StationPanelUI : MonoBehaviour, IDropHandler
     public void Hide(StationInteractable station)
     {
         if (station != Current) return;
+        UiSfx.Play(UiSound.Close);
         Current = null;
         fuel = null;
         processor = null;
@@ -106,22 +108,31 @@ public class StationPanelUI : MonoBehaviour, IDropHandler
     public void Drop(StationSlotUI.Kind box)
     {
         if (Current == null || !BagDrag.Claim(out Inventory inv, out int slot)) return;
+        int fed = 0;
         switch (box)
         {
             case StationSlotUI.Kind.Fuel:
-                if (Current.TryGetComponent(out FuelReceiver fuelIn)) inv.Deposit(slot, fuelIn);
+                if (Current.TryGetComponent(out FuelReceiver fuelIn)) fed = inv.Deposit(slot, fuelIn);
                 break;
             case StationSlotUI.Kind.Input:
-                if (Current.TryGetComponent(out ProcessorInputReceiver input)) inv.Deposit(slot, input);
+                if (Current.TryGetComponent(out ProcessorInputReceiver input)) fed = inv.Deposit(slot, input);
                 break;
             default:
-                inv.DepositInto(slot, Current.gameObject);
+                fed = inv.DepositInto(slot, Current.gameObject);
                 break;
         }
+        // what went in is the station's own sound (FireAudio's feed, ProcessorAudio's input)
+        if (fed == 0) UiSfx.Play(UiSound.Denied);
     }
 
+    // taken: the item's pickup and a place; nothing to take or no room: denied
     public void TakeOutput()
     {
-        if (processor != null && root != null) processor.TakeOutput(root.Inventory);
+        if (processor == null || root == null) return;
+        ItemDefinition item = processor.OutputItem;
+        if (processor.TakeOutput(root.Inventory) == 0) { UiSfx.Play(UiSound.Denied); return; }
+        ItemSounds s = ItemAudioDirector.SoundsOf(item);
+        if (s != null) Sfx.Play2D(s.pickup);
+        UiSfx.Play(UiSound.Place);
     }
 }

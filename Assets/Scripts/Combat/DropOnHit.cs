@@ -28,6 +28,9 @@ public class DropOnHit : MonoBehaviour
     Health health;
     int dropped;
 
+    // Loot knocked loose: where, and how many items (for the audio layer).
+    public event System.Action<Vector3, int> Dropped;
+
     void Awake()
     {
         health = GetComponent<Health>();
@@ -43,16 +46,19 @@ public class DropOnHit : MonoBehaviour
     {
         if (info.type != DamageType.Combat) return;
 
+        int spawned = 0;
         foreach (var drop in drops)
         {
             if (drop.prefab == null || UnityEngine.Random.value >= drop.chance) continue;
             for (int i = 0; i < drop.count; i++)
             {
-                if (maxDrops > 0 && dropped >= maxDrops) return;
+                if (maxDrops > 0 && dropped >= maxDrops) break;
                 dropped++;
+                spawned++;
                 Vector2 off = UnityEngine.Random.insideUnitCircle * scatterRadius;
                 Instantiate(drop.prefab, transform.position + (Vector3)off, Quaternion.identity);
             }
         }
+        if (spawned > 0) Dropped?.Invoke(transform.position, spawned);
     }
 }

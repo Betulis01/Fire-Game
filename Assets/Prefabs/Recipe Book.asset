@@ -20,6 +20,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 0ce1cf9ae6ac66d4ea2adf81d7ddbed4, type: 2}
     requiredStation: 0
     kind: 0
+    craftSound: {fileID: 11400000, guid: 02508e77d7d7fc64ea02d433868d1f8b, type: 2}
   - displayName: Sap Torch
     ingredients:
     - item: {fileID: 11400000, guid: 1b275f88133126d46ae1b36dbf54b173, type: 2}
@@ -29,6 +30,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 4633f79d3c2ff404eab88490a1aca1bc, type: 2}
     requiredStation: 5
     kind: 0
+    craftSound: {fileID: 11400000, guid: 8b1a075c6a186d342be2b21740852746, type: 2}
   - displayName: Burlap
     ingredients:
     - item: {fileID: 11400000, guid: 22963f3f112dc3445b851a8ac4779479, type: 2}
@@ -36,6 +38,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 4b58440e4a287224a805ea87028ff230, type: 2}
     requiredStation: 0
     kind: 0
+    craftSound: {fileID: 11400000, guid: 3784901f449506841b94d6d477faf95a, type: 2}
   - displayName: Small Bag
     ingredients:
     - item: {fileID: 11400000, guid: 4b58440e4a287224a805ea87028ff230, type: 2}
@@ -43,6 +46,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 26fc2384706f41eabded4149722f3017, type: 2}
     requiredStation: 0
     kind: 0
+    craftSound: {fileID: 11400000, guid: 3784901f449506841b94d6d477faf95a, type: 2}
   - displayName: Campfire
     ingredients:
     - item: {fileID: 11400000, guid: 1b275f88133126d46ae1b36dbf54b173, type: 2}
@@ -52,6 +56,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 68746fb0c3128a94e959b0f9ef4ac3f4, type: 2}
     requiredStation: 0
     kind: 1
+    craftSound: {fileID: 0}
   - displayName: Workbench
     ingredients:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
@@ -59,6 +64,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 20e9fe63ec6f92045ad642dc497bd35d, type: 2}
     requiredStation: 0
     kind: 1
+    craftSound: {fileID: 0}
   - displayName: Furnace
     ingredients:
     - item: {fileID: 11400000, guid: f70fd335c46de4640ac8515dc25769f0, type: 2}
@@ -68,6 +74,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 9bd5652196f308c4daf7a2c765b5ca26, type: 2}
     requiredStation: 2
     kind: 1
+    craftSound: {fileID: 0}
   - displayName: Stone Axe
     ingredients:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
@@ -77,6 +84,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: e9dab3c8a32303b47be7250002c5cee3, type: 2}
     requiredStation: 2
     kind: 0
+    craftSound: {fileID: 11400000, guid: 9fdbfe1a787217a40a0f3db273286570, type: 2}
   - displayName: Stone Pickaxe
     ingredients:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
@@ -86,6 +94,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 9482ec1a836f3d645925e84bd5277848, type: 2}
     requiredStation: 2
     kind: 0
+    craftSound: {fileID: 11400000, guid: 9fdbfe1a787217a40a0f3db273286570, type: 2}
   - displayName: Burlap Pants
     ingredients:
     - item: {fileID: 11400000, guid: 4b58440e4a287224a805ea87028ff230, type: 2}
@@ -93,6 +102,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: fa6a6a6e27914974bc75aac605535ec8, type: 2}
     requiredStation: 2
     kind: 0
+    craftSound: {fileID: 11400000, guid: 3784901f449506841b94d6d477faf95a, type: 2}
   - displayName: Bow
     ingredients:
     - item: {fileID: 11400000, guid: 838418d2ba9af4148a1d4e15e4b2aff5, type: 2}
@@ -102,6 +112,7 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: 92dbfc158cdc24044b9a8a01883edce0, type: 2}
     requiredStation: 2
     kind: 0
+    craftSound: {fileID: 11400000, guid: 02508e77d7d7fc64ea02d433868d1f8b, type: 2}
   - displayName: Iron Sword
     ingredients:
     - item: {fileID: 11400000, guid: 4a2f95d8c1e64b73f0c8b3a6d92e5c19, type: 2}
@@ -111,3 +122,4 @@ MonoBehaviour:
     output: {fileID: 11400000, guid: e668e816d1bca744493436401afff2a4, type: 2}
     requiredStation: 2
     kind: 0
+    craftSound: {fileID: 11400000, guid: 2ec9a270f94c0fb419d43cca80c2db46, type: 2}

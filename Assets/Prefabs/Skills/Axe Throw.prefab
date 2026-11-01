@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7200000000000000002}
   - component: {fileID: 7200000000000000003}
+  - component: {fileID: 6984410243364732399}
   m_Layer: 0
   m_Name: Axe Throw
   m_TagString: Untagged
@@ -59,3 +60,23 @@ MonoBehaviour:
   catchPunch: 1.3
   catchPunchTime: 0.12
   catchShake: 0.06
+--- !u!114 &6984410243364732399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7200000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21ce670a0fe1fd745b0d0f3bd81b3013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AxeThrowAudio
+  windup: {fileID: 11400000, guid: 874676e6a6351ab48a1171372ceae222, type: 2}
+  release: {fileID: 11400000, guid: f26b89afa7244944b92dedbf6f8b89df, type: 2}
+  spinLoop: {fileID: 11400000, guid: c4d13cb1ba1f7984c85ad5b89792afbc, type: 2}
+  returnPitch: 1.25
+  stick: {fileID: 11400000, guid: 7bb771b9760865c4d8823c686313cadb, type: 2}
+  rip: {fileID: 11400000, guid: d137026aebbc72a459e47febfedf41b7, type: 2}
+  missTurn: {fileID: 11400000, guid: d4df7904d165e2f4e9c59d262ec48112, type: 2}
+  catchSlap: {fileID: 11400000, guid: 3d7159bc806bca44c8d9872d88c0e502, type: 2}

@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Sap
   displayName: Sap
   prefab: {fileID: 6197461963866386601, guid: 46e2eded97f871e48ad022a01860cf33, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: 2278b2a423e108c4cba2196770cf963d, type: 2}

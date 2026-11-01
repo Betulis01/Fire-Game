@@ -24,7 +24,7 @@ public class SkillsTabUI : MonoBehaviour
         for (int i = 0; i < weaponTabs.Length; i++)
         {
             int index = i;
-            weaponTabs[i].Clicked += () => Select(index);
+            weaponTabs[i].Clicked += () => { UiSfx.Play(UiSound.Subtab); Select(index); };
         }
     }
 

@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 5600000000000002}
   - component: {fileID: 5600000000000003}
   - component: {fileID: 5600000000000004}
+  - component: {fileID: 6765850691092038947}
   m_Layer: 0
   m_Name: BumpArea
   m_TagString: Untagged
@@ -180,6 +181,20 @@ MonoBehaviour:
   entityLayers:
     serializedVersion: 2
     m_Bits: 520
+--- !u!114 &6765850691092038947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5600000000000101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 353107992a6a90148945df3ca4367607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollideAudio
+  touched: {fileID: 11400000, guid: 1bfb988637215de468b2efb92fb1fbdc, type: 2}
+  cooldown: 0.5
 --- !u!1 &229953939840026113
 GameObject:
   m_ObjectHideFlags: 0

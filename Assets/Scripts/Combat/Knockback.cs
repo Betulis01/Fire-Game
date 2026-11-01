@@ -30,10 +30,14 @@ public class Knockback : MonoBehaviour, IHitReactor
     void Start() => ground = GroundSensor.On(gameObject);
 
     // Push this entity along `dir` (need not be normalized) with the given force.
+    // A shove landing (the impulse added), for the audio layer.
+    public event System.Action<Vector2> Applied;
+
     public void Apply(Vector2 dir, float force)
     {
         if (force <= 0f || dir.sqrMagnitude < 1e-6f) return;
         velocity += dir.normalized * force;
+        Applied?.Invoke(dir.normalized * force);
     }
 
     // React to a landed hit by shoving away from the attacker (the weapon sets force).

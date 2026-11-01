@@ -62,6 +62,10 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
 
     static readonly Vector2[] diagonals = { new(1f, 1f), new(1f, -1f), new(-1f, 1f), new(-1f, -1f) };
 
+    // The spawn clip starting (rising out of the ground), from Start -- after every
+    // Awake/OnEnable, so a listener on the same enemy always hears it.
+    public event System.Action SpawnStarted;
+
     // Missing-clip states we've already warned about (see PlayAttack), shared across
     // every enemy instance — logged once total rather than once per enemy per frame.
     // (EnemyAttacker.Update() re-arms every frame it's in range and IsAttacking is
@@ -99,6 +103,7 @@ public class EnemyAnimator : MonoBehaviour, IHitReactor
         animator.Play(state, 0, 0f);
         spawnFailsafe = Time.time + 3f;
         SetHittable(false);
+        SpawnStarted?.Invoke();
     }
 
     void Update()

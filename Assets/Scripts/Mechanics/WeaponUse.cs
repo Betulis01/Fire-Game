@@ -79,8 +79,20 @@ public class WeaponUse : MonoBehaviour
     // is indefinite either way -- no auto-release, only release ends a charge.
     bool charging;
     bool chargePaused;
+    bool chargeReadyRaised;
     float chargeStart;
     public bool IsCharging => charging;
+
+    // The swing's moments, for the audio layer (WeaponAudio): armed on the press, the
+    // charge reaching a guaranteed heavy, the release deciding light or heavy, the
+    // swing frame, then the contact frame -- what a melee swing connected with, or a
+    // shot fired (with its charge).
+    public event System.Action<HandSide, Tool> SwingArmed;
+    public event System.Action<Tool> ChargeReady;
+    public event System.Action<Tool, bool, float> Released;     // tool, heavy, charge 0..1
+    public event System.Action<Tool, bool> Swung;               // tool, heavy
+    public event System.Action<Tool, StrikeResult> Landed;
+    public event System.Action<Tool, float> Fired;              // tool, charge 0..1
 
     // True from the contact frame (OnAttackHit) to the end of the attack clip. The player
     // can walk during windup; once the strike/shot has gone out they're planted for the
@@ -202,7 +214,13 @@ public class WeaponUse : MonoBehaviour
             return;
         }
 
-        CameraZoom.Instance?.SetZoomed(Time.time - chargeStart >= pending.tool.chargeTime);
+        bool ready = Time.time - chargeStart >= pending.tool.chargeTime;
+        CameraZoom.Instance?.SetZoomed(ready);
+        if (ready && !chargeReadyRaised)
+        {
+            chargeReadyRaised = true;
+            ChargeReady?.Invoke(pending.tool);
+        }
 
         if (UserInput.Instance.UseReleased(pending.button))
         {
@@ -255,7 +273,9 @@ public class WeaponUse : MonoBehaviour
         pending = new Swing { tool = tool, side = side, button = button, melee = melee, ranged = ranged, armed = true, heavy = false };
         charging = true;
         chargePaused = false;
+        chargeReadyRaised = false;
         chargeStart = Time.time;
+        SwingArmed?.Invoke(side, tool);
 
         // Same aim source OnAttackHit uses to land the hit, so the swing animation
         // always faces the direction the hit will actually land in.
@@ -284,6 +304,7 @@ public class WeaponUse : MonoBehaviour
         if (chargePaused && animator != null) animator.ResumeAttack();
         chargePaused = false;
         CameraZoom.Instance?.SetZoomed(false);
+        Released?.Invoke(pending.tool, heavy, fraction);
     }
 
     // Called by an Animation Event on each *_attack clip, at the swing's start
@@ -302,6 +323,7 @@ public class WeaponUse : MonoBehaviour
         // Re-aim the clip to wherever the player is pointing right now, not where they
         // were pointing when the button was pressed.
         if (animator != null) animator.RetargetAttack(pending.side, dir);
+        Swung?.Invoke(pending.tool, pending.heavy);
 
         // Left-hand swings sweep the opposite way (mirrorSweep) for directional art;
         // the effect follows the swing origin so it moves with the player, and is
@@ -365,8 +387,10 @@ public class WeaponUse : MonoBehaviour
                                                     pending.tool.kind, TargetScoring.AimAngle,
                                                     committed, float.PositiveInfinity);
             // a connecting swing sticks on its contact frame for a beat (Tool.impactHold)
-            if (pending.melee.Strike(attack, query) > 0 && animator != null)
+            StrikeResult result = pending.melee.Strike(attack, query);
+            if (!result.Missed && animator != null)
                 animator.HoldAttack(pending.tool.impactHold);
+            Landed?.Invoke(pending.tool, result);
         }
         else if (pending.ranged != null)
         {
@@ -375,6 +399,7 @@ public class WeaponUse : MonoBehaviour
             float speed = ranged.GetSpeed(pending.chargeFraction);
             float range = ranged.GetRange(pending.chargeFraction, pending.tool.range);
             arrow.Launch(attack, gameObject, dir, speed, range);
+            Fired?.Invoke(pending.tool, pending.chargeFraction);
         }
         else return;
 

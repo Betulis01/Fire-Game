@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05bdb9cc47abb24487d7c2b79d5ce4d, type: 3}
+  m_Name: Voice_PolarBear
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureVoice
+  spawn: {fileID: 0}
+  idle: {fileID: 11400000, guid: c0fd78f467ef3d94f917ddc8731198cf, type: 2}
+  idleInterval: {x: 6, y: 14}
+  despawn: {fileID: 0}
+  aggro: {fileID: 11400000, guid: 710d7bc7b6eed0c4095cad79688b4f53, type: 2}
+  chaseLoop: {fileID: 0}
+  flee: {fileID: 0}
+  fleeLoop: {fileID: 0}
+  attackWindup: {fileID: 0}
+  attackSwing: {fileID: 11400000, guid: 89e5498fc942931478586b1f75b98fcd, type: 2}
+  attackHit: {fileID: 0}
+  hurt: {fileID: 11400000, guid: 8030e7160b008574db525682e586edb4, type: 2}
+  hurtBurning: {fileID: 0}
+  death: {fileID: 11400000, guid: 52d27777f4fa72d46bef7b1dc7b05ba4, type: 2}
+  knockback: {fileID: 11400000, guid: 97cb8c66d44bc624e825f34bb2d26a0d, type: 2}

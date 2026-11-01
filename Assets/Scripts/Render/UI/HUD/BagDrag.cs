@@ -24,6 +24,7 @@ public static class BagDrag
         End();
         inventory = inv;
         slot = index;
+        UiSfx.Play(UiSound.Pickup);
     }
 
     public static void BeginLoadout(Loadout from, int fromSet, HandSide fromSide)
@@ -32,6 +33,7 @@ public static class BagDrag
         loadout = from;
         set = fromSet;
         side = fromSide;
+        UiSfx.Play(UiSound.Pickup);
     }
 
     // A learned spell, from a skill slot (`fromSlot`) or a skill tree (-1).
@@ -40,6 +42,7 @@ public static class BagDrag
         End();
         skill = dragged;
         skillSlot = fromSlot;
+        UiSfx.Play(UiSound.Pickup);
     }
 
     // A target takes a dragged spell: the spell and the skill slot it came from (-1

@@ -16,6 +16,8 @@ public class ItemDefinition : ScriptableObject
     public GameObject prefab;
     public Sprite icon;          // optional; falls back to prefab's SpriteRenderer sprite if unset
     public ItemSize size;        // Small = bag, Big = carried in the hands
+    [Tooltip("How it sounds handled: picked up, landing, worn, eaten (shared per material).")]
+    public ItemSounds sounds;
 
     public bool IsBig => size == ItemSize.Big;
 

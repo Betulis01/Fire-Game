@@ -26,6 +26,7 @@ public class PlayerExperience : MonoBehaviour, IKillReactor, IStatSource
 
     public event Action Changed;
     public event Action<int> LeveledUp;   // new level
+    public event Action<int, Vector3> Awarded;   // xp for a kill, where the "+N" floats
     public event Action StatsChanged;
 
     void Awake() => track = new ExperienceTrack(startLevel, xpPerLevel);
@@ -36,6 +37,7 @@ public class PlayerExperience : MonoBehaviour, IKillReactor, IStatSource
 
         Add(xpPerKill);
         CombatText.SpawnText(victim.transform.position + popupOffset, "+" + xpPerKill, PopupStyle.Experience);
+        Awarded?.Invoke(xpPerKill, victim.transform.position);
     }
 
     public void Add(int amount)

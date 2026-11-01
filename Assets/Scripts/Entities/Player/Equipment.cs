@@ -54,6 +54,7 @@ public class Equipment : MonoBehaviour, IStatSource
         item.SetActive(false);   // stays "held" (pickup collider off) while worn
 
         RaiseChanged();
+        ItemEvents.RaiseWorn(item);
         return previous;
     }
 
@@ -68,6 +69,7 @@ public class Equipment : MonoBehaviour, IStatSource
         worn[(int)slot] = null;
         inventory.TryAdd(item.GetComponent<WorldItem>());
         RaiseChanged();
+        ItemEvents.RaiseRemoved(item);
         return true;
     }
 

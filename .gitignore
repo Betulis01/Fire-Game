@@ -108,3 +108,7 @@ InitTestScene*.unity*
 
 # Local screen recordings / vlogs (large binaries — keep out of git)
 /Vlogs/
+
+# Sound Import staging (Tools/Audio/Sound Import): downloads, not part of the project
+/[Aa]ssets/Audio/_Incoming/
+/[Aa]ssets/Audio/_Incoming.meta

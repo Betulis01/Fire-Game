@@ -106,7 +106,12 @@ public class Inventory : MonoBehaviour
         }
 
         foreach (WorldItem wi in underFeet)
-            if (!wi.IsHeld && !wi.IsDropped && wi.TryGetComponent(out Pickupable _)) TryTopUp(wi);
+        {
+            if (wi.IsHeld || wi.IsDropped || !wi.TryGetComponent(out Pickupable _)) continue;
+            ItemDefinition item = wi.item;
+            Vector3 at = wi.transform.position;
+            if (TryTopUp(wi)) ItemEvents.RaisePickedUp(item, at, auto: true);
+        }
     }
 
     public static bool IsBig(WorldItem wi) => wi != null && wi.item != null && wi.item.IsBig;
@@ -138,6 +143,7 @@ public class Inventory : MonoBehaviour
             StoreOrDrop(previous);
             StoreOrDrop(displaced);
             Changed?.Invoke();
+            ItemEvents.RaiseWielded(item);
             return true;
         }
 
@@ -228,6 +234,7 @@ public class Inventory : MonoBehaviour
         if (previous != null) StoreBack(slot, previous);
         if (displaced != null) StoreBack(slot, displaced);
         Changed?.Invoke();
+        ItemEvents.RaiseWielded(item);
         return true;
     }
 
@@ -393,6 +400,7 @@ public class Inventory : MonoBehaviour
         Stack s = slots[slot];
         slots[slot] = default;
 
+        ItemEvents.RaiseSpilled(ItemIn(s.item), pos, s.count);
         Place(s.item, pos);
         GameObject prefab = s.item.GetComponent<WorldItem>().item.prefab;
         for (int i = 1; i < s.count; i++)
@@ -433,6 +441,7 @@ public class Inventory : MonoBehaviour
         foreach (SpriteRenderer sr in item.GetComponentsInChildren<SpriteRenderer>(true))
             sr.flipX = false;
         item.GetComponent<WorldItem>().SetHeld(false);
+        ItemEvents.RaiseLanded(item);
     }
 
     bool InRange(int slot) => slot >= 0 && slot < slots.Length;

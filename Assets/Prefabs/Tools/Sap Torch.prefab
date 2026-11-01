@@ -278,6 +278,8 @@ GameObject:
   - component: {fileID: -7691799619491963564}
   - component: {fileID: 6200000000000000001}
   - component: {fileID: 6200000000000000002}
+  - component: {fileID: 5884305396261477407}
+  - component: {fileID: 4017722559839004157}
   m_Layer: 0
   m_Name: Sap Torch
   m_TagString: Untagged
@@ -435,6 +437,7 @@ MonoBehaviour:
   maxFuel: 50
   startFuel: 50
   startBurnRate: 0.2
+  meterColor: {r: 0.85490197, g: 0.5254902, b: 0.24313726, a: 1}
 --- !u!114 &2221216645559647939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +566,7 @@ MonoBehaviour:
   maxDamage: 6
   range: 0.5
   arcAngle: 80
+  lungeBuffer: 0.4
   maxTargets: 2
   secondaryDamageMultiplier: 0.5
   secondaryCritFactor: 0.5
@@ -651,6 +655,32 @@ MonoBehaviour:
   priorityLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &5884305396261477407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8e28ab876a5d64385854b52ac9d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolAudio
+  sounds: {fileID: 11400000, guid: 16431d70ed421e5469cf8e07c150158d, type: 2}
+--- !u!114 &4017722559839004157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a2b07f193ecae448613683701be191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireAudio
+  sounds: {fileID: 11400000, guid: 674b9777e64e05d43a928755aa94e34b, type: 2}
 --- !u!1 &5290250976460836239
 GameObject:
   m_ObjectHideFlags: 0

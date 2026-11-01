@@ -22,6 +22,8 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
     public float detectionRadius = 6f;
 
     public State CurrentState { get; private set; } = State.Wander;
+    // from, to: aggro (-> Combat), bolting (-> Flee), calming down (-> Wander)
+    public event System.Action<State, State> StateChanged;
     public Vector2 MoveDirection { get; private set; }
     public Transform AggroTarget => aggroTarget;
 
@@ -45,10 +47,18 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
         isActiveAndEnabled && CurrentState == State.Combat && aggroTarget == target
         && (health == null || !health.IsDead);
 
+    void SetState(State next)
+    {
+        State from = CurrentState;
+        if (from == next) return;
+        CurrentState = next;
+        StateChanged?.Invoke(from, next);
+    }
+
     void Aggro(Transform target)
     {
         aggroTarget = target;
-        CurrentState = State.Combat;
+        SetState(State.Combat);
         if (target.TryGetComponent(out CombatState combat)) combat.Engage(this);
     }
 
@@ -61,7 +71,7 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
             return;
         }
 
-        if (CurrentState == State.Flee && flee.Done) CurrentState = State.Wander;
+        if (CurrentState == State.Flee && flee.Done) SetState(State.Wander);
         if (CurrentState == State.Wander && aggroTarget == null && temperament == Temperament.Hostile) CheckDetection();
 
         IEnemyMoveBehavior active = CurrentState switch
@@ -101,7 +111,7 @@ public class EnemyBrain : MonoBehaviour, IHitReactor
             // runs from whoever hit it last; never engages anyone in combat
             if (flee == null) return;
             flee.Begin(hit.attacker.transform);
-            CurrentState = State.Flee;
+            SetState(State.Flee);
             return;
         }
         Aggro(hit.attacker.transform);

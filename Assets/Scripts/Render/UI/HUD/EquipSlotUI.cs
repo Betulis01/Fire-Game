@@ -40,6 +40,7 @@ public class EquipSlotUI : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (BagDrag.Claim(out Inventory inv, out int from)) inv.EquipToBody(from, slot);
+        // worn: the gear's own equip sound (ItemAudioDirector); refused: denied
+        if (BagDrag.Claim(out Inventory inv, out int from) && !inv.EquipToBody(from, slot)) UiSfx.Play(UiSound.Denied);
     }
 }

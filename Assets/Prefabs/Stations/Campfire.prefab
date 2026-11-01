@@ -274,6 +274,9 @@ GameObject:
   - component: {fileID: 454879806358771460}
   - component: {fileID: 8100000000000000001}
   - component: {fileID: 8100000000000000002}
+  - component: {fileID: 6715150418776577378}
+  - component: {fileID: 2860866046612620944}
+  - component: {fileID: 6862266136849822065}
   m_Layer: 0
   m_Name: Campfire
   m_TagString: Campfire
@@ -456,6 +459,7 @@ MonoBehaviour:
   stageCount: 4
   outSprite: {fileID: -317825125816557920, guid: 6a30120906ea0cf43ae033b91960c4ce, type: 3}
   spriteRenderer: {fileID: 0}
+  hideWhenOut: 0
 --- !u!114 &350223773031179567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,6 +555,7 @@ MonoBehaviour:
   maxFuel: 150
   startFuel: 30
   startBurnRate: 1
+  meterColor: {r: 0.85490197, g: 0.5254902, b: 0.24313726, a: 1}
 --- !u!114 &-1073649967088087493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -612,7 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CookingProcessor
   queueCapacity: 8
-  outputOffset: {x: 0, y: -0.5}
+  outputCapacity: 8
 --- !u!114 &8100000000000000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,3 +633,47 @@ MonoBehaviour:
   promptPrefab: {fileID: 3129362597859867209, guid: a39d035bab27a7544ba518799e83694f, type: 3}
   promptOffset: {x: 0, y: 0.18, z: 0}
   verb: Cook
+--- !u!114 &6715150418776577378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a2b07f193ecae448613683701be191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireAudio
+  sounds: {fileID: 11400000, guid: f46a3fa1a0e916a4383da65d4332bba2, type: 2}
+--- !u!114 &2860866046612620944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cde75e1165c97a45838842fd477f67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProcessorAudio
+  workingLoop: {fileID: 11400000, guid: f8b13dee719e3e149b9b2593c942eeeb, type: 2}
+  done: {fileID: 11400000, guid: cde1720e9aacf2d418b363b7002eadfd, type: 2}
+  stalled: {fileID: 0}
+  input: {fileID: 0}
+--- !u!114 &6862266136849822065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfc8e842bb78be48bd2c9285ad41841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureAudio
+  buildComplete: {fileID: 11400000, guid: fe5e3d2e97a706d438a7f180c0bd5ebb, type: 2}
+  open: {fileID: 0}
+  close: {fileID: 0}

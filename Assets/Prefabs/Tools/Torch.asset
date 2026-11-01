@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Torch
   displayName: Torch
   prefab: {fileID: 4906144326694474802, guid: f2c1536e3143e10429dff5807401e194, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: a78195a6d6b373848a955e9aaaf55837, type: 2}

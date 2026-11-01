@@ -12,6 +12,19 @@ public abstract class ItemReceiver : MonoBehaviour
     // dropped ghost) is standing over without a scene physics query.
     public static readonly List<ItemReceiver> All = new();
 
+    // An item taken in (a Q deposit, a throw landing in the zone, a bag stack dragged
+    // here): on this receiver, and on any (for listeners that can't reach a receiver
+    // added at runtime, like a build site). Raised by each kind's Deposit on success.
+    public event System.Action<ItemDefinition> Deposited;
+    public static event System.Action<ItemReceiver, ItemDefinition> AnyDeposited;
+
+    protected void RaiseDeposited(WorldItem item)
+    {
+        ItemDefinition def = item != null ? item.item : null;
+        Deposited?.Invoke(def);
+        AnyDeposited?.Invoke(this, def);
+    }
+
     [Tooltip("World-space prompt shown while the player is in the zone holding an " +
              "accepted item. Each receiver kind supplies its own icon prefab.")]
     public InteractPrompt promptPrefab;

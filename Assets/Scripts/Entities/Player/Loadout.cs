@@ -31,6 +31,8 @@ public class Loadout : MonoBehaviour
 
     // raised after anything moves in or out, or the active set changes
     public event Action Changed;
+    // raised when the active set changes (after Changed): the new set
+    public event Action<int> Swapped;
 
     void Awake()
     {
@@ -76,6 +78,7 @@ public class Loadout : MonoBehaviour
         ActiveSet = set;
         swapStart = Time.time;
         Changed?.Invoke();
+        Swapped?.Invoke(set);
         return true;
     }
 

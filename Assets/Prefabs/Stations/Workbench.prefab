@@ -84,6 +84,7 @@ GameObject:
   - component: {fileID: 6946262607447148628}
   - component: {fileID: -5592514753981646333}
   - component: {fileID: 2823357081577050829}
+  - component: {fileID: 457561788819910780}
   m_Layer: 0
   m_Name: Workbench
   m_TagString: Campfire
@@ -269,7 +270,24 @@ MonoBehaviour:
   nearLength: 1
   farLength: 0.3
   groundAspect: 0.5
+  castHeight: 0
+  anchorOffset: {x: 0, y: 0}
   maxShadows: 3
   smoothing: 10
   sortingLayer: Background
   sortingOrder: 3
+--- !u!114 &457561788819910780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6182432078457248245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfc8e842bb78be48bd2c9285ad41841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureAudio
+  buildComplete: {fileID: 11400000, guid: e30b021c7a39ec94dad2407eac1e02f6, type: 2}
+  open: {fileID: 11400000, guid: fc18328a23317bf4292190397d8f31fc, type: 2}
+  close: {fileID: 11400000, guid: 4defe77e1e2ee6e43b6aef2ac95b7b5c, type: 2}

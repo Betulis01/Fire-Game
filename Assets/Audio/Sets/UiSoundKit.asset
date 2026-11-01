@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdefd62e669c2184d882f0042794387b, type: 3}
+  m_Name: UiSoundKit
+  m_EditorClassIdentifier: Assembly-CSharp::UiSoundKit
+  entries:
+  - role: 0
+    sound: {fileID: 11400000, guid: e36a6e0889bfe0d4fb28e1de9edfe0d1, type: 2}
+  - role: 1
+    sound: {fileID: 11400000, guid: 9a334716e00e87642a0187d23ee1247e, type: 2}
+  - role: 2
+    sound: {fileID: 11400000, guid: 78108c97c861df34dbcde68a134a0e34, type: 2}
+  - role: 3
+    sound: {fileID: 11400000, guid: be61464ca1c98dd4ea5ce9a871321d16, type: 2}
+  - role: 4
+    sound: {fileID: 11400000, guid: 4175348abf1577447b270741bc449077, type: 2}
+  - role: 5
+    sound: {fileID: 11400000, guid: 5ba769dcbaf41ce4d87549b686e9f0d4, type: 2}
+  - role: 6
+    sound: {fileID: 11400000, guid: c34d99bcdd8e1d1488dbb3df354d19f6, type: 2}
+  - role: 7
+    sound: {fileID: 11400000, guid: eabd31344fb82ff48985a3b2deed4b42, type: 2}
+  - role: 8
+    sound: {fileID: 11400000, guid: 5ca614daf177ddb4183bee6160217c73, type: 2}
+  - role: 9
+    sound: {fileID: 11400000, guid: 6cae32a0d5a17cc469da8b66df20ae9e, type: 2}
+  - role: 10
+    sound: {fileID: 11400000, guid: beed3a9df6e09eb4abd10021225d53f3, type: 2}
+  - role: 11
+    sound: {fileID: 11400000, guid: 56147d314c2522b498849fcb6dece4de, type: 2}
+  - role: 12
+    sound: {fileID: 11400000, guid: 4705307e2ce981444b51831126d582fb, type: 2}
+  - role: 13
+    sound: {fileID: 11400000, guid: e9ce60060a7f29043bdffed501d50d89, type: 2}
+  - role: 14
+    sound: {fileID: 11400000, guid: f1e8576cbc7b212448c5190d5ce200ef, type: 2}
+  - role: 15
+    sound: {fileID: 11400000, guid: 4a3240cceb04a9d40824108c341ff530, type: 2}
+  - role: 16
+    sound: {fileID: 11400000, guid: ce6d1652be17e6842b86984866cf38bf, type: 2}
+  - role: 17
+    sound: {fileID: 11400000, guid: 7f682adaf06ff5d469e9077ab51f64b5, type: 2}

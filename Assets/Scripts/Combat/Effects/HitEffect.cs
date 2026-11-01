@@ -1,9 +1,10 @@
 using UnityEngine;
 
-// What happens when a given material is struck: the contact VFX and sound. Shared
-// as an asset so every entity made of the same material (all trees, all flesh, ...)
-// points at one file and retuning it is a single edit. Selected by the victim, not
-// the weapon, so a hit always looks/sounds like what was actually struck.
+// What a given material shows when struck: the contact VFX. Shared as an asset so
+// every entity made of the same material (all trees, all flesh, ...) points at one
+// file and retuning it is a single edit. Selected by the victim, not the weapon, so a
+// hit always looks like what was actually struck. (The sound of a hit is the audio
+// layer's: SurfaceAudio, see SoundSystemPlan.md.)
 [CreateAssetMenu(menuName = "Fire Game/Hit Effect", fileName = "Hit Effect")]
 public class HitEffect : ScriptableObject
 {
@@ -25,7 +26,4 @@ public class HitEffect : ScriptableObject
              "front when it flies down-screen, behind when it flies up-screen. Off = the " +
              "prefab's own sorting (drawn over everything on the Effects layer).")]
     public bool sortWithBody;
-
-    [Tooltip("Sound played when this material is struck. Optional until sfx are authored.")]
-    public AudioClip sfx;
 }

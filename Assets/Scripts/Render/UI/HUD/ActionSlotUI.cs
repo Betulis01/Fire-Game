@@ -69,16 +69,23 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
         if (!handSlot)
         {
             if (skillSlots != null && BagDrag.ClaimSkill(out IActiveSkill dropped, out int _))
-                skillSlots.Assign(skillIndex, dropped);
+                UiSfx.Play(skillSlots.Assign(skillIndex, dropped) ? UiSound.SpellAssign : UiSound.Denied);
             return;
         }
         if (loadout == null) return;
         if (BagDrag.Claim(out Inventory inv, out int from))
         {
-            if (!inv.TryFeed(from, loadout.Drawn(side))) inv.EquipToLoadout(from, loadout.ActiveSet, side);
+            int before = inv.Count(from);
+            ItemDefinition fuel = UiDrop.Def(inv.Item(from));
+            GameObject target = loadout.Drawn(side);
+            if (inv.TryFeed(from, target)) UiDrop.Fed(before, inv.Count(from), fuel, target);
+            else if (!inv.EquipToLoadout(from, loadout.ActiveSet, side)) UiSfx.Play(UiSound.Denied);
         }
         else if (BagDrag.ClaimLoadout(out Loadout owner, out int fromSet, out HandSide fromSide))
-            owner.TryMove(fromSet, fromSide, loadout.ActiveSet, side);
+        {
+            UiSound s = owner.Item(loadout.ActiveSet, side) == null ? UiSound.Place : UiSound.Swap;
+            UiSfx.Play(owner.TryMove(fromSet, fromSide, loadout.ActiveSet, side) ? s : UiSound.Denied);
+        }
     }
 
     public void OnBeginDrag(PointerEventData e)
@@ -119,12 +126,18 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
         bool claimed = BagDrag.End();
         if (!handSlot)
         {
-            if (!claimed && skillSlots != null) skillSlots.Clear(skillIndex);
+            if (!claimed && skillSlots != null)
+            {
+                skillSlots.Clear(skillIndex);
+                UiSfx.Play(UiSound.Return, 1f, 0.85f);   // taken off the slot
+            }
             return;
         }
 
         // unclaimed and released over no UI: dropped into the world under the cursor
-        if (!claimed && e.pointerCurrentRaycast.gameObject == null && loadout.TryGetComponent(out Inventory inv))
+        bool intoWorld = e.pointerCurrentRaycast.gameObject == null;
+        if (!claimed) UiDrop.Unclaimed(intoWorld);
+        if (!claimed && intoWorld && loadout.TryGetComponent(out Inventory inv))
             inv.DropLoadoutAt(dragSet, side, inv.WorldDropPoint());
     }
 

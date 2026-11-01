@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7300000000000000002}
   - component: {fileID: 7300000000000000003}
+  - component: {fileID: 3604889924912031078}
   m_Layer: 0
   m_Name: Whirlwind
   m_TagString: Untagged
@@ -50,3 +51,19 @@ MonoBehaviour:
   maxTargets: 4
   damageMultiplier: 1
   cooldown: 8
+--- !u!114 &3604889924912031078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7300000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f084eeba3f550f2459207d81ed9dd940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WhirlwindAudio
+  start: {fileID: 11400000, guid: ad4ee460b594c014d81089ac831ac763, type: 2}
+  spin: {fileID: 11400000, guid: 663342fedede6f64ba93e4ad05511382, type: 2}
+  risePerTurn: 0.5
+  end: {fileID: 11400000, guid: 96729b2c0b2ea4840a439fa53c7fb211, type: 2}

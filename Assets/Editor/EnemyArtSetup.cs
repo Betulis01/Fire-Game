@@ -259,7 +259,9 @@ static class EnemyArtSetup
         settings.loopTime = !from.name.EndsWith("_death");   // death holds its last frame
         AnimationUtility.SetAnimationClipSettings(clip, settings);
 
-        AnimationUtility.SetAnimationEvents(clip, from.name.EndsWith("_bite") ? BiteEvents(spec, clip) : new AnimationEvent[0]);
+        // the bite's attack events, and the run / walk clips' footsteps (FootstepEvents)
+        AnimationEvent[] events = from.name.EndsWith("_bite") ? BiteEvents(spec, clip) : new AnimationEvent[0];
+        AnimationUtility.SetAnimationEvents(clip, FootstepEvents.With(clip, path, events));
 
         EditorUtility.SetDirty(clip);
         return clip;
@@ -356,6 +358,9 @@ static class EnemyArtSetup
             AddToDisable(root.GetComponent<EntityDeath>(), root.GetComponent<FleeBehavior>());
 
             if (created) spec.tune?.Invoke(root);
+
+            // its own voice, feet and flesh -- a fresh copy carries the skeleton's
+            AudioPrefabSetup.SetUpCreature(root, spec.name, overwrite: created);
 
             PrefabUtility.SaveAsPrefabAsset(root, spec.PrefabPath);
         }

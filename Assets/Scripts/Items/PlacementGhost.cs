@@ -23,6 +23,13 @@ public class PlacementGhost : MonoBehaviour
     Collider2D[] colliders;
     Behaviour[] behaviours;   // every other script on the structure, off until built
 
+    // A build's moments, for the audio layer: the ghost appearing, placed, cancelled
+    // (where it was), and the structure finished (the real object, now built).
+    public static event System.Action<PlacementGhost> Began;
+    public static event System.Action<PlacementGhost> Placed;
+    public static event System.Action<Vector3> Cancelled;
+    public static event System.Action<GameObject> Completed;
+
     public static PlacementGhost Begin(Recipe recipe, Transform follow, Camera cam, float distance, InteractPrompt buildPromptPrefab)
     {
         GameObject go = Instantiate(recipe.output.prefab);
@@ -51,6 +58,7 @@ public class PlacementGhost : MonoBehaviour
             if (c != null) c.enabled = false;
 
         SetOpacity(0.45f);
+        Began?.Invoke(this);
     }
 
     void Update()
@@ -83,6 +91,7 @@ public class PlacementGhost : MonoBehaviour
         if (active == this) active = null;
         BuildRequirement req = gameObject.AddComponent<BuildRequirement>();
         req.Init(recipe, this, buildPromptPrefab);
+        Placed?.Invoke(this);
     }
 
     // called by BuildRequirement once every ingredient has been deposited
@@ -100,6 +109,7 @@ public class PlacementGhost : MonoBehaviour
         WorldItem worldItem = GetComponent<WorldItem>();
         if (worldItem != null) worldItem.SetHeld(false);
 
+        Completed?.Invoke(gameObject);
         Destroy(this);
     }
 
@@ -107,6 +117,7 @@ public class PlacementGhost : MonoBehaviour
     {
         AnyActive = false;
         if (active == this) active = null;
+        Cancelled?.Invoke(transform.position);
         Destroy(gameObject);
     }
 

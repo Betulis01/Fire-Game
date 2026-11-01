@@ -30,6 +30,7 @@ public class FuelReceiver : ItemReceiver
         if (!Accepts(item)) return false;
 
         Fuel.Add(burnable.fuelPerItem, burnable.burnRate, item.item);
+        RaiseDeposited(item);
         return true;
     }
 

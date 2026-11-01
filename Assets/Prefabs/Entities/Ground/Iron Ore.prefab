@@ -113,6 +113,9 @@ GameObject:
   - component: {fileID: 8928725790111416875}
   - component: {fileID: 1903988441506698890}
   - component: {fileID: 2359455645000855525}
+  - component: {fileID: 4320153206978022604}
+  - component: {fileID: 4518767087932181366}
+  - component: {fileID: 3477192601798806532}
   m_Layer: 6
   m_Name: Iron Ore
   m_TagString: Untagged
@@ -327,6 +330,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PropArt
   bodyLayer: Layer 1
   controller: {fileID: 9100000, guid: 52d8f3cab9e64a4fa7c1d6e8f2a3b495, type: 2}
+--- !u!114 &4320153206978022604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
+  surface: {fileID: 11400000, guid: 0d59456e229b9134db3a45584b734270, type: 2}
+--- !u!114 &4518767087932181366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05778ea547207f46820efb650047fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleAudio
+  shake: {fileID: 0}
+  creak: {fileID: 0}
+  creakBelow: 0.3
+  destroyed: {fileID: 11400000, guid: b02d67e4e4b4f3345a7082c72eca04d5, type: 2}
+--- !u!114 &3477192601798806532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3736c78c5799b148a85f4a77e8830d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootAudio
 --- !u!1 &7390303684534494413
 GameObject:
   m_ObjectHideFlags: 0

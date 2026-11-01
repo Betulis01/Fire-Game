@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Polar Bear Meat Cooked
   displayName: Polar Bear Meat Cooked
   prefab: {fileID: 6197461963866386601, guid: 83f6284895c37214ab848654ebbc5a50, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: dacaf3fbc17510b439054b6703a40c04, type: 2}

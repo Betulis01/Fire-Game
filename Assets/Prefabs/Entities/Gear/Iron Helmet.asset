@@ -16,3 +16,5 @@ MonoBehaviour:
   displayName: Iron Helmet
   prefab: {fileID: 449804582166282785, guid: 8304b20d93b74b0594e9d3f0ed9d0258, type: 3}
   icon: {fileID: 21300000, guid: df4bd59170924ad6a72be98bbb3a6c55, type: 3}
+  size: 0
+  sounds: {fileID: 11400000, guid: 27eea88916802fe49a625413a350d629, type: 2}

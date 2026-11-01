@@ -11,21 +11,30 @@ public class StationInteractable : Interactable
 
     public bool IsOpen { get; private set; }
 
+    // This station's panel opening and closing (however it closed), for the audio layer.
+    public event System.Action PanelOpened;
+    public event System.Action PanelClosed;
+
     public void Open()
     {
         if (StationPanelUI.Instance == null) return;
         StationPanelUI.Instance.Show(this);
-        IsOpen = true;
+        if (!IsOpen) { IsOpen = true; PanelOpened?.Invoke(); }
     }
 
     public void Close()
     {
         if (StationPanelUI.Instance != null) StationPanelUI.Instance.Hide(this);
-        IsOpen = false;
+        Closed();
     }
 
     // another station's panel took over, or this one's went away
-    public void Closed() => IsOpen = false;
+    public void Closed()
+    {
+        if (!IsOpen) return;
+        IsOpen = false;
+        PanelClosed?.Invoke();
+    }
 
     public override bool Interact(PlayerController player)
     {

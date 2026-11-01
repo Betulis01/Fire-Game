@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
+  m_Name: sfx_hemp_rustle
+  m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
+  clips: []
+  selection: 0
+  volumeDb: 0
+  volumeJitterDb: 1.5
+  pitchJitterSemitones: 0.8
+  output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
+  space: 0
+  rangeScale: 1
+  loop: 0
+  ignorePause: 0
+  cooldown: 0.04
+  maxVoices: 4
+  steal: 0
+  priority: 1
+  layers: []
+  startDelay: 0
+  startDelayJitter: 0
+  brief: 'When: Walking through a Hemp Plant (CollideAnimation; 5 in the scene)
+
+    Dry
+    stalk swish.'
+  catalogPriority: P2
+  catalogSection: 9.3 Bushes and plants
+  catalogVariants: 3

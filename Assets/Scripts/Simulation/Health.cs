@@ -68,7 +68,9 @@ public class Health : MonoBehaviour, IHitReactor
         if (gate != null && !gate.Accepts(hit.kind)) return;
 
         ShieldBlock block = GetComponent<ShieldBlock>();
-        float damage = block != null && block.IsBlocking ? hit.damage * (1f - block.DamageReduction) : hit.damage;
+        bool blocked = block != null && block.IsBlocking;
+        float damage = blocked ? hit.damage * (1f - block.DamageReduction) : hit.damage;
+        if (blocked) block.NotifyBlocked(hit);
 
         TakeDamage(damage, DamageType.Combat, hit.point, hit.attacker, hit.kind, hit.isCrit);
     }

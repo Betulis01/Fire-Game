@@ -62,8 +62,19 @@ public class Quickslot : MonoBehaviour
         return true;
     }
 
+    // Raised when R (or a click) finds nothing to eat: on cooldown, none left, or no
+    // food assigned.
+    public event Action EatFailed;
+
     // Eat one of the assigned food from the bag. False on cooldown or with none left.
     public bool TryEat()
+    {
+        if (TryEatOne()) return true;
+        EatFailed?.Invoke();
+        return false;
+    }
+
+    bool TryEatOne()
     {
         if (Assigned == null || food == null || Time.time < readyAt) return false;
         for (int i = 0; i < inventory.Capacity; i++)

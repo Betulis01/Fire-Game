@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b15d159d1b6a55489ab856beeb8cc72, type: 3}
+  m_Name: Item_Bag
+  m_EditorClassIdentifier: Assembly-CSharp::ItemSounds
+  pickup: {fileID: 11400000, guid: a3141f79feb8c46488360c3f08863a29, type: 2}
+  land: {fileID: 11400000, guid: 3feb9113a1a6edf4bb5a93a278ae681c, type: 2}
+  equip: {fileID: 11400000, guid: bd9f30711c0e89a41add6c4419194ea1, type: 2}
+  unequip: {fileID: 11400000, guid: c7ea73601cd663646bf48c41b62f5def, type: 2}
+  use: {fileID: 0}

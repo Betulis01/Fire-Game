@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b190e84691aae84599031b56eb13848, type: 3}
+  m_Name: Fire_Furnace
+  m_EditorClassIdentifier: Assembly-CSharp::FireSoundSet
+  layers:
+  - loop: {fileID: 11400000, guid: 93fadbedf7a0195428d831b6316f2efa, type: 2}
+    centre: 0.125
+  - loop: {fileID: 11400000, guid: 10e735e4460c7cb4b8da7e00b59ffea6, type: 2}
+    centre: 0.375
+  - loop: {fileID: 11400000, guid: 70c3704d2d5b9654cb236807e1e5239a, type: 2}
+    centre: 0.625
+  - loop: {fileID: 11400000, guid: a12fb94b7a7390e42b58085a7ab4f436, type: 2}
+    centre: 0.875
+  feeds: []
+  feedDefault: {fileID: 11400000, guid: 004304de2657fa2499792823122c17e3, type: 2}
+  stageCount: 4
+  stageUp: {fileID: 0}
+  low: {fileID: 0}
+  lowAt: 0.15
+  outSound: {fileID: 11400000, guid: 3c872403631d30a4d84301d55b7fcae1, type: 2}
+  relight: {fileID: 0}
+  pop: {fileID: 0}
+  popInterval: {x: 6, y: 1}
+  motionBoost: 0

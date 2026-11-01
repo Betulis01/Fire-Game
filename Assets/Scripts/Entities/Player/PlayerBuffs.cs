@@ -27,17 +27,22 @@ public class PlayerBuffs : MonoBehaviour, IStatSource
 
     public float SpeedMultiplier { get; private set; } = 1f;
     public event System.Action StatsChanged;
+    // A buff starting (food) or running out, for the audio layer.
+    public event System.Action Added;
+    public event System.Action Expired;
 
     public void ApplySpeedBuff(float multiplier, float duration)
     {
         speedBuffs.Add(new SpeedBuff { multiplier = multiplier, remaining = duration });
         Recalculate();
+        Added?.Invoke();
     }
 
     public void ApplyMaxHealthBuff(float amount, float duration)
     {
         healthBuffs.Add(new MaxHealthBuff { amount = amount, remaining = duration });
         StatsChanged?.Invoke();
+        Added?.Invoke();
     }
 
     public void AddStats(ref StatBlock total)
@@ -52,7 +57,11 @@ public class PlayerBuffs : MonoBehaviour, IStatSource
             for (int i = speedBuffs.Count - 1; i >= 0; i--)
             {
                 speedBuffs[i].remaining -= Time.deltaTime;
-                if (speedBuffs[i].remaining <= 0f) speedBuffs.RemoveAt(i);
+                if (speedBuffs[i].remaining <= 0f)
+                {
+                    speedBuffs.RemoveAt(i);
+                    Expired?.Invoke();
+                }
             }
             Recalculate();
         }
@@ -64,6 +73,7 @@ public class PlayerBuffs : MonoBehaviour, IStatSource
             {
                 healthBuffs.RemoveAt(i);
                 StatsChanged?.Invoke();
+                Expired?.Invoke();
             }
         }
     }

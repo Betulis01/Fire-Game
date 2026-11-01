@@ -16,3 +16,5 @@ MonoBehaviour:
   displayName: Pouch
   prefab: {fileID: 449804582166282785, guid: 8b4b4e7aaca042a2aa63a2e2160c4e07, type: 3}
   icon: {fileID: -317825125816557920, guid: fb23028e011948a39ce7a39b9b4da3fb, type: 3}
+  size: 0
+  sounds: {fileID: 11400000, guid: c2f5964c63d54724d9819602fa5598c1, type: 2}

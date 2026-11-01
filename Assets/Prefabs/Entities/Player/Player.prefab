@@ -293,6 +293,12 @@ GameObject:
   - component: {fileID: 4326000000000000001}
   - component: {fileID: 4327000000000000001}
   - component: {fileID: 7600000000000000013}
+  - component: {fileID: 1996565598004143774}
+  - component: {fileID: 9184440169266014395}
+  - component: {fileID: 550569736689249214}
+  - component: {fileID: 8731258889453518365}
+  - component: {fileID: 1662318884845767388}
+  - component: {fileID: 3901082386094498049}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1072,6 +1078,113 @@ MonoBehaviour:
   rotateWest: 0
   backViewOffset: 6
   frontViewOffset: -1
+--- !u!114 &1996565598004143774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3efc1c372c8260d44967b17ebe0277ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponAudio
+  chargeReady: {fileID: 11400000, guid: 23313d71158b57545a021df46c95a537, type: 2}
+  glance: {fileID: 11400000, guid: 4c2f2e7926e9af048a4bdfd339b28c0e, type: 2}
+  draw: {fileID: 11400000, guid: 357371c0c49c2884ea0accb36c0d6d9e, type: 2}
+  stow: {fileID: 11400000, guid: 188ac8e3a8838474598290a807780f67, type: 2}
+  loadoutSwap: {fileID: 11400000, guid: a4517b9458c828844aef5864ae69eff0, type: 2}
+  castDenied: {fileID: 11400000, guid: ee14c0f0302d64342a0ba10057e8167b, type: 2}
+  skillReady: {fileID: 11400000, guid: 929e02f4b0a3dd74b8a6357ed2577e03, type: 2}
+  chargeLoopDelay: 0.1
+--- !u!114 &9184440169266014395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6982e6d674410d642af493de3811d9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAudio
+  hurt: {fileID: 11400000, guid: a3fff922ef0f3a444ab9e5c86a3ea039, type: 2}
+  hurtHeavy: {fileID: 11400000, guid: 6cc9903e453b27b4ea1773680bdffd29, type: 2}
+  heavyFraction: 0.25
+  hurtBurn: {fileID: 11400000, guid: 60351a406863e9347a50e591dd8ced76, type: 2}
+  death: {fileID: 11400000, guid: 7edd5143522ae5d409ee428f10b122b3, type: 2}
+  heal: {fileID: 11400000, guid: dfc4a03f850baf44e97b228f8f16b59d, type: 2}
+  knockback: {fileID: 11400000, guid: 2b14e144c19f7004696af5fcf4791271, type: 2}
+  freezeStart: {fileID: 11400000, guid: fba00ec89713a04488b88646079c0aa1, type: 2}
+  freezingLoop: {fileID: 11400000, guid: c2361f193d6d3f8488109c8b3757d27a, type: 2}
+  coldTick: {fileID: 11400000, guid: bb47b84cab044d34d9b755d786687999, type: 2}
+  coldTickInterval: 1.5
+  warmRelief: {fileID: 11400000, guid: 5f852ce188c692c428fa0ddcf48b1d75, type: 2}
+  heartbeatLoop: {fileID: 11400000, guid: c94a902cd747325489ede7fe74b70a2f, type: 2}
+  lowHealth: 0.25
+  xpGain: {fileID: 11400000, guid: e925f452ce710834e820a9affe57c45d, type: 2}
+  streakWindow: 3
+  levelUp: {fileID: 11400000, guid: 2cbacc5488b95794983c57dcb11ca9a5, type: 2}
+  weaponLevelUp: {fileID: 11400000, guid: 57996fc0181a46647837fd85b49a94d6, type: 2}
+  killConfirm: {fileID: 11400000, guid: 125a7593662da3d40af95476da71af22, type: 2}
+  buffStart: {fileID: 11400000, guid: b84a5871c78621046bc89f877e6506a8, type: 2}
+  buffEnd: {fileID: 11400000, guid: 140672588a0987e409431bd8c582eebc, type: 2}
+--- !u!114 &550569736689249214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fa739d47c8e0e4faeeeaae420ec7c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FootstepAudio
+  profile: {fileID: 11400000, guid: ebd8a52fe917ced419f7afea02759b31, type: 2}
+  eventTimeout: 0.5
+--- !u!114 &8731258889453518365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
+  surface: {fileID: 11400000, guid: b2089c57c62b71346bfa67322b787623, type: 2}
+--- !u!114 &1662318884845767388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a75d2aeeddd8a48b1e4fbf6e203122, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractionAudio
+  holdFill: {fileID: 11400000, guid: 5bcc6ed1671ff9a4893955d4bd6c68ea, type: 2}
+  fumble: {fileID: 11400000, guid: b722035adb54fc941aab0b2ccd6f630a, type: 2}
+  throwAim: {fileID: 11400000, guid: 08e0cddd50b022644a71e1c4207ba90c, type: 2}
+--- !u!114 &3901082386094498049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4381895908916503135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c836b4d25cd4b4d904b4d7d1ec8f8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CraftAudio
 --- !u!1 &5500000000000000020
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c3b8cfdbef22e14384148f5e878437c, type: 3}
+  m_Name: MusicSounds
+  m_EditorClassIdentifier: Assembly-CSharp::MusicSounds
+  mainMenu: {fileID: 11400000, guid: 24cf0290c4a0130418fd3f6822855212, type: 2}
+  day: {fileID: 11400000, guid: 59bd4678ba5fcfc459ee89a7c290a12b, type: 2}
+  night: {fileID: 11400000, guid: ca317c3c78305744abab3bfdc885e190, type: 2}
+  combat: {fileID: 11400000, guid: e6c79aaad8dc11842b4c1f4b37728809, type: 2}
+  freezing: {fileID: 11400000, guid: 4ce341bdcf5d0eb4a889fea5eac7f5ff, type: 2}
+  lowFire: {fileID: 11400000, guid: 6b9b0e362d6f8824cbeda72427a084d1, type: 2}
+  lowFireRange: 15
+  lowFireAt: 0.15
+  gameOver: {fileID: 11400000, guid: 30d1ef169aba5964eb4d9c14e78a2c38, type: 2}
+  gameWon: {fileID: 11400000, guid: 4fd5fe1054041fe4588d0fe6618e1f1c, type: 2}
+  baseCrossfade: 3
+  layerFadeIn: 2
+  layerFadeOut: 4

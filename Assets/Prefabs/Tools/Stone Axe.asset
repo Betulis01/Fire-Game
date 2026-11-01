@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Stone Axe
   displayName: Stone Axe
   prefab: {fileID: 3462038774614361535, guid: c8ee75a8feac6234ba821e9bd5dd1a78, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: a78195a6d6b373848a955e9aaaf55837, type: 2}

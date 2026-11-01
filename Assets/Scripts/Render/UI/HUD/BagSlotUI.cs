@@ -66,17 +66,27 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         // unclaimed and released over no UI: into the world under the cursor
         bool claimed = BagDrag.End();
-        if (!claimed && e.pointerCurrentRaycast.gameObject == null) tab.DropInWorld(index);
+        bool intoWorld = e.pointerCurrentRaycast.gameObject == null;
+        if (!claimed) UiDrop.Unclaimed(intoWorld);
+        if (!claimed && intoWorld) tab.DropInWorld(index);
     }
 
     public void OnDrop(PointerEventData e)
     {
         if (BagDrag.Claim(out Inventory inv, out int from))
         {
-            if (!inv.TryFeed(from, inv.Item(index))) inv.Move(from, index);
+            int before = inv.Count(from);
+            ItemDefinition fuel = UiDrop.Def(inv.Item(from));
+            GameObject target = inv.Item(index);
+            if (inv.TryFeed(from, target)) UiDrop.Fed(before, inv.Count(from), fuel, target);
+            else
+            {
+                UiSfx.Play(UiDrop.MoveSound(inv, from, index));
+                inv.Move(from, index);
+            }
         }
         else if (tab != null && tab.Inventory != null && BagDrag.ClaimLoadout(out _, out int set, out HandSide side))
-            tab.Inventory.UnequipLoadoutTo(set, side, index);
+            UiSfx.Play(tab.Inventory.UnequipLoadoutTo(set, side, index) ? UiSound.Place : UiSound.Denied);
     }
 
     // the menu closing mid-drag

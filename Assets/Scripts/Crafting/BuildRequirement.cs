@@ -12,6 +12,9 @@ public class BuildRequirement : ItemReceiver
     PlacementGhost ghost;
     int[] deposited;   // parallel to recipe.ingredients
 
+    // One ingredient of a build site fully supplied (static: sites are added at runtime).
+    public static event System.Action<BuildRequirement, ItemDefinition> IngredientSatisfied;
+
     public void Init(Recipe recipe, PlacementGhost ghost, InteractPrompt promptPrefab)
     {
         this.recipe = recipe;
@@ -39,6 +42,9 @@ public class BuildRequirement : ItemReceiver
         if (index < 0) return false;
 
         deposited[index]++;
+        RaiseDeposited(item);
+        if (deposited[index] == recipe.ingredients[index].amount)
+            IngredientSatisfied?.Invoke(this, recipe.ingredients[index].item);
         if (IsComplete()) Finish();
         return true;
     }

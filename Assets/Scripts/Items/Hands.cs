@@ -45,6 +45,11 @@ public class Hands : MonoBehaviour
     // can redraw
     public event Action Changed;
 
+    // The hands starting or stopping to carry a load (the loadout stows onto the back
+    // or is drawn again), for the audio layer.
+    public event Action<bool> CarryingChanged;
+    bool wasCarrying;
+
     void Awake()
     {
         if (playerAnimator == null) playerAnimator = GetComponent<PlayerAnimator>();
@@ -217,6 +222,7 @@ public class Hands : MonoBehaviour
         item.transform.position = pos;
         SetSpriteFlip(item, false);
         item.GetComponent<WorldItem>().SetHeld(false);
+        ItemEvents.RaiseLanded(item);
     }
 
     // Use up a hand's item (a crafting input, a log fed to the fire): destroyed, and
@@ -258,6 +264,11 @@ public class Hands : MonoBehaviour
     void Refresh()
     {
         bool carrying = IsCarrying;
+        if (carrying != wasCarrying)
+        {
+            wasCarrying = carrying;
+            CarryingChanged?.Invoke(carrying);
+        }
         for (int set = 0; set < Loadout.Sets; set++)
             foreach (HandSide side in new[] { HandSide.Left, HandSide.Right })
             {

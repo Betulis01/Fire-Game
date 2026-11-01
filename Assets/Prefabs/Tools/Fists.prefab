@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7700000000000000101}
   - component: {fileID: 7700000000000000102}
   - component: {fileID: 7700000000000000103}
+  - component: {fileID: 5469971769681927223}
   m_Layer: 0
   m_Name: Fists
   m_TagString: Untagged
@@ -46,10 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tool
   kind: 16
+  twoHanded: 0
   minDamage: 4
   maxDamage: 6
   range: 0.55
   arcAngle: 70
+  lungeBuffer: 0.4
   maxTargets: 2
   secondaryDamageMultiplier: 0.5
   secondaryCritFactor: 0.5
@@ -57,6 +60,7 @@ MonoBehaviour:
   selfKnockback: 2
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 2e23bd40fd702754c97727638d6df176, type: 3}
   swingEffectAngleOffset: 0
+  impactHold: 0
   lungeSpeed: 1
   lungeDuration: 0.15
   lungeCurve:
@@ -88,6 +92,8 @@ MonoBehaviour:
     flatBonus: 0
     targetKnockback: 3
     selfKnockback: 4
+    arcAngle: 0
+    maxTargets: 0
     swingEffectPrefab: {fileID: 7824789142328981932, guid: 2e23bd40fd702754c97727638d6df176, type: 3}
     swingEffectAngleOffset: 0
     lungeSpeed: 2
@@ -135,3 +141,16 @@ MonoBehaviour:
   priorityLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &5469971769681927223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700000000000000100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8e28ab876a5d64385854b52ac9d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolAudio
+  sounds: {fileID: 11400000, guid: f52d80b21e3922e4b84374f36b9cbd02, type: 2}

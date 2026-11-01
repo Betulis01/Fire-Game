@@ -71,7 +71,7 @@ public class FireLight : MonoBehaviour
     void OnEnable()  { if (fuel != null) fuel.FuelAdded += OnFuelAdded; }
     void OnDisable() { if (fuel != null) fuel.FuelAdded -= OnFuelAdded; }
 
-    void OnFuelAdded(float amount) => boostTimer = boostDuration;
+    void OnFuelAdded(float amount, ItemDefinition item) => boostTimer = boostDuration;
 
     void Update()
     {

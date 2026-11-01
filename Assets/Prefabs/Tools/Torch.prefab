@@ -279,6 +279,8 @@ GameObject:
   - component: {fileID: 6200000000000000001}
   - component: {fileID: 6200000000000000002}
   - component: {fileID: 1585957440290948344}
+  - component: {fileID: 501380635760028794}
+  - component: {fileID: 7202562380860610443}
   m_Layer: 0
   m_Name: Torch
   m_TagString: Untagged
@@ -436,6 +438,7 @@ MonoBehaviour:
   maxFuel: 30
   startFuel: 30
   startBurnRate: 0.8
+  meterColor: {r: 0.85490197, g: 0.5254902, b: 0.24313726, a: 1}
 --- !u!114 &2221216645559647939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +567,7 @@ MonoBehaviour:
   maxDamage: 6
   range: 0.5
   arcAngle: 80
+  lungeBuffer: 0.4
   maxTargets: 2
   secondaryDamageMultiplier: 0.5
   secondaryCritFactor: 0.5
@@ -652,6 +656,47 @@ MonoBehaviour:
   priorityLayers:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &1585957440290948344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Burnable
+  fuelType: 0
+  fuelPerItem: 5
+  burnRate: 1
+--- !u!114 &501380635760028794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8e28ab876a5d64385854b52ac9d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolAudio
+  sounds: {fileID: 11400000, guid: 16431d70ed421e5469cf8e07c150158d, type: 2}
+--- !u!114 &7202562380860610443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4906144326694474802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a2b07f193ecae448613683701be191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireAudio
+  sounds: {fileID: 11400000, guid: 674b9777e64e05d43a928755aa94e34b, type: 2}
 --- !u!1 &5290250976460836239
 GameObject:
   m_ObjectHideFlags: 0
@@ -916,18 +961,3 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.15}
   m_Radius: 0.4
---- !u!114 &1585957440290948344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4906144326694474802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17634bfc847943346b55aefb61deb6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Burnable
-  fuelType: 0
-  fuelPerItem: 5
-  burnRate: 1

@@ -24,7 +24,13 @@ public class Pickupable : Interactable
     // true if the item was taken (or merged into a stack), or fumbled for want of room
     public override bool Interact(PlayerController player)
     {
-        if (player.TryGetComponent(out Inventory inventory) && inventory.TryTake(worldItem)) return true;
+        ItemDefinition item = worldItem.item;
+        Vector3 at = transform.position;   // taking it may destroy it (merged into a stack)
+        if (player.TryGetComponent(out Inventory inventory) && inventory.TryTake(worldItem))
+        {
+            ItemEvents.RaisePickedUp(item, at, auto: false);
+            return true;
+        }
         return player.TryGetComponent(out PlayerInteractor interactor) && interactor.Fumble(worldItem);
     }
 }

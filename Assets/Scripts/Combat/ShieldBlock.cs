@@ -20,6 +20,13 @@ public class ShieldBlock : MonoBehaviour
     public bool IsBlocking { get; private set; }
     public float DamageReduction => activeShield != null ? activeShield.blockReduction : 0f;
 
+    // The shield going up / down, and a hit it took (Health.OnHit reports it), for the
+    // audio layer.
+    public event System.Action<bool> BlockingChanged;
+    public event System.Action<HitInfo> Blocked;
+
+    internal void NotifyBlocked(in HitInfo hit) => Blocked?.Invoke(hit);
+
     void Awake()
     {
         hands = GetComponent<Hands>();
@@ -32,7 +39,9 @@ public class ShieldBlock : MonoBehaviour
     void Update()
     {
         activeShield = FindBlockingShield();
+        bool wasBlocking = IsBlocking;
         IsBlocking = activeShield != null;
+        if (IsBlocking != wasBlocking) BlockingChanged?.Invoke(IsBlocking);
 
         if (playerAnimator == null || playerAnimator.handRig == null) return;
         Vector3 offset = IsBlocking ? (Vector3)activeShield.raiseOffset : Vector3.zero;

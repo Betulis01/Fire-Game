@@ -31,6 +31,7 @@ public class FoodUse : MonoBehaviour
                 buffs.ApplySpeedBuff(edible.speedMultiplier, edible.buffDuration);
         }
 
+        ItemEvents.RaiseEaten(item);
         return true;
     }
 }

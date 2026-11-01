@@ -61,6 +61,11 @@ public class ThrownAxe : MonoBehaviour
     float curveSide;
     Action caught;
 
+    // For the audio layer (on the Thrown Axe prefab): sinking into its target, and
+    // heading home -- ripped out of the target (true) or a miss turning back (false).
+    public event Action<Vector2> Stuck;
+    public event Action<bool> Returning;
+
     YSort ysort;
     float height;
     Phase phase;
@@ -171,6 +176,7 @@ public class ThrownAxe : MonoBehaviour
         stuckOffset = point - (Vector2)target.Owner.transform.position;
         stuckUntil = Time.time + cfg.stickTime;
         phase = Phase.Stuck;
+        Stuck?.Invoke(point);
     }
 
     void Stick()
@@ -182,9 +188,11 @@ public class ThrownAxe : MonoBehaviour
 
     void TurnBack()
     {
+        bool fromTarget = phase == Phase.Stuck;
         backFrom = transform.position;
         backT = 0f;
         phase = Phase.Back;
+        Returning?.Invoke(fromTarget);
     }
 
     void FlyBack(float dt)

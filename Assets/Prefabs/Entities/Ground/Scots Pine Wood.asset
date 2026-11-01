@@ -15,4 +15,6 @@ MonoBehaviour:
   id: Wood
   displayName: Wood
   prefab: {fileID: 4257288121414011606, guid: 2b25a5f193ee9cb4db5ed8914ed19272, type: 3}
+  icon: {fileID: 0}
   size: 1
+  sounds: {fileID: 11400000, guid: 7b71156f23663524f9135796bbb942ff, type: 2}

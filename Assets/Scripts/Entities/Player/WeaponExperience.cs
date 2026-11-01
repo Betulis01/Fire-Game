@@ -46,6 +46,7 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor, IStatSource
 
     public event Action Changed;
     public event Action StatsChanged;
+    public event Action<ToolKind, int> LeveledUp;   // weapon kind, new level
 
     public void OnDealtDamage(Health victim, in DamageInfo info)
     {
@@ -56,8 +57,10 @@ public class WeaponExperience : MonoBehaviour, IDamageDealtReactor, IStatSource
     public void Add(ToolKind kind, int amount)
     {
         if (amount <= 0) return;
-        Get(kind).track.Add(amount);
+        ExperienceTrack track = Get(kind).track;
+        int gained = track.Add(amount);
         Changed?.Invoke();
+        if (gained > 0) LeveledUp?.Invoke(kind, track.level);
     }
 
     public int Level(ToolKind kind) => Get(kind).track.level;

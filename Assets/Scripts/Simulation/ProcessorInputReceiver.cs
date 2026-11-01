@@ -20,7 +20,12 @@ public class ProcessorInputReceiver : ItemReceiver
     public override bool Accepts(WorldItem item) =>
         processor.HasRoom && processor.CanProcess(item);
 
-    public override bool Deposit(WorldItem item) => processor.TryEnqueue(item);
+    public override bool Deposit(WorldItem item)
+    {
+        if (!processor.TryEnqueue(item)) return false;
+        RaiseDeposited(item);
+        return true;
+    }
 
     protected override string PromptLabel(WorldItem held) =>
         $"{verb} {held.item.displayName}";

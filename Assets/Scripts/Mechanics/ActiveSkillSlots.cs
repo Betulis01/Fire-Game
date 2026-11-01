@@ -28,6 +28,11 @@ public class ActiveSkillSlots : MonoBehaviour
 
     // raised when a slot's spell, a hand's contents or the learned spells change
     public event Action Changed;
+    // A skill key that did nothing (empty slot, no hand for it, locked, on cooldown),
+    // and a learned spell's cooldown running out -- for the audio layer.
+    public event Action<int> CastFailed;
+    public event Action<IActiveSkill> CooldownReady;
+    readonly HashSet<ActiveSkill> cooling = new();
 
     void Awake()
     {
@@ -137,6 +142,13 @@ public class ActiveSkillSlots : MonoBehaviour
 
     void Update()
     {
+        foreach (ActiveSkill skill in skills)
+        {
+            if (skill == null) continue;
+            if (skill.Cooldown01 > 0f) cooling.Add(skill);
+            else if (cooling.Remove(skill)) CooldownReady?.Invoke(skill);
+        }
+
         if (loadout != null && loadout.IsSwapping) return;   // the swap's beat
         if (UserInput.Instance.SkillPressed(HandSide.Left)) Cast(0);
         if (UserInput.Instance.SkillPressed(HandSide.Right)) Cast(1);
@@ -145,7 +157,8 @@ public class ActiveSkillSlots : MonoBehaviour
     void Cast(int slot)
     {
         IActiveSkill skill = slots[slot];
-        if (skill is UnityEngine.Object o && o == null) return;   // a destroyed component behind the interface
-        if (TryGetCaster(skill, out HandSide side)) skill.TryActivate(gameObject, side);
+        bool cast = !(skill is UnityEngine.Object o && o == null)   // a destroyed component behind the interface
+                    && TryGetCaster(skill, out HandSide side) && skill.TryActivate(gameObject, side);
+        if (!cast) CastFailed?.Invoke(slot);
     }
 }

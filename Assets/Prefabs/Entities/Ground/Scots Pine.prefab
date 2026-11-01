@@ -219,6 +219,9 @@ GameObject:
   - component: {fileID: 351951462737786225}
   - component: {fileID: 2992293261419526648}
   - component: {fileID: 1109325708631029980}
+  - component: {fileID: 2455711227933181101}
+  - component: {fileID: 7577012247363378619}
+  - component: {fileID: 7612861554081961978}
   m_Layer: 6
   m_Name: Scots Pine
   m_TagString: Untagged
@@ -436,7 +439,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PropArt
   bodyLayer: Root
   controller: {fileID: 9100000, guid: 8d3f4b21c7a6495e9b0a1f2e3d4c5b6a, type: 2}
-  variants: {fileID: 0}
+--- !u!114 &2455711227933181101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
+  surface: {fileID: 11400000, guid: 8a17e825f43aded4982b958569cbf48c, type: 2}
+--- !u!114 &7577012247363378619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05778ea547207f46820efb650047fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleAudio
+  shake: {fileID: 11400000, guid: 2f16ce02cf4d2a74d97686f88a8fe811, type: 2}
+  creak: {fileID: 11400000, guid: 7d90e77dcd26f4b40bfcabca087a47ce, type: 2}
+  creakBelow: 0.3
+  destroyed: {fileID: 11400000, guid: 3aa28967e88f45f47a93cc8534662daa, type: 2}
+--- !u!114 &7612861554081961978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4749449456151482961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3736c78c5799b148a85f4a77e8830d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootAudio
 --- !u!1 &8939883893667941428
 GameObject:
   m_ObjectHideFlags: 0

@@ -63,6 +63,12 @@ public class EnemyAttacker : MonoBehaviour
     // an object in the scene, so debug tools can't find it by searching).
     public StrikeShape Strike => tool != null ? tool.GetStrike(false) : default;
 
+    // The swing's moments, for the audio layer (CreatureAudio): the windup starting
+    // (the dodge tell), the swing frame, and the contact frame (whether anything was hit).
+    public event System.Action SwingStarted;
+    public event System.Action Swung;
+    public event System.Action<bool> Struck;
+
     void Awake()
     {
         tool = weapon.GetComponent<Tool>();
@@ -95,6 +101,7 @@ public class EnemyAttacker : MonoBehaviour
         armed = true;
 
         if (animator != null) animator.PlayAttack(0f, aimDir);
+        SwingStarted?.Invoke();
     }
 
     // Called by an Animation Event on the attack clip, at the swing's start frame —
@@ -105,6 +112,7 @@ public class EnemyAttacker : MonoBehaviour
         if (!armed) return;
         tool.SpawnSwingEffect(Origin, aimDir, false, aimOrigin != null ? aimOrigin : transform, false,
                               tool.GetStrike(false).range);
+        Swung?.Invoke();
     }
 
     // Called by an Animation Event on the attack clip, at the contact frame.
@@ -115,7 +123,8 @@ public class EnemyAttacker : MonoBehaviour
         GameObject preferred = swingTarget != null ? swingTarget.gameObject : null;
         TargetQuery query = melee.Query(gameObject, Origin, aimDir, tool.GetStrike(false), tool.kind,
                                         TargetScoring.Distance, preferred, float.PositiveInfinity);
-        melee.Strike(tool.GetAttack(false, stats), query);
+        StrikeResult result = melee.Strike(tool.GetAttack(false, stats), query);
         armed = false;
+        Struck?.Invoke(!result.Missed);
     }
 }

@@ -40,17 +40,30 @@ public class MeleeWeapon : MonoBehaviour
     // Land a swing: each target resolves its own damage from `attack`; the
     // secondaries take the shape's secondary damage and crit penalties. The
     // attacker's reactors hear about it once, at the primary's contact point.
-    // Returns how many targets were hit.
-    public int Strike(in AttackData attack, in TargetQuery query)
+    // Returns how many targets were hit, and how many of those it glanced off.
+    public StrikeResult Strike(in AttackData attack, in TargetQuery query)
     {
         MeleeTargeting.Select(query, targets);
-        if (targets.Count == 0) return 0;
+        if (targets.Count == 0) return default;
 
+        int glances = 0;
         for (int i = 0; i < targets.Count; i++)
+        {
             HitResolution.Deliver(targets[i].hurtbox, query.owner, attack, targets[i].point,
                                   i == 0, query.shape.secondaryDamage, query.shape.secondaryCritFactor);
+            if (targets[i].glancing) glances++;
+        }
 
         HitResolution.NotifyAttacker(query.owner, attack, targets[0].point);
-        return targets.Count;
+        return new StrikeResult { hits = targets.Count, glances = glances };
     }
+}
+
+// What one melee swing connected with: `hits` targets, `glances` of them ones it
+// can't damage (a fist on a tree, an axe on stone). Zero hits is a miss.
+public struct StrikeResult
+{
+    public int hits;
+    public int glances;
+    public bool Missed => hits == 0;
 }

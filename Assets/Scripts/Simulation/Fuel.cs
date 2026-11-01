@@ -25,7 +25,7 @@ public class Fuel : MonoBehaviour, IItemMeter
 
     readonly List<BurningItem> items = new();   // front (index 0) is burning now
 
-    public event Action<float> FuelAdded;   // raised when fuel is added; passes the amount
+    public event Action<float, ItemDefinition> FuelAdded;   // raised when fuel is added: the amount, and what it was (null for none)
 
     float Total
     {
@@ -87,7 +87,7 @@ public class Fuel : MonoBehaviour, IItemMeter
         if (amount <= 0f) return;
 
         items.Add(new BurningItem { remaining = amount, burnRate = burnRate, item = item });
-        FuelAdded?.Invoke(amount);
+        FuelAdded?.Invoke(amount, item);
     }
 
     // clears the queue and starts fresh with a single item -- for callers that drive this

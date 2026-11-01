@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab7ecb3617189c4fafb41b2bb795439, type: 3}
+  m_Name: GroundSounds
+  m_EditorClassIdentifier: Assembly-CSharp::GroundSounds
+  grounds:
+  - ground: 0
+    step: {fileID: 11400000, guid: 7d672953ecd0ad143a9d53db1679115c, type: 2}
+    land: {fileID: 11400000, guid: 4ce691b47ac39f147b99e56ce6d5dbec, type: 2}
+  - ground: 1
+    step: {fileID: 11400000, guid: cfc341e03a8509a4da6a0d4dd2e8f2fc, type: 2}
+    land: {fileID: 11400000, guid: 0ac0bad8236be054b84d55e0d73ab8b5, type: 2}
+  - ground: 2
+    step: {fileID: 11400000, guid: 23d82a916539b914c9fa053f7aa4d807, type: 2}
+    land: {fileID: 11400000, guid: 5f57c8c98c3fdc74395d60e5e584299c, type: 2}
+  - ground: 3
+    step: {fileID: 11400000, guid: 2a6b62274aa62af4c871306619ba00cf, type: 2}
+    land: {fileID: 0}
+  - ground: 4
+    step: {fileID: 11400000, guid: fbc413fbe439aa74b94991878dc9ddb4, type: 2}
+    land: {fileID: 0}

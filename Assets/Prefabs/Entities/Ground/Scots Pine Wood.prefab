@@ -23,6 +23,9 @@ GameObject:
   - component: {fileID: -3586161722661753034}
   - component: {fileID: 742447048361910676}
   - component: {fileID: 1957586619474963789}
+  - component: {fileID: 1886779665518852073}
+  - component: {fileID: 1075194091563395062}
+  - component: {fileID: 1207376094436012688}
   m_Layer: 6
   m_Name: Scots Pine Wood
   m_TagString: Untagged
@@ -250,7 +253,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PropArt
   bodyLayer: Wood
   controller: {fileID: 9100000, guid: d31e8d719ad16d94f97521b710c0efed, type: 2}
-  variants: {fileID: 0}
+--- !u!114 &1886779665518852073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257288121414011606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
+  surface: {fileID: 11400000, guid: 08c73cf62f3130e488d879df50c4635b, type: 2}
+--- !u!114 &1075194091563395062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257288121414011606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05778ea547207f46820efb650047fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleAudio
+  shake: {fileID: 0}
+  creak: {fileID: 0}
+  creakBelow: 0.3
+  destroyed: {fileID: 11400000, guid: be6798d7272cbeb4eaa87c00d1b4309f, type: 2}
+--- !u!114 &1207376094436012688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257288121414011606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3736c78c5799b148a85f4a77e8830d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootAudio
 --- !u!1 &4320884447366764477
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,6 +391,7 @@ GameObject:
   - component: {fileID: 6168005628966507198}
   - component: {fileID: 1823674245014035706}
   - component: {fileID: 6075750760359895670}
+  - component: {fileID: 7190417756558194370}
   m_Layer: 0
   m_Name: BumpArea
   m_TagString: Untagged
@@ -439,6 +483,20 @@ PolygonCollider2D:
       - {x: 0.20123217, y: 0.0004709959}
       - {x: 0.17795014, y: 0.1271097}
   m_UseDelaunayMesh: 1
+--- !u!114 &7190417756558194370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4692743026500548906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 353107992a6a90148945df3ca4367607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollideAudio
+  touched: {fileID: 11400000, guid: de83d1a1dc56abd4ebf5013846852ca4, type: 2}
+  cooldown: 0.5
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

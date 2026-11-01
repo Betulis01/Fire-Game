@@ -26,6 +26,12 @@ public class Projectile : MonoBehaviour
     Vector2 spawnPos;
     float maxRange;
 
+    // For the audio layer (on this projectile's prefab): fired, struck a hurtbox (the
+    // victim's point), and spent its range without hitting anything (where it fell).
+    public event System.Action Launched;
+    public event System.Action<Vector2> HitSomething;
+    public event System.Action<Vector2> Expired;
+
     public void Launch(in AttackData attack, GameObject owner, Vector2 direction, float speed, float range)
     {
         this.attack = attack;
@@ -36,6 +42,7 @@ public class Projectile : MonoBehaviour
         maxRange = range;
 
         transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        Launched?.Invoke();
     }
 
     void FixedUpdate()
@@ -48,6 +55,7 @@ public class Projectile : MonoBehaviour
 
         if (traveled >= maxRange || speed <= MinSpeed)
         {
+            Expired?.Invoke(transform.position);
             Destroy(gameObject);
             return;
         }
@@ -61,6 +69,7 @@ public class Projectile : MonoBehaviour
         if (!HitResolution.TryHit(col, owner, attack, transform.position, out HitInfo hit)) return;
 
         HitResolution.NotifyAttacker(owner, attack, hit.point);
+        HitSomething?.Invoke(hit.point);
         Destroy(gameObject);
     }
 }

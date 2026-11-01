@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Sap Torch
   displayName: Sap Torch
   prefab: {fileID: 4906144326694474802, guid: b7eada7f50eb8c145bbe4b1874b869c7, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: a78195a6d6b373848a955e9aaaf55837, type: 2}

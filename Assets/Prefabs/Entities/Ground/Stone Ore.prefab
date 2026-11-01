@@ -108,6 +108,9 @@ GameObject:
   - component: {fileID: 1339684049749266016}
   - component: {fileID: 4402082830886564785}
   - component: {fileID: 7523692750457996314}
+  - component: {fileID: 149692497238774948}
+  - component: {fileID: 3471460161512206814}
+  - component: {fileID: 6257002494957944490}
   m_Layer: 6
   m_Name: Stone Ore
   m_TagString: Untagged
@@ -323,7 +326,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PropArt
   bodyLayer: Layer 1
   controller: {fileID: 9100000, guid: 2e93108fff44ef1ac594727984aa4dc9, type: 2}
-  variants: {fileID: 0}
+--- !u!114 &149692497238774948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
+  surface: {fileID: 11400000, guid: fd5ba7eab08ceb9448ecc6c8171ab2e1, type: 2}
+--- !u!114 &3471460161512206814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05778ea547207f46820efb650047fc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DestructibleAudio
+  shake: {fileID: 0}
+  creak: {fileID: 0}
+  creakBelow: 0.3
+  destroyed: {fileID: 11400000, guid: 37aaba30a74f73d43b1246c0e5eceeb1, type: 2}
+--- !u!114 &6257002494957944490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4807327900664854772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3736c78c5799b148a85f4a77e8830d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootAudio
 --- !u!1 &5294110519510996685
 GameObject:
   m_ObjectHideFlags: 0

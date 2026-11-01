@@ -21,6 +21,10 @@ public class HudMenu : MonoBehaviour
 
     public bool IsOpen => panel.activeSelf;
 
+    // The menu opening (on any tab) and closing, for the audio layer.
+    public event System.Action Opened;
+    public event System.Action Closed;
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -29,7 +33,7 @@ public class HudMenu : MonoBehaviour
         for (int i = 0; i < tabs.Length; i++)
         {
             int index = i;
-            tabs[i].Clicked += () => Select(index);
+            tabs[i].Clicked += () => { UiSfx.Play(UiSound.Tab); Select(index); };
         }
         Select(0);
         panel.SetActive(false);
@@ -50,21 +54,27 @@ public class HudMenu : MonoBehaviour
 
     public void Open()
     {
+        bool was = IsOpen;
         panel.SetActive(true);
         Select(0);
+        if (!was) { Opened?.Invoke(); UiSfx.Play(UiSound.Open); }
     }
 
     // Open on the Crafting tab, at the Hands or Workbench recipes.
     public void OpenCrafting(bool atWorkbench)
     {
+        bool was = IsOpen;
         panel.SetActive(true);
+        if (!was) { Opened?.Invoke(); UiSfx.Play(UiSound.Open); }
         Select(CraftingTab);
         if (crafting != null) crafting.SelectLocation(atWorkbench);
     }
 
     public void Close()
     {
+        bool was = IsOpen;
         panel.SetActive(false);
+        if (was) { Closed?.Invoke(); UiSfx.Play(UiSound.Close); }
         // a clicked button stays "selected" otherwise, and Space/Enter would re-press it
         if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(null);
     }

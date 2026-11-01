@@ -15,3 +15,6 @@ MonoBehaviour:
   id: Stone Pickaxe
   displayName: Stone Pickaxe
   prefab: {fileID: 3462038774614361535, guid: 773b87f4bda101b40a0e6353d5ccaf71, type: 3}
+  icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: a78195a6d6b373848a955e9aaaf55837, type: 2}

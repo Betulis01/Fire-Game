@@ -81,6 +81,13 @@ public class PlayerInteractor : MonoBehaviour
 
     Interactable holding;   // gear E is held on (equip once holdTime passes)
     float holdStart;
+
+    // 0..1 while E is held on gear (the prompt's bar), else 0.
+    public float HoldProgress { get; private set; }
+    // An item taken with no room for it, falling beside the player (Fumble).
+    public event System.Action<WorldItem> Fumbled;
+    // Q held long enough to aim a throw: the drop ghost appeared.
+    public event System.Action DropGhostShown;
     WorldItem qItem;        // the carried item Q is held on
     float qStart;
 
@@ -163,8 +170,7 @@ public class PlayerInteractor : MonoBehaviour
         // focus moved off it (or it's gone): nothing happens
         if (holding != current)
         {
-            holding = null;
-            if (prompt != null) prompt.SetHold(0f);
+            EndHold();
             return;
         }
 
@@ -179,12 +185,17 @@ public class PlayerInteractor : MonoBehaviour
             holding.Interact(player);   // a tap: take it
             EndHold();
         }
-        else if (prompt != null) prompt.SetHold(t);
+        else
+        {
+            HoldProgress = t;
+            if (prompt != null) prompt.SetHold(t);
+        }
     }
 
     void EndHold()
     {
         holding = null;
+        HoldProgress = 0f;
         if (prompt != null) prompt.SetHold(0f);
     }
 
@@ -213,7 +224,10 @@ public class PlayerInteractor : MonoBehaviour
         if (held != qItem) { CancelQ(); return; }
 
         if (dropGhost == null && Time.time - qStart >= throwHoldTime)
+        {
             dropGhost = DropGhost.Begin(held.item.prefab);
+            DropGhostShown?.Invoke();
+        }
 
         Vector3 target = UserInput.Instance.AimPoint(transform.position, hands.cam, throwRange);
         if (dropGhost != null) dropGhost.MoveTo(target);
@@ -245,6 +259,7 @@ public class PlayerInteractor : MonoBehaviour
         float middle = body != null ? body.bounds.center.y - feet.y : 0f;
         Vector3 land = feet + (Vector3)(Random.insideUnitCircle.normalized * fumbleDistance);
         ThrownItem.Launch(item, feet, land, fumbleDuration, fumbleHop, middle, deposit: false);
+        Fumbled?.Invoke(wi);
         return true;
     }
 

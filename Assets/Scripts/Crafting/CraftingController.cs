@@ -48,8 +48,20 @@ public class CraftingController : MonoBehaviour
     public bool HasIngredients(Recipe recipe) =>
         recipe.kind == RecipeKind.Placeable || TryMatchIngredients(recipe, out _);
 
+    // For the audio layer: an Instant recipe crafted (a Placeable one raises
+    // PlacementGhost.Began instead), and a craft that a requirement refused.
+    public event System.Action<Recipe> Crafted;
+    public event System.Action<Recipe> CraftFailed;
+
     // Attempt to craft/begin-placing a recipe; false if a requirement isn't met.
     public bool TryCraft(Recipe recipe)
+    {
+        bool done = Craft(recipe);
+        if (recipe != null && !done) CraftFailed?.Invoke(recipe);
+        return done;
+    }
+
+    bool Craft(Recipe recipe)
     {
         if (recipe == null || recipe.output == null || recipe.output.prefab == null) return false;
         if (!StationSatisfied(recipe, NearbyStationTypes())) return false;
@@ -75,6 +87,7 @@ public class CraftingController : MonoBehaviour
         // checked above, so this only misses if something changed in between; then
         // the output simply lies at the player's feet
         if (inventory != null) inventory.TryTake(output.GetComponent<WorldItem>());
+        Crafted?.Invoke(recipe);
         return true;
     }
 

@@ -15,4 +15,6 @@ MonoBehaviour:
   id: Rock
   displayName: Rock
   prefab: {fileID: 449804582166282785, guid: ae049fed87a041b0a9166efed231fe7f, type: 3}
+  icon: {fileID: 0}
   size: 0
+  sounds: {fileID: 11400000, guid: 64539f2a264391545bab6b0436268742, type: 2}

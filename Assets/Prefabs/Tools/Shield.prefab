@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8100000000000000005}
   - component: {fileID: 8100000000000000006}
   - component: {fileID: 8100000000000000007}
+  - component: {fileID: 6593776492541426862}
   m_Layer: 0
   m_Name: Shield
   m_TagString: Untagged
@@ -154,6 +155,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Shield
   seSprite: {fileID: -317825125816557920, guid: 731512c221664f34084bed81d58b7a0b, type: 3}
   neSprite: {fileID: -7842934620412757995, guid: 731512c221664f34084bed81d58b7a0b, type: 3}
+  blockReduction: 0.5
+  raiseOffset: {x: 0.05, y: 0.15}
+--- !u!114 &6593776492541426862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8100000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8e28ab876a5d64385854b52ac9d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolAudio
+  sounds: {fileID: 11400000, guid: 4e957765fdbb2614e9192d55b8fdb864, type: 2}
 --- !u!1 &8100000000000000008
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,6 +35,12 @@ public class Flammable : MonoBehaviour, IHitReactor
 
     public bool IsBurning => remaining > 0f;
 
+    // For the audio layer: catching fire (`fresh` false when a burn is only refreshed),
+    // each burn tick, and going out (timed out, died, or disabled while burning).
+    public event System.Action<bool> Ignited;
+    public event System.Action Ticked;
+    public event System.Action Extinguished;
+
     void Awake()
     {
         health = GetComponent<Health>();
@@ -57,7 +63,8 @@ public class Flammable : MonoBehaviour, IHitReactor
     {
         if (health.IsDead) return;
 
-        if (!IsBurning)
+        bool fresh = !IsBurning;
+        if (fresh)
         {
             tickTimer = tickInterval;
             SpawnFire();
@@ -67,14 +74,17 @@ public class Flammable : MonoBehaviour, IHitReactor
             fireFuel.Reset(1f, 1f / burnDuration);
         }
         remaining = burnDuration;
+        Ignited?.Invoke(fresh);
     }
 
     void Extinguish()
     {
+        bool wasBurning = IsBurning;
         remaining = 0f;
         if (fire != null) Destroy(fire);
         fire = null;
         fireFuel = null;
+        if (wasBurning) Extinguished?.Invoke();
     }
 
     void Update()
@@ -88,6 +98,7 @@ public class Flammable : MonoBehaviour, IHitReactor
         if (tickInterval > 0f && tickTimer <= 0f)
         {
             tickTimer += tickInterval;
+            Ticked?.Invoke();
             health.TakeDamage(tickDamage, DamageType.Fire, Center);
             if (health.IsDead) return;
         }

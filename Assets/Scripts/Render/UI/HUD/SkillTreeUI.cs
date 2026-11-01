@@ -61,9 +61,20 @@ public class SkillTreeUI : MonoBehaviour
             ui.Set(progress.Rank(weapon, ui.Node.id), progress.IsUnlocked(weapon, ui.Node));
     }
 
+    // A rank bought pitches up with the rank; a node maxing out or a spell learned has its
+    // own sound; a locked node or no points is denied.
     void OnClickNode(SkillNodeUI ui)
     {
-        if (progress != null) progress.TrySpend(weapon, ui.Node.id);   // Changed -> SkillsTabUI refreshes
+        if (progress == null) return;
+        if (!progress.TrySpend(weapon, ui.Node.id))   // Changed -> SkillsTabUI refreshes
+        {
+            UiSfx.Play(UiSound.Denied);
+            return;
+        }
+        int rank = progress.Rank(weapon, ui.Node.id);
+        if (ui.Node.kind == SkillNodeKind.Spell) UiSfx.Play(UiSound.SpellLearn);
+        else if (rank >= ui.Node.maxRank) UiSfx.Play(UiSound.SkillMaxed);
+        else UiSfx.Play(UiSound.SkillBuy, 1f, Mathf.Pow(2f, (rank - 1) * 2f / 12f));
     }
 
     // Elbow from the parent's bottom-centre to the child's top-centre. Positions are

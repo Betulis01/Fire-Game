@@ -16,3 +16,5 @@ MonoBehaviour:
   displayName: Burlap Pants
   prefab: {fileID: 449804582166282785, guid: 16a9bf991f424c3b87180020acf50a77, type: 3}
   icon: {fileID: 0}
+  size: 0
+  sounds: {fileID: 11400000, guid: 928014faa47ec8a459be73ae77d31c41, type: 2}

@@ -464,6 +464,9 @@ GameObject:
   - component: {fileID: 8100000000000000001}
   - component: {fileID: 8100000000000000002}
   - component: {fileID: 4417203958112630531}
+  - component: {fileID: 5863787417324706899}
+  - component: {fileID: 914271539968132444}
+  - component: {fileID: 8350683200572405195}
   m_Layer: 0
   m_Name: Furnace
   m_TagString: Campfire
@@ -648,6 +651,7 @@ MonoBehaviour:
   stageCount: 4
   outSprite: {fileID: -317825125816557920, guid: f5273f7e2c5c6f440b20c801b7f925f4, type: 3}
   spriteRenderer: {fileID: 0}
+  hideWhenOut: 0
 --- !u!114 &350223773031179567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -743,6 +747,7 @@ MonoBehaviour:
   maxFuel: 150
   startFuel: 30
   startBurnRate: 1
+  meterColor: {r: 0.85490197, g: 0.5254902, b: 0.24313726, a: 1}
 --- !u!114 &-1073649967088087493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,7 +791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SmeltingProcessor
   queueCapacity: 8
-  outputOffset: {x: 0, y: -0.5}
+  outputCapacity: 8
 --- !u!114 &8100000000000000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -826,3 +831,47 @@ MonoBehaviour:
   smoothing: 10
   sortingLayer: Background
   sortingOrder: 3
+--- !u!114 &5863787417324706899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a2b07f193ecae448613683701be191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FireAudio
+  sounds: {fileID: 11400000, guid: be4ee2606d66b9d4aaee5e199df410fe, type: 2}
+--- !u!114 &914271539968132444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cde75e1165c97a45838842fd477f67a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProcessorAudio
+  workingLoop: {fileID: 11400000, guid: f34c9965ade96304981ed6c23a9b0cb4, type: 2}
+  done: {fileID: 11400000, guid: 1ecf827887c082446acc7471932d5554, type: 2}
+  stalled: {fileID: 11400000, guid: 3f26e04fe06f00243817af887f031f24, type: 2}
+  input: {fileID: 11400000, guid: 6b90d76fee10e284e9669ba17d400f7b, type: 2}
+--- !u!114 &8350683200572405195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6145169056594248650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfc8e842bb78be48bd2c9285ad41841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StructureAudio
+  buildComplete: {fileID: 11400000, guid: c4a80cd5736187c45a0ab914a771bcd1, type: 2}
+  open: {fileID: 0}
+  close: {fileID: 0}

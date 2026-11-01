@@ -13,6 +13,8 @@ public class CollideAnimation : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] LayerMask entityLayers;
 
+    public LayerMask EntityLayers => entityLayers;   // who counts (CollideAudio uses the same)
+
     int overlapCount;   // multiple entities can overlap at once; only the last exit should stop it
 
     void Awake()

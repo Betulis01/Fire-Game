@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2300a7f05d241b43b443142047d068e, type: 3}
+  m_Name: WorldSounds
+  m_EditorClassIdentifier: Assembly-CSharp::WorldSounds
+  pocket: {fileID: 11400000, guid: 697990500499b4345a0954d6826d1d91, type: 2}
+  autoPickup: {fileID: 11400000, guid: fd0b307a8e31c0d41b4392a8628b19ef, type: 2}
+  liftHeavy: {fileID: 11400000, guid: 0c4846dc11bb02e46ad3d026efa04188, type: 2}
+  thrown: {fileID: 11400000, guid: 1505a21171a7c5c45a242eec54cb2095, type: 2}
+  spill: {fileID: 11400000, guid: faa84aee4d6d4be409ad1e968f090f5a, type: 2}
+  bagSwap: {fileID: 11400000, guid: 70f3460f83e879e43a743a2beee12626, type: 2}
+  lootPop: {fileID: 11400000, guid: c7af50895cc912543a8a02df3d26e82f, type: 2}
+  fallback: {fileID: 0}
+  ghostBegin: {fileID: 11400000, guid: a4d84108753c8664e9847c2e6b8a9cc0, type: 2}
+  ghostPlace: {fileID: 11400000, guid: 38898850a0032604aa0d655d2a942b3f, type: 2}
+  ghostCancel: {fileID: 11400000, guid: 15cd341c609765e4c86cd1d2a510dd8c, type: 2}
+  ingredientDone: {fileID: 11400000, guid: c667ed32d184350429aa715aa77c71c5, type: 2}
+  buildComplete: {fileID: 11400000, guid: f005ef92d2122d84eba6c5e868e79761, type: 2}

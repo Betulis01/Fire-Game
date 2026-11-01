@@ -9,6 +9,9 @@ public class GameStateManager : MonoBehaviour
 
     public GameState State { get; private set; }
 
+    // Raised after every state change (the audio's pause / menu / end mix listens).
+    public static event System.Action<GameState> StateChanged;
+
     [Header("UI Panels (assign in Inspector)")]
     public GameObject mainMenuPanel;
     public GameObject pausePanel;
@@ -56,6 +59,8 @@ public class GameStateManager : MonoBehaviour
         // button is the same left-click as an attack) never bleed into the world
         if (UserInput.Instance != null)
             UserInput.Instance.SetGameplayInputEnabled(newState == GameState.Playing);
+
+        StateChanged?.Invoke(newState);
     }
 
     // called by buttons

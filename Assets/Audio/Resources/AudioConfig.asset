@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ea603697d00c3a4faaf3d96ab221e45, type: 3}
+  m_Name: AudioConfig
+  m_EditorClassIdentifier: Assembly-CSharp::AudioConfig
+  mixer: {fileID: 24100000, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
+  oneShotVoices: 28
+  loopVoices: 16
+  maxStartsPerFrame: 10
+  radiusPerHalfWidth: 0.6
+  minRadius: 2
+  falloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panWidth: 0.55
+  cullDb: -40
+  loopReleaseRadii: 1.2
+  groundSounds: {fileID: 11400000, guid: 2f8e4bc2f1dab044d9a3dbd5e9e54807, type: 2}
+  critLayer: {fileID: 11400000, guid: f24892bd2e40dc0468d70975c70c2ff2, type: 2}
+  world: {fileID: 11400000, guid: 5bdbc1cd58062254ba40192d7dc69a97, type: 2}
+  ui: {fileID: 11400000, guid: 4681a051ba638d941ba8ff8823ff1603, type: 2}
+  ambience: {fileID: 11400000, guid: 77d15f6426adc7c4ebb5eb0f453c077c, type: 2}
+  music: {fileID: 11400000, guid: ea7ed42d79bcb114bb9ec3e0a7f1cf79, type: 2}
+  heatCutoffParam: AmbienceHeatCutoff
+  lowHealthCutoffParam: SfxLowHealthCutoff
+  freezeCutoffParam: WorldFreezeCutoff
+  fullShelterWarmth: 15
+  shelterCutoff: 1600
+  lowHealthCutoff: 1800
+  lowHealth: 0.25
+  freezeCutoff: 350
+  barkGap: 1.2
+  barkGapPerKind: 3
+  gameplaySnapshot: Gameplay
+  pausedSnapshot: Paused
+  menuSnapshot: Menu
+  endSnapshot: End
+  snapshotFade: 0.3
+  endFade: 1.5
+  debugTestEvents:
+  - {fileID: 11400000, guid: e36a6e0889bfe0d4fb28e1de9edfe0d1, type: 2}
+  - {fileID: 11400000, guid: 78108c97c861df34dbcde68a134a0e34, type: 2}
+  - {fileID: 11400000, guid: 7d672953ecd0ad143a9d53db1679115c, type: 2}
+  - {fileID: 11400000, guid: d421b46fce72f614b8725f26f7e8f03e, type: 2}
+  - {fileID: 11400000, guid: 2aecdfb1430abd1478be65b3006c6a55, type: 2}

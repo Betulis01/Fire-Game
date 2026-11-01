@@ -18,6 +18,11 @@ public class PlayerTemperature : MonoBehaviour
 
     public float Normalized => currentWarmth / maxWarmth;
 
+    // No warmth left: the cold now drains health. FreezingChanged fires on the edge.
+    public bool IsFreezing => currentWarmth <= 0f;
+    public event Action<bool> FreezingChanged;
+    bool wasFreezing;
+
     // fired when cold damage overflows past zero warmth; argument is the overflow amount
     public event System.Action<float> ColdOverflow;
 
@@ -67,6 +72,12 @@ public class PlayerTemperature : MonoBehaviour
                 newWarmth = 0f;
             }
             currentWarmth = newWarmth;
+        }
+
+        if (IsFreezing != wasFreezing)
+        {
+            wasFreezing = IsFreezing;
+            FreezingChanged?.Invoke(wasFreezing);
         }
     }
 }

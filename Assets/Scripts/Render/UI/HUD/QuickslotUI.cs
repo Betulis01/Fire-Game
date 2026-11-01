@@ -21,13 +21,13 @@ public class QuickslotUI : MonoBehaviour, IDropHandler, IPointerClickHandler
     void OnEnable()
     {
         quickslot = root != null ? root.Quickslot : null;
-        if (quickslot != null) quickslot.Changed += Redraw;
+        if (quickslot != null) { quickslot.Changed += Redraw; quickslot.EatFailed += OnEatFailed; }
         Redraw();
     }
 
     void OnDisable()
     {
-        if (quickslot != null) quickslot.Changed -= Redraw;
+        if (quickslot != null) { quickslot.Changed -= Redraw; quickslot.EatFailed -= OnEatFailed; }
     }
 
     void Update()
@@ -51,8 +51,12 @@ public class QuickslotUI : MonoBehaviour, IDropHandler, IPointerClickHandler
     public void OnDrop(PointerEventData eventData)
     {
         if (quickslot == null || !BagDrag.Active) return;
-        if (BagDrag.Claim(out Inventory inv, out int slot)) quickslot.Assign(inv.Item(slot));
+        if (BagDrag.Claim(out Inventory inv, out int slot))
+            UiSfx.Play(quickslot.Assign(inv.Item(slot)) ? UiSound.Place : UiSound.Denied);
     }
+
+    // R or a click with nothing to eat (eating itself is the food's own sound)
+    void OnEatFailed() => UiSfx.Play(UiSound.Denied);
 
     public void OnPointerClick(PointerEventData eventData)
     {

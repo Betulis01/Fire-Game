@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9212449378994694727}
   - component: {fileID: 6593106120193128840}
   - component: {fileID: -2268743843223548929}
+  - component: {fileID: 5376785748838444287}
   m_Layer: 0
   m_Name: Bow
   m_TagString: Untagged
@@ -158,10 +159,16 @@ MonoBehaviour:
   minDamage: 8
   maxDamage: 12
   range: 3
+  arcAngle: 90
+  lungeBuffer: 0.4
+  maxTargets: 2
+  secondaryDamageMultiplier: 0.5
+  secondaryCritFactor: 0.5
   targetKnockback: 1.5
   selfKnockback: 0.25
   swingEffectPrefab: {fileID: 7824789142328981932, guid: 46762b09ed3853d428e392bb6487c48a, type: 3}
   swingEffectAngleOffset: 0
+  impactHold: 0
   lungeSpeed: 0
   lungeDuration: 0.15
   lungeCurve:
@@ -193,6 +200,8 @@ MonoBehaviour:
     flatBonus: 0
     targetKnockback: 4
     selfKnockback: 0.5
+    arcAngle: 0
+    maxTargets: 0
     swingEffectPrefab: {fileID: 7824789142328981932, guid: 46762b09ed3853d428e392bb6487c48a, type: 3}
     swingEffectAngleOffset: 0
     lungeSpeed: 0
@@ -239,6 +248,19 @@ MonoBehaviour:
   chargedSpeed: 10
   chargedRange: 8
   spawnOffset: 0.4
+--- !u!114 &5376785748838444287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462038774614361535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8e28ab876a5d64385854b52ac9d9e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToolAudio
+  sounds: {fileID: 11400000, guid: 921f0792776212e44a1902f5692fda99, type: 2}
 --- !u!1 &7700000000000000001
 GameObject:
   m_ObjectHideFlags: 0

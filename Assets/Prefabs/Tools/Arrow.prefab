@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 100000000000000004}
   - component: {fileID: 100000000000000006}
   - component: {fileID: 100000000000000005}
+  - component: {fileID: 3860712303953272247}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -160,7 +161,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0.5}
-    oldSize: {x: 0.4375, y: 0.1875}
+    oldSize: {x: 0.21875, y: 0.09375}
     newSize: {x: 0.4375, y: 0.1875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -183,6 +184,21 @@ MonoBehaviour:
   hurtboxLayers:
     serializedVersion: 2
     m_Bits: 1536
+--- !u!114 &3860712303953272247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000000000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c6994907b3700d4abfc7b653cb8eacc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileAudio
+  flightLoop: {fileID: 11400000, guid: 7fcb28df21c6ab4479e7545d98aeeed4, type: 2}
+  hit: {fileID: 0}
+  drop: {fileID: 11400000, guid: b1d39092cf2910b43a53fdb133cd3aa3, type: 2}
 --- !u!1 &8033046495986215713
 GameObject:
   m_ObjectHideFlags: 0

@@ -26,6 +26,8 @@ public class Recipe
     public ItemDefinition output;
     public StationType requiredStation = StationType.None;
     public RecipeKind kind = RecipeKind.Instant;
+    [Tooltip("Played when an Instant recipe is crafted (CraftAudio): its category's sound.")]
+    public SoundEvent craftSound;
 }
 
 // Central list of every recipe in the game. Assigned on the player's

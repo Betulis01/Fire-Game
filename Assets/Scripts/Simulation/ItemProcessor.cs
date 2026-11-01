@@ -45,21 +45,53 @@ public abstract class ItemProcessor : MonoBehaviour
         queue.Count > 0 && queue[0].duration > 0f
             ? Mathf.Clamp01(elapsed / queue[0].duration) : 0f;
 
+    // For the audio layer: progress ticking (a job, fuel burning, room for it) starting
+    // or stopping -- the cook / smelt loop -- a job's output landing in the output box,
+    // and a finished job held back because the output is full or holds something else.
+    public event System.Action<bool> WorkingChanged;
+    public event System.Action<ItemDefinition> JobFinished;
+    public event System.Action Stalled;
+    bool working, stalled;
+
     protected virtual void Awake() => fuel = GetComponent<Fuel>();
 
     void Update()
     {
-        if (queue.Count == 0 || fuel.fuelLevel <= 0f) return;   // pause while the fire is out
+        if (queue.Count == 0 || fuel.fuelLevel <= 0f)   // pause while the fire is out
+        {
+            SetWorking(false);
+            return;
+        }
 
         Job job = queue[0];
         elapsed = Mathf.Min(elapsed + Time.deltaTime, job.duration);
-        if (elapsed < job.duration || !OutputTakes(job.output)) return;   // done, waits for room
+        if (elapsed < job.duration)
+        {
+            SetWorking(true);
+            return;
+        }
+        if (!OutputTakes(job.output))   // done, waits for room
+        {
+            SetWorking(false);
+            if (!stalled) { stalled = true; Stalled?.Invoke(); }
+            return;
+        }
 
+        stalled = false;
         queue.RemoveAt(0);
         elapsed = 0f;
+        if (queue.Count == 0) SetWorking(false);
         if (job.output == null) return;
         OutputItem = job.output;
         OutputCount++;
+        JobFinished?.Invoke(job.output);
+    }
+
+    void SetWorking(bool now)
+    {
+        if (now == working) return;
+        working = now;
+        WorkingChanged?.Invoke(now);
     }
 
     bool OutputTakes(ItemDefinition item) =>

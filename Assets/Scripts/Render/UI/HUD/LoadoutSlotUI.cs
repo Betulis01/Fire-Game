@@ -59,12 +59,20 @@ public class LoadoutSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDr
 
     public void OnDrop(PointerEventData eventData)
     {
+        // equipped: the tool's draw (WeaponAudio, ItemEvents.Wielded); refused: denied
         if (BagDrag.Claim(out Inventory inv, out int from))
         {
-            if (loadout == null || !inv.TryFeed(from, loadout.Item(set, side))) inv.EquipToLoadout(from, set, side);
+            int before = inv.Count(from);
+            ItemDefinition fuel = UiDrop.Def(inv.Item(from));
+            GameObject target = loadout != null ? loadout.Item(set, side) : null;
+            if (loadout != null && inv.TryFeed(from, target)) UiDrop.Fed(before, inv.Count(from), fuel, target);
+            else if (!inv.EquipToLoadout(from, set, side)) UiSfx.Play(UiSound.Denied);
         }
         else if (BagDrag.ClaimLoadout(out Loadout owner, out int fromSet, out HandSide fromSide))
-            owner.TryMove(fromSet, fromSide, set, side);
+        {
+            UiSound s = owner.Item(set, side) == null ? UiSound.Place : UiSound.Swap;
+            UiSfx.Play(owner.TryMove(fromSet, fromSide, set, side) ? s : UiSound.Denied);
+        }
     }
 
     public void OnBeginDrag(PointerEventData e)
@@ -92,7 +100,9 @@ public class LoadoutSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDr
 
         // unclaimed and released over no UI: dropped into the world under the cursor
         bool claimed = BagDrag.End();
-        if (!claimed && e.pointerCurrentRaycast.gameObject == null && loadout.TryGetComponent(out Inventory inv))
+        bool intoWorld = e.pointerCurrentRaycast.gameObject == null;
+        if (!claimed) UiDrop.Unclaimed(intoWorld);
+        if (!claimed && intoWorld && loadout.TryGetComponent(out Inventory inv))
             inv.DropLoadoutAt(set, side, inv.WorldDropPoint());
     }
 

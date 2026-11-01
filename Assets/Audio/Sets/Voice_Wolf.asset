@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f05bdb9cc47abb24487d7c2b79d5ce4d, type: 3}
+  m_Name: Voice_Wolf
+  m_EditorClassIdentifier: Assembly-CSharp::CreatureVoice
+  spawn: {fileID: 0}
+  idle: {fileID: 11400000, guid: 3dbdecb2ece563a45b7b238259838a3c, type: 2}
+  idleInterval: {x: 5, y: 12}
+  despawn: {fileID: 0}
+  aggro: {fileID: 11400000, guid: 9bd35acc80318c148a75649303ca5954, type: 2}
+  chaseLoop: {fileID: 11400000, guid: cf06b68b3825d0149a16dd2ea7c9a58c, type: 2}
+  flee: {fileID: 0}
+  fleeLoop: {fileID: 0}
+  attackWindup: {fileID: 11400000, guid: fef811f6737adbe4d9723283c175f115, type: 2}
+  attackSwing: {fileID: 0}
+  attackHit: {fileID: 11400000, guid: e7fa3c3b0b7a7944895bf37101c7c0da, type: 2}
+  hurt: {fileID: 11400000, guid: b913212b21d3bb8449925c49e4b6bb64, type: 2}
+  hurtBurning: {fileID: 0}
+  death: {fileID: 11400000, guid: 97ea5422ca03cd747881de11334edd9a, type: 2}
+  knockback: {fileID: 11400000, guid: 97cb8c66d44bc624e825f34bb2d26a0d, type: 2}

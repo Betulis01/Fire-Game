@@ -33,8 +33,8 @@ public class CraftingTabUI : MonoBehaviour
 
     void Awake()
     {
-        handsTab.Clicked += () => SelectLocation(false);
-        workbenchTab.Clicked += () => SelectLocation(true);
+        handsTab.Clicked += () => { UiSfx.Play(UiSound.Subtab); SelectLocation(false); };
+        workbenchTab.Clicked += () => { UiSfx.Play(UiSound.Subtab); SelectLocation(true); };
         cellTemplate.gameObject.SetActive(false);
         rowTemplate.gameObject.SetActive(false);
     }
@@ -78,7 +78,7 @@ public class CraftingTabUI : MonoBehaviour
             cell.gameObject.SetActive(true);
             cell.Set(recipe);
             cell.Clicked += OnClickCell;
-            cell.HoverStarted += c => ShowDetails(c.Recipe);
+            cell.HoverStarted += c => { UiSfx.Play(UiSound.Hover, 0.5f); ShowDetails(c.Recipe); };
             cell.HoverEnded += _ => ShowDetails(null);
             cells.Add(cell);
         }

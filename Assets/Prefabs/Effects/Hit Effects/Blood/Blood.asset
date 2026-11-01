@@ -17,4 +17,3 @@ MonoBehaviour:
   drawnAngle: 45
   atSpriteCentre: 1
   sortWithBody: 1
-  sfx: {fileID: 0}

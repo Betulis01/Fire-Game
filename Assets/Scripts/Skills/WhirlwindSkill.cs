@@ -32,6 +32,12 @@ public class WhirlwindSkill : ActiveSkill
     int strikesLeft;
     float readyAt;
 
+    // For the audio layer (on this skill's prefab): the cast starting, each turn's
+    // strike (turn 1..spins, how many it hit), and the spin over (done or interrupted).
+    public event System.Action Started;
+    public event System.Action<int, StrikeResult> Spun;
+    public event System.Action Ended;
+
     public override float Cooldown01 => cooldown > 0f ? Mathf.Clamp01((readyAt - Time.time) / cooldown) : 0f;
 
     public override bool TryActivate(GameObject caster, HandSide side)
@@ -47,6 +53,7 @@ public class WhirlwindSkill : ActiveSkill
         tool = axe;
         strikesLeft = spins;
         readyAt = Time.time + cooldown;
+        Started?.Invoke();
         return true;
     }
 
@@ -59,6 +66,7 @@ public class WhirlwindSkill : ActiveSkill
         if (!tool.TryGetComponent(out MeleeWeapon melee) || !IsHeld(tool.gameObject))
         {
             tool = null;
+            Ended?.Invoke();
             return;
         }
 
@@ -66,9 +74,14 @@ public class WhirlwindSkill : ActiveSkill
         // the spin hits from every side at once
         AttackData attack = tool.GetAttack(false, stats).Scaled(damageMultiplier).WithoutRecoil();
         StrikeShape spin = new(radius, 360f, maxTargets, tool.secondaryDamageMultiplier);
-        melee.Strike(attack, melee.Query(user, Origin, Vector2.right, spin, tool.kind, TargetScoring.Distance));
+        StrikeResult result = melee.Strike(attack, melee.Query(user, Origin, Vector2.right, spin, tool.kind, TargetScoring.Distance));
+        Spun?.Invoke(spins - strikesLeft + 1, result);
 
-        if (--strikesLeft <= 0) tool = null;
+        if (--strikesLeft <= 0)
+        {
+            tool = null;
+            Ended?.Invoke();
+        }
     }
 
     void OnDrawGizmosSelected()

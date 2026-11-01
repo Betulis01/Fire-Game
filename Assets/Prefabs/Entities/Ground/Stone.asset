@@ -15,4 +15,6 @@ MonoBehaviour:
   id: Stone
   displayName: Stone
   prefab: {fileID: 449804582166282785, guid: 8727597e14924e74591132fff310bd59, type: 3}
+  icon: {fileID: 0}
   size: 1
+  sounds: {fileID: 11400000, guid: 441719c16c0a2794db57e8d302fa61fa, type: 2}

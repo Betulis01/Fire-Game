@@ -40,6 +40,7 @@ public class ThrownItem : MonoBehaviour
         item.transform.position = from + Vector3.up * startHeight;
         t.ysort = item.GetComponent<YSort>();
         if (t.ysort != null) t.anchorOffset = t.ysort.AnchorOffsetY;
+        if (deposit) ItemEvents.RaiseThrown(item);   // a fumble isn't a throw
     }
 
     void Update()
@@ -65,6 +66,7 @@ public class ThrownItem : MonoBehaviour
         }
 
         wi.SetHeld(false);
+        ItemEvents.RaiseLanded(gameObject);
         Destroy(this);
     }
 }

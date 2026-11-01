@@ -51,6 +51,13 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
     readonly List<SpriteRenderer> hidden = new();
     readonly List<StrikeTarget> targets = new();
 
+    // For the audio layer (on this skill's prefab): the overhand windup starting, the
+    // axe let go (the flying one, which raises its own Stuck / Returning), and the
+    // catch (`inHand` false when the axe left the hand mid-flight).
+    public event System.Action WindupStarted;
+    public event System.Action<ThrownAxe> Released;
+    public event System.Action<bool> CaughtBack;
+
     public override float Cooldown01 =>
         tool != null ? 1f : cooldown > 0f ? Mathf.Clamp01((readyAt - Time.time) / cooldown) : 0f;
 
@@ -70,6 +77,7 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         tool = axe;
         side = hand;
         winding = true;
+        WindupStarted?.Invoke();
         return true;
     }
 
@@ -94,10 +102,11 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         Transform anchor = hands.Anchor(side);
         float height = anchor.position.y - user.transform.position.y;
         float curveSide = side == HandSide.Left ? 1f : -1f;
-        ThrownAxe.Launch(thrownAxePrefab, held, anchor, height, aim, target, user, attack, flight, curveSide, Caught);
+        ThrownAxe flying = ThrownAxe.Launch(thrownAxePrefab, held, anchor, height, aim, target, user, attack, flight, curveSide, Caught);
 
         Hide(tool.gameObject);
         away = true;
+        Released?.Invoke(flying);
     }
 
     // The soft target along the aim: the highlighted one when it's in the cone, else
@@ -120,6 +129,7 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         tool = null;
         away = false;
         readyAt = Time.time + cooldown;
+        CaughtBack?.Invoke(inHand);
 
         if (!inHand) return;   // it left the hand mid-flight: nothing to catch it in
         StartCoroutine(Punch(axe.transform));

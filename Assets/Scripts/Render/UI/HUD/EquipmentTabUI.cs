@@ -47,13 +47,15 @@ public class EquipmentTabUI : MonoBehaviour
             s.Show(loadout != null ? loadout.Item(s.Set, s.Side) : null, loadout == null || loadout.ActiveSet == s.Set);
     }
 
+    // taken off: the gear's unequip sound (ItemAudioDirector); worn but no room: denied
     void OnClickSlot(EquipSlot slot)
     {
-        if (equipment != null) equipment.Unequip(slot);
+        if (equipment != null && equipment.Worn(slot) != null && !equipment.Unequip(slot)) UiSfx.Play(UiSound.Denied);
     }
 
     void OnClickLoadout(int set, HandSide side)
     {
-        if (inventory != null) inventory.UnequipLoadout(set, side);
+        if (inventory == null || loadout == null || loadout.Item(set, side) == null) return;
+        UiSfx.Play(inventory.UnequipLoadout(set, side) ? UiSound.Place : UiSound.Denied);
     }
 }
