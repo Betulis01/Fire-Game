@@ -60,12 +60,14 @@ A snapshot of how the game plays **today**. For where it's heading, see:
 | Input | Action |
 |---|---|
 | WASD | Move |
-| Left / right click | Use the left / right hand |
-| E | Interact / pick up |
-| Q | Hold to aim a drop, release to drop; deposit into a fire or build site |
-| Tab / scroll | Select hand |
-| 1 / 2 | Left / right hand's skill |
-| F | Menu (Bag, Player, Crafting, Skills tabs) |
+| Left click | Main Hand attack (tap light, hold heavy); while carrying, put the load down; with a skill armed, cast it |
+| Right click | Off Hand action (block, swing); with a skill armed, cancel it |
+| E | Take an item (big items to the hands, the rest to the bag); hold E to equip gear |
+| Q | Tap: drop or deposit the carried item; hold: aim a throw, release to throw |
+| Scroll / Tab | Swap loadout sets |
+| 1 / 2 | Skill slots: an aimed skill (Axe Throw) arms, then left click or the key again casts; Whirlwind casts at once |
+| R | Eat the quickslot food |
+| F | Menu (Player, Crafting, Skills tabs) |
 | Page Up / Page Down | Zoom |
 | Esc | Pause |
 

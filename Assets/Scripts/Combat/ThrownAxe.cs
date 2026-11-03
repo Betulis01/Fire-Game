@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // The axe in flight from AxeThrowSkill, spawned from the Thrown Axe prefab
@@ -10,15 +11,18 @@ using UnityEngine;
 // under the root they only follow it. It flies at the height of the hand it left
 // (Y-sorting by the ground point it's over, like ThrownItem) and comes back the same
 // way:
-//   Out   -- a quadratic Bezier to its one target's hurt collider, swung out to the
-//            side opposite the return (so out and back trace a loop), its end
+//   Out   -- a quadratic Bezier to its current target's hurt collider, swung out to
+//            the side opposite the return (so out and back trace a loop), its end
 //            re-aimed every frame so a moving target still gets hit; it passes
 //            through everything else. On contact it lands the hit (HitResolution, so
 //            knockback, effects and XP all apply) and sticks.
 //            No target (it curves to `range` along the aim), a target that died or
-//            got further than 1.5x `range`: it loses speed over the last stretch and
-//            turns back.
-//   Stuck -- hangs in the target for `stickTime`, riding along if it moves, not spinning.
+//            got further than 1.5x `range` from where the hop began: it loses speed
+//            over the last stretch and turns back -- or, with targets left, hops on.
+//   Stuck -- hangs in the target for `stickTime`, riding along if it moves, not
+//            spinning. Then, with targets left (a ranked throw hits several), it hops
+//            Out again to the one closest to the target it just hit, the curve
+//            bowing the other way each hop; with none left, it heads Back.
 //   Back  -- a quadratic Bezier to the hand, its end tracking the hand live and its
 //            control point swung out to one side, for the sweeping return. Slow to
 //            start, then a whoosh. Over the last quarter the spin settles into the
@@ -55,7 +59,8 @@ public class ThrownAxe : MonoBehaviour
     Settings cfg;
     GameObject owner;
     AttackData attack;
-    Hurtbox target;
+    Hurtbox target;                                  // the hop's target; null = a miss
+    readonly List<Hurtbox> remaining = new();        // targets still to hop to
     Transform hand;
     SpriteRenderer held;
     float curveSide;
@@ -84,10 +89,12 @@ public class ThrownAxe : MonoBehaviour
     static Sprite shadowSprite;
 
     // Throw a `prefab` from `hand` (whose `held` renderer is the axe being thrown) along
-    // `aim`, at `target` (null: straight along the aim). `height` is the hand's height
-    // above the ground; `curveSide` (+1/-1) which side the return swings out to.
+    // `aim`, at `targets` in turn -- the first, then whichever left is closest to the one
+    // just hit (none, or none still alive: straight along the aim). `height` is the
+    // hand's height above the ground; `curveSide` (+1/-1) which side the return swings
+    // out to.
     public static ThrownAxe Launch(ThrownAxe prefab, SpriteRenderer held, Transform hand, float height, Vector2 aim,
-                                   Hurtbox target, GameObject owner, in AttackData attack, in Settings cfg,
+                                   IReadOnlyList<Hurtbox> targets, GameObject owner, in AttackData attack, in Settings cfg,
                                    float curveSide, Action caught)
     {
         ThrownAxe axe = Instantiate(prefab, CenterOf(held), Quaternion.identity);
@@ -108,7 +115,11 @@ public class ThrownAxe : MonoBehaviour
         axe.cfg = cfg;
         axe.owner = owner;
         axe.attack = attack;
-        axe.target = target;
+        if (targets != null)
+            foreach (Hurtbox hb in targets)
+                if (Valid(hb)) axe.remaining.Add(hb);
+        axe.target = axe.remaining.Count > 0 ? axe.remaining[0] : null;
+        if (axe.target != null) axe.remaining.RemoveAt(0);
         axe.hand = hand;
         axe.held = held;
         axe.height = height;
@@ -118,7 +129,7 @@ public class ThrownAxe : MonoBehaviour
         axe.angle = held.transform.eulerAngles.z;
         axe.spinSign = axe.dir.x >= 0f ? -1f : 1f;   // over the top, toward the throw
         axe.outFrom = axe.transform.position;
-        axe.outTo = Valid(target) ? target.HurtCollider.ClosestPoint(axe.outFrom) : axe.outFrom + axe.dir * cfg.range;
+        axe.outTo = axe.target != null ? axe.target.HurtCollider.ClosestPoint(axe.outFrom) : axe.outFrom + axe.dir * cfg.range;
         axe.Place(axe.transform.position);
         return axe;
     }
@@ -163,8 +174,12 @@ public class ThrownAxe : MonoBehaviour
         {
             Vector2 contact = target.HurtCollider.ClosestPoint(pos);
             if (outT >= 1f || Vector2.Distance(pos, contact) <= HitRadius) Hit(contact);
+            return;
         }
-        else if (outT >= 1f) TurnBack();
+
+        // the target died or got away: on to the next one, else finish the miss
+        if (lost && HopOn(pos)) return;
+        if (outT >= 1f) TurnBack();
     }
 
     void Hit(Vector2 point)
@@ -181,9 +196,48 @@ public class ThrownAxe : MonoBehaviour
 
     void Stick()
     {
+        Vector2 at = transform.position;
         if (target != null && target.Owner != null)
-            Place((Vector2)target.Owner.transform.position + stuckOffset);
-        if (Time.time >= stuckUntil) TurnBack();
+        {
+            at = target.Owner.transform.position;
+            Place(at + stuckOffset);
+        }
+        if (Time.time < stuckUntil) return;
+        if (!HopOn(at)) TurnBack();
+    }
+
+    // Start an Out hop from here to the remaining target closest to `from` (the one just
+    // hit, or where a lost one was); false when none is left alive.
+    bool HopOn(Vector2 from)
+    {
+        Hurtbox next = null;
+        float best = float.MaxValue;
+        for (int i = remaining.Count - 1; i >= 0; i--)
+        {
+            Hurtbox hb = remaining[i];
+            if (!Valid(hb))
+            {
+                remaining.RemoveAt(i);
+                continue;
+            }
+            float d = ((Vector2)hb.Owner.transform.position - from).sqrMagnitude;
+            if (d < best)
+            {
+                best = d;
+                next = hb;
+            }
+        }
+        if (next == null) return false;
+
+        remaining.Remove(next);
+        target = next;
+        lost = false;
+        outFrom = transform.position;
+        outT = 0f;
+        outTo = next.HurtCollider.ClosestPoint(outFrom);
+        curveSide = -curveSide;   // zigzag: each hop bows the other way
+        phase = Phase.Out;
+        return true;
     }
 
     void TurnBack()

@@ -7,7 +7,9 @@ using UnityEngine;
 // primary in primaryColor, secondaries in secondaryColor. While a swing is armed
 // it previews that swing. Idle, each hand has its own button, so it previews the
 // Main Hand -- or the Off Hand when only that one would actually damage something
-// (axe + pickaxe facing a tree shows the axe).
+// (axe + pickaxe facing a tree shows the axe). With an aimed spell armed (or mid-cast,
+// still choosing its target) and no swing pending, it previews the spell instead
+// (ActiveSkill.SelectTargets): gold is always what the next left click hits.
 //
 // The primary is sticky: a rival must sit stickyDegrees closer to the aim to take
 // over, so near-equal targets don't flicker under mouse jitter. WeaponUse commits a
@@ -25,10 +27,16 @@ public class TargetPreview : MonoBehaviour
              "from the current primary.")]
     [SerializeField] float stickyDegrees = 5f;
 
-    // The highlighted primary target's root; null when there is none.
+    // The highlighted primary target's root (and its Hurtbox); null when there is none.
     public GameObject Primary { get; private set; }
+    public Hurtbox PrimaryHurtbox { get; private set; }
+
+    // Whether the preview is following an aimed spell (armed, or mid-cast) rather than
+    // a swing -- SkillTelegraph rings its target.
+    public bool PreviewingSkill { get; private set; }
 
     WeaponUse weaponUse;
+    ActiveSkillSlots skills;
     readonly List<StrikeTarget> targets = new();
     readonly List<StrikeTarget> otherHand = new();
     List<TargetHighlight> shown = new();
@@ -37,6 +45,7 @@ public class TargetPreview : MonoBehaviour
     void Awake()
     {
         weaponUse = GetComponent<WeaponUse>();
+        skills = GetComponent<ActiveSkillSlots>();
     }
 
     void OnDisable()
@@ -51,12 +60,19 @@ public class TargetPreview : MonoBehaviour
                        && (GameStateManager.Instance == null || GameStateManager.Instance.State == GameState.Playing);
 
         targets.Clear();
+        PreviewingSkill = false;
         if (playing)
         {
             if (weaponUse.IsSwingArmed)
             {
                 if (weaponUse.TryGetArmedMeleePreview(out MeleeWeapon melee, out Tool tool, out StrikeShape shape, out Vector2 dir))
                     Select(melee, tool, shape, dir, targets);
+            }
+            else if (skills != null && skills.TryGetAiming(out ActiveSkill skill, out HandSide side))
+            {
+                PreviewingSkill = true;
+                Vector2 aim = UserInput.Instance.AimDirection(weaponUse.Origin, weaponUse.cam != null ? weaponUse.cam : Camera.main);
+                skill.SelectTargets(side, aim, Primary, stickyDegrees, targets);
             }
             else
             {
@@ -102,12 +118,17 @@ public class TargetPreview : MonoBehaviour
     {
         next.Clear();
         Primary = null;
+        PrimaryHurtbox = null;
 
         for (int i = 0; i < targets.Count; i++)
         {
             StrikeTarget t = targets[i];
             if (t.glancing) break;
-            if (i == 0) Primary = t.hurtbox.Owner;
+            if (i == 0)
+            {
+                Primary = t.hurtbox.Owner;
+                PrimaryHurtbox = t.hurtbox;
+            }
 
             TargetHighlight h = t.hurtbox.Highlight;
             if (h == null) continue;

@@ -72,7 +72,7 @@ public class SkillTreeUI : MonoBehaviour
             return;
         }
         int rank = progress.Rank(weapon, ui.Node.id);
-        if (ui.Node.kind == SkillNodeKind.Spell) UiSfx.Play(UiSound.SpellLearn);
+        if (ui.Node.kind == SkillNodeKind.Spell && rank == 1) UiSfx.Play(UiSound.SpellLearn);
         else if (rank >= ui.Node.maxRank) UiSfx.Play(UiSound.SkillMaxed);
         else UiSfx.Play(UiSound.SkillBuy, 1f, Mathf.Pow(2f, (rank - 1) * 2f / 12f));
     }

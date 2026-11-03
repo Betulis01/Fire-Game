@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Axe spell: Axe Throw. The player swings the axe overhand (an attack clip of
+// Axe spell: Axe Throw. Aimed: its key arms it and a left click (or the key again)
+// casts it (ActiveSkillSlots), the soft target following its cone meanwhile. The
+// player swings the axe overhand (an attack clip of
 // `throwStyle`, played as a cast) and lets go on the clip's contact frame -- its
-// OnAttackHit Animation Event, which WeaponUse ignores during a cast. The axe
-// (ThrownAxe) spins out at the soft target -- the one in a long, narrow cone along
-// the aim that the aim points at most, the highlighted target winning when it's
-// there -- passing through everything else, and hits only it with the axe's light
-// attack at damageMultiplier (half). With nothing damageable in the cone it flies
-// along the aim. Either way it comes back to the hand it left.
+// OnAttackHit Animation Event, which WeaponUse ignores during a cast. Its targets are
+// characters only (never trees or ore) in a long, narrow cone along the aim: the one
+// the aim points at most (the highlighted one) plus, with ranks in the node, the
+// nearest others -- 1 / 2 / 3 targets at rank 1 / 2 / 3 (targetsByRank). They're
+// locked on the cast click (what was lit), and the axe (ThrownAxe) hits them all with
+// the axe's light attack at damageMultiplier, each at full damage, hopping on to
+// whichever is closest to the one it just hit, even if they've moved -- passing
+// through everything else. With no target it flies along the aim. Either way it comes
+// back to the hand it left.
 // While it's away the held axe is hidden and the hand is out of action (IHandLock:
 // no swings, no spells). The catch shows it again with a punch and a jolt of the
 // camera, and starts the cooldown. Lives in Prefabs/Skills/Axe Throw.prefab (see
@@ -23,6 +28,8 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
     [SerializeField] string throwStyle = "hack";
     [Tooltip("Full angle of the cone the target is picked in, centred on the aim.")]
     [SerializeField, Range(1f, 180f)] float aimArc = 40f;
+    [Tooltip("Targets one throw hits at each rank of its skill node (rank 1 first).")]
+    [SerializeField] int[] targetsByRank = { 1, 2, 3 };
     [SerializeField] float damageMultiplier = 0.5f;
     [Tooltip("Seconds from the catch until it can be thrown again.")]
     [SerializeField] float cooldown = 6f;
@@ -49,7 +56,8 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
     bool away;             // in flight
     float readyAt;
     readonly List<SpriteRenderer> hidden = new();
-    readonly List<StrikeTarget> targets = new();
+    readonly List<StrikeTarget> locked = new();   // the cast click's targets, main one first
+    readonly List<Hurtbox> flightTargets = new();
 
     // For the audio layer (on this skill's prefab): the overhand windup starting, the
     // axe let go (the flying one, which raises its own Stuck / Returning), and the
@@ -63,6 +71,48 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
 
     public bool Locks(HandSide hand) => tool != null && hand == side;
 
+    public override bool Aimed => true;
+    public override bool AimLive => winding;
+    public override HandSide CastSide => side;
+
+    public override bool TryGetAim(HandSide hand, out SkillAim aim)
+    {
+        aim = new SkillAim { range = flight.range, arc = aimArc };
+        return true;
+    }
+
+    // How many targets a throw hits at the node's current rank.
+    int TargetCount
+    {
+        get
+        {
+            if (targetsByRank == null || targetsByRank.Length == 0) return 1;
+            int i = Mathf.Clamp(Rank - 1, 0, targetsByRank.Length - 1);
+            return Mathf.Max(1, targetsByRank[i]);
+        }
+    }
+
+    // The characters in the long, narrow cone along the aim: the one the aim points at
+    // most, then up to TargetCount - 1 nearest it. Only the axe in `hand` can say what it
+    // would damage, so no axe, no targets. Through the windup it's the locked targets.
+    public override void SelectTargets(HandSide hand, Vector2 dir, GameObject preferred, float bias, List<StrikeTarget> into)
+    {
+        into.Clear();
+        if (winding)
+        {
+            foreach (StrikeTarget t in locked)
+                if (t.hurtbox != null && t.hurtbox.Health != null && !t.hurtbox.Health.IsDead) into.Add(t);
+            return;
+        }
+        GameObject item = hands.ActiveItem(hand);
+        if (item == null || !item.TryGetComponent(out Tool axe) || !item.TryGetComponent(out MeleeWeapon melee)) return;
+
+        StrikeShape cone = new(flight.range, aimArc, TargetCount);
+        TargetQuery query = melee.Query(user, Origin, dir, cone, axe.kind, TargetScoring.AimAngle, preferred, bias);
+        query.charactersOnly = true;
+        MeleeTargeting.Select(query, into);
+    }
+
     public override bool TryActivate(GameObject caster, HandSide hand)
     {
         if (tool != null || thrownAxePrefab == null || Time.time < readyAt || animator.IsAttacking) return false;
@@ -71,8 +121,16 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         if (item == null || !item.TryGetComponent(out Tool axe) || axe.kind != Weapon) return false;
         if (!item.TryGetComponent(out MeleeWeapon _)) return false;
 
-        animator.PlayAttack(hand, 3f, Aim(), throwStyle, cast: true);
-        if (!animator.IsCasting) return false;   // no such clip
+        // lock what's lit now (the highlighted target forced first), before the windup
+        Vector2 aim = Aim();
+        LockTargets(hand, aim);
+
+        animator.PlayAttack(hand, 3f, aim, throwStyle, cast: true);
+        if (!animator.IsCasting)   // no such clip
+        {
+            locked.Clear();
+            return false;
+        }
 
         tool = axe;
         side = hand;
@@ -88,37 +146,42 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         winding = false;
 
         // the axe left the hand during the windup (dropped, swapped): no throw
-        if (tool == null || hands.ActiveItem(side) != tool.gameObject || !tool.TryGetComponent(out MeleeWeapon melee)
+        if (tool == null || hands.ActiveItem(side) != tool.gameObject || !tool.TryGetComponent(out MeleeWeapon _)
             || !tool.TryGetComponent(out SpriteRenderer held))
         {
             tool = null;
+            locked.Clear();
             return;
         }
 
         Vector2 aim = Aim();
         AttackData attack = tool.GetAttack(false, stats).Scaled(damageMultiplier).WithoutRecoil();
-        Hurtbox target = PickTarget(melee, aim);
+
+        // the locked targets, main one first; ones that died meanwhile ThrownAxe skips
+        flightTargets.Clear();
+        foreach (StrikeTarget t in locked)
+            if (t.hurtbox != null) flightTargets.Add(t.hurtbox);
+        locked.Clear();
 
         Transform anchor = hands.Anchor(side);
         float height = anchor.position.y - user.transform.position.y;
         float curveSide = side == HandSide.Left ? 1f : -1f;
-        ThrownAxe flying = ThrownAxe.Launch(thrownAxePrefab, held, anchor, height, aim, target, user, attack, flight, curveSide, Caught);
+        ThrownAxe flying = ThrownAxe.Launch(thrownAxePrefab, held, anchor, height, aim, flightTargets, user, attack, flight, curveSide, Caught);
 
         Hide(tool.gameObject);
         away = true;
         Released?.Invoke(flying);
     }
 
-    // The soft target along the aim: the highlighted one when it's in the cone, else
-    // the one nearest the aim. Only damageable targets -- never homes onto one it'd
-    // glance off.
-    Hurtbox PickTarget(MeleeWeapon melee, Vector2 aim)
+    // What the axe will fly at, locked on the cast click: the highlighted target when
+    // it's in the cone (the preview follows this spell while it's armed), else the one
+    // nearest the aim, then the nearest others up to TargetCount. Only targets it would
+    // damage -- never one it'd glance off.
+    void LockTargets(HandSide hand, Vector2 aim)
     {
-        StrikeShape cone = new(flight.range, aimArc, 1);
         GameObject highlighted = preview != null ? preview.Primary : null;
-        MeleeTargeting.Select(melee.Query(user, Origin, aim, cone, tool.kind, TargetScoring.AimAngle,
-                                          highlighted, float.PositiveInfinity), targets);
-        return targets.Count > 0 && !targets[0].glancing ? targets[0].hurtbox : null;
+        SelectTargets(hand, aim, highlighted, float.PositiveInfinity, locked);
+        locked.RemoveAll(t => t.glancing);
     }
 
     void Caught()
@@ -145,6 +208,7 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         {
             winding = false;
             tool = null;
+            locked.Clear();
         }
 
         // the axe left the hand mid-flight (swapped out, dropped, put in the bag):
@@ -189,6 +253,7 @@ public class AxeThrowSkill : ActiveSkill, IHandLock
         Show();
         tool = null;
         winding = away = false;
+        locked.Clear();
     }
 
     void OnDrawGizmosSelected()

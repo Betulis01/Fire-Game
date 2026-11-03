@@ -26,6 +26,7 @@ public class AimIndicator : MonoBehaviour
 
     WeaponUse weaponUse;   // resolves which hand the next attack would use
     CombatState combat;    // the arrow is a combat aid; null = always eligible
+    ActiveSkillSlots skills;   // an armed (or mid-cast) aimed spell takes over the reach
 
     void Awake()
     {
@@ -35,6 +36,7 @@ public class AimIndicator : MonoBehaviour
         {
             weaponUse = hands.GetComponent<WeaponUse>();
             combat = hands.GetComponent<CombatState>();
+            skills = hands.GetComponent<ActiveSkillSlots>();
         }
 
         // Detach from the player so we escape its SortingGroup; otherwise the group
@@ -45,11 +47,13 @@ public class AimIndicator : MonoBehaviour
 
     void LateUpdate()
     {
-        // Visible only in combat, holding a real weapon, and actively playing.
-        bool armed = TryActiveRange(out float range);
+        // Visible only in combat (or aiming a spell, which is deliberate), holding a
+        // real weapon, and actively playing.
+        bool aimingSpell = TrySpellRange(out float range);
+        bool armed = aimingSpell || TryActiveRange(out range);
         bool playing = GameStateManager.Instance == null
                        || GameStateManager.Instance.State == GameState.Playing;
-        bool fighting = combat == null || combat.InCombat;
+        bool fighting = aimingSpell || combat == null || combat.InCombat;
         if (!armed || !playing || !fighting)
         {
             if (arrow != null && arrow.enabled) arrow.enabled = false;
@@ -78,6 +82,16 @@ public class AimIndicator : MonoBehaviour
     // bow. ActiveItem is the held item or the default fists when empty, so bare hands
     // count (fists are a Tool). Returns false when that hand can't swing (it holds a
     // non-tool, e.g. wood).
+    // The reach of an aimed spell that's armed or mid-cast (ActiveSkillSlots.TryGetAiming).
+    bool TrySpellRange(out float range)
+    {
+        range = 0f;
+        if (skills == null || !skills.TryGetAiming(out ActiveSkill skill, out HandSide side)) return false;
+        if (!skill.TryGetAim(side, out SkillAim aim)) return false;
+        range = aim.range;
+        return true;
+    }
+
     bool TryActiveRange(out float range)
     {
         range = 0f;

@@ -75,9 +75,10 @@ MonoBehaviour:
     skill: {fileID: 7300000000000000003, guid: 81029ea45da3411fb7ec8a199e35b799, type: 3}
   - id: axe_throw
     displayName: Axe Throw
-    description: Hurl your axe at a target; it spins back to your hand.
+    description: 'Hurl your axe at a target; it spins back to your hand. Rank 1: one
+      target. Rank 2: it bounces on to a second. Rank 3: a third.'
     kind: 1
-    maxRank: 1
+    maxRank: 3
     parents:
     - axe_b
     size: 1

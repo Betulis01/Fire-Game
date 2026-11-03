@@ -15,6 +15,15 @@ using UnityEngine;
 // nothing is assigned by itself, and a slot isn't tied to a hand: pressing its key
 // casts the spell with whichever drawn hand holds that spell's weapon (the Main Hand
 // first) and isn't locked (a spell's IHandLock).
+//
+// Aimed spells (ActiveSkill.Aimed: Axe Throw) arm instead: the key arms it (even mid-
+// swing -- the swing plays out), the soft target and the ground telegraph follow the
+// spell, and a left click casts it -- or the key again. A click during a swing casts
+// the moment the swing ends. Right click cancels, and so does anything that takes the
+// spell's hand away (a set swap, picking up a load, the weapon leaving the hand). The
+// cast and cancel clicks are swallowed through their release, so they never also
+// swing, charge or raise a shield. Spells that aren't aimed (Whirlwind) cast on the key.
+// Runs before ItemUser (+100), so a click it claims never reaches the hands.
 [RequireComponent(typeof(Hands))]
 public class ActiveSkillSlots : MonoBehaviour
 {
@@ -22,7 +31,14 @@ public class ActiveSkillSlots : MonoBehaviour
 
     Hands hands;
     Loadout loadout;
+    PlayerAnimator animator;
     WeaponExperience weaponXp;
+
+    // The aimed spell waiting for its click, and the slot it was armed from.
+    public ActiveSkill Armed { get; private set; }
+    public event Action ArmedChanged;
+    int armedSlot = -1;
+    bool castQueued;   // clicked (or the key again): cast as soon as no swing plays
     readonly List<ActiveSkill> skills = new();
     readonly IActiveSkill[] slots = new IActiveSkill[Count];
 
@@ -38,6 +54,7 @@ public class ActiveSkillSlots : MonoBehaviour
     {
         hands = GetComponent<Hands>();
         loadout = GetComponent<Loadout>();
+        animator = GetComponent<PlayerAnimator>();
         weaponXp = GetComponent<WeaponExperience>();
         SpawnSkills();
     }
@@ -122,6 +139,22 @@ public class ActiveSkillSlots : MonoBehaviour
         return false;
     }
 
+    // The spell the soft target and the telegraph follow right now, and its hand: one
+    // whose cast is still choosing its target (AimLive), else the armed one.
+    public bool TryGetAiming(out ActiveSkill skill, out HandSide side)
+    {
+        foreach (ActiveSkill s in skills)
+        {
+            if (s == null || !s.AimLive) continue;
+            skill = s;
+            side = s.CastSide;
+            return true;
+        }
+        skill = Armed;
+        side = HandSide.Left;
+        return Armed != null && TryGetCaster(Armed, out side);
+    }
+
     // Whether a spell has a hand out of action (IHandLock: its axe is in flight).
     public bool IsLocked(HandSide side)
     {
@@ -149,9 +182,102 @@ public class ActiveSkillSlots : MonoBehaviour
             else if (cooling.Remove(skill)) CooldownReady?.Invoke(skill);
         }
 
+        if (Armed != null && !CanStayArmed()) Disarm();
+
         if (loadout != null && loadout.IsSwapping) return;   // the swap's beat
-        if (UserInput.Instance.SkillPressed(HandSide.Left)) Cast(0);
-        if (UserInput.Instance.SkillPressed(HandSide.Right)) Cast(1);
+        if (UserInput.Instance.SkillPressed(HandSide.Left)) Press(0);
+        if (UserInput.Instance.SkillPressed(HandSide.Right)) Press(1);
+        if (Armed != null) UpdateArmed();
+    }
+
+    // A skill key: an aimed spell arms (or, already armed, casts); any other casts.
+    void Press(int slot)
+    {
+        ActiveSkill skill = slots[slot] as ActiveSkill;
+        if (skill == null)
+        {
+            CastFailed?.Invoke(slot);
+            return;
+        }
+        if (!skill.Aimed)
+        {
+            Disarm();
+            Cast(slot);
+            return;
+        }
+        if (skill == Armed) castQueued = true;
+        else if (CanArm(skill)) Arm(skill, slot);
+        else CastFailed?.Invoke(slot);
+    }
+
+    // While armed: right click cancels, left click casts -- each press swallowed
+    // through its release.
+    void UpdateArmed()
+    {
+        UserInput input = UserInput.Instance;
+        if (input.UsePressed(HandSide.Right))
+        {
+            Claim(HandSide.Right);
+            Disarm();
+            return;
+        }
+        if (input.UsePressed(HandSide.Left))
+        {
+            Claim(HandSide.Left);
+            castQueued = true;
+        }
+        if (castQueued && (animator == null || !animator.IsAttacking)) CastArmed();
+    }
+
+    static void Claim(HandSide button)
+    {
+        UserInput.Instance.ConsumeUse(button);
+        UserInput.Instance.SuppressUntilRelease(button);
+    }
+
+    // Off cooldown, with a drawn hand to cast it from; a swing may be playing.
+    bool CanArm(ActiveSkill skill) =>
+        skill.Cooldown01 <= 0f && !hands.IsCarrying && TryGetCaster(skill, out HandSide _);
+
+    // The spell's hand is still there: not carrying, not swapping sets, the weapon still
+    // drawn, and the game not over (a pause keeps it armed).
+    bool CanStayArmed()
+    {
+        if (hands.IsCarrying || (loadout != null && loadout.IsSwapping)) return false;
+        if (GameStateManager.Instance != null)
+        {
+            GameState state = GameStateManager.Instance.State;
+            if (state != GameState.Playing && state != GameState.Paused) return false;
+        }
+        return TryGetCaster(Armed, out HandSide _);
+    }
+
+    void Arm(ActiveSkill skill, int slot)
+    {
+        Armed = skill;
+        armedSlot = slot;
+        castQueued = false;
+        ArmedChanged?.Invoke();
+    }
+
+    public void Disarm()
+    {
+        castQueued = false;
+        if (Armed == null) return;
+        Armed = null;
+        armedSlot = -1;
+        ArmedChanged?.Invoke();
+    }
+
+    // Cast the armed spell from the hand that holds its weapon now. Hit or miss, the
+    // arm is spent.
+    void CastArmed()
+    {
+        ActiveSkill skill = Armed;
+        int slot = armedSlot;
+        bool cast = TryGetCaster(skill, out HandSide side) && skill.TryActivate(gameObject, side);
+        Disarm();
+        if (!cast) CastFailed?.Invoke(slot);
     }
 
     void Cast(int slot)

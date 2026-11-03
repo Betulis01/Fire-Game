@@ -4,7 +4,7 @@ using UnityEngine;
 // "whirlwind" clip `spins` times in a row; each turn of the clip fires its
 // OnWhirlwindHit Animation Event, which strikes a full 360-degree cone of `radius`
 // around the player with the axe's light attack (scaled by damageMultiplier) -- the
-// nearest `maxTargets` (enemies before resources), so it can't scale infinitely
+// nearest `maxTargets` (characters only -- it never chops trees or ore), so it can't scale infinitely
 // either. Hits run through the normal pipeline (Hurtbox -> Health, ToolDamageFilter,
 // knockback away from the player), so they also earn axe XP. The player can keep
 // moving while spinning.
@@ -74,7 +74,9 @@ public class WhirlwindSkill : ActiveSkill
         // the spin hits from every side at once
         AttackData attack = tool.GetAttack(false, stats).Scaled(damageMultiplier).WithoutRecoil();
         StrikeShape spin = new(radius, 360f, maxTargets, tool.secondaryDamageMultiplier);
-        StrikeResult result = melee.Strike(attack, melee.Query(user, Origin, Vector2.right, spin, tool.kind, TargetScoring.Distance));
+        TargetQuery query = melee.Query(user, Origin, Vector2.right, spin, tool.kind, TargetScoring.Distance);
+        query.charactersOnly = true;   // a spell, not a chop: it never strikes trees or ore
+        StrikeResult result = melee.Strike(attack, query);
         Spun?.Invoke(spins - strikesLeft + 1, result);
 
         if (--strikesLeft <= 0)

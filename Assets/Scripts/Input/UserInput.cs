@@ -256,6 +256,10 @@ public class UserInput : MonoBehaviour
     public bool UseLeft => UsePressed(HandSide.Left);
     public bool UseRight => UsePressed(HandSide.Right);
     public void ConsumeUse(HandSide side) => consumedFrame[(int)side] = Time.frameCount;
+    // Swallow the current press of a Use button through its release, the way a press
+    // that began over the HUD is: claimed by something else (an armed spell's cast or
+    // cancel click), it must not also swing, charge or block while still held.
+    public void SuppressUntilRelease(HandSide side) => suppressed[(int)side] = true;
     public bool InteractLeft => interactLeftAction != null && interactLeftAction.WasPressedThisFrame();
     public bool InteractLeftHeld => interactLeftAction != null && interactLeftAction.IsPressed();
     public bool InteractLeftReleased => interactLeftAction != null && interactLeftAction.WasReleasedThisFrame();

@@ -24,6 +24,11 @@ public class Hurtbox : MonoBehaviour
     // resources (DamageCalculator).
     public CharacterStats Stats { get; private set; }
 
+    // The two kinds of damageable: characters (anything with CharacterStats -- the
+    // player, enemies, animals, the target dummy) and resources (trees, ore, stone,
+    // logs). Skills only target characters (TargetQuery.charactersOnly).
+    public bool IsCharacter => Stats != null;
+
     // hurt collider -> its Hurtbox, so targeting resolves an overlap without a
     // GetComponentInParent per collider (and ignores non-hurt colliders on the layer)
     static readonly Dictionary<Collider2D, Hurtbox> byCollider = new();

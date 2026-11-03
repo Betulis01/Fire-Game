@@ -32,6 +32,7 @@ WARM = (218, 134, 62, 255)      # warmth bar: the campfire orange from the mocku
 WHITE = (255, 255, 255, 255)
 TEXT = (241, 246, 240, 255)     # mockup's off-white
 LIGHT = (190, 204, 222, 255)
+GOLD = (255, 204, 0, 255)       # the soft-target gold (TargetPreview): an armed spell
 CLEAR = (0, 0, 0, 0)
 
 
@@ -123,6 +124,26 @@ def whirlwind_icon():
     return out
 
 
+def cancel_icon():
+    """24x24 cancel cross (an armed spell's Off Hand / right click): two 3px
+    diagonals in the HUD red, with a 1px dark outline so it reads on the slot fill."""
+    n = 24
+    im = Image.new("RGBA", (n, n), CLEAR)
+    px = im.load()
+    for y in range(4, n - 4):
+        for x in range(4, n - 4):
+            if abs(x - y) <= 1 or abs(x + y - (n - 1)) <= 1:
+                px[x, y] = RED
+    out = im.copy()
+    op = out.load()
+    for y in range(n):
+        for x in range(n):
+            if px[x, y][3] == 0 and any(0 <= x + dx < n and 0 <= y + dy < n and px[x + dx, y + dy][3]
+                                        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                op[x, y] = BORDER
+    return out
+
+
 def main():
     mock = read_aseprite(MOCKUP)
     os.makedirs(OUT, exist_ok=True)
@@ -153,6 +174,8 @@ def main():
     add("bar_item_fill", solid(42, 4, WHITE))                   # white: the meter tints it
     add("ui_pixel", solid(4, 4, WHITE))
     add("icon_spell_whirlwind", whirlwind_icon())
+    add("icon_cancel", cancel_icon())
+    add("slot_armed_frame", frame(80, 64, GOLD, CLEAR))   # over an action_slot while its spell is armed
 
     # --- cut from the mockup ---
     add("hand_frame_selected", cut(mock, 736, 968, 96, 84), (736, 968))

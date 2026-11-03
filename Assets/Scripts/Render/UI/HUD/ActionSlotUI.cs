@@ -12,11 +12,15 @@ using UnityEngine.UI;
 // on the same object, when there is one). A hand slot's item drags like a loadout box
 // on the Player tab (onto the other hand, a loadout box, a bag slot or the world), and
 // takes a bag slot or loadout item dropped on it into the active set's hand -- or, fuel
-// onto a held torch, feeds it (Inventory.TryFeed).
+// onto a held torch, feeds it (Inventory.TryFeed). While an aimed spell is armed
+// (ActionBarUI) the hand slots show what their click does instead -- the spell on the
+// Main Hand, cancel on the Off Hand (SetOverride) -- and the spell's own slot lights its
+// armed frame (SetArmed).
 public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] Image icon;
     [SerializeField] Image cooldown;   // Filled, vertical, from the top
+    [SerializeField] Image armed;      // the frame lit while this slot's spell is armed
     [SerializeField] Vector2 iconBox = new(56f, 56f);
     [SerializeField] ItemMeterUI meter;   // the item's bar (a torch's fuel)
 
@@ -32,6 +36,9 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
     int skillIndex = -1;
     Loadout loadout;
     bool hasItem;
+    bool overridden;   // showing an armed spell's click (SetOverride), not the item
+    Sprite itemSprite;
+    float itemAlpha = 1f;
     bool dragging;
     int dragSet;   // the set the dragged item came from (the active one when it started)
 
@@ -57,11 +64,45 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
     // two-handed tool).
     public void SetItem(GameObject item, float alpha = 1f)
     {
+        itemSprite = UiPixel.IconOf(item);
+        itemAlpha = alpha;
+        hasItem = item != null;
+        if (overridden) return;
         if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(item);
         if (meter != null) meter.Show(item);
-        UiPixel.FitIntegerScale(icon, UiPixel.IconOf(item), iconBox);
+        ShowIcon(itemSprite, alpha);
+    }
+
+    // A hand slot showing what its click does while a spell is armed (the spell, or
+    // cancel) in place of its item -- no item meter or tooltip meanwhile. ClearOverride
+    // shows the item again (true when there was an override to clear); the owner's
+    // SetItem then restores its meter and tooltip.
+    public void SetOverride(Sprite sprite)
+    {
+        overridden = true;
+        ShowIcon(sprite, 1f);
+        if (meter != null) meter.Show(null);
+        if (TryGetComponent(out ItemHoverTooltip hover)) hover.SetItem(null);
+        SetCooldown(0f);
+    }
+
+    public bool ClearOverride()
+    {
+        if (!overridden) return false;
+        overridden = false;
+        ShowIcon(itemSprite, itemAlpha);
+        return true;
+    }
+
+    public void SetArmed(bool on)
+    {
+        if (armed != null) armed.enabled = on;
+    }
+
+    void ShowIcon(Sprite sprite, float alpha)
+    {
+        UiPixel.FitIntegerScale(icon, sprite, iconBox);
         icon.color = new Color(1f, 1f, 1f, alpha);
-        hasItem = item != null;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -99,8 +140,9 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
             return;
         }
 
-        // the Off Hand ghosting a two-handed Main Hand has nothing of its own to drag
-        if (!handSlot || loadout == null || !hasItem || loadout.Drawn(side) == null)
+        // the Off Hand ghosting a two-handed Main Hand has nothing of its own to drag,
+        // and a slot showing an armed spell's click isn't showing its item
+        if (!handSlot || overridden || loadout == null || !hasItem || loadout.Drawn(side) == null)
         {
             e.pointerDrag = null;
             return;
@@ -143,6 +185,7 @@ public class ActionSlotUI : MonoBehaviour, IDropHandler, IBeginDragHandler, IDra
 
     public void SetCooldown(float fill01)
     {
+        if (overridden) fill01 = 0f;
         cooldown.enabled = fill01 > 0f;
         cooldown.fillAmount = fill01;
     }

@@ -43,6 +43,15 @@ The player is always in one of two states:
 - **Second weapon:** an off-hand parry.
 - **Empty off hand:** a shove or kick. Today it's the fist punch.
 
+### Skill targeting: the Charge
+
+Arm-then-click is built (see DONE). What's left belongs to the Charge, once it exists:
+
+- **Its telegraph is a lane** out to where it stops (`SkillAim.lane`, already drawn by `SkillTelegraph`).
+- **It prefers targets beyond melee reach,** so it reads as a way to close distance.
+- **A tree or rock in its lane greys the ring out** instead of hiding it, so you see why it stops short.
+- **With no target, it dashes its full length** along the aim.
+
 ### Phase 8: Hauling as progression
 
 Hauling then grows over a run instead of staying a flat cost.
@@ -255,6 +264,29 @@ The old setup was clunky in five ways, all fixed by Phases 1–7:
 - **Tap Q:** deposits the carried item into a receiver zone you stand in (fire, furnace, build site), else drops it at your feet.
 - **Hold Q:** the ghost shows where it will land (up to 3 units away). Release or left click throws it in an arc (`ThrownItem`), Y-sorted by the ground under it. It lands in a receiver if it falls in one, so a log thrown into the fire becomes fuel.
 - **Q acts on the hand filled last.** Bag items keep their drag route.
+
+### Skill targeting: arm, then click (built; needs a play test)
+
+**One rule: the gold highlight is always what your next left click hits.** Normally that's the swing; with a skill armed, it's the skill.
+
+- **Aimed skills arm; the rest cast on the key.** `ActiveSkill.Aimed` (Axe Throw: true). Whirlwind stays instant; pressing it while another skill is armed cancels the arm and spins.
+- **1 / 2 arms** the slot's aimed skill (`ActiveSkillSlots`) when it's off cooldown, a drawn hand holds its weapon, you're not carrying, and no set swap is running. Arming during a swing is allowed; the swing plays out.
+- **Casting:** left click, or the same key again. A click during a swing is queued and fires the moment the swing ends. With no target, the skill still casts along the aim.
+- **Cancelling:** right click. The arm is also dropped by a set swap, picking up a load, the weapon leaving the hand, or the game ending (a pause keeps it).
+- **Clicks are swallowed:** the cast and cancel clicks are claimed through their release (`UserInput.SuppressUntilRelease`), so they never also swing, charge or raise a shield.
+- **While armed:**
+  - **Soft target:** `TargetPreview` previews the skill (`ActiveSkill.SelectTargets`) instead of the hand, keeping its stickiness. A swing still waiting for its contact frame keeps its own target first. Through Axe Throw's windup (`AimLive`), the preview stays on the skill, and the throw flies at the highlighted target.
+  - **Ground telegraph** (`SkillTelegraph`, on the player): the skill's shape (`ActiveSkill.TryGetAim`, a `SkillAim`) as a runtime pixel sprite on the Indicators layer. Axe Throw: a 40° wedge out to 7. Plus a gold **ring** under the target's feet.
+  - **Aim arrow** moves out to the skill's range, and shows outside combat too.
+  - **Action bar:** the Main Hand slot shows the skill's icon, the Off Hand slot a cancel icon (`icon_cancel`), and the skill's own slot a gold armed frame (`slot_armed_frame`). Both are placeholder art from `gen_hud_sprites.py`.
+- **Gamepad:** a shoulder arms, the right stick aims, the left trigger (Use Left) casts and the right trigger (Use Right) cancels.
+
+### Axe Throw ranks and skills vs resources (built; needs a play test)
+
+- **Axe Throw is a 3-rank Spell node.** Rank 1 learns it and hits 1 target, rank 2 hits up to 2, and rank 3 up to 3 (`AxeThrowSkill.targetsByRank`). Spells read their node's rank through `ActiveSkill.Rank`.
+- **The targets are locked on the cast click:** the gold main target plus the cyan secondaries the armed preview showed (nearest the main one, up to the rank's count). Only one target in the cone means one hit, whatever the rank.
+- **The axe hops** (`ThrownAxe`): main target first, then whichever locked target is closest to the one it just hit, even if they've moved. Each hop bows the other way. A target that dies or gets away is skipped. Then it flies home from the last one. Every target takes full damage.
+- **Two kinds of damageable:** characters (with `CharacterStats`) and resources (trees, ore, stone, logs). `Hurtbox.IsCharacter` tells them apart, and `TargetQuery.charactersOnly` makes **skills ignore resources**: Axe Throw and Whirlwind never hit, highlight or glance off them. Weapon swings still chop and mine.
 
 ### Resolved questions
 

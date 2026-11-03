@@ -692,7 +692,8 @@ static class HudBuilder
 
         ActionBarUI ui = bar.gameObject.AddComponent<ActionBarUI>();
         Wire(ui, ("root", hud), ("leftAction", skill1), ("rightAction", skill2), ("mainHand", main),
-             ("offHand", off), ("dropHint", drop.gameObject), ("setRows", rows), ("setIcons", icons));
+             ("offHand", off), ("dropHint", drop.gameObject), ("setRows", rows), ("setIcons", icons),
+             ("cancelIcon", S("icon_cancel")));
     }
 
     // An action slot's cooldown: a half-black overlay over its inside that drains from the top.
@@ -729,6 +730,10 @@ static class HudBuilder
         Image icon = CenteredIcon(frame.transform);
         Image cooldown = CooldownOverlay(frame.transform);
 
+        // lit while this slot's spell is armed (a skill slot); drawn over the cooldown
+        Image armed = Img("Armed", frame.transform, S("slot_armed_frame"), 0, 0);
+        armed.enabled = false;
+
         Vector2 size = hint.rect.size;
         Img("Key Hint", frame.transform, hint, (ActionSlotWidth - (int)size.x) / 2, -(int)size.y - 4);
 
@@ -738,7 +743,7 @@ static class HudBuilder
         if (tooltip != null) Wire(frame.gameObject.AddComponent<ItemHoverTooltip>(), ("tooltip", tooltip));
 
         ActionSlotUI ui = frame.gameObject.AddComponent<ActionSlotUI>();
-        Wire(ui, ("icon", icon), ("cooldown", cooldown));
+        Wire(ui, ("icon", icon), ("cooldown", cooldown), ("armed", armed));
         if (tooltip != null) Wire(ui, ("meter", ItemMeter(frame)));   // a hand slot's item bar, over the cooldown
         return ui;
     }

@@ -30,6 +30,10 @@ public struct TargetQuery
     // never beats an enemy in the cone.
     public GameObject preferred;
     public float preferredBias;
+
+    // Only characters are candidates (Hurtbox.IsCharacter): skills never strike
+    // resources -- not even glancing -- while weapon swings still chop and mine.
+    public bool charactersOnly;
 }
 
 // A target picked by MeleeTargeting.Select. `point` is where the cone meets its hurt
@@ -176,6 +180,7 @@ public static class MeleeTargeting
         {
             // only a hurt region counts (not an entity's blocker on the same layer)
             if (!Hurtbox.TryGet(col, out Hurtbox hb) || hb.Owner == q.owner || !hb.CanBeHit) continue;
+            if (q.charactersOnly && !hb.IsCharacter) continue;
             if (hb.Health == null || hb.Health.IsDead || Contains(hb.Health)) continue;
             if (!InCone(col, q, reach, half, out Vector2 point, out float angle, out float distance)) continue;
 

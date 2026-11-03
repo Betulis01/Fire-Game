@@ -11,8 +11,11 @@ using UnityEngine.UI;
 // one while that hand's swing recovers (WeaponUse.IsBusy). The Quickslot is empty
 // until consumables get one. Beside the bar both loadout sets show small, the
 // active one bright, and the scroll hint (swap sets) right of them; the "Q Drop" hint
-// sits under the bar while carrying. The hand slots' items drag like loadout boxes. Everything is placed explicitly by HudBuilder (no
-// layout groups) to stay pixel-exact.
+// sits under the bar while carrying. The hand slots' items drag like loadout boxes. While
+// an aimed spell is armed (ActiveSkillSlots.Armed) the hand slots show what their clicks
+// do -- the spell on the Main Hand (left click casts), cancel on the Off Hand (right
+// click) -- and the spell's slot lights its armed frame. Everything is placed explicitly
+// by HudBuilder (no layout groups) to stay pixel-exact.
 public class ActionBarUI : MonoBehaviour
 {
     [SerializeField] HudRoot root;
@@ -21,6 +24,7 @@ public class ActionBarUI : MonoBehaviour
     [SerializeField] ActionSlotUI mainHand;
     [SerializeField] ActionSlotUI offHand;
     [SerializeField] GameObject dropHint;         // Q key + "Drop"; only while carrying
+    [SerializeField] Sprite cancelIcon;           // the Off Hand while a spell is armed
 
     [Header("Loadout sets (A, B), Main + Off each")]
     [SerializeField] CanvasGroup[] setRows;       // one per set
@@ -45,7 +49,11 @@ public class ActionBarUI : MonoBehaviour
         weaponUse = root.Player != null ? root.Player.GetComponent<WeaponUse>() : null;
 
         if (hands != null) hands.Changed += Redraw;
-        if (skills != null) skills.Changed += RedrawSkills;
+        if (skills != null)
+        {
+            skills.Changed += RedrawSkills;
+            skills.ArmedChanged += RedrawArmed;
+        }
         leftAction.BindSkillSlot(skills, 0);
         rightAction.BindSkillSlot(skills, 1);
         mainHand.BindLoadout(loadout);
@@ -56,7 +64,11 @@ public class ActionBarUI : MonoBehaviour
     void OnDisable()
     {
         if (hands != null) hands.Changed -= Redraw;
-        if (skills != null) skills.Changed -= RedrawSkills;
+        if (skills != null)
+        {
+            skills.Changed -= RedrawSkills;
+            skills.ArmedChanged -= RedrawArmed;
+        }
     }
 
     void Update()
@@ -102,5 +114,23 @@ public class ActionBarUI : MonoBehaviour
     {
         leftAction.SetSkill(skills != null ? skills.Skill(0) : null);
         rightAction.SetSkill(skills != null ? skills.Skill(1) : null);
+        RedrawArmed();
+    }
+
+    // The hand slots show the armed spell's clicks; disarmed, their items again.
+    void RedrawArmed()
+    {
+        ActiveSkill armed = skills != null ? skills.Armed : null;
+        leftAction.SetArmed(armed != null && ReferenceEquals(skills.Skill(0), armed));
+        rightAction.SetArmed(armed != null && ReferenceEquals(skills.Skill(1), armed));
+        if (armed != null)
+        {
+            mainHand.SetOverride(armed.Icon);
+            offHand.SetOverride(cancelIcon);
+            return;
+        }
+
+        bool wasOverridden = mainHand.ClearOverride() | offHand.ClearOverride();
+        if (wasOverridden) Redraw();   // restores the hand items' meters and tooltips
     }
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 public enum SkillNodeSize { Small, Big }
 
 // Passive nodes are ranked stat upgrades (statsPerRank, summed into the player's
-// CharacterStats by WeaponExperience). A Spell node is
-// learned once (maxRank 1) and unlocks an active skill: its `skill` prefab
+// CharacterStats by WeaponExperience). A Spell node's first rank learns an active
+// skill, and any further ranks upgrade it (the skill reads its node's rank, e.g. Axe
+// Throw's targets per throw): its `skill` prefab
 // (ActiveSkill), which the player carries from the start, dragged onto an action bar
 // skill slot and cast with a hand holding this tree's weapon (see ActiveSkillSlots).
 public enum SkillNodeKind { Passive, Spell }
