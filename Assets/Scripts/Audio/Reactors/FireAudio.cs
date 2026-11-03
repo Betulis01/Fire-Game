@@ -42,7 +42,8 @@ public class FireAudio : MonoBehaviour
         layers = new SoundHandle[sounds.layers.Length];
         for (int i = 0; i < layers.Length; i++)
             layers[i] = Sfx.PlayLoop(sounds.layers[i].loop, transform, 0f, head);
-        ApplyLayers(f, 0f);
+        // swell in from silence rather than snap on (a torch drawn under its draw "fwoosh")
+        ApplyLayers(f, 0.2f);
     }
 
     void OnDisable()

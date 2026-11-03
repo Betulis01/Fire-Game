@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceSounds
   impact: {fileID: 11400000, guid: 6d32eae94dcb77f4dac794749b3f60e8, type: 2}
   glance: {fileID: 0}
+  byTool: []

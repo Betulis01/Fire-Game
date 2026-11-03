@@ -12,10 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_item_fibre_pickup
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: fcb8c98a6b44b684cb5870f1f753187e, type: 3}
+  - {fileID: 8300000, guid: 50cb3a3ecf0f87649bfbeca579c7878e, type: 3}
+  - {fileID: 8300000, guid: a2f3a3397513ee446b087814ac3bcbcf, type: 3}
+  - {fileID: 8300000, guid: 73b8df2a7f475d2479e0f0c148bf6532, type: 3}
+  - {fileID: 8300000, guid: 977c994a1094f544a91bda0a28fdf0c0, type: 3}
+  - {fileID: 8300000, guid: 1fa5b96b0091142488fa20afd33f3c5e, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 6
+  duckOthers: 0
+  volumeDb: -8
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0
@@ -25,7 +34,7 @@ MonoBehaviour:
   cooldown: 0.04
   maxVoices: 4
   steal: 0
-  priority: 1
+  priority: 0
   layers: []
   startDelay: 0
   startDelayJitter: 0

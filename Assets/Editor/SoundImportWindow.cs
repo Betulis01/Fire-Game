@@ -13,17 +13,28 @@ using UnityEngine;
 //   2. Fill in where the batch came from -- source, author, licence, URL. One batch per pack.
 //   3. Drag files from the left list (or the Project window) onto events on the right. ▶
 //      auditions. The event list starts with what's still silent, P1 first.
-//   4. Import. Each file is levelled to a -1 dBFS peak. One-shots lose their leading and
+//   4. Import. Small sounds (steps, foley, UI: their mix tier) are high-passed at 150 Hz
+//      first, so their rumble stays out of the low end (the High-pass option: Auto / Off /
+//      Custom). Each file is levelled to a -1 dBFS peak. One-shots lose their leading and
 //      trailing silence (with fades of a few ms); loops get their seam crossfaded. Mono
 //      unless it's a wind bed or music. Written as <id>_NN.wav under Assets/Audio/Clips/
 //      (the folder by kind), with one LICENSES.csv row each, and added to the event's
 //      clips. A placeholder linked by hand is unlinked; the files in Clips/_Placeholder stay.
 //      Imported sources are moved to _Incoming/_Done, never deleted.
+//      A clip that's already imported (anything under Clips/ but the placeholders: the left
+//      list's "Imported clips" tab, the Project window, or a clip under another event) is
+//      only linked -- no new file, no second LICENSES.csv row -- so one sound can serve
+//      several events (each with its own Pitch, e.g. an axe +2 and a pickaxe -3).
+//   5. To take a clip off an event, expand the event and press ✕ beside it. The clip is
+//      unlinked; an imported clip also loses its LICENSES.csv row and its file moves to
+//      _Incoming/_Removed (never deleted). A placeholder, or a clip another event also
+//      uses, is only unlinked.
 // Levels between events are the mix session's job (each event's Volume dB), not the clips'.
 public class SoundImportWindow : EditorWindow
 {
     const string Incoming = "Assets/Audio/_Incoming";
     const string Done = Incoming + "/_Done";
+    const string Removed = Incoming + "/_Removed";
     const string Placeholders = AudioImportRules.ClipsRoot + "_Placeholder";
     const string LicensesPath = "Assets/Audio/LICENSES.csv";
     const float PeakDb = -1f;
@@ -31,6 +42,9 @@ public class SoundImportWindow : EditorWindow
 
     static readonly string[] Licences = { "CC0", "CC-BY 4.0", "CC-BY 3.0", "Royalty-free (no attribution)", "Own recording" };
     static readonly string[] Shows = { "Silent", "Silent + placeholder", "All" };
+    static readonly string[] Lefts = { "_Incoming", "Imported clips" };
+    static readonly string[] HighPasses = { "Auto (by mix tier)", "Off", "Custom Hz" };
+    const float AutoHighPassHz = 150f;
     static readonly Regex ClipName = new(@"^(.+)_(\d{2,3})$");
 
     [System.Serializable]
@@ -41,12 +55,13 @@ public class SoundImportWindow : EditorWindow
     }
 
     [SerializeField] List<Entry> entries = new();
-    [SerializeField] string source = "", author = "", url = "", search = "";
-    [SerializeField] int licence, show = 1;
+    [SerializeField] string source = "", author = "", url = "", search = "", librarySearch = "";
+    [SerializeField] int licence, show = 1, left, highPass;
+    [SerializeField] float highPassHz = AutoHighPassHz;
     [SerializeField] bool crossfadeLoops = true, moveSources = true;
 
     List<SoundEvent> events;
-    List<AudioClip> incoming;
+    List<AudioClip> incoming, library;
     Vector2 leftScroll, rightScroll;
     string openId;
     System.Action deferred;   // list changes wait for the end of OnGUI, so the layout stays whole
@@ -70,7 +85,16 @@ public class SoundImportWindow : EditorWindow
         incoming = AssetDatabase.IsValidFolder(Incoming)
             ? AssetDatabase.FindAssets("t:AudioClip", new[] { Incoming })
                 .Select(AssetDatabase.GUIDToAssetPath)
-                .Where(p => !p.StartsWith(Done + "/"))
+                .Where(p => !p.StartsWith(Done + "/") && !p.StartsWith(Removed + "/"))
+                .Select(p => AssetDatabase.LoadAssetAtPath<AudioClip>(p))
+                .Where(c => c != null)
+                .OrderBy(c => c.name)
+                .ToList()
+            : new List<AudioClip>();
+        library = AssetDatabase.IsValidFolder(AudioImportRules.ClipsRoot.TrimEnd('/'))
+            ? AssetDatabase.FindAssets("t:AudioClip", new[] { AudioImportRules.ClipsRoot.TrimEnd('/') })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Where(p => !p.StartsWith(Placeholders + "/"))
                 .Select(p => AssetDatabase.LoadAssetAtPath<AudioClip>(p))
                 .Where(c => c != null)
                 .OrderBy(c => c.name)
@@ -96,6 +120,14 @@ public class SoundImportWindow : EditorWindow
             crossfadeLoops = GUILayout.Toggle(crossfadeLoops, "Crossfade loop seams");
             moveSources = GUILayout.Toggle(moveSources, "Move imported sources to _Incoming/_Done");
         }
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            highPass = EditorGUILayout.Popup(new GUIContent("High-pass",
+                $"Cuts the bass out of small sounds so it stays free for the big ones. Auto: {AutoHighPassHz:0} Hz on " +
+                "steps, foley and UI (their mix tier), off for the rest. Custom: this frequency on every file in the batch."),
+                highPass, HighPasses);
+            if (highPass == 2) highPassHz = Mathf.Clamp(EditorGUILayout.FloatField(highPassHz, GUILayout.Width(60)), 20f, 2000f);
+        }
         EditorGUILayout.Space();
 
         using (new EditorGUILayout.HorizontalScope(GUILayout.ExpandHeight(true)))
@@ -112,7 +144,8 @@ public class SoundImportWindow : EditorWindow
 
     void DrawIncoming()
     {
-        EditorGUILayout.LabelField($"_Incoming ({incoming.Count})", EditorStyles.boldLabel);
+        left = GUILayout.Toolbar(left, new[] { $"{Lefts[0]} ({incoming.Count})", $"{Lefts[1]} ({library.Count})" });
+        if (left == 1) { DrawLibrary(); return; }
         if (!AssetDatabase.IsValidFolder(Incoming))
         {
             EditorGUILayout.HelpBox("Put downloaded sound files in Assets/Audio/_Incoming/.", MessageType.Info);
@@ -138,6 +171,31 @@ public class SoundImportWindow : EditorWindow
         if (GUILayout.Button("■ Stop")) SoundEventEditor.Stop();
     }
 
+    // clips already imported: dragged onto an event, they're linked, not imported again
+    void DrawLibrary()
+    {
+        librarySearch = EditorGUILayout.TextField("Filter", librarySearch);
+        string needle = librarySearch.Trim().ToLowerInvariant();
+        leftScroll = EditorGUILayout.BeginScrollView(leftScroll);
+        foreach (AudioClip c in library)
+        {
+            if (needle.Length > 0 && !c.name.ToLowerInvariant().Contains(needle)) continue;
+            string[] users = events.Where(e => e.clips != null && e.clips.Contains(c)).Select(e => e.name).ToArray();
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button("▶", GUILayout.Width(24))) SoundEventEditor.PlayClip(c, false);
+                var label = new GUIContent(c.name + (users.Length == 0 ? "  (unused)" : users.Length > 1 ? $"  ({users.Length} events)" : ""),
+                                           $"{AssetDatabase.GetAssetPath(c)}\nUsed by: {(users.Length > 0 ? string.Join(", ", users) : "nothing")}\n" +
+                                           "Drag onto an event to link it there too (no new file).");
+                Rect r = GUILayoutUtility.GetRect(label, EditorStyles.label, GUILayout.ExpandWidth(true));
+                GUI.Label(r, label);
+                DragSource(r, c);
+            }
+        }
+        EditorGUILayout.EndScrollView();
+        if (GUILayout.Button("■ Stop")) SoundEventEditor.Stop();
+    }
+
     void DrawEvents()
     {
         show = GUILayout.Toolbar(show, Shows);
@@ -148,7 +206,8 @@ public class SoundImportWindow : EditorWindow
         foreach (SoundEvent e in events)
         {
             Status status = StatusOf(e);
-            if ((show == 0 && status != Status.Silent) || (show == 1 && status == Status.Real)) continue;
+            // a search looks through every event, whatever the filter
+            if (needle.Length == 0 && ((show == 0 && status != Status.Silent) || (show == 1 && status == Status.Real))) continue;
             if (needle.Length > 0 && !e.name.Contains(needle) && !(e.brief ?? "").ToLowerInvariant().Contains(needle)) continue;
 
             Entry entry = entries.Find(x => x.ev == e);
@@ -168,6 +227,30 @@ public class SoundImportWindow : EditorWindow
             if (!string.IsNullOrEmpty(e.brief))
                 EditorGUILayout.HelpBox(e.brief + (e.catalogVariants > 0 ? $"\nsound.md asks for {e.catalogVariants} variant(s)." : "")
                                         + (e.loop ? "\nA loop." : ""), MessageType.None);
+
+            DrawTuning(e);
+
+            // what the event plays now
+            AudioClip[] current = e.clips ?? new AudioClip[0];
+            foreach (AudioClip c in current)
+            {
+                if (c == null) continue;
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button(new GUIContent("▶", "At the event's volume and pitch"), GUILayout.Width(24))) SoundEventEditor.PlayClipAs(e, c);
+                    var clipLabel = new GUIContent(c.name + (IsPlaceholder(c) ? "  (placeholder)" : ""),
+                                                   AssetDatabase.GetAssetPath(c) + "\nDrag onto another event to link it there too. Double-click: show in Project.");
+                    Rect r = EditorGUI.IndentedRect(GUILayoutUtility.GetRect(clipLabel, EditorStyles.label, GUILayout.ExpandWidth(true)));
+                    GUI.Label(r, clipLabel);
+                    DragSource(r, c);
+                    if (GUILayout.Button(new GUIContent("✕", "Take this clip off the event"), GUILayout.Width(24)))
+                        EditorApplication.delayCall += () => Remove(e, c);
+                }
+            }
+            int empty = current.Count(c => c == null);
+            if (empty > 0 && GUILayout.Button($"Drop {empty} empty clip slot(s)"))
+                EditorApplication.delayCall += () => DropEmpty(e);
+
             if (entry != null)
                 for (int i = 0; i < entry.clips.Count; i++)
                 {
@@ -175,6 +258,12 @@ public class SoundImportWindow : EditorWindow
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         if (GUILayout.Button("▶", GUILayout.Width(24)) && entry.clips[at] != null) SoundEventEditor.PlayClip(entry.clips[at], e.loop);
+                        bool link = IsLibrary(entry.clips[at]);
+                        float hp = link ? 0f : HighPassFor(e);
+                        GUILayout.Label(new GUIContent(link ? "link" : hp > 0f ? $"new, HP {hp:0}" : "new",
+                                                       link ? "Already imported: only linked, no new file."
+                                                       : "Imported as a new clip." + (hp > 0f ? $" High-passed at {hp:0} Hz (the bass cut out)." : "")),
+                                        GUILayout.Width(hp > 0f ? 80 : 34));
                         entry.clips[at] = (AudioClip)EditorGUILayout.ObjectField(entry.clips[at], typeof(AudioClip), false);
                         if (GUILayout.Button("✕", GUILayout.Width(24))) deferred = () => entry.clips.RemoveAt(at);
                     }
@@ -186,18 +275,45 @@ public class SoundImportWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
+    // the event's level and pitch, edited on the asset itself (undoable), and heard at once
+    static void DrawTuning(SoundEvent e)
+    {
+        var so = new SerializedObject(e);
+        EditorGUILayout.PropertyField(so.FindProperty("volumeDb"), new GUIContent("Volume dB"));
+        EditorGUILayout.PropertyField(so.FindProperty("pitchSemitones"), new GUIContent("Pitch (semitones)",
+            "Varispeed: up is also shorter and lighter, down longer and deeper."));
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.PropertyField(so.FindProperty("volumeJitterDb"), new GUIContent("± dB"));
+            EditorGUILayout.PropertyField(so.FindProperty("pitchJitterSemitones"), new GUIContent("± st"));
+        }
+        so.ApplyModifiedProperties();
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.Space(EditorGUI.indentLevel * 15f);
+            GUI.enabled = e.HasClips;
+            if (GUILayout.Button(new GUIContent("▶ Play event", "A random variant with the jitter, as the game plays it"))) SoundEventEditor.Play(e);
+            GUI.enabled = true;
+            if (GUILayout.Button("■ Stop", GUILayout.Width(60))) SoundEventEditor.Stop();
+        }
+    }
+
     void DrawFooter()
     {
-        int files = entries.Sum(x => x.clips.Count(c => c != null));
+        int files = entries.Sum(x => x.clips.Count(c => c != null && !IsLibrary(c)));
+        int links = entries.Sum(x => x.clips.Count(IsLibrary));
         int onto = entries.Count(x => x.clips.Any(c => c != null));
         EditorGUILayout.Space();
         if (files > 0 && string.IsNullOrWhiteSpace(source))
             EditorGUILayout.HelpBox("Fill in Source (and Author and URL) so LICENSES.csv knows where these came from.", MessageType.Warning);
         using (new EditorGUILayout.HorizontalScope())
         {
-            GUI.enabled = files > 0 && !string.IsNullOrWhiteSpace(source);
-            if (GUILayout.Button($"Import {files} file(s) onto {onto} event(s)", GUILayout.Height(26))) EditorApplication.delayCall += Import;
-            GUI.enabled = files > 0;
+            GUI.enabled = files > 0 ? !string.IsNullOrWhiteSpace(source) : links > 0;
+            string what = files > 0 && links > 0 ? $"Import {files} file(s) and link {links} clip(s)"
+                        : links > 0 ? $"Link {links} clip(s)" : $"Import {files} file(s)";
+            if (GUILayout.Button($"{what} onto {onto} event(s)", GUILayout.Height(26))) EditorApplication.delayCall += Import;
+            GUI.enabled = files + links > 0;
             if (GUILayout.Button("Clear", GUILayout.Width(60), GUILayout.Height(26))) deferred = entries.Clear;
             GUI.enabled = true;
         }
@@ -207,7 +323,8 @@ public class SoundImportWindow : EditorWindow
     {
         Entry entry = entries.Find(x => x.ev == e);
         if (entry == null) entries.Add(entry = new Entry { ev = e });
-        foreach (AudioClip c in clips) if (c != null && !entry.clips.Contains(c)) entry.clips.Add(c);
+        foreach (AudioClip c in clips)
+            if (c != null && !entry.clips.Contains(c) && !(e.clips != null && e.clips.Contains(c))) entry.clips.Add(c);
     }
 
     static void DragSource(Rect r, AudioClip c)
@@ -249,26 +366,43 @@ public class SoundImportWindow : EditorWindow
 
     static bool IsPlaceholder(AudioClip c) => AssetDatabase.GetAssetPath(c).StartsWith(Placeholders + "/");
 
+    // the high-pass a new file for this event gets (0 = none)
+    float HighPassFor(SoundEvent e)
+    {
+        if (highPass == 1) return 0f;
+        if (highPass == 2) return highPassHz;
+        SoundEvent.MixTier t = e.tier != SoundEvent.MixTier.Unset ? e.tier : MixTiers.Classify(e);
+        return MixTiers.HighPassed(t) ? AutoHighPassHz : 0f;
+    }
+
+    // already imported (it has its file and licence row): linked, never imported again
+    static bool IsLibrary(AudioClip c) =>
+        c != null && AssetDatabase.GetAssetPath(c).StartsWith(AudioImportRules.ClipsRoot) && !IsPlaceholder(c);
+
     // ---------------------------------------------------------------- import
 
     void Import()
     {
         var rows = new List<string>();
         var written = new List<(SoundEvent e, string path)>();
+        var linked = new List<(SoundEvent e, AudioClip clip)>();
         var sources = new HashSet<AudioClip>();
         var failed = new List<string>();
 
         foreach (Entry x in entries)
         {
             SoundEvent e = x.ev;
-            List<AudioClip> clips = x.clips.Where(c => c != null).ToList();
-            if (e == null || clips.Count == 0) continue;
+            if (e == null) continue;
+            linked.AddRange(x.clips.Where(IsLibrary).Select(c => (e, c)));
+            List<AudioClip> clips = x.clips.Where(c => c != null && !IsLibrary(c)).ToList();
+            if (clips.Count == 0) continue;
 
             string folder = SoundEventSync.EnsureFolder(FolderFor(e));
             int next = NextIndex(e);
             foreach (AudioClip src in clips)
             {
-                if (!Process(src, e.loop, KeepsStereo(e), crossfadeLoops, out float[] data, out int channels, out string why))
+                float hp = HighPassFor(e);
+                if (!Process(src, e.loop, KeepsStereo(e), crossfadeLoops, hp, out float[] data, out int channels, out string why))
                 {
                     failed.Add($"{src.name} → {e.name}: {why}");
                     continue;
@@ -278,19 +412,20 @@ public class SoundImportWindow : EditorWindow
                 next++;
                 WriteWav(path, data, channels, src.frequency);
                 rows.Add(Csv(Path.GetFileName(path), source, author, Licences[licence], url,
-                             "from " + Path.GetFileName(AssetDatabase.GetAssetPath(src))));
+                             "from " + Path.GetFileName(AssetDatabase.GetAssetPath(src)) + (hp > 0f ? $"; high-passed {hp:0} Hz" : "")));
                 written.Add((e, path));
                 sources.Add(src);
             }
         }
 
         AssetDatabase.Refresh();
-        foreach (var group in written.GroupBy(w => w.e))
+        foreach (SoundEvent e in written.Select(w => w.e).Concat(linked.Select(l => l.e)).Distinct())
         {
-            SoundEvent e = group.Key;
             IEnumerable<AudioClip> kept = (e.clips ?? new AudioClip[0]).Where(c => c != null && !IsPlaceholder(c));
-            IEnumerable<AudioClip> added = group.Select(w => AssetDatabase.LoadAssetAtPath<AudioClip>(w.path)).Where(c => c != null);
-            e.clips = kept.Concat(added).Distinct().ToArray();
+            IEnumerable<AudioClip> added = written.Where(w => w.e == e)
+                .Select(w => AssetDatabase.LoadAssetAtPath<AudioClip>(w.path)).Where(c => c != null);
+            IEnumerable<AudioClip> links = linked.Where(l => l.e == e).Select(l => l.clip);
+            e.clips = kept.Concat(added).Concat(links).Distinct().ToArray();
             EditorUtility.SetDirty(e);
         }
 
@@ -319,14 +454,64 @@ public class SoundImportWindow : EditorWindow
         Reload();
         Repaint();
 
-        int touched = written.Select(w => w.e).Distinct().Count();
-        var report = new StringBuilder($"Sound Import: {written.Count} clip(s) onto {touched} event(s).");
+        int touched = written.Select(w => w.e).Concat(linked.Select(l => l.e)).Distinct().Count();
+        string summary = $"{written.Count} clip(s) imported, {linked.Count} linked, onto {touched} event(s).";
+        var report = new StringBuilder("Sound Import: " + summary);
         foreach (string f in failed) report.Append("\n  • not imported: " + f);
         foreach (var w in written) report.Append($"\n  {w.e.name} ← {w.path}");
+        foreach (var l in linked) report.Append($"\n  {l.e.name} ← {AssetDatabase.GetAssetPath(l.clip)} (linked)");
         Debug.Log(report.ToString());
         EditorUtility.DisplayDialog("Sound Import",
-            $"{written.Count} clip(s) onto {touched} event(s)." +
+            summary +
             (failed.Count > 0 ? $"\n{failed.Count} file(s) not imported (see the Console)." : ""), "OK");
+    }
+
+    // ---------------------------------------------------------------- remove
+
+    void Remove(SoundEvent e, AudioClip clip)
+    {
+        if (e == null || clip == null) return;
+        string path = AssetDatabase.GetAssetPath(clip);
+        bool shared = events.Any(o => o != e && o.clips != null && o.clips.Contains(clip));
+        bool ours = path.StartsWith(AudioImportRules.ClipsRoot) && !IsPlaceholder(clip) && !shared;
+        string what = ours
+            ? $"Its LICENSES.csv row is removed and the file moves to {Removed}."
+            : shared ? "Another event uses it too, so the file stays." : "The file stays where it is.";
+        if (!EditorUtility.DisplayDialog("Sound Import", $"Take {clip.name} off {e.name}?\n\n{what}", "Remove", "Cancel")) return;
+
+        e.clips = (e.clips ?? new AudioClip[0]).Where(c => c != clip).ToArray();
+        EditorUtility.SetDirty(e);
+        AssetDatabase.SaveAssets();
+
+        if (ours)
+        {
+            string file = Path.GetFileName(path);
+            if (File.Exists(LicensesPath))
+            {
+                List<string> lines = File.ReadAllLines(LicensesPath).ToList();
+                lines = lines.Take(1)
+                    .Concat(lines.Skip(1).Where(l => l.Trim().Length > 0 && l.Split(',')[0].Trim().Trim('"') != file))
+                    .ToList();
+                File.WriteAllText(LicensesPath, string.Join("\n", lines) + "\n");
+            }
+            SoundEventSync.EnsureFolder(Removed);
+            string error = AssetDatabase.MoveAsset(path, AssetDatabase.GenerateUniqueAssetPath($"{Removed}/{file}"));
+            if (!string.IsNullOrEmpty(error)) Debug.LogWarning($"Sound Import: couldn't move {path}: {error}");
+        }
+
+        AssetDatabase.Refresh();
+        Reload();
+        Repaint();
+        Debug.Log($"Sound Import: {clip.name} taken off {e.name}" + (ours ? $" (file in {Removed})." : "."));
+    }
+
+    void DropEmpty(SoundEvent e)
+    {
+        if (e == null) return;
+        e.clips = (e.clips ?? new AudioClip[0]).Where(c => c != null).ToArray();
+        EditorUtility.SetDirty(e);
+        AssetDatabase.SaveAssets();
+        Repaint();
     }
 
     // where the clip lives decides its import settings (AudioImportRules)
@@ -357,7 +542,8 @@ public class SoundImportWindow : EditorWindow
         return max + 1;
     }
 
-    static bool Process(AudioClip src, bool loop, bool stereo, bool crossfade, out float[] data, out int channels, out string why)
+    static bool Process(AudioClip src, bool loop, bool stereo, bool crossfade, float highPassHz,
+                        out float[] data, out int channels, out string why)
     {
         data = null;
         channels = 0;
@@ -380,6 +566,7 @@ public class SoundImportWindow : EditorWindow
                 x[f] = s / ch;
             }
         }
+        if (highPassHz > 0f) HighPass(x, channels, src.frequency, highPassHz);
 
         float peak = 0f;
         foreach (float s in x) peak = Mathf.Max(peak, Mathf.Abs(s));
@@ -392,6 +579,28 @@ public class SoundImportWindow : EditorWindow
         else if (crossfade) x = Crossfade(x, channels, Mathf.Min(rate / 2, frames / 10));
         data = x;
         return true;
+    }
+
+    // a 2nd-order Butterworth high-pass (12 dB/octave), per channel, in place: takes the
+    // rumble out of small sounds so the low end stays free for the big ones
+    static void HighPass(float[] x, int ch, int rate, float hz)
+    {
+        double w0 = 2.0 * System.Math.PI * Mathf.Min(hz, rate * 0.45f) / rate;
+        double cos = System.Math.Cos(w0), alpha = System.Math.Sin(w0) / (2.0 * 0.70710678);
+        double a0 = 1.0 + alpha;
+        double b0 = (1.0 + cos) / 2.0 / a0, b1 = -(1.0 + cos) / a0, b2 = b0;
+        double a1 = -2.0 * cos / a0, a2 = (1.0 - alpha) / a0;
+        for (int c = 0; c < ch; c++)
+        {
+            double x1 = 0, x2 = 0, y1 = 0, y2 = 0;
+            for (int i = c; i < x.Length; i += ch)
+            {
+                double x0 = x[i];
+                double y0 = b0 * x0 + b1 * x1 + b2 * x2 - a1 * y1 - a2 * y2;
+                x2 = x1; x1 = x0; y2 = y1; y1 = y0;
+                x[i] = (float)y0;
+            }
+        }
     }
 
     // from 1 ms before the first sound to 20 ms after the last, with a 0.5 ms fade in and a

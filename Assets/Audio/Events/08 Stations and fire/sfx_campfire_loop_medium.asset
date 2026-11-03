@@ -13,10 +13,13 @@ MonoBehaviour:
   m_Name: sfx_campfire_loop_medium
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
   clips:
-  - {fileID: 8300000, guid: f61983c126a44924d86d117bd63f783e, type: 3}
+  - {fileID: 8300000, guid: 10a1cd59ec2e56d4481c0a1f627b6168, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 3
+  duckOthers: 0
+  volumeDb: -25
   volumeJitterDb: 1.5
+  pitchSemitones: 1
   pitchJitterSemitones: 0.8
   output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0

@@ -18,6 +18,10 @@ public class SoundEvent : ScriptableObject
     public enum SoundSpace { World, Screen }
     public enum StealMode { Oldest, Quietest, None }
     public enum SoundPriority { Low, Normal, High, Critical }
+    // The mix hierarchy (AudioSystem.md, "The mix"): what the player most needs to hear,
+    // first. Tools/Audio/Apply Mix Baseline sorts every event into one and gives it the
+    // tier's starting level and priority.
+    public enum MixTier { Unset, Danger, Action, Fire, Big, Creature, Foley, Step, UI, UISoft, Ambience, Music, Stinger }
 
     [Tooltip("The variants; one is picked per play.")]
     public AudioClip[] clips = new AudioClip[0];
@@ -25,10 +29,18 @@ public class SoundEvent : ScriptableObject
     public Selection selection = Selection.ShuffleNoRepeat;
 
     [Header("Level")]
+    [Tooltip("Its place in the mix: Danger > Action > Fire > Big > Creature > Foley > Step; UI, Ambience, " +
+             "Music and Stinger have their own buses. Sets the baseline level and priority (Apply Mix Baseline).")]
+    public MixTier tier;
+    [Tooltip("While it plays, AudioConfig's duck groups (World, Creatures) dip, so a warning never drowns in a fight.")]
+    public bool duckOthers;
     [Tooltip("Base level. No boost above 0 dB: balance on the mixer instead.")]
     [Range(-40f, 0f)] public float volumeDb = 0f;
     [Tooltip("± random level per play, in dB.")]
     [Range(0f, 6f)] public float volumeJitterDb = 1.5f;
+    [Tooltip("Base pitch, in semitones. Unity's pitch is varispeed, so up is also shorter and lighter, " +
+             "down longer and deeper: one clip can serve a quick axe (+2) and a heavy pickaxe (-3).")]
+    [Range(-12f, 12f)] public float pitchSemitones = 0f;
     [Tooltip("± random pitch per play, in semitones (0.8 is about ±5 %).")]
     [Range(0f, 4f)] public float pitchJitterSemitones = 0.8f;
 

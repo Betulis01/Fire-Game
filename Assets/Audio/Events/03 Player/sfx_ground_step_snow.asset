@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_ground_step_snow
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 43caf9189a3a9134cb61531fb38ff8e8, type: 3}
+  - {fileID: 8300000, guid: 980e8982e626eb34a9550f05b6e24b6e, type: 3}
+  - {fileID: 8300000, guid: 1ed135bb043c3ec4d8002c8dd0412826, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 7
+  duckOthers: 0
+  volumeDb: -25
   volumeJitterDb: 2
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -6423877940561207699, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0

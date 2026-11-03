@@ -12,10 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_torch_swing
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 6e5594bb30fb1bb448a50f4f8f914e18, type: 3}
+  - {fileID: 8300000, guid: e616b45f6cef87346a5a2e3e69c5ac5e, type: 3}
+  - {fileID: 8300000, guid: 0c220c853e6b72145857eabdd4783941, type: 3}
+  - {fileID: 8300000, guid: eb3eee2c392a7f84bb8c067679efc0eb, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 2
+  duckOthers: 0
+  volumeDb: -2
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -4088470806291835119, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0

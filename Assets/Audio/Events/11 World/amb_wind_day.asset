@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
   clips: []
   selection: 0
+  tier: 10
+  duckOthers: 0
   volumeDb: 0
   volumeJitterDb: 0
+  pitchSemitones: 0
   pitchJitterSemitones: 0
   output: {fileID: -6179718744382678621, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 1

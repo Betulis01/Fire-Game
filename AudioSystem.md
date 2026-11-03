@@ -50,6 +50,18 @@ Most events exist already and are just silent. To fill one:
 5. **Listen:** select the event asset and press **▶ Play** in its inspector. That plays with the event's own pitch and volume jitter, so you hear the variety.
 6. **Run Tools → Audio → Validate** when a batch is done.
 
+**Reusing a clip on another event:** in Sound Import, open the left list's **Imported clips** tab, or expand an event and grab one of its clips, and drag it onto another event. It's marked **link**. Pressing the button only links it: there's no new file and no second LICENSES.csv row. Give each event its own **Pitch Semitones** to make one sound serve, say, a light axe and a heavy pickaxe.
+
+**Tuning from Sound Import:** an expanded event shows its **Volume dB** and **Pitch (semitones)**, plus their ± jitter, and edits them on the event asset. **▶ Play event** plays a random variant with the jitter, as the game does. The ▶ beside each of its clips plays that clip at the event's volume and pitch.
+
+**Removing a clip:** expand the event in Sound Import and press **✕** beside the clip, then confirm. Search finds any event, whatever the filter.
+- The clip is taken off the event.
+- An imported clip also loses its `LICENSES.csv` row, and its file moves to `_Incoming/_Removed`. It's never deleted.
+- A placeholder, or a clip another event uses too, is only unlinked.
+- If the event has empty ("Missing") slots, a button drops them.
+
+**Importing onto an event that already has clips only adds.** New files continue the numbering (`_03`, `_04`, …). So to replace a sound, remove the old clip first.
+
 > Without the window, a file named `<id>_NN.wav` anywhere under `Assets/Audio/Clips/` is picked up by **Tools → Audio → Auto-Fill Clips**. You'd then have to trim, level and write the licence row yourself.
 
 **Variants:** several takes of one event, such as 4 snow steps, keep repeats from sounding mechanical. The event shuffles them so the same take never plays twice in a row. Two or three takes cut from one recording are fine.
@@ -62,6 +74,8 @@ Select the event asset (`Assets/Audio/Events/<section>/<id>.asset`). Its inspect
 |---|---|---|
 | How loud | `volumeDb` | Balance **events** against each other here, never by editing the clips. Group levels live in the mixer. |
 | Variety | `volumeJitterDb`, `pitchJitterSemitones` | ±1.5 dB and ±0.8 semitones by default. Set them to 0 for music and beds. |
+| Place in the mix | `tier`, `duckOthers` | Set by Apply Mix Baseline (§2.6a). **Reset to tier level** in the inspector goes back to the tier's baseline. |
+| Weight (one clip, two events) | `pitchSemitones` | A fixed pitch offset. Unity's pitch is varispeed: +2 is about 11 % shorter and lighter (an axe), −3 about 19 % longer and deeper (a pickaxe). Link the same clip to both events and set each its own offset. |
 | How far it carries | `rangeScale` | Multiplies the hearing radius: footsteps 0.6, tree fell 1.6, skeleton spawn 1.8. |
 | Positional or not | `space` | World is panned and fades with distance. Screen is for UI, player status and stingers. |
 | Spam control | `cooldown`, `maxVoices`, `steal`, `priority` | A cleave hitting 6 targets plays about 2 impacts. |
@@ -146,8 +160,8 @@ h.Stop(fade: 0.5f);
 
 | Tool | Use it for |
 |---|---|
-| **Tools → Audio → Validate** | One report covering:<ul><li>config and mixer wiring, and the shared sets;</li><li>coverage per sound.md section, and every event without clips, P1 first;</li><li>clips with more than 10 ms of leading silence;</li><li>loops whose ends click;</li><li>unused clips;</li><li>clips with no licence row, or an unknown licence;</li><li>prefabs with a Hurtbox but no `SurfaceAudio`, or footstep events but no `FootstepAudio`;</li><li>items with no `ItemSounds`.</li></ul> |
-| **F9 in Play mode** (editor and development builds) | The debug overlay: every live voice (event, gain, pan, what it follows), audible and virtual loops, steals and drops per second.<ul><li>F8 picks one of `AudioConfig.debugTestEvents`.</li><li>F10 plays it at the cursor.</li><li>F11 fires it 100 times; the limits should hold that to a few.</li></ul> |
+| **Tools → Audio → Validate** | One report covering:<ul><li>config and mixer wiring, and the shared sets;</li><li>coverage per sound.md section, and every event without clips, P1 first;</li><li>clips with more than 10 ms of leading silence;</li><li>loops whose ends click;</li><li>unused clips;</li><li>clips with no licence row, or an unknown licence;</li><li>prefabs with a Hurtbox but no `SurfaceAudio`, or footstep events but no `FootstepAudio`;</li><li>items with no `ItemSounds`;</li><li>the mix: events with no tier, louder than their tier allows, or a Danger sound below High priority.</li></ul> |
+| **F9 in Play mode** (editor and development builds) | The debug overlay: the output meter (peak, RMS, a 3 s loudness average, the duck), each bus's voices, every live voice (event, gain, bus, tier, what it follows), audible and virtual loops, steals and drops per second.<ul><li>F8 picks one of `AudioConfig.debugTestEvents`.</li><li>F10 plays it at the cursor.</li><li>F11 fires it 100 times; the limits should hold that to a few.</li></ul> |
 | **Audio Mixer window**, in Play mode | The group meters. |
 | **SoundEvent inspector** | ▶ Play, ■ Stop and Analyse. |
 
@@ -161,6 +175,7 @@ h.Stop(fade: 0.5f);
 | **Tools → Audio → Set Up Audio On Prefabs** | Wires every set, reactor, item, recipe and footstep event by ID. Idempotent, and never replaces a hand choice. |
 | **Tools → Audio → Set Up Menu Audio** | Button sounds on the menu panels, and the Audio settings section on the pause panel. |
 | **Tools → Audio → Bake Footstep Events** | Writes `OnFootstep` Animation Events at the contact frames in `FootstepEvents.cs`. |
+| **Tools → Audio → Apply Mix Baseline** | Sorts every event without a tier into one and gives it the tier's starting level and priority (§2.6a). Never touches a level you've tuned. |
 | **Tools → Audio → Validate** | The health report (§1.6). |
 
 ---
@@ -201,7 +216,9 @@ A ScriptableObject (Create → Audio → Sound Event), one per sound.md ID, unde
 | `clips` | — | The variants. **Empty is legal and plays silence**, so everything can be wired before audio exists. |
 | `selection` | ShuffleNoRepeat | Every variant plays before any repeats, and never the same twice in a row. Also: Random, Sequential. |
 | `volumeDb` / `volumeJitterDb` | 0 / ±1.5 | Level in dB, and random variation per play. |
-| `pitchJitterSemitones` | ±0.8 | Random pitch, about ±5 %. |
+| `tier` / `duckOthers` | by ID | Its place in the mix, and whether it ducks World and Creatures (§2.6a). |
+| `pitchSemitones` | 0 | Base pitch (−12 to +12). Also changes length: up is shorter, down is longer. |
+| `pitchJitterSemitones` | ±0.8 | Random pitch around the base, about ±5 %. |
 | `output` | by section | The mixer group. |
 | `space` | World | World: from its position. Screen: non-positional. |
 | `rangeScale` | 1 | Multiplies the hearing radius. |
@@ -282,7 +299,7 @@ pan    = clamp((x − camera.x) / halfW, −1, 1) × 0.55    // a gentle hint, n
 ```
 Master            [MasterVolume]
 ├── Music         [MusicVolume]     · Duck Volume ◀ Combat, Stingers
-├── Ambience      [AmbienceVolume]  · Duck Volume ◀ Combat, Stingers · Lowpass (snapshots)
+├── Ambience      (slider in code)  · Duck Volume ◀ Combat, Stingers · Lowpass (snapshots)
 ├── SFX           [SfxVolume]       · Lowpass
 │   ├── Player      voice, body, footsteps, eating
 │   ├── Combat      swings, impacts, skills          · sends to the ducks
@@ -293,13 +310,14 @@ Master            [MasterVolume]
 ```
 
 **Two owners, never the same control.** Once code sets an exposed parameter, Unity stops letting snapshots drive it. So:
-- **Settings** own the five exposed volumes in brackets. `AudioSettingsStore` saves them in PlayerPrefs as 0..1 and converts with `dB = 20·log10(v)`, −80 at zero. They're applied in `Start`, because Unity resets mixer values between Awake and Start.
+- **Settings** own the four exposed volumes in brackets. `AudioSettingsStore` saves them in PlayerPrefs as 0..1 and converts with `dB = 20·log10(v)`, −80 at zero, plus the bus's **trim** from `AudioConfig` (§2.6a). They're applied in `Start`, because Unity resets mixer values between Awake and Start.
+- **The Ambience slider is the exception.** The snapshots dip the Ambience fader (paused, menu, end), so the slider can't own it. Its value and trim are applied in code instead: `AudioSystem` multiplies every voice on the Ambience group by `AudioSettingsStore.AmbienceGain`.
 - **Snapshots** own everything else:
 
   | Snapshot | When | What |
   |---|---|---|
-  | Gameplay | Playing | Neutral. |
-  | Paused | Paused | Music −6 dB and muffled; Ambience −8 dB. The world is frozen by the listener pause. |
+  | Gameplay | Playing | The bus levels of the mix (§2.6a): Player −1, Combat 0, Creatures −2, World −4, Stingers −3. |
+  | Paused | Paused | Music −6 dB and muffled; Ambience −8 dB; the same bus levels as Gameplay. The world is frozen by the listener pause. |
   | Menu | Main menu | Gameplay groups silent; Ambience −10 dB and muffled. |
   | End | Game over / won | Gameplay groups fade out over 1.5 s; Music and Stingers stay. |
 
@@ -310,6 +328,54 @@ Master            [MasterVolume]
 
 **The pause panel's Audio section** has five sliders and a "Mute when unfocused" toggle (`AudioSettingsPanel`). Dragging a slider ticks at the level you're setting.
 
+
+### 2.6a The mix: who wins
+
+Professional game mixers decide **what the player must always hear**, rank it, and enforce the ranking with level, frequency and ducking. Pitch gives a sound its identity (heavy = low, light = high), not its importance. Fire Game's order:
+
+1. **Danger:** player hurt and death, freeze start, low health, aggro, skeleton spawn, attack wind-ups, the fire going low or out, the torch burning out.
+2. **Your own actions:** swings, hits, glances, block, skills.
+3. **The fire:** its loops, feeds, pops and stages.
+4. **Big moments:** a tree falling, ore breaking, a death, a building finished. Rare, so they can be loud.
+5. **Creatures** going about their business.
+6. **Foley:** item handling, equipping, bushes.
+7. **Steps.**
+
+Then UI, ambience and music on their own buses.
+
+**Tiers.** Every `SoundEvent` has a `tier` (the list above, plus UI, UISoft, Ambience, Music and Stinger). **Tools → Audio → Apply Mix Baseline** sorts every event without one into its tier (`MixTiers.Classify`, by ID and section) and gives it the tier's starting level and priority. It leaves alone a level you've already tuned (anything but 0 dB). Sync does the same for each new event. The inspector shows the tier's baseline and has **Reset to tier level**.
+
+| Tier | Baseline | Priority | Validate flags it above | High-passed at import |
+|---|---|---|---|---|
+| Danger | 0 dB (the anchor) | High; ducks the world | — | |
+| Action | −2 dB | Normal | 0 dB | |
+| Fire | −3 dB | High | 0 dB | |
+| Big | 0 dB | Normal | 0 dB | |
+| Creature | −6 dB | Normal | −2 dB | |
+| Foley | −8 dB | Low | −4 dB | 150 Hz |
+| Step | −14 dB | Low | −8 dB | 150 Hz |
+| UI | −8 dB | Normal | −3 dB | 150 Hz |
+| UISoft (hover, ticks) | −14 dB | Normal | −8 dB | 150 Hz |
+| Ambience, Music, Stinger | 0 dB: their bus sets the level | Sync's | — | |
+
+**Bus levels.** Set the buses first, then the events within them.
+- The settings sliders own the Master, Music, SFX and UI faders, so their place in the mix is a **trim** in `AudioConfig` that's added to the slider: Music −8, Ambience −10, UI −6, Master and SFX 0. Tune it live in Play mode.
+- The other buses are set in the Gameplay and Paused snapshots: Player −1, Combat 0, Creatures −2, World −4, Stingers −3. Menu and End keep the gameplay buses silent.
+
+**The danger duck.** While a one-shot whose event has `duckOthers` plays (every Danger sound), voices on `AudioConfig.duckGroups` (World, Creatures) dip by `duckDb` (−3 dB, in over 0.05 s, out over 0.6 s). A ducking voice never ducks itself. Loops don't trigger it, so the low-health heartbeat can't hold the world down. Combat and Stingers also dip Music and Ambience in the mixer (§2.6).
+
+**Frequency.** Ears are most sensitive around 1–4 kHz, so a warning there cuts through even when it's quieter. Bass is kept for the few big sounds. Sound Import high-passes steps, foley and UI at 150 Hz (the High-pass option: Auto / Off / Custom), because Unity has no per-event EQ.
+
+**Reading F9.** The overlay's top line is the output: peak dBFS (amber above −6, red above −1), RMS, a 3 s average as a rough loudness (not true LUFS), and the current duck. The next line is each bus's voice count and its loudest voice. Each voice line shows its gain, bus and tier.
+
+**A mix session.**
+1. Wait until most P1 sounds have clips.
+2. Set the buses, then the events, with the game running.
+3. Play a busy scene (the campfire at night, wolves) and a quiet one (alone in the forest by day).
+4. Turn the volume very low: what you can still hear is your real priority. Check it matches the list above.
+5. Listen on laptop speakers and on headphones.
+6. Change events and the mixer, never the clips.
+
 ### 2.7 Sets
 
 Sets group events so prefabs share one tuning. They live in `Assets/Audio/Sets/`.
@@ -319,7 +385,7 @@ Sets group events so prefabs share one tuning. They live in `Assets/Audio/Sets/`
 | `CreatureVoice` | `Voice_Skeleton`, `_Wolf`, `_Boar`, `_Deer`, `_PolarBear` | spawn, idle (and its interval), aggro, attack windup, swing and bite, hurt, hurt while burning, death, flee, flee loop, chase loop, despawn | `CreatureAudio` |
 | `FootstepProfile` | `Footsteps_Player`, `_Skeleton`, `_Wolf`, `_Boar`, `_Deer`, `_PolarBear` | the foot layer (bone, paw, hoof, heavy paw), the ground layer's level and range, the carry layer | `FootstepAudio` |
 | `GroundSounds` | `GroundSounds` (on AudioConfig) | ground type → step, landing layer, slide loop | every footstep and landing |
-| `SurfaceSounds` | `Surface_Flesh`, `_Bone`, `_Player`, `_Wood`, `_WoodLog`, `_Stone`, `_IronOre`, `_Straw` | impact, heavy impact, glance knock, crit override | `SurfaceAudio` |
+| `SurfaceSounds` | `Surface_Flesh`, `_Bone`, `_Player`, `_Wood`, `_WoodLog`, `_Stone`, `_Rock` (the big stone), `_IronOre`, `_Straw` | impact, glance knock, and per-tool sounds (`byTool`: an axe and a pickaxe on a tree sound different) | `SurfaceAudio` |
 | `ToolSounds` | `Tool_Fists`, `_Axe`, `_Pickaxe`, `_Sword`, `_Torch`, `_Bow`, `_Shield` | swing, heavy swing, charge loop, charge ready, glance, draw, stow, held loop | `WeaponAudio`, via `ToolAudio` |
 | `ItemSounds` | `Item_*` (Stick, StoneHeavy, Berry, MeatRaw, MetalBar, ArmourCloth, Bag, …) | pickup, land, equip, unequip, use | `ItemAudioDirector`, via `ItemDefinition.sounds` |
 | `FireSoundSet` | `Fire_Campfire`, `_Furnace`, `_Torch` | layered loops by fuel, feed per fuel type, stage up, low, out, relight, pops, ignite | `FireAudio` |
@@ -341,7 +407,7 @@ Reactors sit on prefabs, and directors sit on the AudioSystem. Each listens to C
 | `WeaponAudio` | Player | `WeaponUse` (armed, charge ready, released, swung, landed), shield, loadout swap, stow and draw, skill cast fail and ready | swings, charge, glance, miss, block |
 | `ToolAudio` | each tool | — (holds the tool's `ToolSounds`) | — |
 | `InteractionAudio` | Player | hold-E progress, throw, fumble, the drop ghost | §3.3–3.5 of sound.md |
-| `SurfaceAudio` | everything with a Hurtbox | being hit: impact, or the glance knock when the tool can't damage it; crit layer | sound.md §13 |
+| `SurfaceAudio` | everything with a Hurtbox | being hit: the striking tool's own sound if the material lists one (`byTool`), else impact, or the glance knock when the tool can't damage it; crit layer | sound.md §13 |
 | `CreatureAudio` | creatures | brain state, spawn, attack windup, swing and hit, damage, death, despawn, knockback; idle timer | the creature's voice |
 | `FlammableAudio` | everything flammable | ignited, burning tick, extinguished | the burning loop and its edges |
 | `DestructibleAudio` | trees, ore, logs, big stone, dummy | hit (shake), low health (creak once), died (fell, break, split) | sound.md §7.3, §9.1–9.2 |
@@ -471,7 +537,7 @@ Sync skips:
 
 - **Frozen, quiet and hostile.** Mostly wind and the crunch of snow. Silence is a tool: the fire is the loudest, warmest thing on screen.
 - **The fire is the emotional centre.** It sounds alive (crackle, breathing, pops), and its sound shrinks as it dies. You should *hear* the fire getting low before you look at it.
-- **The victim chooses the material, not the weapon.** An axe and a fist on a tree both sound like wood. The weapon adds its own whoosh, and a "no effect" thud on a glance.
+- **The victim chooses the sound, not the weapon.** A hit sounds like the material that was struck. A material can still tell tools apart through `SurfaceSounds.byTool`: on a tree the axe chops, the pickaxe thunks and a fist smacks. A listed event with no clips falls back to the impact or glance, so nothing goes silent while sounds are missing. The weapon adds its own whoosh, and a "no effect" thud on a glance.
 - **Pixel-art scale.** Short, punchy, slightly stylised. UI is soft, woody and papery, not digital blips.
 - **Positional:** world sounds at their source with gentle 2D falloff; UI and player status non-positional.
 

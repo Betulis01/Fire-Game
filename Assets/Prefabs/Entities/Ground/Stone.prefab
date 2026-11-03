@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1667ee1a9442ea148aa817241c4f67cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceAudio
-  surface: {fileID: 11400000, guid: fd5ba7eab08ceb9448ecc6c8171ab2e1, type: 2}
+  surface: {fileID: 11400000, guid: 33fc9bf142c9fe8459c7056f9d266c1d, type: 2}
 --- !u!114 &634919200849093428
 MonoBehaviour:
   m_ObjectHideFlags: 0

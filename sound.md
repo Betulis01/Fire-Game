@@ -187,6 +187,8 @@ The **impact** is the victim's sound (§13). The weapon only owns the whoosh, th
 | ID | When | Sound | Var | Type | P |
 |---|---|---|---|---|---|
 | `sfx_torch_flame_loop` | A torch is lit and active: drawn in a hand, or lying in the world (`Fuel.fuelLevel > 0`, object active) | Small, fluttering flame. Louder when moving fast, quieter when standing. Goes silent when stowed (carrying) or in the bag, since the object is inactive. | 1 | loop | P1 |
+| `sfx_torch_draw` | A torch is drawn or switched to: wielded from the bag, a loadout swap, redrawn after carrying (`Tool_Torch.draw`) | A quick flame "fwoosh" as the fire is pulled out, plus a wooden handle grab. The flame loop swells in under it. | 2 | 1× | P1 |
+| `sfx_torch_stow` | A torch is stowed onto the back while carrying (`Tool_Torch.stow`) | A soft flutter-snuff as the flame is tucked away. | 2 | 1× | P2 |
 | `sfx_torch_ignite_target` | `Flammable.Ignite` (a torch hit sets something on fire) | "Fwoomp" catch. | 2 | 1× | P1 |
 | `sfx_torch_burnout` | A torch's `Fuel` reaches 0 (`FireRender` turns `isOut` on, `hideWhenOut`) | Sputter plus a smoky fizz. A clear "your light is gone" moment. | 2 | 1× | P1 |
 | `sfx_torch_low` | Torch fuel crosses ~15 % | Flame sputter (once). | 2 | 1× | P2 |
@@ -373,9 +375,17 @@ These are both items and targets: chop a log for 3 sticks, mine the big stone fo
 | ID | When | Sound | Var | Type | P |
 |---|---|---|---|---|---|
 | `sfx_log_hit` | Axe hits a log (`Health.Damaged`; `HitAnimation`) | Axe "chock" into lying wood (the wood material, §13). | — | — | P1 |
+| `sfx_log_hit_pickaxe` | A pickaxe hits a log (no damage; `Surface_WoodLog.byTool`) | The pick point stabbing lying wood: a hollow "thok" plus a splinter. | 3 | 1× | P1 |
+| `sfx_log_hit_fist` | A fist hits a log (no damage) | A soft, hollow knock on a log. | 3 | 1× | P1 |
+| `sfx_log_hit_sword` | A sword hits a log (no damage) | A shallow blade "tock" into lying wood, a thin ring. | 3 | 1× | P1 |
+| `sfx_log_hit_torch` | A torch hits a log (no damage) | Wood on wood, a hollow clack plus a small ember fizz. | 3 | 1× | P1 |
 | `sfx_log_split` | Log `Health.Died` → 3 Sticks (`DropOnDeath`) | Satisfying wood SPLIT crack plus sticks scattering. | 3 | 1× | P1 |
 | `sfx_log_bump` | Walking into a log (`CollideAnimation` → "collide") | Soft wooden knock or roll. | 3 | 1× | P2 |
 | `sfx_stone_hit` | Pickaxe hits the big stone | Stone material (§13). | — | — | P1 |
+| `sfx_stone_hit_axe` | An axe hits the big stone (no damage; `Surface_Rock.byTool`) | The axe head clanging off a loose boulder: a "TING" with a little rock shift. | 3 | 1× | P1 |
+| `sfx_stone_hit_fist` | A fist hits the big stone (no damage) | A dull smack on rock. | 3 | 1× | P1 |
+| `sfx_stone_hit_sword` | A sword hits the big stone (no damage) | A metal scrape-clang on rock. | 3 | 1× | P1 |
+| `sfx_stone_hit_torch` | A torch hits the big stone (no damage) | A wood knock on rock plus an ember fizz. | 3 | 1× | P1 |
 | `sfx_stone_break` | Stone `Died` → 3 Rocks | Rock crack-and-crumble. | 2 | 1× | P1 |
 | `sfx_stone_bump` | Walking into the big stone (`CollideAnimation`) | Faint scrape (the stone barely moves). | 2 | 1× | P3 |
 
@@ -475,7 +485,11 @@ Axe only (`ToolDamageFilter`). Each damaging hit has a 50 % chance to drop a log
 |---|---|---|---|---|---|
 | `sfx_tree_chop` | An axe hit deals damage (wood material, §13) | Solid "THOCK" of stone axe into frozen trunk. | 5 | 1× | P1 |
 | `sfx_tree_shake` | `HitAnimation` "Hit" plays (on any hit, glance included) | Needles and branches shaking, plus **snow sliding off branches** (a soft "fwump"). | 4 | 1× | P1 |
-| `sfx_tree_glance` | A fist or sword hits the tree (no damage) | The weapon's `sfx_swing_glance` plus a duller wood knock. | — | — | P1 |
+| `sfx_tree_hit_pickaxe` | A pickaxe hits the tree (no damage; `Surface_Wood.byTool`) | The pick point biting bark: a dull "thunk" plus a splinter. | 3 | 1× | P1 |
+| `sfx_tree_hit_fist` | A fist hits the tree (no damage) | A knuckle or glove smack on a frozen trunk, soft and dull. | 3 | 1× | P1 |
+| `sfx_tree_hit_sword` | A sword hits the tree (no damage) | The blade biting shallow: a short wood "tock" with a thin ring. | 3 | 1× | P1 |
+| `sfx_tree_hit_torch` | A torch hits the tree (no damage) | A wooden club knock plus a small ember fizz. | 3 | 1× | P1 |
+| `sfx_tree_glance` | Any other tool hits the tree (an arrow; no damage) | A duller wood knock. The weapon's `sfx_swing_glance` plays with it. | 2 | 1× | P1 |
 | `sfx_tree_creak` | Health below ~30 % after a hit | A deep, ominous creak (the tree is about to go). | 3 | 1× | P2 |
 | `sfx_tree_fell` | `Health.Died` (the tree vanishes, loot pops) | Big crack, a falling swoosh, and a muffled CRASH into snow with a snow-burst tail. The tree has no fall animation yet, so the sound can carry the moment. | 2 | 1× | P1 |
 | `sfx_tree_wind_creak` | Ambient: random trees creak in strong wind, at night | Distant trunk creaks. | 4 | 1× | P3 |
@@ -490,7 +504,11 @@ Pickaxe only. Each damaging hit has a 50 % chance to drop stone; the ore breaks 
 |---|---|---|---|---|---|
 | `sfx_ore_stone_hit` | A pickaxe hit on Stone Ore (stone material) | Sharp rock "chk" plus small debris. | 5 | 1× | P1 |
 | `sfx_ore_iron_hit` | A pickaxe hit on Iron Ore (an iron-ore material) | Rock hit with a metallic ring under it. | 5 | 1× | P1 |
-| `sfx_ore_glance` | An axe or fist on ore | The axe: "TING" of stone on stone, sparky and wrong. A fist: dull smack. | 3 | 1× | P1 |
+| `sfx_ore_hit_axe` | An axe hits Stone Ore or Iron Ore (no damage; `byTool`) | "TING" of the axe head on rock, sparky and wrong. | 3 | 1× | P1 |
+| `sfx_ore_hit_fist` | A fist hits ore (no damage) | A dull smack on rock. | 3 | 1× | P1 |
+| `sfx_ore_hit_sword` | A sword hits ore (no damage) | A metal scrape-clang on rock. | 3 | 1× | P1 |
+| `sfx_ore_hit_torch` | A torch hits ore (no damage) | A wood knock on rock plus an ember fizz. | 3 | 1× | P1 |
+| `sfx_ore_glance` | Any other tool on ore or the big stone (an arrow) | A short stone knock. | 3 | 1× | P1 |
 | `sfx_ore_break_stone` | Stone Ore `Died` | Rock splitting, then rubble tumble. | 2 | 1× | P1 |
 | `sfx_ore_break_iron` | Iron Ore `Died` | Heavier split with a metallic clank in the rubble. | 2 | 1× | P1 |
 
@@ -739,15 +757,23 @@ A small **audio layer** to add before the sounds themselves:
 
 Hits sound like **what was struck**. `SurfaceAudio` on the victim plays its material's impact (or its glance knock, when the striking tool can't damage it), whatever the weapon. One `SurfaceSounds` set per material; the `HitEffect` assets keep only the VFX. Tree and ore impacts reuse their §9 rows.
 
+A material can also voice each tool apart (`SurfaceSounds.byTool`): trees, ore, logs, the big stone and flesh (every furred creature) have their own sound for the axe, pickaxe, fist, sword and torch (§9.1, §9.2, §7.3, and below). A tool the material doesn't list plays its impact, or its glance when the tool can't damage it. A listed event with no clips yet falls back the same way. On a glance the weapon's own glance (`sfx_swing_glance` or its `ToolSounds.glance`) still plays on top.
+
 | ID | Set | Used by | Sound | Var | P |
 |---|---|---|---|---|---|
-| `sfx_surface_flesh` | Flesh | Wolf, Boar, Deer, Polar Bear | Meaty thwack plus a wet layer. | 5 | P1 |
+| `sfx_surface_flesh` | Flesh | Wolf, Boar, Deer, Polar Bear | Meaty thwack plus a wet layer. Any tool without its own row below (an arrow). | 5 | P1 |
+| `sfx_surface_flesh_axe` | Flesh, by tool (`byTool`) | An axe hit on a creature | A heavy chop into meat: a deep "thunk" with a wet bite. | 4 | P1 |
+| `sfx_surface_flesh_pickaxe` | Flesh, by tool | A pickaxe hit on a creature | A blunt stab: a dull punch with a short wet crunch. | 3 | P1 |
+| `sfx_surface_flesh_fist` | Flesh, by tool | A punch on a creature | A body thump into fur, no wet layer. | 4 | P1 |
+| `sfx_surface_flesh_sword` | Flesh, by tool | A sword hit on a creature | A quick slice: a sharp swish-cut with a light wet tail. | 4 | P1 |
+| `sfx_surface_flesh_torch` | Flesh, by tool | A torch hit on a creature | A wooden club thud plus a singe hiss of burnt fur. | 3 | P1 |
 | `sfx_surface_bone` | Bone | Skeleton (`Enemy.prefab`) | Dry crack plus a bone rattle. **No blood**: skeletons shouldn't bleed. | 5 | P1 |
 | `sfx_surface_player` | Player | Player | Cloth plus a body thump (with the hurt voice from §3.2). | 4 | P1 |
-| `sfx_tree_chop` | Wood | Scots Pine, Grey Alder | `sfx_tree_chop` (§9.1). Glance: the weapon's own glance only. | — | — |
-| `sfx_surface_wood_log` | Wood Log | Scots Pine Wood, Grey Alder Wood (logs) | Higher, hollower chop into lying wood. | 4 | P1 |
-| `sfx_ore_stone_hit` | Stone | Stone Ore, Stone (big) | `sfx_ore_stone_hit` (§9.2); glance `sfx_ore_glance`. | — | — |
-| `sfx_ore_iron_hit` | Iron Ore | Iron Ore | `sfx_ore_iron_hit` (§9.2); glance `sfx_ore_glance`. | — | — |
+| `sfx_tree_chop` | Wood | Scots Pine, Grey Alder | `sfx_tree_chop` (§9.1); by tool `sfx_tree_hit_*`; glance `sfx_tree_glance`. | — | — |
+| `sfx_surface_wood_log` | Wood Log | Scots Pine Wood, Grey Alder Wood (logs) | Higher, hollower chop into lying wood. By tool `sfx_log_hit_*` (§7.3); glance `sfx_tree_glance`. | 4 | P1 |
+| `sfx_ore_stone_hit` | Stone | Stone Ore | `sfx_ore_stone_hit` (§9.2); by tool `sfx_ore_hit_*`; glance `sfx_ore_glance`. | — | — |
+| `sfx_ore_stone_hit` | Rock | Stone (the big stone) | `sfx_ore_stone_hit` for the pickaxe; by tool `sfx_stone_hit_*` (§7.3); glance `sfx_ore_glance`. | — | — |
+| `sfx_ore_iron_hit` | Iron Ore | Iron Ore | `sfx_ore_iron_hit` (§9.2); by tool `sfx_ore_hit_*` (shared with Stone); glance `sfx_ore_glance`. | — | — |
 | `sfx_surface_straw` | Straw | Target Dummy | Sack-and-straw thump. | 4 | P3 |
 | `sfx_shield_block` | (shield) | A blocked hit on the player | `sfx_shield_block` (§4.2) replaces the player's impact. | — | — |
 
@@ -767,9 +793,9 @@ These are the counts of unique sound **events** in each section. Rows that only 
 | Weapons and torch (§4) | ~15 | ~12 | ~16 |
 | Skills (§5) | 8 | 4 | 0 |
 | Creatures (§6) | ~25 | ~15 | ~22 |
-| Items (§7) | ~14 | ~10 | ~6 |
+| Items (§7) | ~22 | ~10 | ~6 |
 | Stations and building (§8) | ~22 | ~10 | ~4 |
-| Props (§9) | ~16 | ~4 | ~4 |
+| Props (§9) | ~24 | ~4 | ~4 |
 | UI (§10) | ~10 shared kit sounds, plus ~12 unique | ~8 | ~6 |
 | Ambience, time, music (§11) | ~9 | ~9 | ~1 |
 

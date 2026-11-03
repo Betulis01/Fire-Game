@@ -112,3 +112,11 @@ InitTestScene*.unity*
 # Sound Import staging (Tools/Audio/Sound Import): downloads, not part of the project
 /[Aa]ssets/Audio/_Incoming/
 /[Aa]ssets/Audio/_Incoming.meta
+
+# Audacity projects (huge; the exported WAVs are what the game uses)
+*.aup3
+*.aup3.meta
+*.aup3-*
+*.aup4
+*.aup4.meta
+*.aup4-*

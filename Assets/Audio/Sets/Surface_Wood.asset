@@ -13,4 +13,13 @@ MonoBehaviour:
   m_Name: Surface_Wood
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceSounds
   impact: {fileID: 11400000, guid: f9cee3019b0fd1b4d8d468ddc2838259, type: 2}
-  glance: {fileID: 0}
+  glance: {fileID: 11400000, guid: 835dacb4f9d751845bcd8ef2f8e29c1c, type: 2}
+  byTool:
+  - tools: 4
+    sound: {fileID: 11400000, guid: 548855d2b1da9c44684528322bc9a51d, type: 2}
+  - tools: 16
+    sound: {fileID: 11400000, guid: 4c5348fee6c20e7489f4b39971c7d75c, type: 2}
+  - tools: 8
+    sound: {fileID: 11400000, guid: 0e9b3510c977ef747a9b49da574c9d08, type: 2}
+  - tools: 32
+    sound: {fileID: 11400000, guid: 0402a4c50cdaffd46a6cc585f77e1c19, type: 2}

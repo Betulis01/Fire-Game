@@ -14,3 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SurfaceSounds
   impact: {fileID: 11400000, guid: d18a4090d76dbd54eaf0c6049490a3c0, type: 2}
   glance: {fileID: 0}
+  byTool:
+  - tools: 1
+    sound: {fileID: 11400000, guid: 81bdc1b6ddca0914484f69f3df69c90e, type: 2}
+  - tools: 4
+    sound: {fileID: 11400000, guid: 9d0446f4566bdef47b37c91cfcac2905, type: 2}
+  - tools: 16
+    sound: {fileID: 11400000, guid: 7339851067abe47409f2e16b1786c392, type: 2}
+  - tools: 8
+    sound: {fileID: 11400000, guid: e24150f3106ee4240ac57734d2c0ac8f, type: 2}
+  - tools: 32
+    sound: {fileID: 11400000, guid: 170e043d035fa614e8e528ed91cae951, type: 2}

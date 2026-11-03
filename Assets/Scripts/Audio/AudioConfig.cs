@@ -9,7 +9,7 @@ public class AudioConfig : ScriptableObject
 {
     public const string ResourcePath = "AudioConfig";
 
-    [Tooltip("Assets/Audio/Mixer/FireGame.mixer. Empty = everything plays straight to Master, no snapshots or volume settings.")]
+    [Tooltip("Assets/Audio/FireGame.mixer. Empty = everything plays straight to Master, no snapshots or volume settings.")]
     public AudioMixer mixer;
 
     [Header("Voices")]
@@ -46,6 +46,22 @@ public class AudioConfig : ScriptableObject
     [Tooltip("Base loops, layers, end stings (MusicDirector).")]
     public MusicSounds music;
 
+    [Header("Bus trims (dB, added to the player's volume sliders)")]
+    [Tooltip("The buses the settings sliders own can't be levelled in the mixer (code sets them), so their place " +
+             "in the mix lives here. The other buses (Player, Combat, Creatures, World, Stingers) are set in the mixer's snapshots.")]
+    [Range(-30f, 0f)] public float masterTrimDb = 0f;
+    [Range(-30f, 0f)] public float musicTrimDb = -8f;
+    [Range(-30f, 0f)] public float ambienceTrimDb = -10f;
+    [Range(-30f, 0f)] public float sfxTrimDb = 0f;
+    [Range(-30f, 0f)] public float uiTrimDb = -6f;
+
+    [Header("Danger duck (SoundEvent.duckOthers)")]
+    [Tooltip("Mixer groups, by name, that dip while a ducking one-shot plays (the player hurt, an aggro).")]
+    public string[] duckGroups = { "World", "Creatures" };
+    [Range(-12f, 0f)] public float duckDb = -3f;
+    [Min(0.001f)] public float duckAttack = 0.05f;
+    [Min(0.001f)] public float duckRelease = 0.6f;
+
     [Header("Continuous mix (MixDirector; exposed mixer parameters, never in a snapshot)")]
     [Tooltip("Cutoff of the Ambience group's second Lowpass: closes as heat reaches the player.")]
     public string heatCutoffParam = "AmbienceHeatCutoff";
@@ -80,6 +96,23 @@ public class AudioConfig : ScriptableObject
     [Header("Debug overlay (F9)")]
     [Tooltip("F10 plays the selected one at the cursor (a loop toggles), F11 fires it 100 times, F8 selects the next.")]
     public SoundEvent[] debugTestEvents = new SoundEvent[0];
+
+    public float TrimDb(AudioChannel channel) => channel switch
+    {
+        AudioChannel.Master => masterTrimDb,
+        AudioChannel.Music => musicTrimDb,
+        AudioChannel.Ambience => ambienceTrimDb,
+        AudioChannel.Sfx => sfxTrimDb,
+        AudioChannel.Ui => uiTrimDb,
+        _ => 0f,
+    };
+
+    // trims tuned in play mode are heard at once
+    void OnValidate()
+    {
+        if (Application.isPlaying && AudioSystem.Instance != null && AudioSystem.Instance.Config == this)
+            AudioSettingsStore.ApplyAll();
+    }
 
     public static AudioConfig LoadOrDefault()
     {

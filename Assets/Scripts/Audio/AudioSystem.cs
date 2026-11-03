@@ -27,6 +27,11 @@ using UnityEngine.SceneManagement;
 //
 // Every AudioSource is 2D (spatialBlend 0); AudioSpace computes gain and pan from the
 // camera's view. The one AudioListener lives here (where it sits doesn't matter).
+//
+// The danger duck: while a one-shot whose event has duckOthers plays (the player hurt,
+// an aggro), voices on AudioConfig.duckGroups (World, Creatures) dip by duckDb, so a
+// warning never drowns in a fight. Done here, in each voice's gain, rather than in the
+// mixer, so the snapshots keep owning those groups' faders.
 public class AudioSystem : MonoBehaviour
 {
     public static AudioSystem Instance { get; private set; }
@@ -91,6 +96,12 @@ public class AudioSystem : MonoBehaviour
     int startsThisFrame, frameStamp = -1;
     bool focused = true;
 
+    // the danger duck: while a duckOthers one-shot plays, the duck groups dip by duckDb
+    readonly HashSet<AudioMixerGroup> duckSet = new();
+    AudioMixerGroup ambienceGroup;   // its slider is applied here (AudioSettingsStore.AmbienceGain)
+    float duckGain = 1f;
+    internal float DuckDb => duckGain >= 0.9999f ? 0f : 20f * Mathf.Log10(duckGain);
+
     // debug counters, per second (AudioDebugOverlay)
     internal int Steals { get; private set; }
     internal int Drops { get; private set; }
@@ -124,6 +135,13 @@ public class AudioSystem : MonoBehaviour
         Instance = this;
         config = AudioConfig.LoadOrDefault();
         if (config.mixer != null) config.mixer.updateMode = AudioMixerUpdateMode.UnscaledTime;   // snapshots fade while paused
+        if (config.mixer != null && config.duckGroups != null)
+            foreach (string g in config.duckGroups)
+                foreach (AudioMixerGroup group in config.mixer.FindMatchingGroups(g))
+                    if (group.name == g) duckSet.Add(group);
+        if (config.mixer != null)
+            foreach (AudioMixerGroup group in config.mixer.FindMatchingGroups("Ambience"))
+                if (group.name == "Ambience") ambienceGroup = group;
 
         listener = gameObject.AddComponent<AudioListener>();
 
@@ -224,12 +242,12 @@ public class AudioSystem : MonoBehaviour
         AudioClip clip = Pick(e, st);
         if (clip == null) { freeOneShots.Push(v); return default; }
 
-        float p = Mathf.Max(0.05f, pitch) * Semitones(Random.Range(-e.pitchJitterSemitones, e.pitchJitterSemitones));
+        float p = Mathf.Max(0.05f, pitch) * Semitones(e.pitchSemitones + Random.Range(-e.pitchJitterSemitones, e.pitchJitterSemitones));
         float delay = e.startDelay + (e.startDelayJitter > 0f ? Random.Range(0f, e.startDelayJitter) : 0f);
 
         Begin(v, e, clip, follow, point, screen, baseGain, p, now);
         v.remaining = delay + clip.length / p;
-        v.gain = att * baseGain;
+        v.gain = att * baseGain * Duck(e);
 
         AudioSource s = v.source;
         s.loop = false;
@@ -294,7 +312,7 @@ public class AudioSystem : MonoBehaviour
         if (clip == null) return default;
 
         Voice v = loopRecordPool.Count > 0 ? loopRecordPool.Pop() : new Voice();
-        float p = Semitones(Random.Range(-e.pitchJitterSemitones, e.pitchJitterSemitones));
+        float p = Semitones(e.pitchSemitones + Random.Range(-e.pitchJitterSemitones, e.pitchJitterSemitones));
         Begin(v, e, clip, follow, point, forceScreen || e.space == SoundEvent.SoundSpace.Screen,
               DbToLinear(e.volumeDb), p, Time.unscaledTime);
         v.loop = true;
@@ -468,6 +486,7 @@ public class AudioSystem : MonoBehaviour
         AudioSpace.Refresh();
         float dt = Time.unscaledDeltaTime;
         bool listenerPaused = AudioListener.pause;
+        UpdateDuck(dt, listenerPaused);
 
         foreach (Voice v in oneShots)
         {
@@ -520,6 +539,27 @@ public class AudioSystem : MonoBehaviour
         }
     }
 
+    // Any ducking one-shot playing (not a loop: the low-health heartbeat mustn't hold the
+    // world down for good) eases the duck in over duckAttack; it lets go over duckRelease.
+    void UpdateDuck(float dt, bool listenerPaused)
+    {
+        bool want = false;
+        foreach (Voice v in oneShots)
+            if (v.active && !v.stopping && v.ev.duckOthers && !(listenerPaused && !v.ev.ignorePause)) { want = true; break; }
+        float target = want ? DbToLinear(config.duckDb) : 1f;
+        float time = want ? config.duckAttack : config.duckRelease;
+        duckGain = Mathf.MoveTowards(duckGain, target, Mathf.Max(0.01f, 1f - DbToLinear(config.duckDb)) / time * dt);
+    }
+
+    // The mix's per-voice factor: a voice on a duck group dips (unless it's the one doing
+    // the ducking), and one on Ambience takes the Ambience slider and trim.
+    float Duck(SoundEvent e)
+    {
+        if (e.output == null) return 1f;
+        float g = duckGain < 1f && !e.duckOthers && duckSet.Contains(e.output) ? duckGain : 1f;
+        return e.output == ambienceGroup ? g * AudioSettingsStore.AmbienceGain : g;
+    }
+
     static void Step(Voice v, float dt)
     {
         if (v.userGainSpeed > 0f) v.userGain = Mathf.MoveTowards(v.userGain, v.userGainTarget, v.userGainSpeed * dt);
@@ -540,7 +580,7 @@ public class AudioSystem : MonoBehaviour
     {
         Vector2 pos = Position(v);
         float att = v.screen ? 1f : AudioSpace.Gain(config, AudioSpace.RadiiAway(config, pos, v.ev.rangeScale));
-        v.gain = att * v.baseGain * v.userGain * v.fade;
+        v.gain = att * v.baseGain * v.userGain * v.fade * Duck(v.ev);
         s.volume = Mathf.Clamp01(v.gain);
         s.panStereo = v.screen ? 0f : AudioSpace.Pan(config, pos);
         s.pitch = v.basePitch * v.pitchScale;

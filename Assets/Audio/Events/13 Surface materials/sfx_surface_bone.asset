@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_surface_bone
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: eb45c9ebb5147ee479fa3336f27b82d3, type: 3}
+  - {fileID: 8300000, guid: a19f8fea487c98b4fb677e0e675c106a, type: 3}
+  - {fileID: 8300000, guid: 44facf1afdd88bb448db2916529c355f, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 2
+  duckOthers: 0
+  volumeDb: -2
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0

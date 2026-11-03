@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_surface_flesh
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 4daffc6854685094089e6e47e2db3a3d, type: 3}
+  - {fileID: 8300000, guid: 82c2f83a43dc6d84693d7659990e3b81, type: 3}
+  - {fileID: 8300000, guid: 31ede682125f8d24a939220cb102e36a, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 2
+  duckOthers: 0
+  volumeDb: -2
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0
@@ -29,7 +35,7 @@ MonoBehaviour:
   layers: []
   startDelay: 0
   startDelayJitter: 0
-  brief: Meaty thwack plus a wet layer.
+  brief: Meaty thwack plus a wet layer. Any tool without its own row below (an arrow).
   catalogPriority: P1
   catalogSection: 13. Surface materials (SurfaceSounds sets)
   catalogVariants: 5

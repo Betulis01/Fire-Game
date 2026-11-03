@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_pickaxe_swing_heavy
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 3e2d7bdde78292f4fad1b856030a51ae, type: 3}
+  - {fileID: 8300000, guid: 55e9400e387cbab4b967f56300f62984, type: 3}
+  - {fileID: 8300000, guid: 4956f429f3993d347947bb886de9db48, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 2
+  duckOthers: 0
+  volumeDb: -2
   volumeJitterDb: 1.5
+  pitchSemitones: -3
   pitchJitterSemitones: 0.8
   output: {fileID: -4088470806291835119, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0

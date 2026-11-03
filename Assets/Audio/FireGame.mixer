@@ -111,6 +111,11 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 7d9290a6e269d4e478b8f8e78029a4a3
   m_FloatValues:
+    e97ed52c208550146b78dffb7f100e8d: -1
+    faa5a2dcccaa4d9479b191f6b9d1e8ee: 0
+    069d3b2a1e37026469db9f0499ef3aae: -2
+    8c6a9c97951c2d247819d464be268369: -4
+    42a81700a0d23fb4ca7b033b247d45de: -3
     d5fe2120726c92e4ba7c620e94f9643d: -25
     1fe6ec20b99ed544e9d978b683e00ea6: 10
     603c0340f1ca5d84ba8d5cbb547c8934: 0
@@ -321,7 +326,7 @@ AudioMixerController:
   m_UpdateMode: 1
   m_ExposedParameters:
   - guid: 7e2b1cb7fd22d4a45ab0dbb2fc65bcb9
-    name: MyExposedParam
+    name: AmbienceVolume
   - guid: 601ba3203bfe3ea46b62a65b4c202d44
     name: MasterVolume
   - guid: a83941496358b9944871eee098246ab1
@@ -344,7 +349,7 @@ AudioMixerController:
     - 385e121429b1c2546a260683f6831c66
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: 3309205449256978470}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -393,6 +398,11 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: d6c2cd0f93bc54940a63d59a2aa22be4
   m_FloatValues:
+    e97ed52c208550146b78dffb7f100e8d: -1
+    faa5a2dcccaa4d9479b191f6b9d1e8ee: 0
+    069d3b2a1e37026469db9f0499ef3aae: -2
+    8c6a9c97951c2d247819d464be268369: -4
+    42a81700a0d23fb4ca7b033b247d45de: -3
     d5fe2120726c92e4ba7c620e94f9643d: -25
     1fe6ec20b99ed544e9d978b683e00ea6: 10
     603c0340f1ca5d84ba8d5cbb547c8934: 0
@@ -512,6 +522,7 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 7b87c31ab79f05b44889dc12395070b9
   m_FloatValues:
+    42a81700a0d23fb4ca7b033b247d45de: -3
     d5fe2120726c92e4ba7c620e94f9643d: -25
     1fe6ec20b99ed544e9d978b683e00ea6: 10
     603c0340f1ca5d84ba8d5cbb547c8934: 0
@@ -667,6 +678,7 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: d8605024037969a47b9ceee18808505d
   m_FloatValues:
+    42a81700a0d23fb4ca7b033b247d45de: -3
     d5fe2120726c92e4ba7c620e94f9643d: -25
     1fe6ec20b99ed544e9d978b683e00ea6: 10
     603c0340f1ca5d84ba8d5cbb547c8934: 0

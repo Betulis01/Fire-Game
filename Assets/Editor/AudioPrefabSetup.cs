@@ -74,9 +74,15 @@ public static class AudioPrefabSetup
                  {
                      ("Scots Pine", "Wood"), ("Grey Alder", "Wood"),
                      ("Scots Pine Wood", "WoodLog"), ("Grey Alder Wood", "WoodLog"),
-                     ("Stone Ore", "Stone"), ("Stone", "Stone"), ("Iron Ore", "IronOre"),
+                     ("Stone Ore", "Stone"), ("Stone", "Rock"), ("Iron Ore", "IronOre"),
                  })
-            prefabs += Edit($"Entities/Ground/{prefab}", root => SetRef(Add<SurfaceAudio>(root), "surface", Surface(surface), false));
+            prefabs += Edit($"Entities/Ground/{prefab}", root =>
+            {
+                SurfaceAudio a = Add<SurfaceAudio>(root);
+                // the big stone shared the ore's set until it got its own
+                bool replace = surface == "Rock" && a.surface != null && a.surface.name == "Surface_Stone";
+                SetRef(a, "surface", Surface(surface), replace);
+            });
 
         foreach ((string prefab, string shake, string creak, string destroyed, string bump) in new (string, string, string, string, string)[]
                  {
@@ -239,13 +245,35 @@ public static class AudioPrefabSetup
         Asset(out SurfaceSounds s, $"Surface_{name}");
         switch (name)
         {
-            case "Flesh": Fill(s, ("impact", "sfx_surface_flesh")); break;
+            case "Flesh":   // every furred creature (wolf, boar, deer, polar bear) shares this set
+                Fill(s, ("impact", "sfx_surface_flesh"));
+                ByTool(s, (ToolKind.Axe, "sfx_surface_flesh_axe"), (ToolKind.Pickaxe, "sfx_surface_flesh_pickaxe"),
+                       (ToolKind.Fist, "sfx_surface_flesh_fist"), (ToolKind.Sword, "sfx_surface_flesh_sword"),
+                       (ToolKind.Torch, "sfx_surface_flesh_torch"));
+                break;
             case "Bone": Fill(s, ("impact", "sfx_surface_bone")); break;
             case "Player": Fill(s, ("impact", "sfx_surface_player")); break;
-            case "Wood": Fill(s, ("impact", "sfx_tree_chop")); break;
-            case "WoodLog": Fill(s, ("impact", "sfx_surface_wood_log")); break;
-            case "Stone": Fill(s, ("impact", "sfx_ore_stone_hit"), ("glance", "sfx_ore_glance")); break;
-            case "IronOre": Fill(s, ("impact", "sfx_ore_iron_hit"), ("glance", "sfx_ore_glance")); break;
+            case "Wood":
+                Fill(s, ("impact", "sfx_tree_chop"), ("glance", "sfx_tree_glance"));
+                ByTool(s, (ToolKind.Pickaxe, "sfx_tree_hit_pickaxe"), (ToolKind.Fist, "sfx_tree_hit_fist"),
+                       (ToolKind.Sword, "sfx_tree_hit_sword"), (ToolKind.Torch, "sfx_tree_hit_torch"));
+                break;
+            case "WoodLog":
+                Fill(s, ("impact", "sfx_surface_wood_log"), ("glance", "sfx_tree_glance"));
+                ByTool(s, (ToolKind.Pickaxe, "sfx_log_hit_pickaxe"), (ToolKind.Fist, "sfx_log_hit_fist"),
+                       (ToolKind.Sword, "sfx_log_hit_sword"), (ToolKind.Torch, "sfx_log_hit_torch"));
+                break;
+            case "Rock":   // the big stone (an item you mine for rocks), not the ore
+                Fill(s, ("impact", "sfx_ore_stone_hit"), ("glance", "sfx_ore_glance"));
+                ByTool(s, (ToolKind.Axe, "sfx_stone_hit_axe"), (ToolKind.Fist, "sfx_stone_hit_fist"),
+                       (ToolKind.Sword, "sfx_stone_hit_sword"), (ToolKind.Torch, "sfx_stone_hit_torch"));
+                break;
+            case "Stone":
+            case "IronOre":
+                Fill(s, ("impact", name == "Stone" ? "sfx_ore_stone_hit" : "sfx_ore_iron_hit"), ("glance", "sfx_ore_glance"));
+                ByTool(s, (ToolKind.Axe, "sfx_ore_hit_axe"), (ToolKind.Fist, "sfx_ore_hit_fist"),
+                       (ToolKind.Sword, "sfx_ore_hit_sword"), (ToolKind.Torch, "sfx_ore_hit_torch"));
+                break;
             case "Straw": Fill(s, ("impact", "sfx_surface_straw")); break;
         }
         return s;
@@ -260,7 +288,8 @@ public static class AudioPrefabSetup
             case "Axe": Fill(t, ("swing", "sfx_axe_swing"), ("swingHeavy", "sfx_axe_swing_heavy"), ("chargeLoop", "sfx_swing_charge_loop")); break;
             case "Pickaxe": Fill(t, ("swing", "sfx_pickaxe_swing"), ("swingHeavy", "sfx_pickaxe_swing_heavy"), ("chargeLoop", "sfx_swing_charge_loop")); break;
             case "Sword": Fill(t, ("swing", "sfx_sword_swing"), ("swingHeavy", "sfx_sword_swing_heavy"), ("chargeLoop", "sfx_swing_charge_loop")); break;
-            case "Torch": Fill(t, ("swing", "sfx_torch_swing"), ("chargeLoop", "sfx_swing_charge_loop")); break;
+            case "Torch": Fill(t, ("swing", "sfx_torch_swing"), ("chargeLoop", "sfx_swing_charge_loop"),
+                               ("draw", "sfx_torch_draw"), ("stow", "sfx_torch_stow")); break;
             case "Bow": Fill(t, ("chargeLoop", "sfx_bow_draw"), ("chargeReady", "sfx_bow_ready"), ("fire", "sfx_bow_release")); break;
             case "Shield": Fill(t, ("raise", "sfx_shield_raise"), ("lower", "sfx_shield_lower"), ("block", "sfx_shield_block")); break;
         }
@@ -555,6 +584,23 @@ public static class AudioPrefabSetup
         }
         so.ApplyModifiedPropertiesWithoutUndo();
         EditorUtility.SetDirty(target);
+    }
+
+    // A material's per-tool sounds: adds an entry for each kind no entry covers yet, so an
+    // entry tuned by hand (or covering several tools) is left alone.
+    static void ByTool(SurfaceSounds s, params (ToolKind kind, string id)[] entries)
+    {
+        if (s == null) return;
+        var list = new List<SurfaceSounds.ToolHit>(s.byTool ?? new SurfaceSounds.ToolHit[0]);
+        foreach ((ToolKind kind, string id) in entries)
+        {
+            if (list.Any(t => (t.tools & kind) != 0)) continue;
+            SoundEvent e = Event(id);
+            if (e != null) list.Add(new SurfaceSounds.ToolHit { tools = kind, sound = e });
+        }
+        if (list.Count == (s.byTool?.Length ?? 0)) return;
+        s.byTool = list.ToArray();
+        EditorUtility.SetDirty(s);
     }
 
     static void SetRef(Object target, string field, Object value, bool overwrite)

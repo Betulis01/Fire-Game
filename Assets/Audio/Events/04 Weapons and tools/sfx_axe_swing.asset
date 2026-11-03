@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_axe_swing
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 3443dcf8a3c38004f88baeee9a1db7c4, type: 3}
+  - {fileID: 8300000, guid: daaff2bc5896a8d48b38f8ccbf5b7b96, type: 3}
+  - {fileID: 8300000, guid: dc489c62624942241b7d4a02dc203f9e, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 2
+  duckOthers: 0
+  volumeDb: -6
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -4088470806291835119, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0

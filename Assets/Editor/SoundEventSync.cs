@@ -11,7 +11,7 @@ using UnityEngine.Audio;
 // Tools/Audio/Sync Events From sound.md reads every table row whose first cell is an
 // ID (`sfx_...`, `amb_...`, `mus_...`). It creates the missing assets under
 // Assets/Audio/Events/<NN Section>/ with defaults for their section (bus, space, range,
-// limits, loop), and refreshes every asset's Catalogue fields (brief, priority,
+// limits, loop, and its mix tier's level and priority: MixTiers), and refreshes every asset's Catalogue fields (brief, priority,
 // section, variants) from the row -- tuning someone did on an existing asset is never
 // touched. Rows that only reuse another sound (Var or Type "—", or a Sound cell that
 // points at another ID or says "Silent"/"Covered by") and mix rules (Type "mix") are
@@ -29,7 +29,7 @@ public static class SoundEventSync
     const string CataloguePath = "sound.md";
     const string EventsRoot = "Assets/Audio/Events";
     const string ConfigPath = "Assets/Audio/Resources/AudioConfig.asset";
-    const string MixerPath = "Assets/Audio/Mixer/FireGame.mixer";
+    const string MixerPath = "Assets/Audio/FireGame.mixer";
     const string PlaceholderRoot = "Assets/Audio/Clips/_Placeholder";
 
     static readonly Regex IdCell = new(@"^`((?:sfx|amb|mus)_[a-z0-9_]+)`$");
@@ -62,7 +62,8 @@ public static class SoundEventSync
         {
             if (!ids.Add(row.id)) { Debug.LogWarning($"sound.md lists {row.id} twice; using the first row."); continue; }
 
-            if (!existing.TryGetValue(row.id, out SoundEvent e))
+            bool isNew = !existing.TryGetValue(row.id, out SoundEvent e);
+            if (isNew)
             {
                 string folder = EnsureFolder($"{EventsRoot}/{row.folder}");
                 e = ScriptableObject.CreateInstance<SoundEvent>();
@@ -77,6 +78,8 @@ public static class SoundEventSync
             e.catalogPriority = row.priority;
             e.catalogSection = row.section;
             e.catalogVariants = row.variants;
+            // a new event starts at its place in the mix (MixTiers; needs the section above)
+            if (isNew) MixTiers.Apply(e, MixTiers.Classify(e), true);
             if (e.output == null && config.mixer != null) e.output = Group(config.mixer, BusFor(row));
             EditorUtility.SetDirty(e);
         }
@@ -93,7 +96,7 @@ public static class SoundEventSync
 
         string report = $"sound.md: {rows.Count} sounds. Created {created}, refreshed {updated}. " +
                         $"Skipped {skipped} reuse/mix rows and {templates} templated IDs. Clips auto-filled on {filled} events." +
-                        (config.mixer == null ? "\nNo mixer yet (Assets/Audio/Mixer/FireGame.mixer): buses stay on Master until it exists; run Sync again then." : "") +
+                        (config.mixer == null ? "\nNo mixer yet (Assets/Audio/FireGame.mixer): buses stay on Master until it exists; run Sync again then." : "") +
                         (orphans.Count > 0 ? $"\n{orphans.Count} assets are no longer in sound.md: {string.Join(", ", orphans)}" : "");
         Debug.Log(report);
         EditorUtility.DisplayDialog("Sync Events From sound.md", report, "OK");

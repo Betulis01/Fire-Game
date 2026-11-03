@@ -1,5 +1,4 @@
 file,source,author,licence,url,notes
-sfx_campfire_loop_medium_01.wav,unknown (was Assets/Sound/Fire/campfire.wav),,unknown,,origin unknown: replace with a licensed fire loop before release
 sfx_ui_click_01.wav,generated placeholder (SoundSystemPlan Phase 1),Fire Game,own,,replace with a real UI click
 sfx_ui_click_02.wav,generated placeholder (SoundSystemPlan Phase 1),Fire Game,own,,replace with a real UI click
 sfx_ui_denied_01.wav,generated placeholder (SoundSystemPlan Phase 1),Fire Game,own,,replace
@@ -10,9 +9,6 @@ sfx_ground_step_snow_04.wav,generated placeholder (SoundSystemPlan Phase 1),Fire
 sfx_axe_swing_01.wav,generated placeholder (SoundSystemPlan Phase 1),Fire Game,own,,replace
 sfx_axe_swing_02.wav,generated placeholder (SoundSystemPlan Phase 1),Fire Game,own,,replace
 sfx_axe_swing_03.wav,generated placeholder (SoundSystemPlan Phase 1),Fire Game,own,,replace
-sfx_tree_chop_01.wav,generated placeholder (SoundSystemPlan Phase 3),Fire Game,own,,replace
-sfx_tree_chop_02.wav,generated placeholder (SoundSystemPlan Phase 3),Fire Game,own,,replace
-sfx_tree_chop_03.wav,generated placeholder (SoundSystemPlan Phase 3),Fire Game,own,,replace
 sfx_surface_flesh_01.wav,generated placeholder (SoundSystemPlan Phase 3),Fire Game,own,,replace
 sfx_surface_flesh_02.wav,generated placeholder (SoundSystemPlan Phase 3),Fire Game,own,,replace
 sfx_surface_flesh_03.wav,generated placeholder (SoundSystemPlan Phase 3),Fire Game,own,,replace
@@ -99,3 +95,133 @@ mus_freezing_layer_01.wav,generated placeholder (SoundSystemPlan Phase 6),Fire G
 mus_low_fire_layer_01.wav,generated placeholder (SoundSystemPlan Phase 6),Fire Game,own,,replace
 mus_game_over_01.wav,generated placeholder (SoundSystemPlan Phase 6),Fire Game,own,,replace
 mus_game_won_01.wav,generated placeholder (SoundSystemPlan Phase 6),Fire Game,own,,replace
+sfx_boar_flee_01.wav,sonniss,,CC0,https://gdc.sonniss.com/#downloads,from ANMLRept_Hatchling Calling Out_344 Audio_Dinosaurs.wav
+sfx_axe_swing_01.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 01_KRST.wav
+sfx_axe_swing_02.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 02_KRST.wav
+sfx_axe_swing_03.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 03_KRST.wav
+sfx_axe_swing_heavy_01.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 01_KRST.wav
+sfx_axe_swing_heavy_02.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 02_KRST.wav
+sfx_axe_swing_heavy_03.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 03_KRST.wav
+sfx_pickaxe_swing_01.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 01_KRST.wav
+sfx_pickaxe_swing_02.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 02_KRST.wav
+sfx_pickaxe_swing_03.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 03_KRST.wav
+sfx_pickaxe_swing_heavy_01.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 01_KRST.wav
+sfx_pickaxe_swing_heavy_02.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 02_KRST.wav
+sfx_pickaxe_swing_heavy_03.wav,Sounds of Survival Vol 1.,Khron Studio,CC0,,from WEAPAxe_Axe Whoosh 03_KRST.wav
+sfx_tree_hit_pickaxe_01.wav,K,K,CC0,,from TOOLHand_Pick Hit Wood 01_KRST.wav
+sfx_tree_hit_pickaxe_02.wav,K,K,CC0,,from TOOLHand_Pick Hit Wood 02_KRST.wav
+sfx_tree_hit_pickaxe_03.wav,K,K,CC0,,from TOOLHand_Pick Hit Wood 03_KRST.wav
+sfx_tree_hit_sword_01.wav,K,K,CC0,,from TOOLHand_Pick Hit Wood 01_KRST.wav
+sfx_tree_hit_sword_02.wav,K,K,CC0,,from TOOLHand_Pick Hit Wood 02_KRST.wav
+sfx_tree_hit_sword_03.wav,K,K,CC0,,from TOOLHand_Pick Hit Wood 03_KRST.wav
+sfx_tree_hit_fist_01.wav,K,K,CC0,,from FGHTImpt_Character Hitting Tree With Fists 01_KRST.wav
+sfx_tree_hit_fist_02.wav,K,K,CC0,,from FGHTImpt_Character Hitting Tree With Fists 02_KRST.wav
+sfx_tree_hit_fist_03.wav,K,K,CC0,,from FGHTImpt_Character Hitting Tree With Fists 03_KRST.wav
+sfx_ore_hit_fist_01.wav,K,K,CC0,,from FGHTImpt_Character Hitting Rock With Fists 01_KRST.wav
+sfx_ore_hit_fist_02.wav,K,K,CC0,,from FGHTImpt_Character Hitting Rock With Fists 02_KRST.wav
+sfx_ore_hit_fist_03.wav,K,K,CC0,,from FGHTImpt_Character Hitting Rock With Fists 03_KRST.wav
+sfx_ore_hit_axe_01.wav,K,K,CC0,,from WEAPAxe_Axe Hit Stone 02_KRST.wav
+sfx_ore_hit_axe_02.wav,K,K,CC0,,from WEAPAxe_Axe Hit Stone 01_KRST.wav
+sfx_ore_hit_axe_03.wav,K,K,CC0,,from WEAPAxe_Axe Hit Stone 03_KRST.wav
+sfx_ore_stone_hit_01.wav,K,K,CC0,,from TOOLHand_Pick Hit Stone 01_KRST.wav
+sfx_ore_stone_hit_02.wav,K,K,CC0,,from TOOLHand_Pick Hit Stone 02_KRST.wav
+sfx_ore_stone_hit_03.wav,K,K,CC0,,from TOOLHand_Pick Hit Stone 03_KRST.wav
+sfx_ore_iron_hit_01.wav,K,K,CC0,,from TOOLHand_Pick Hit Stone 01_KRST.wav
+sfx_ore_iron_hit_02.wav,K,K,CC0,,from TOOLHand_Pick Hit Stone 02_KRST.wav
+sfx_ore_iron_hit_03.wav,K,K,CC0,,from TOOLHand_Pick Hit Stone 03_KRST.wav
+sfx_ore_hit_sword_01.wav,K,K,CC0,,from WEAPAxe_Axe Hit Stone 01_KRST.wav
+sfx_ore_hit_sword_02.wav,K,K,CC0,,from WEAPAxe_Axe Hit Stone 02_KRST.wav
+sfx_ore_hit_sword_03.wav,K,K,CC0,,from WEAPAxe_Axe Hit Stone 03_KRST.wav
+sfx_tree_chop_01.wav,K,,CC0,,from WEAPAxe_Axe Hit Wood 01_KRST.wav
+sfx_tree_chop_02.wav,K,,CC0,,from WEAPAxe_Axe Hit Wood 02_KRST.wav
+sfx_tree_chop_03.wav,K,,CC0,,from WEAPAxe_Axe Hit Wood 03_KRST.wav
+sfx_log_hit_fist_01.wav,K,,CC0,,from FGHTImpt_Character Hitting Wood With Fists 01_KRST.wav
+sfx_log_hit_fist_02.wav,K,,CC0,,from FGHTImpt_Character Hitting Wood With Fists 02_KRST.wav
+sfx_log_hit_fist_03.wav,K,,CC0,,from FGHTImpt_Character Hitting Wood With Fists 03_KRST.wav
+sfx_surface_flesh_01.wav,K,,CC0,,from WEAPPole_Attack Wood Spear 01_KRST.wav
+sfx_surface_flesh_02.wav,K,,CC0,,from WEAPPole_Attack Wood Spear 02_KRST.wav
+sfx_surface_flesh_03.wav,K,,CC0,,from WEAPPole_Attack Wood Spear 03_KRST.wav
+sfx_surface_bone_01.wav,K,,CC0,,from WEAPPole_Attack Wood Spear 01_KRST.wav
+sfx_surface_bone_02.wav,K,,CC0,,from WEAPPole_Attack Wood Spear 02_KRST.wav
+sfx_surface_bone_03.wav,K,,CC0,,from WEAPPole_Attack Wood Spear 03_KRST.wav
+sfx_torch_burnout_01.wav,K,,CC0,,from FIRETrch_Turn Off Torch 01_KRST.wav
+sfx_torch_flame_loop_01.wav,K,,CC0,,from FIRETrch_Torch Fire Loop 01_KRST.wav
+sfx_torch_draw_01.wav,K,,CC0,,from FIRETrch_Turn On Torch_KRST.wav
+sfx_campfire_loop_medium_01.wav,K,,CC0,,from FIREBurn_Bonfire Loop 01_KRST.wav
+sfx_campfire_loop_roaring_01.wav,K,,CC0,,from FIREBurn_Bonfire Loop 01_KRST.wav
+sfx_campfire_loop_small_01.wav,K,,CC0,,from FIREBurn_Bonfire Loop 01_KRST.wav
+sfx_furnace_loop_ember_01.wav,K,,CC0,,from FIREBurn_Bonfire Loop 01_KRST.wav
+sfx_furnace_loop_medium_01.wav,K,,CC0,,from FootstepsSlushSnow1.wav
+sfx_furnace_loop_medium_02.wav,K,,CC0,,from FIREBurn_Bonfire Loop 01_KRST.wav
+sfx_campfire_feed_log_01.wav,K,,CC0,,from FIREBurn_Turn On Bonfire 02_KRST.wav
+sfx_campfire_feed_log_02.wav,K,,CC0,,from FIREBurn_Turn On Bonfire 01_KRST.wav
+sfx_campfire_feed_stick_01.wav,K,,CC0,,from FIREBurn_Turn On Bonfire 01_KRST.wav
+sfx_campfire_feed_stick_02.wav,K,,CC0,,from FIREBurn_Turn On Bonfire 02_KRST.wav
+sfx_campfire_loop_ember_01.wav,K,,CC0,,from FIREBurn_Bonfire Loop 01_KRST.wav
+sfx_campfire_build_complete_01.wav,K,,CC0,,from FIREBurn_Place Bonfire With Fire 01_KRST.wav
+sfx_campfire_build_complete_02.wav,K,,CC0,,from FIREBurn_Place Bonfire With Fire 02_KRST.wav
+sfx_torch_ignite_target_01.wav,K,,CC0,,from FIREBurn_Turn Off Bonfire 01_KRST.wav
+sfx_torch_ignite_target_02.wav,K,,CC0,,from FIREBurn_Turn Off Bonfire 02_KRST.wav
+sfx_torch_ignite_target_03.wav,K,,CC0,,from FIREBurn_Turn Off Bonfire 03_KRST.wav
+sfx_ground_step_snow_01.wav,K,,CC0,,from FootstepsSlushSnow4.wav
+sfx_ground_step_snow_02.wav,K,,CC0,,from FootstepsSlushSnow3.wav
+sfx_ground_step_snow_03.wav,K,,CC0,,from FootstepsSlushSnow2.wav
+sfx_torch_swing_01.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 04_KRST.wav
+sfx_torch_swing_02.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 03_KRST.wav
+sfx_torch_swing_03.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 02_KRST.wav
+sfx_torch_swing_04.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 01_KRST.wav
+sfx_fists_swing_01.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 01_KRST.wav
+sfx_fists_swing_02.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 02_KRST.wav
+sfx_fists_swing_03.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 03_KRST.wav
+sfx_fists_swing_04.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 04_KRST.wav
+sfx_fists_swing_heavy_01.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 01_KRST.wav
+sfx_fists_swing_heavy_02.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 02_KRST.wav
+sfx_fists_swing_heavy_03.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 03_KRST.wav
+sfx_fists_swing_heavy_04.wav,K,,CC0,,from FGHTMisc_Character Punch Whoosh 04_KRST.wav
+sfx_tree_fell_01.wav,K,,CC0,,from VEGETree_Tree Falling 01_KRST.wav
+sfx_tree_fell_02.wav,K,,CC0,,from VEGETree_Tree Falling 02_KRST.wav
+sfx_stone_break_01.wav,K,,CC0,,from ROCKCrsh_Break Rock 01_KRST.wav
+sfx_stone_break_02.wav,K,,CC0,,from ROCKCrsh_Break Rock 02_KRST.wav
+sfx_ore_break_stone_01.wav,K,,CC0,,from ROCKCrsh_Break Rock 01_KRST.wav
+sfx_ore_break_stone_02.wav,K,,CC0,,from ROCKCrsh_Break Rock 02_KRST.wav
+sfx_ore_break_iron_01.wav,K,,CC0,,from ROCKCrsh_Break Rock 01_KRST.wav
+sfx_ore_break_iron_02.wav,K,,CC0,,from ROCKCrsh_Break Rock 02_KRST.wav
+sfx_item_stick_pickup_01.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 01_KRST.wav
+sfx_item_stick_pickup_02.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 02_KRST.wav
+sfx_item_stick_pickup_03.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 03_KRST.wav
+sfx_item_stick_pickup_04.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 04_KRST.wav
+sfx_item_stick_pickup_05.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 05_KRST.wav
+sfx_item_stick_pickup_06.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 06_KRST.wav
+sfx_item_stick_pickup_07.wav,K,,CC0,,from WOODMisc_Pick Up Dry Wood Stick 07_KRST.wav
+sfx_item_stone_small_pickup_01.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 01_KRST.wav
+sfx_item_stone_small_pickup_02.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 02_KRST.wav
+sfx_item_stone_small_pickup_03.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 03_KRST.wav
+sfx_item_stone_small_pickup_04.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 04_KRST.wav
+sfx_item_stone_small_pickup_05.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 05_KRST.wav
+sfx_item_stone_small_pickup_06.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 06_KRST.wav
+sfx_item_stone_small_pickup_07.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 07_KRST.wav
+sfx_item_stone_small_pickup_08.wav,K,,CC0,,from ROCKHndl_Pick Up Rock 08_KRST.wav
+sfx_item_fibre_pickup_01.wav,K,,CC0,,from CLOTHHndl_Pick Up Cloth 01_KRST.wav
+sfx_item_fibre_pickup_02.wav,K,,CC0,,from CLOTHHndl_Pick Up Cloth 02_KRST.wav
+sfx_item_fibre_pickup_03.wav,K,,CC0,,from CLOTHHndl_Pick Up Cloth 03_KRST.wav
+sfx_item_fibre_pickup_04.wav,K,,CC0,,from CLOTHHndl_Pick Up Cloth 04_KRST.wav
+sfx_item_fibre_pickup_05.wav,K,,CC0,,from CLOTHHndl_Pick Up Cloth 05_KRST.wav
+sfx_item_fibre_pickup_06.wav,K,,CC0,,from CLOTHHndl_Pick Up Cloth 06_KRST.wav
+sfx_item_tool_wood_pickup_01.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 01_KRST.wav
+sfx_item_tool_wood_pickup_02.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 02_KRST.wav
+sfx_item_tool_wood_pickup_03.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 03_KRST.wav
+sfx_item_tool_wood_pickup_04.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 04_KRST.wav
+sfx_item_tool_wood_pickup_05.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 05_KRST.wav
+sfx_item_tool_wood_pickup_06.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 06_KRST.wav
+sfx_item_tool_wood_pickup_07.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 07_KRST.wav
+sfx_item_tool_wood_pickup_08.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 08_KRST.wav
+sfx_item_tool_wood_pickup_09.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 09_KRST.wav
+sfx_item_tool_wood_pickup_10.wav,K,,CC0,,from ROCKHndl_Pick Up Wood Log 10_KRST.wav
+sfx_item_stone_heavy_pickup_01.wav,K,,CC0,,from ROCKMisc_Take Stone From Inventory 01_KRST.wav
+sfx_item_stone_heavy_pickup_02.wav,K,,CC0,,from ROCKMisc_Take Stone From Inventory 02_KRST.wav
+sfx_item_stone_heavy_pickup_03.wav,K,,CC0,,from ROCKMisc_Take Stone From Inventory 03_KRST.wav
+sfx_item_wood_heavy_pickup_01.wav,D,,CC0,,from WoodLogHandling1.wav; high-passed 150 Hz
+sfx_item_wood_heavy_pickup_02.wav,D,,CC0,,from WoodLogHandling2.wav; high-passed 150 Hz
+sfx_item_wood_heavy_pickup_03.wav,D,,CC0,,from WoodLogHandling3.wav; high-passed 150 Hz
+sfx_player_throw_01.wav,?,,CC0,,from Swoosh.MP3; high-passed 150 Hz
+sfx_wolf_bite_01.wav,?,,CC0,,from mixkit-wolf-attack-1773.mp3

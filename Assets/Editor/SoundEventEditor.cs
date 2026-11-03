@@ -32,6 +32,23 @@ public class SoundEventEditor : Editor
                                    (e.catalogVariants > 0 && count < e.catalogVariants ? $"  (sound.md asks for {e.catalogVariants})" : ""),
                                    EditorStyles.miniLabel);
 
+        // its place in the mix (MixTiers): the tier's baseline, and a way back to it
+        if (e.tier != SoundEvent.MixTier.Unset)
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                MixTiers.Level l = MixTiers.Of(e.tier);
+                EditorGUILayout.LabelField($"{e.tier}: baseline {l.db:0} dB" + (l.priority.HasValue ? $", {l.priority} priority" : "") +
+                                           (e.volumeDb > l.maxDb + 0.01f ? $"  (louder than the tier's {l.maxDb:0} dB)" : ""),
+                                           EditorStyles.miniLabel);
+                if (GUILayout.Button("Reset to tier level", EditorStyles.miniButton, GUILayout.Width(120)))
+                    foreach (Object t in targets)
+                    {
+                        var ev = (SoundEvent)t;
+                        Undo.RecordObject(ev, "Reset to tier level");
+                        MixTiers.Apply(ev, ev.tier, true);
+                    }
+            }
+
         using (new EditorGUILayout.HorizontalScope())
         {
             GUI.enabled = e.HasClips;
@@ -45,7 +62,16 @@ public class SoundEventEditor : Editor
         if (!string.IsNullOrEmpty(analysis)) EditorGUILayout.HelpBox(analysis, MessageType.Info);
     }
 
-    static void Play(SoundEvent e)
+    // one clip at the event's own level and pitch, without the jitter (the Sound Import window's ▶)
+    internal static void PlayClipAs(SoundEvent e, AudioClip clip)
+    {
+        PlayClip(clip, e.loop, e.output);
+        preview.volume = AudioSystem.DbToLinear(e.volumeDb);
+        preview.pitch = Mathf.Pow(2f, e.pitchSemitones / 12f);
+    }
+
+    // a random variant with the event's jitter, as the game plays it (also the Sound Import window's ▶ Play event)
+    internal static void Play(SoundEvent e)
     {
         if (Application.isPlaying)
         {
@@ -60,7 +86,7 @@ public class SoundEventEditor : Editor
 
         PlayClip(clip, e.loop, e.output);
         preview.volume = AudioSystem.DbToLinear(e.volumeDb + Random.Range(-e.volumeJitterDb, e.volumeJitterDb));
-        preview.pitch = Mathf.Pow(2f, Random.Range(-e.pitchJitterSemitones, e.pitchJitterSemitones) / 12f);
+        preview.pitch = Mathf.Pow(2f, (e.pitchSemitones + Random.Range(-e.pitchJitterSemitones, e.pitchJitterSemitones)) / 12f);
     }
 
     // a bare clip through the hidden preview source (also the Sound Import window's ▶)

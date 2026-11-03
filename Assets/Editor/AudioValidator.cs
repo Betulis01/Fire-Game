@@ -12,6 +12,8 @@ using UnityEngine.Audio;
 //   - coverage per sound.md section, and the events still without clips, P1 first
 //   - events with empty clip slots, no bus (once the mixer exists), a loop flag on a
 //     one-shot clip or vice versa
+//   - the mix: events with no tier, louder than their tier allows, or a Danger sound
+//     below High priority (MixTiers)
 //   - clips: leading silence over 10 ms (one-shots), a loop whose ends don't meet (click),
 //     clips no event uses (stand-ins in Clips/_Placeholder may sit unused), clips with no row in Assets/Audio/LICENSES.csv or with an
 //     unknown licence there
@@ -39,7 +41,7 @@ public static class AudioValidator
         var config = AssetDatabase.LoadAssetAtPath<AudioConfig>("Assets/Audio/Resources/AudioConfig.asset");
         AudioMixer mixer = config != null ? config.mixer : null;
         if (config == null) Problem("No Assets/Audio/Resources/AudioConfig.asset (run Tools/Audio/Sync Events From sound.md).");
-        else if (mixer == null) Problem("AudioConfig has no mixer (build Assets/Audio/Mixer/FireGame.mixer, then Sync again).");
+        else if (mixer == null) Problem("AudioConfig has no mixer (build Assets/Audio/FireGame.mixer, then Sync again).");
         if (config != null)
         {
             const string fix = " (run Tools/Audio/Set Up Audio On Prefabs).";
@@ -53,10 +55,10 @@ public static class AudioValidator
                 foreach (string p in new[] { config.heatCutoffParam, config.freezeCutoffParam, config.lowHealthCutoffParam })
                     if (!mixer.GetFloat(p, out _)) Problem($"Mixer has no exposed parameter '{p}' (the Phase 6 mixer steps in SoundSystemPlan.md).");
         }
-        else
+        if (config != null && mixer != null)
         {
             for (int i = 0; i < 5; i++)
-                if (!mixer.GetFloat(AudioSettingsStore.Parameter((AudioChannel)i), out _))
+                if (AudioSettingsStore.OnMixer((AudioChannel)i) && !mixer.GetFloat(AudioSettingsStore.Parameter((AudioChannel)i), out _))
                     Problem($"Mixer has no exposed parameter '{AudioSettingsStore.Parameter((AudioChannel)i)}'.");
             foreach (string s in new[] { config.gameplaySnapshot, config.pausedSnapshot, config.menuSnapshot, config.endSnapshot })
                 if (mixer.FindSnapshot(s) == null) Problem($"Mixer has no snapshot '{s}'.");
@@ -95,6 +97,19 @@ public static class AudioValidator
             }
             if (mixer != null && e.output == null) Problem($"{e.name}: no mixer bus.");
             if (e.layers != null && e.layers.Contains(e)) Problem($"{e.name}: layers itself.");
+        }
+
+        // --- the mix: each event against its tier (MixTiers)
+        sb.AppendLine("\n<b>Mix problems</b>");
+        int unset = events.Count(e => e.tier == SoundEvent.MixTier.Unset);
+        if (unset > 0) Problem($"{unset} event(s) have no mix tier (run Tools/Audio/Apply Mix Baseline).");
+        foreach (SoundEvent e in events)
+        {
+            if (e.tier == SoundEvent.MixTier.Unset) continue;
+            MixTiers.Level l = MixTiers.Of(e.tier);
+            if (e.volumeDb > l.maxDb + 0.01f) Problem($"{e.name}: {e.volumeDb:0.#} dB is loud for a {e.tier} sound (at most {l.maxDb:0} dB).");
+            if (e.tier == SoundEvent.MixTier.Danger && e.priority < SoundEvent.SoundPriority.High)
+                Problem($"{e.name}: a Danger sound with {e.priority} priority (a crowd could steal it).");
         }
 
         // --- clips

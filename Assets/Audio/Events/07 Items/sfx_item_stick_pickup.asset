@@ -12,10 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_item_stick_pickup
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 473b1d30820f2dd42a03e3d4320d814d, type: 3}
+  - {fileID: 8300000, guid: 4a2668ba280f71d448da02e147ad2c16, type: 3}
+  - {fileID: 8300000, guid: 98b368aa88aea9741b2446ac3d51800d, type: 3}
+  - {fileID: 8300000, guid: c3ae2f299732be24faf49de555cd002b, type: 3}
+  - {fileID: 8300000, guid: f810473bf86558240ac0c7459d051811, type: 3}
+  - {fileID: 8300000, guid: 036203822e4a4124f9dc9b3f09084dc2, type: 3}
+  - {fileID: 8300000, guid: 02bee14441a869443adfed8b5adf7be8, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 6
+  duckOthers: 0
+  volumeDb: -8
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0
@@ -25,7 +35,7 @@ MonoBehaviour:
   cooldown: 0.04
   maxVoices: 4
   steal: 0
-  priority: 1
+  priority: 0
   layers: []
   startDelay: 0
   startDelayJitter: 0

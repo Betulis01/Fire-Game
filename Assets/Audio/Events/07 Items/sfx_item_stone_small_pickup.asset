@@ -12,10 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24201f24c8313df4cba2dde16279c865, type: 3}
   m_Name: sfx_item_stone_small_pickup
   m_EditorClassIdentifier: Assembly-CSharp::SoundEvent
-  clips: []
+  clips:
+  - {fileID: 8300000, guid: 0868673bc9ad72d4f989b5c701301174, type: 3}
+  - {fileID: 8300000, guid: f2d8f371c4be0cc41a66aebc57619b30, type: 3}
+  - {fileID: 8300000, guid: 0e772c218bd8a4a438872784c3604cdc, type: 3}
+  - {fileID: 8300000, guid: bdb8d8359c6efe44b9c126659e6b7365, type: 3}
+  - {fileID: 8300000, guid: 5f31df5c15365614bb9e883a2ec41e47, type: 3}
+  - {fileID: 8300000, guid: e8f3fa1e7b713304597f52fb31a07f38, type: 3}
+  - {fileID: 8300000, guid: ebb0ec208fa595146a47b1f780a76021, type: 3}
+  - {fileID: 8300000, guid: c9951cbbe3121904ebb0c6d91e010986, type: 3}
   selection: 0
-  volumeDb: 0
+  tier: 6
+  duckOthers: 0
+  volumeDb: -8
   volumeJitterDb: 1.5
+  pitchSemitones: 0
   pitchJitterSemitones: 0.8
   output: {fileID: -558258999962970574, guid: cd951bceb6e00d2449ad079e38eb4084, type: 2}
   space: 0
@@ -25,7 +36,7 @@ MonoBehaviour:
   cooldown: 0.04
   maxVoices: 4
   steal: 0
-  priority: 1
+  priority: 0
   layers: []
   startDelay: 0
   startDelayJitter: 0
