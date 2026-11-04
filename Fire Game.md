@@ -62,6 +62,7 @@ A snapshot of how the game plays **today**. For where it's heading, see:
 | WASD | Move |
 | Left click | Main Hand attack (tap light, hold heavy); while carrying, put the load down; with a skill armed, cast it |
 | Right click | Off Hand action (block, swing); with a skill armed, cancel it |
+| Right click a bag item | Use it: wield it into its hand slot, wear it, or eat it (left click only drags) |
 | E | Take an item (big items to the hands, the rest to the bag); hold E to equip gear |
 | Q | Tap: drop or deposit the carried item; hold: aim a throw, release to throw |
 | Scroll / Tab | Swap loadout sets |

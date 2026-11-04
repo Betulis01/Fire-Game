@@ -17,4 +17,5 @@ MonoBehaviour:
   prefab: {fileID: 8100000000000000001, guid: b1c2d3e4f5a60718293a4b5c6d7e8f90, type: 3}
   icon: {fileID: 0}
   size: 0
+  handedness: 1
   sounds: {fileID: 11400000, guid: a78195a6d6b373848a955e9aaaf55837, type: 2}

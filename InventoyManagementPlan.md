@@ -23,7 +23,7 @@ The hands' three old jobs are split into three places (built; see **DONE**):
 | | **Loadouts** (Player tab, action bar) | **Bag** (Player tab) | **Hands** |
 |---|---|---|---|
 | Holds | weapons, tools, shield, torch | small items (sticks, berries, sap, rocks) **and** gear (tools, weapons, armour); 1 slot each | big items: **logs and stone** |
-| Capacity | 2 sets × (Main Hand + Off Hand); a two-handed tool (bow, pickaxe) fills a set | 2 slots (the starting Pouch); the crafted Small Bag gives 6 | **one big item per hand** (2 per trip) |
+| Capacity | 2 sets × (Main Hand + Off Hand); one-handed items fit either, the shield only the Off Hand, and a two-handed tool (bow, pickaxe) fills a set | 2 slots (the starting Pouch); the crafted Small Bag gives 6 | **one big item per hand** (2 per trip) |
 | Changes | on purpose: Hold E, the Player tab, drag, scroll / Tab swap | E; walking over an item tops up a stack the bag already has | constantly, in the world |
 
 The player is always in one of two states:
@@ -225,7 +225,7 @@ The old setup was clunky in five ways, all fixed by Phases 1–7:
 - **The selected hand is gone.** Scroll and Tab now swap loadout sets.
 - **Crafting** draws from the hands and the bag together. The output is routed like an E press, and a recipe is refused if the output has nowhere to go. Items match by asset or by id, so Scots Pine and Grey Alder logs both count as Wood.
 - **Player tab:** armour, stats, loadout sets A and B, and the bag at the bottom. The separate Bag tab and the hand-bar hand slots are removed.
-  - **Bag slot click:** wield, wear, or eat one.
+  - **Bag slot right click:** wield (into its hand slot), wear, or eat one. A left click only drags.
   - **Drag:** between bag slots, onto loadout and armour boxes, onto a station menu, or into the world.
   - **Loadout items:** drag between loadout boxes and either set, back into the bag, or into the world.
   - **Left or right click on a filled box:** puts it back into the bag if there's room.
@@ -234,7 +234,7 @@ The old setup was clunky in five ways, all fixed by Phases 1–7:
 
 - **Controls:** left click is the Main Hand (tap light, hold heavy) and right click is the Off Hand: a shield blocks, a torch or second weapon swings, an empty hand punches.
 - **Dual wielding:** with a melee weapon in each hand (not fists, torch or shield), left clicks within 0.6 s of the last swing ending alternate L, R, L. Each swing uses that hand's own weapon. The charge follows the button that started it.
-- **Two-handed** (`Tool.twoHanded`), for the Bow and the Stone Pickaxe:
+- **Two-handed** (`ItemDefinition.handedness`, see *Handedness* below), for the Bow and the Stone Pickaxe:
   - it fills a set's Main Hand and keeps the Off Hand empty;
   - equipping one moves the Off Hand item to the bag, and is refused when there's no room;
   - right click does nothing while one is drawn.
@@ -287,6 +287,19 @@ The old setup was clunky in five ways, all fixed by Phases 1–7:
 - **The targets are locked on the cast click:** the gold main target plus the cyan secondaries the armed preview showed (nearest the main one, up to the rank's count). Only one target in the cone means one hit, whatever the rank.
 - **The axe hops** (`ThrownAxe`): main target first, then whichever locked target is closest to the one it just hit, even if they've moved. Each hop bows the other way. A target that dies or gets away is skipped. Then it flies home from the last one. Every target takes full damage.
 - **Two kinds of damageable:** characters (with `CharacterStats`) and resources (trees, ore, stone, logs). `Hurtbox.IsCharacter` tells them apart, and `TargetQuery.charactersOnly` makes **skills ignore resources**: Axe Throw and Whirlwind never hit, highlight or glance off them. Weapon swings still chop and mine.
+
+### Handedness and right-click to use (built; needs a play test)
+
+- **Every loadout item has a handedness** (`ItemDefinition.handedness`), which replaces `Tool.twoHanded`:
+  - **One-handed** (axe, sword, torches): either hand slot.
+  - **Off hand** (the Shield): only the Off Hand. A Main Hand refuses it, whether dropped onto a box or moved between boxes.
+  - **Two-handed** (Bow, Stone Pickaxe): the whole set, as before.
+- **Right click on a bag item uses it** (`BagSlotUI`): it wields a tool or weapon, wears armour or a bag, or eats food. A left click only starts a drag.
+  - A one-handed item goes to the first free slot of the active set (Main Hand, then Off Hand), else replaces the Main Hand.
+  - The Shield goes to the Off Hand (replacing what's there).
+  - Whatever is replaced goes back into that bag slot.
+- **Hold E** in the world follows the same rules.
+- **The item tooltip** shows "One-handed", "Off hand" or "Two-handed".
 
 ### Resolved questions
 

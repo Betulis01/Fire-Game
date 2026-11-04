@@ -4,13 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-// One bag slot on the Player tab: the stack's icon and count. Click it to use it
-// (BagTabUI); drag it onto another slot, a loadout or armour box, an open station
+// One bag slot on the Player tab: the stack's icon and count. Right-click it to use it
+// (BagTabUI: wield into its hand slot, wear, eat); a left click does nothing but start
+// a drag -- onto another slot, a loadout or armour box, an open station
 // panel or the world. A loadout item dragged onto it goes into the bag here (swapping
 // with a tool or weapon already in the slot), and fuel dragged onto a torch here feeds
 // it (Inventory.TryFeed). Hovering shows the item's tooltip (ItemHoverTooltip on this object).
 [RequireComponent(typeof(Button))]
-public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler
 {
     [SerializeField] Image icon;
     [SerializeField] TMP_Text countText;
@@ -22,9 +23,13 @@ public class BagSlotUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     bool hasItem;
     bool dragging;
 
+    // a right click: use the slot's item (the Button only gives the hover / press tint)
     public event Action<int> Clicked;
 
-    void Awake() => GetComponent<Button>().onClick.AddListener(() => Clicked?.Invoke(index));
+    public void OnPointerClick(PointerEventData e)
+    {
+        if (e.button == PointerEventData.InputButton.Right) Clicked?.Invoke(index);
+    }
 
     public void Bind(BagTabUI owner, int slotIndex)
     {

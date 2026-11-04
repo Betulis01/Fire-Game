@@ -11,9 +11,11 @@ using UnityEngine;
 // collider off) as a child of the player, the same trick Equipment uses for worn
 // gear; Hands decides which of them are active and where they hang.
 //
-// A two-handed tool (the bow, the pickaxe: Tool.twoHanded) fills a whole set: it's stored in the
-// Main Hand and the Off Hand stays empty -- equipping one displaces the Off Hand's
-// item, and equipping an Off Hand displaces it.
+// Each item's handedness (ItemDefinition.handedness) says where it goes. One-handed
+// (axe, sword, torch): either slot. Off-hand (the shield): only the Off Hand -- a
+// Main Hand refuses it. Two-handed (the bow, the pickaxe): a whole set -- it's stored
+// in the Main Hand and the Off Hand stays empty; equipping one displaces the Off
+// Hand's item, and equipping an Off Hand displaces it.
 [RequireComponent(typeof(Hands))]
 public class Loadout : MonoBehaviour
 {
@@ -53,8 +55,12 @@ public class Loadout : MonoBehaviour
     public static bool Fits(GameObject item) =>
         item != null && (item.TryGetComponent(out Tool _) || item.TryGetComponent(out Shield _));
 
-    public static bool IsTwoHanded(GameObject item) =>
-        item != null && item.TryGetComponent(out Tool tool) && tool.twoHanded;
+    // Where an item goes, from its definition (one-handed when it has none).
+    public static Handedness HandednessOf(GameObject item) =>
+        item != null && item.TryGetComponent(out WorldItem wi) && wi.item != null ? wi.item.handedness : Handedness.OneHanded;
+
+    public static bool IsTwoHanded(GameObject item) => item != null && HandednessOf(item) == Handedness.TwoHanded;
+    public static bool IsOffHandOnly(GameObject item) => item != null && HandednessOf(item) == Handedness.OffHand;
 
     public GameObject Item(int set, HandSide side) => items[set, (int)side];
 
@@ -85,13 +91,15 @@ public class Loadout : MonoBehaviour
     // Put `item` (or null, to empty the slot) into a slot. `previous` is what was
     // there and `displaced` whatever the two-handed rule pushes out of the set's other
     // slot; the caller decides where both go. A two-handed item always lands in the
-    // Main Hand. Refused for the drawn set mid-swing.
+    // Main Hand; an off-hand item is refused by a Main Hand. Refused for the drawn set
+    // mid-swing.
     public bool TryPut(GameObject item, int set, HandSide side, out GameObject previous, out GameObject displaced)
     {
         displaced = null;
         if (IsTwoHanded(item)) side = HandSide.Left;
         previous = items[set, (int)side];
         if (item != null && !Fits(item)) return false;
+        if (side == HandSide.Left && IsOffHandOnly(item)) return false;
         if (set == ActiveSet && Busy) return false;
 
         HandSide other = side == HandSide.Left ? HandSide.Right : HandSide.Left;
@@ -132,11 +140,13 @@ public class Loadout : MonoBehaviour
     }
 
     // A set's slots after a move: a two-handed tool sits in the Main Hand with nothing
-    // beside it. False when the move can't be made to fit.
+    // beside it, and an off-hand item is never in the Main Hand. False when the move
+    // can't be made to fit.
     static bool Settle(GameObject[,] slots, int set)
     {
         GameObject main = slots[set, (int)HandSide.Left];
         GameObject off = slots[set, (int)HandSide.Right];
+        if (IsOffHandOnly(main)) return false;
         if (IsTwoHanded(off))
         {
             if (main != null) return false;
@@ -159,19 +169,22 @@ public class Loadout : MonoBehaviour
         return n;
     }
 
-    // The active set's slot that `item` can take without pushing anything out.
+    // The active set's slot that `item` can take without pushing anything out: the Main
+    // Hand first, then the Off Hand (an off-hand item only the Off Hand).
     public bool TryGetFreeSlot(GameObject item, out HandSide side)
     {
         side = HandSide.Left;
         bool mainFree = Drawn(HandSide.Left) == null;
         bool offFree = Drawn(HandSide.Right) == null && !MainIsTwoHanded(ActiveSet);
         if (IsTwoHanded(item)) return mainFree && Drawn(HandSide.Right) == null;
-        if (mainFree) return true;
+        if (mainFree && !IsOffHandOnly(item)) return true;
         side = HandSide.Right;
         return offFree;
     }
 
-    // The active set's slot a clicked bag item goes into: a free one if there is
-    // one, else the Main Hand (swapping out what's there).
-    public HandSide AutoSlot(GameObject item) => TryGetFreeSlot(item, out HandSide side) ? side : HandSide.Left;
+    // The active set's slot a used (right-clicked, Hold E) item goes into: a free one if
+    // there is one, else in place of the Main Hand -- or, for an off-hand item, the Off
+    // Hand -- swapping out what's there.
+    public HandSide AutoSlot(GameObject item) =>
+        TryGetFreeSlot(item, out HandSide side) ? side : IsOffHandOnly(item) ? HandSide.Right : HandSide.Left;
 }

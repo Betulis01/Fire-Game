@@ -4,6 +4,11 @@ using UnityEngine;
 // Big ones (logs, stone) are carried in the hands, one per hand.
 public enum ItemSize { Small, Big }
 
+// Which loadout slot a tool, weapon or shield goes in (Loadout): one-handed in either
+// the Main Hand or the Off Hand, off-hand (a shield) only in the Off Hand, two-handed
+// (the bow, the pickaxe) the whole set -- stored in the Main Hand, the Off Hand empty.
+public enum Handedness { OneHanded, OffHand, TwoHanded }
+
 // Identity for an inventory item: a stable key, a display name, the prefab that
 // represents it, and its size (bag or hands). Item *behaviors* (fuel, weapon, ...)
 // live as components on that prefab, not here. Create assets via Create -> Items ->
@@ -16,6 +21,8 @@ public class ItemDefinition : ScriptableObject
     public GameObject prefab;
     public Sprite icon;          // optional; falls back to prefab's SpriteRenderer sprite if unset
     public ItemSize size;        // Small = bag, Big = carried in the hands
+    [Tooltip("Loadout items only: which hand slot it goes in.")]
+    public Handedness handedness;
     [Tooltip("How it sounds handled: picked up, landing, worn, eaten (shared per material).")]
     public ItemSounds sounds;
 

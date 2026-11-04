@@ -98,6 +98,15 @@ public class ItemTooltip : MonoBehaviour
     {
         lines.Clear();
 
+        // a loadout item: which hand slot it goes in
+        if (Loadout.Fits(item))
+            lines.Add(Loadout.HandednessOf(item) switch
+            {
+                Handedness.OffHand => "Off hand",
+                Handedness.TwoHanded => "Two-handed",
+                _ => "One-handed",
+            });
+
         if (item.TryGetComponent(out Tool tool) &&
             (item.TryGetComponent(out MeleeWeapon _) || item.TryGetComponent(out RangedWeapon _)))
         {
